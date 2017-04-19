@@ -1,0 +1,8 @@
+Notes
+
+Ideas for improvement:
+- change names of functions for individuals plots to all start with resid_
+- add an option for changing the binwidth of histogram
+- go through and make sure all functions have the same formatting
+- incorporate plotly, so you can identify outliers more easily (could include this as an option,
+  so the user can decide whether they want their plots to be interactive or not)
