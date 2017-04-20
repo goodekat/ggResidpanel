@@ -19,7 +19,7 @@ resid_plot <- function(resid, pred){
   # Create a residual plot
   ggplot(model.values, aes(x = pred, y = resid)) +
     geom_point() +
-    geom_abline(slope = 0, intercept = 1) +
+    geom_abline(slope = 0, intercept = 0) +
     labs(x = "Predicted Values", y = "Residuals", title = "Residual Plot") +
     theme_bw(base_size = 10)
 }
