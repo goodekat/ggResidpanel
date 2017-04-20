@@ -1,8 +1,10 @@
 Notes
 
 Ideas for improvement:
-- change names of functions for individuals plots to all start with resid_
-- add an option for changing the binwidth of histogram
 - go through and make sure all functions have the same formatting
 - incorporate plotly, so you can identify outliers more easily (could include this as an option,
   so the user can decide whether they want their plots to be interactive or not)
+- include some other plot options for the residual panel such as a Cook's distance plot (then
+  there could be a defualt four plots and the user could choose between having more or less
+  plots and choose the plots they want)
+  
