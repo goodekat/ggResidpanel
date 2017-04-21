@@ -1,6 +1,6 @@
 Package: ggResidpanel
 Type: Package
-Title: Creates a panel of residual diagnostic plots.
+Title: Creates a panel of residual diagnostic plots using ggplot2.
 Version: 0.1.0
 Author: Katherine Goode and Kathleen Rey
 Maintainer: Katherine Goode and Kathleen Rey <kgoode@iastate.edu> <kprey@iastate.edu>
