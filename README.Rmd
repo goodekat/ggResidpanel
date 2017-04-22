@@ -1,19 +1,45 @@
 ---
-title: "README"
+title: ''
 output: html_document
 ---
 
-```{r setup}
+```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
 # ggResidpanel
-An R package for creating a panel of diagnostic plots for residuals from a model using ggplot2.
 
-An example...
+ggResidualpanel is an R package for creating a panel of diagnostic plots for residuals from a model using ggplot2.
 
-``` r
+## Installation
+
+To install ggResidualpanel, following these instructions. 
+
+1. Install the package devtools (if not already installed).
+
+```{r, eval = FALSE}
+install.packages("tidyverse")
+```
+
+2. Load the devtools library.
+
+```{r, eval = FALSE}
+library(devtools)
+```
+
+3. Install ggResidpanel from the GitHub repository.
+
+```{r, eval = FALSE}
+devtools::install_github("goodekat/ggResidpanel")
+```
+
+
+## Example
+
+```{r}
 library(ggResidpanel)
+
 model <- lm(Volume ~ Girth, data = trees)
-resid_panel(model$residuals, model$fitted.values)
+
+resid_panel(model$residuals, model$fitted.values, bins = 20)
 ```
