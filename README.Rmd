@@ -13,7 +13,7 @@ ggResidualpanel is an R package for creating a panel of diagnostic plots for res
 
 ## Installation
 
-To install ggResidualpanel, following these instructions. 
+Follow these instructions to install ggResidualpanel.
 
 1. Install the package devtools (if not already installed).
 
