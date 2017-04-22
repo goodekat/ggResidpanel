@@ -39,6 +39,6 @@ resid_qq <- function(resid){
   ggplot(Quantiles, aes(norm_quant, Actual_Quantiles))+
     geom_point()+
     theme_bw()+
-    labs(x = "Quantile", y = "Residuals", title = "Q-Q Plot")+
+    labs(x = "Quantiles", y = "Residuals", title = "Q-Q Plot")+
     geom_abline(intercept = mean(Actual_Quantiles), slope = sd(Actual_Quantiles), color = "blue")
 }
