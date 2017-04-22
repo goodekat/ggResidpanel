@@ -9,19 +9,19 @@ Installation
 
 Follow these instructions to install ggResidualpanel.
 
-1.  Install the package devtools (if not already installed).
+Install the package devtools (if not already installed).
 
 ``` r
 install.packages("tidyverse")
 ```
 
-1.  Load the devtools library.
+Load the devtools library.
 
 ``` r
 library(devtools)
 ```
 
-1.  Install ggResidpanel from the GitHub repository.
+Install ggResidpanel from the GitHub repository.
 
 ``` r
 devtools::install_github("goodekat/ggResidpanel")
