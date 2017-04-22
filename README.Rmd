@@ -1,5 +1,4 @@
 ---
-title: ''
 output: rmarkdown::github_document
 ---
 
