@@ -27,5 +27,5 @@ resid_hist <- function(resid, bins = NA){
                   args = list(mean = 0,
                               sd = sd(resid$Residual))) +
     xlim(c(-4 * sd(resid$Residual), 4 * sd(resid$Residual))) +
-    labs(x = "Residual", y = "Density", title = "Histogram of Residuals")
+    labs(x = "Residuals", y = "Density", title = "Histogram of Residuals")
 }

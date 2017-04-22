@@ -31,7 +31,7 @@ resid_qq <- function(resid){
   i <- 1:length(Actual_Quantiles)
 
   #Calculate theoretical normal quantiles
-  norm_quant <- qnorm((i-0.375)/(length(Actual_Quantiles)+0.25))
+  norm_quant <- qnorm((i - 0.375) / (length(Actual_Quantiles) + 0.25))
 
   #Enter into data set
   Quantiles <- data.frame(Actual_Quantiles, norm_quant)
@@ -39,6 +39,6 @@ resid_qq <- function(resid){
   ggplot(Quantiles, aes(norm_quant, Actual_Quantiles))+
     geom_point()+
     theme_bw()+
-    labs(x="Quantile", y="Residual", title="Q-Q Plot")+
-    geom_abline(intercept = mean(Actual_Quantiles), slope=sd(Actual_Quantiles),color="blue")
+    labs(x = "Quantile", y = "Residuals", title = "Q-Q Plot")+
+    geom_abline(intercept = mean(Actual_Quantiles), slope = sd(Actual_Quantiles), color = "blue")
 }
