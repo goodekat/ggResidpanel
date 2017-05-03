@@ -12,7 +12,7 @@
 #' residuals, a qqplot of the residuals, and a boxplot of the residuals.
 #' @examples
 #' model <- lm(Volume ~ Girth, data = trees)
-#' resid_panel(model$residuals, model$fitted.values)
+#' resid_panel(resid(model), model$fitted.values)
 #'
 
 resid_panel <- function(resid, pred, bins = NA){
