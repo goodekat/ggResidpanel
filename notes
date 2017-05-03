@@ -1,14 +1,23 @@
 Notes
 
-Ideas for improvement:
+Ideas for future updates:
+- adjust the function to be able to take in either a model or residuals and fitted values
+- be able to choose SAS versus R default residual panel
+- be able to choose specific plots to show in the panel
+- plots to add:
+    - standardized residual plot
+    - add a smoother to the residual plot
+    - leverage plot (version from R)
+    - Cook's D plot from SAS
+    - influence plots
+    - response versus predicted (with a fitted line)
+    - ??? summary statistc/model fit values panel
+- edit examples to make for R correct
+
+Other ideas:
 - go through and make sure all functions have the same formatting
 - incorporate plotly, so you can identify outliers more easily (could include this as an option,
   so the user can decide whether they want their plots to be interactive or not)
-- include some other plot options for the residual panel such as a Cook's distance plot (then
-  there could be a defualt four plots and the user could choose between having more or less
-  plots and choose the plots they want)
-
-- adjust the function to be able to take in either a model or residuals and fitted values
-- be able to choose SAS versus R default residual panel
-- 
-  
+- write a function to show residual plots from multiple models at the same time
+- write a function for showing plots from multiple transformations (the user can specify the transformations)
+- make a vignette with examples showing how to use the package
