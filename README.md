@@ -35,7 +35,7 @@ library(ggResidpanel)
 
 model <- lm(Volume ~ Girth, data = trees)
 
-resid_panel(model$residuals, model$fitted.values, bins = 20)
+resid_panel(resid(model), fitted(model), bins = 20)
 ```
 
 ![](README_files/figure-markdown_github/unnamed-chunk-4-1.png)
