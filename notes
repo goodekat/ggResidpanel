@@ -7,4 +7,8 @@ Ideas for improvement:
 - include some other plot options for the residual panel such as a Cook's distance plot (then
   there could be a defualt four plots and the user could choose between having more or less
   plots and choose the plots they want)
+
+- adjust the function to be able to take in either a model or residuals and fitted values
+- be able to choose SAS versus R default residual panel
+- 
   
