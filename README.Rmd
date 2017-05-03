@@ -41,4 +41,5 @@ library(ggResidpanel)
 model <- lm(Volume ~ Girth, data = trees)
 
 resid_panel(model$residuals, model$fitted.values, bins = 20)
+
 ```
