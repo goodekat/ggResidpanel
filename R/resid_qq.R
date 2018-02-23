@@ -40,5 +40,8 @@ resid_qq <- function(resid){
     geom_point()+
     theme_bw()+
     labs(x = "Quantiles", y = "Residuals", title = "Q-Q Plot")+
-    geom_abline(intercept = mean(Actual_Quantiles), slope = sd(Actual_Quantiles), color = "blue")
+    geom_abline(intercept = mean(Actual_Quantiles), slope = sd(Actual_Quantiles), color = "blue") +
+    theme(plot.title = element_text(size = 12, face = "bold"),
+          axis.title = element_text(size = 10))
+
 }

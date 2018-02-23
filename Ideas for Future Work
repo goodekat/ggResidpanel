@@ -4,17 +4,25 @@ Future Work
 --------------
 
 Katie's Tasks:
-- check on qqplot
-- scale-location plot
+- scale-location plot - quick updates
+- Cook's D - quick updates - add error
+- histogram fix so no outliers cutoff
+- create label function
+- check on default
 
 Katherine's Tasks:
-- residual vs. leverage plot
+- residual vs. leverage plot - quick updates - see if I can figure out Cook's D contours
+- start working model inputs
+- add in error for the update
+- work on option for selecting plots in grid
 
 Order of Tasks:
-1. Make R panel plots
-2. Make additional plot options
-3. Option for choosing types of residuals
-4. Make plots interactive
+1. Change all functions to accept models and different residual types
+2. Change all functions to include label options - create a function for this
+3. Check on default residuals for the model types
+4. Make additional plot options
+5. Option for choosing types of residuals
+6. Make plots interactive
 
 Ideas for future updates:
 - adjust the function to be able to take in either a model or residuals and fitted values (or
@@ -39,3 +47,4 @@ Ideas for future updates:
 - write a function for showing plots from multiple transformations (the user can specify the
   transformations)
 - make a vignette with examples showing how to use the package
+  - examples for each of

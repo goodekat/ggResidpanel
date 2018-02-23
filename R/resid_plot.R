@@ -21,5 +21,7 @@ resid_plot <- function(resid, pred){
     geom_point() +
     geom_abline(slope = 0, intercept = 0) +
     labs(x = "Predicted Values", y = "Residuals", title = "Residual Plot") +
-    theme_bw(base_size = 10)
+    theme_bw() +
+    theme(plot.title = element_text(size = 12, face = "bold"),
+          axis.title = element_text(size = 10))
 }

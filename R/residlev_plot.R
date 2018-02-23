@@ -14,7 +14,6 @@ residlev_plot <- function(model){
     geom_abline(slope = 0, intercept = 0) +
     labs(x = "Leverage", y = "Standardized Residuals", title = "Residuals vs Leverage") +
     expand_limits(x = 0) +
+    geom_smooth(color = "red", se = FALSE, method = 'loess') +
     theme_bw(base_size = 10)
 }
-
-lev_plot(model1)
