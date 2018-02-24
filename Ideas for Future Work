@@ -13,6 +13,7 @@ Katie's Tasks:
 Katherine's Tasks:
 - residual vs. leverage plot - see if I can figure out Cook's D contours
 - need to make plot selection option better
+- there seem to be problems with lmer and glmer -- figure out what is wrong
 - Work Done :
   - changed text size in residual vs. leverage plot
   - changed to model input: resid_plot, resid_boxplot, resid_hist, resid_qq,
@@ -34,8 +35,6 @@ Order of Tasks:
 6. Make plots interactive
 
 Ideas for future updates:
-- adjust the function to be able to take in either a model or residuals and fitted values (or
-  let them specify a specific type of residuals...?)
 - be able to choose SAS versus R default residual panel
 - be able to choose specific plots to show in the panel
 - plots to add:
@@ -47,13 +46,11 @@ Ideas for future updates:
     - response versus predicted (with a fitted line)
     - ??? summary statistc/model fit values panel
     - make our own version of influential points plot
-- edit examples to make for R correct
 - add options for theme, text size, axis labels, etc...
-- go through and make sure all functions have the same formatting
-- incorporate plotly, so you can identify outliers more easily (could include this as an option,
-  so the user can decide whether they want their plots to be interactive or not)
+- incorporate plotly, so you can identify outliers more easily (could include this as an
+  option, so the user can decide whether they want their plots to be interactive or not)
 - write a function to show residual plots from multiple models at the same time
-- write a function for showing plots from multiple transformations (the user can specify the
-  transformations)
+- write a function for showing plots from multiple transformations (the user can specify
+  the transformations)
 - make a vignette with examples showing how to use the package
-  - examples for each of
+  - examples for each of residual type
