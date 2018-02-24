@@ -12,15 +12,17 @@ Katie's Tasks:
 
 Katherine's Tasks:
 - residual vs. leverage plot - see if I can figure out Cook's D contours
-- work on option for selecting plots in grid
-- add in error for the update
-
+- need to make plot selection option better
 - Work Done :
   - changed text size in residual vs. leverage plot
-  - changed to model input: resid_plot, resid_boxplot, resid_hist, resid_qq, resid_panel
-  - updated help files: resid_plot, residlev_plot, resid_boxplot, resid_hist, resid_qq, resid_panel
-  - added comments and "standardized"" code for plots:
-      resid_plot, residlev_plot, resid_boxplot, resid_hist, resid_qq, resid_panel
+  - changed to model input: resid_plot, resid_boxplot, resid_hist, resid_qq,
+                        resid_panel
+  - updated help files: resid_plot, residlev_plot, resid_boxplot, resid_hist,
+                        resid_qq, resid_panel
+  - added comments and "standardized"" code for plots: resid_plot, residlev_plot,
+                        resid_boxplot, resid_hist, resid_qq, resid_panel
+  - add in error for the update
+  - work on option for selecting plots in grid
 
 
 Order of Tasks:

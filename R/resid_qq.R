@@ -25,6 +25,11 @@
 
 resid_qq <- function(model){
 
+  # Return an error if a model is not entered in the function
+  if(typeof(model) == "double")
+    stop("The updated version of ggResidpanel requires a model to be input to the functions.
+         Accepted models currently are lm and glm.")
+
   # Sort the residuals from the model
   actual_quantiles <- sort(resid(model))
 

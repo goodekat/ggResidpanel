@@ -13,6 +13,11 @@
 
 resid_hist <- function(model, bins = NA){
 
+  # Return an error if a model is not entered in the function
+  if(typeof(model) == "double")
+    stop("The updated version of ggResidpanel requires a model to be input to the functions.
+         Accepted models currently are lm and glm.")
+
   # If bins is not specified, set to 30 and return a warning message
   # letting the user know this.
   if(is.na(bins)){

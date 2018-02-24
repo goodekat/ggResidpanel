@@ -13,6 +13,11 @@ library(MASS)
 
 residlev_plot <- function(model){
 
+  # Return an error if a model is not entered in the function
+  if(typeof(model) == "double")
+    stop("The updated version of ggResidpanel requires a model to be input to the functions.
+         Accepted models currently are lm and glm.")
+
   # Create a data frame with the leverage values and standardized residuals
   model_values <- data.frame(leverage = hatvalues(model),
                              std_res = stdres(model))
