@@ -2,10 +2,10 @@
 #'
 #' Creates a Q-Q plot on the residuals from a model.
 #'
-#' @param resid Residuals from a model.
+#' @param model Model fit using either lm, glm, lmer, or glmer.
 #' @export
-#' @return A Q-Q Plot of \code{resid}. The method for creating this Q-Q plot follows that
-#' used by SAS:
+#' @return A Q-Q Plot of the residuals from the \code{model}. The method for
+#' creating this Q-Q plot follows that used by SAS:
 #'
 #' \url{http://support.sas.com/documentation/cdl/en/sgug/59902/HTML/default/viewer.htm#fit_sect51.htm#sg_fit_fitresidualnormalquantiles}
 #'
@@ -21,26 +21,28 @@
 #'
 #' @examples
 #' model <- lm(Volume ~ Girth, data = trees)
-#' resid_qq(model$residuals)
+#' resid_qq(model)
 
-resid_qq <- function(resid){
+resid_qq <- function(model){
 
-  #Sort the data.
-  Actual_Quantiles <- sort(resid)
-  #Create inexes of residuals
-  i <- 1:length(Actual_Quantiles)
+  # Sort the residuals from the model
+  actual_quantiles <- sort(resid(model))
 
-  #Calculate theoretical normal quantiles
-  norm_quant <- qnorm((i - 0.375) / (length(Actual_Quantiles) + 0.25))
+  # Create indexes of residuals
+  i <- 1:length(actual_quantiles)
 
-  #Enter into data set
-  Quantiles <- data.frame(Actual_Quantiles, norm_quant)
+  # Calculate theoretical normal quantiles
+  normal_quantiles <- qnorm((i - 0.375) / (length(actual_quantiles) + 0.25))
 
-  ggplot(Quantiles, aes(norm_quant, Actual_Quantiles))+
+  # Enter into data frame
+  quantiles <- data.frame(actual_quantiles, normal_quantiles)
+
+  # Create the normal quantile plot
+  ggplot(quantiles, aes(x = normal_quantiles, y = actual_quantiles))+
     geom_point()+
     theme_bw()+
     labs(x = "Quantiles", y = "Residuals", title = "Q-Q Plot")+
-    geom_abline(intercept = mean(Actual_Quantiles), slope = sd(Actual_Quantiles), color = "blue") +
+    geom_abline(intercept = mean(actual_quantiles), slope = sd(actual_quantiles), color = "blue") +
     theme(plot.title = element_text(size = 12, face = "bold"),
           axis.title = element_text(size = 10))
 

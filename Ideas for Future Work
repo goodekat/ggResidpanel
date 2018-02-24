@@ -11,10 +11,17 @@ Katie's Tasks:
 - check on default
 
 Katherine's Tasks:
-- residual vs. leverage plot - quick updates - see if I can figure out Cook's D contours
-- start working model inputs
-- add in error for the update
+- residual vs. leverage plot - see if I can figure out Cook's D contours
 - work on option for selecting plots in grid
+- add in error for the update
+
+- Work Done :
+  - changed text size in residual vs. leverage plot
+  - changed to model input: resid_plot, resid_boxplot, resid_hist, resid_qq, resid_panel
+  - updated help files: resid_plot, residlev_plot, resid_boxplot, resid_hist, resid_qq, resid_panel
+  - added comments and "standardized"" code for plots:
+      resid_plot, residlev_plot, resid_boxplot, resid_hist, resid_qq, resid_panel
+
 
 Order of Tasks:
 1. Change all functions to accept models and different residual types

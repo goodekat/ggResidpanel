@@ -2,19 +2,21 @@
 #'
 #' Creates a boxplot on the residuals from a model.
 #'
-#' @param resid Residuals from a model.
+#' @param model Model fit using either lm, glm, lmer, or glmer.
 #' @export
-#' @return A boxplot of \code{resid}.
+#' @return A boxplot of the residuals from the \code{model}.
 #' @examples
 #' model <- lm(Volume ~ Girth, data = trees)
-#' resid_boxplot(model$residuals)
+#' resid_boxplot(model)
 #'
 
-resid_boxplot <- function(resid){
+resid_boxplot <- function(model){
 
-  r <- data.frame(resid)
+  # Create a data frame with the residuals
+  model_values <- data.frame(resid = resid(model))
 
-  ggplot(r, aes(x = " ", y = resid)) +
+  # Create the boxplot of residuals
+  ggplot(model_values, aes(x = " ", y = resid)) +
     geom_boxplot() +
     theme_bw() +
     labs(x = " ", y = "Residuals", title = "Boxplot of Residuals") +

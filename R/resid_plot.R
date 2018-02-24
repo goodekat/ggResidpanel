@@ -2,26 +2,27 @@
 #'
 #' Creates a residual plot with residuals versus predicted values from a model.
 #'
-#' @param resid Residuals from a model.
-#' @param pred Predicted values from a model.
+#' @param model Model fit using either lm, glm, lmer, or glmer.
 #' @export
-#' @return A residual plot of \code{resid} versus \code{pred} with a horizontal line
-#' with an intercept of 0.
+#' @return A plot of the residuals versus predicted values from the \code{model}
+#'  with a horizontal line through 0.
 #' @examples
 #' model <- lm(Volume ~ Girth, data = trees)
-#' resid_plot(model$residuals, model$fitted.values)
+#' resid_plot(model)
 
-resid_plot <- function(resid, pred){
+resid_plot <- function(model){
 
   # Create a data frame with the residuals and predicted values
-  model.values <- data.frame(resid = resid, pred = pred)
+  model_values <- data.frame(resid = resid(model),
+                             pred = fitted(model))
 
-  # Create a residual plot
-  ggplot(model.values, aes(x = pred, y = resid)) +
+  # Create the residual plot
+  ggplot(model_values, aes(x = pred, y = resid)) +
     geom_point() +
     geom_abline(slope = 0, intercept = 0) +
     labs(x = "Predicted Values", y = "Residuals", title = "Residual Plot") +
     theme_bw() +
     theme(plot.title = element_text(size = 12, face = "bold"),
           axis.title = element_text(size = 10))
+
 }
