@@ -11,7 +11,7 @@
 
 library(MASS)
 
-residlev_plot <- function(model){
+resid_lev <- function(model){
 
   # Return an error if a model is not entered in the function
   if(typeof(model) == "double")
