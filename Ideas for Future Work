@@ -12,7 +12,6 @@ Katie's Tasks:
 
 Katherine's Tasks:
 - residual vs. leverage plot - see if I can figure out Cook's D contours
-- need to make plot selection option better
 - there seem to be problems with lmer and glmer -- figure out what is wrong
 - Work Done :
   - changed text size in residual vs. leverage plot
@@ -23,8 +22,7 @@ Katherine's Tasks:
   - added comments and "standardized"" code for plots: resid_plot, residlev_plot,
                         resid_boxplot, resid_hist, resid_qq, resid_panel
   - add in error for the update
-  - work on option for selecting plots in grid
-
+  - worked on option for selecting plots in grid
 
 Order of Tasks:
 1. Change all functions to accept models and different residual types
