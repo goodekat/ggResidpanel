@@ -4,22 +4,19 @@
 \alias{resid_plot}
 \title{Residual Plot.}
 \usage{
-resid_plot(resid, pred)
+resid_plot(model)
 }
 \arguments{
-\item{resid}{Residuals from a model.}
-
-\item{pred}{Predicted values from a model.}
+\item{model}{Model fit using either lm, glm, lmer, or glmer.}
 }
 \value{
-A residual plot of \code{resid} versus \code{pred} with a horizontal line
-with an intercept of 0.
+A plot of the residuals versus predicted values from the \code{model}
+ with a horizontal line through 0.
 }
 \description{
 Creates a residual plot with residuals versus predicted values from a model.
 }
 \examples{
 model <- lm(Volume ~ Girth, data = trees)
-resid_plot(model$residuals, model$fitted.values)
+resid_plot(model)
 }
-

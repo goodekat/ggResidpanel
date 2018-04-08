@@ -9,8 +9,6 @@
 #' model <- lm(Volume ~ Girth, data = trees)
 #' residlev_plot(model)
 
-library(MASS)
-
 resid_lev <- function(model){
 
   # Return an error if a model is not entered in the function

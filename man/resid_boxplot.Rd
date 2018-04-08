@@ -4,20 +4,19 @@
 \alias{resid_boxplot}
 \title{Boxplot of Residuals.}
 \usage{
-resid_boxplot(resid)
+resid_boxplot(model)
 }
 \arguments{
-\item{resid}{Residuals from a model.}
+\item{model}{Model fit using either lm, glm, lmer, or glmer.}
 }
 \value{
-A boxplot of \code{resid}.
+A boxplot of the residuals from the \code{model}.
 }
 \description{
 Creates a boxplot on the residuals from a model.
 }
 \examples{
 model <- lm(Volume ~ Girth, data = trees)
-resid_boxplot(model$residuals)
+resid_boxplot(model)
 
 }
-

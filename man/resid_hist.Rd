@@ -4,21 +4,20 @@
 \alias{resid_hist}
 \title{Histogram of Residuals.}
 \usage{
-resid_hist(resid, bins = NA)
+resid_hist(model, bins = NA)
 }
 \arguments{
-\item{resid}{Residuals from a model.}
+\item{model}{Model fit using either lm, glm, lmer, or glmer.}
 }
 \value{
-A histogram of \code{resid} with a normal density curve overlaid with
-mean equal to the mean of the residuals and standard deviation equal to the
-standard deviation of the residuals.
+A histogram of the residuals from the \code{model} with a normal
+density curve overlaid with mean equal to the mean of the residuals and
+standard deviation equal to the standard deviation of the residuals.
 }
 \description{
 Creates a histogram of the residuals from a model.
 }
 \examples{
 model <- lm(Volume ~ Girth, data = trees)
-resid_hist(model$residuals)
+resid_hist(model)
 }
-

@@ -11,4 +11,4 @@ LazyData: true
 Imports: 
   ggplot2,
   cowplot
-RoxygenNote: 5.0.1
+RoxygenNote: 6.0.1

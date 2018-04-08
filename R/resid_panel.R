@@ -2,12 +2,12 @@
 #'
 #' Creates a panel of residual diagnostic plots.
 #'
-#' @param model Model fit using either lm, glm, lmer, or glmer.
-#' @param plots Plots chosen to include in the panel of plots (see details for options)
+#' @param model Model fit using either lm or glm.
+#' @param plots Plots chosen to include in the panel of plots. (See details for options.)
 #' @param bins Number of bins for histogram of the residuals.
 #' @param scale Scale of graphs in panel. Takes values in (0,1].
 #' @export
-#' @importFrom ggplot2 ggplot aes geom_point geom_abline labs theme_bw geom_histogram stat_function xlim geom_boxplot
+#' @importFrom ggplot2 ggplot aes geom_point geom_abline labs theme_bw theme geom_histogram stat_function xlim geom_boxplot expand_limits geom_smooth element_text
 #' @importFrom cowplot plot_grid
 #' @importFrom gridExtra grid.arrange
 #' @importFrom MASS stdres
@@ -109,7 +109,7 @@ resid_panel <- function(model, plots = "SAS", bins = NA, scale = 1){
     my_grobs = lapply(individual_plots, ggplotGrob)
 
     # Create grid of individual plots specified
-    grid.arrange(grobs = my_grobs, ncol = 2)
+    grid.arrange(grobs = my_grobs, ncol = 2, scale = scale)
 
   } else{
 

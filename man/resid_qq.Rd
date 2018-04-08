@@ -4,14 +4,14 @@
 \alias{resid_qq}
 \title{Q-Q Plot.}
 \usage{
-resid_qq(resid)
+resid_qq(model)
 }
 \arguments{
-\item{resid}{Residuals from a model.}
+\item{model}{Model fit using either lm, glm, lmer, or glmer.}
 }
 \value{
-A Q-Q Plot of \code{resid}. The method for creating this Q-Q plot follows that
-used by SAS:
+A Q-Q Plot of the residuals from the \code{model}. The method for
+creating this Q-Q plot follows that used by SAS:
 
 \url{http://support.sas.com/documentation/cdl/en/sgug/59902/HTML/default/viewer.htm#fit_sect51.htm#sg_fit_fitresidualnormalquantiles}
 
@@ -30,6 +30,5 @@ Creates a Q-Q plot on the residuals from a model.
 }
 \examples{
 model <- lm(Volume ~ Girth, data = trees)
-resid_qq(model$residuals)
+resid_qq(model)
 }
-

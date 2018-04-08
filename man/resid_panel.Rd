@@ -4,23 +4,24 @@
 \alias{resid_panel}
 \title{Panel of Diagnostic Residual Plots.}
 \usage{
-resid_panel(resid, pred, bins = NA)
+resid_panel(model, plots = "SAS", bins = NA, scale = 1)
 }
 \arguments{
-\item{resid}{Residuals from a model.}
+\item{model}{Model fit using either lm or glm.}
 
-\item{pred}{Predicted values from a model.}
+\item{plots}{Plots chosen to include in the panel of plots. (See details for options.)}
+
+\item{bins}{Number of bins for histogram of the residuals.}
+
+\item{scale}{Scale of graphs in panel. Takes values in (0,1].}
 }
 \value{
-A panel of residual diagnostic plots including a residual plot, a histogram of the
-residuals, a qqplot of the residuals, and a boxplot of the residuals.
+A panel of residual diagnostic plots containing plots specified.
 }
 \description{
 Creates a panel of residual diagnostic plots.
 }
 \examples{
 model <- lm(Volume ~ Girth, data = trees)
-resid_panel(model$residuals, model$fitted.values)
-
+resid_panel(model)
 }
-
