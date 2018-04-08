@@ -27,6 +27,10 @@ Katherine's Tasks:
   - moved the bins warning message to resid_panel instead of resid_hist
   - started a vignette
   - problem with lmer and glmer seems to be fixed
+- question:
+  - should we get rid of documentation for individual functions now that users
+    can not use them anyway (we could include all of the information with the
+    resid_panel documentation)
 
 Order of Tasks:
 1. Change all functions to accept models and different residual types
