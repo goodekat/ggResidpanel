@@ -18,5 +18,4 @@ Creates a boxplot on the residuals from a model.
 \examples{
 model <- lm(Volume ~ Girth, data = trees)
 resid_boxplot(model)
-
 }

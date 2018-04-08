@@ -3,7 +3,6 @@
 #' Creates a Q-Q plot on the residuals from a model.
 #'
 #' @param model Model fit using either lm, glm, lmer, or glmer.
-#' @export
 #' @return A Q-Q Plot of the residuals from the \code{model}. The method for
 #' creating this Q-Q plot follows that used by SAS:
 #'

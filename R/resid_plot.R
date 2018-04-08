@@ -3,7 +3,6 @@
 #' Creates a residual plot with residuals versus predicted values from a model.
 #'
 #' @param model Model fit using either lm, glm, lmer, or glmer.
-#' @export
 #' @return A plot of the residuals versus predicted values from the \code{model}
 #'  with a horizontal line through 0.
 #' @examples

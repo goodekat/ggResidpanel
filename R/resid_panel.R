@@ -2,15 +2,38 @@
 #'
 #' Creates a panel of residual diagnostic plots.
 #'
-#' @param model Model fit using either lm or glm.
+#' @param model Model fit using either \code{lm} or \code{glm}.
 #' @param plots Plots chosen to include in the panel of plots. (See details for options.)
 #' @param bins Number of bins for histogram of the residuals.
 #' @param scale Scale of graphs in panel. Takes values in (0,1].
 #' @export
-#' @importFrom ggplot2 ggplot aes geom_point geom_abline labs theme_bw theme geom_histogram stat_function xlim geom_boxplot expand_limits geom_smooth element_text
+#' @importFrom ggplot2 ggplot aes geom_point geom_abline labs theme_bw theme geom_histogram
+#' stat_function xlim geom_boxplot expand_limits geom_smooth element_text ggplotGrob
 #' @importFrom cowplot plot_grid
 #' @importFrom gridExtra grid.arrange
 #' @importFrom MASS stdres
+#' @details The following grid options can be chosen for the \code{plots} argument.
+#' \itemize{
+#'   \item "all": This creates a panel of all plot types included in the package.
+#'   \item "R": This creates a panel of a residual plot, a normal quantile plot of
+#'   the residuals, and a leverage versus residuals plot. This was modeled after the
+#'   plots shown in R if the \code{plots()} base function is applied to a \code{lm}
+#'   model.
+#'   \item "SAS": This is the default option. It creates a panel of a residual plot,
+#'   a normal quantile plot of the residuals, a histogram of the residuals, and a
+#'   boxplot of the residuals. This was modeled after the residpanel option in proc
+#'   mixed from SAS version 9.4.
+#'   \item A vector of individual plots can also be specified. For example, one can
+#'   specify \code{plots = c("boxplot", "hist")} or \code{plots = "qq"}. The individual
+#'   plot options are as follows.
+#'   \itemize{
+#'     \item "boxplot": A boxplot of residuals.
+#'     \item "hist": A histogram of residuals.
+#'     \item "qq": A normal quantile plot of residuals.
+#'     \item "residlev": A plot of leverage values versus residuals.
+#'     \item "residplot": A plot of residuals versus predicted values.
+#'   }
+#' }
 #'
 #' @return A panel of residual diagnostic plots containing plots specified.
 #' @examples
@@ -19,7 +42,7 @@
 
 resid_panel <- function(model, plots = "SAS", bins = NA, scale = 1){
 
-  ## Errors --------------------------------------------------------------------
+  ## Errors and Warnings -------------------------------------------------------
 
   # Return an error if a model is not entered in the function
   if(typeof(model) == "double")
@@ -32,6 +55,14 @@ resid_panel <- function(model, plots = "SAS", bins = NA, scale = 1){
      "residlev" %in% plots){
   } else{
     stop("Plots option specified incorretly")
+  }
+
+  # Return a warning about choosing number of bins if a histogram is included
+  if("SAS" %in% plots | "R" %in% plots | "all" %in% plots | "hist" %in% plots){
+    if(is.na(bins)){
+      bins = 30
+      warning("By default, bins = 30 in the histogram of residuals. If necessary, specify an appropriate number of bins.")
+    }
   }
 
   ## Creation of plots ---------------------------------------------------------
@@ -108,8 +139,11 @@ resid_panel <- function(model, plots = "SAS", bins = NA, scale = 1){
     # Turn the list of plots into a grob
     my_grobs = lapply(individual_plots, ggplotGrob)
 
+    # Specify number of columns for grid of plots based on number of plots specified
+    ifelse(length(individual_plots) == 1, grid_col <- 1, grid_col <- 2)
+
     # Create grid of individual plots specified
-    grid.arrange(grobs = my_grobs, ncol = 2, scale = scale)
+    grid.arrange(grobs = my_grobs, ncol = grid_col, scale = scale)
 
   } else{
 

@@ -3,7 +3,6 @@
 #' Creates a plot of the residuals versus leverage from a model.
 #'
 #' @param model Model fit using lm.
-#' @export
 #' @return A plot of residuals versus leverage values from the \code{model}.
 #' @examples
 #' model <- lm(Volume ~ Girth, data = trees)

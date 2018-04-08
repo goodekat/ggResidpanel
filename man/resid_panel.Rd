@@ -7,7 +7,7 @@
 resid_panel(model, plots = "SAS", bins = NA, scale = 1)
 }
 \arguments{
-\item{model}{Model fit using either lm or glm.}
+\item{model}{Model fit using either \code{lm} or \code{glm}.}
 
 \item{plots}{Plots chosen to include in the panel of plots. (See details for options.)}
 
@@ -20,6 +20,30 @@ A panel of residual diagnostic plots containing plots specified.
 }
 \description{
 Creates a panel of residual diagnostic plots.
+}
+\details{
+The following grid options can be chosen for the \code{plots} argument.
+\itemize{
+  \item "all": This creates a panel of all plot types included in the package.
+  \item "R": This creates a panel of a residual plot, a normal quantile plot of
+  the residuals, and a leverage versus residuals plot. This was modeled after the
+  plots shown in R if the \code{plots()} base function is applied to a \code{lm}
+  model.
+  \item "SAS": This is the default option. It creates a panel of a residual plot,
+  a normal quantile plot of the residuals, a histogram of the residuals, and a
+  boxplot of the residuals. This was modeled after the residpanel option in proc
+  mixed from SAS version 9.4.
+  \item A vector of individual plots can also be specified. For example, one can
+  specify \code{plots = c("boxplot", "hist")} or \code{plots = "qq"}. The individual
+  plot options are as follows.
+  \itemize{
+    \item "boxplot": A boxplot of residuals.
+    \item "hist": A histogram of residuals.
+    \item "qq": A normal quantile plot of residuals.
+    \item "residlev": A plot of leverage values versus residuals.
+    \item "residplot": A plot of residuals versus predicted values.
+  }
+}
 }
 \examples{
 model <- lm(Volume ~ Girth, data = trees)
