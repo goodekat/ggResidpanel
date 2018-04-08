@@ -2,7 +2,7 @@
 #'
 #' Creates a panel of residual diagnostic plots.
 #'
-#' @param model Model fit using either \code{lm} or \code{glm}.
+#' @param model Model fit using either \code{lm}, \code{glm}, \code{lmer}, or \code{glmer}.
 #' @param plots Plots chosen to include in the panel of plots. (See details for options.)
 #' @param bins Number of bins for histogram of the residuals.
 #' @param scale Scale of graphs in panel. Takes values in (0,1].

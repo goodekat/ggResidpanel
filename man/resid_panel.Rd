@@ -7,7 +7,7 @@
 resid_panel(model, plots = "SAS", bins = NA, scale = 1)
 }
 \arguments{
-\item{model}{Model fit using either \code{lm} or \code{glm}.}
+\item{model}{Model fit using either \code{lm}, \code{glm}, \code{lmer}, or \code{glmer}.}
 
 \item{plots}{Plots chosen to include in the panel of plots. (See details for options.)}
 
