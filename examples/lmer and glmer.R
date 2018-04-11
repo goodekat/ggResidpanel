@@ -28,3 +28,5 @@ model2 <- glmer(y ~ trt + (1|subject), family = poisson, data = d2)
 
 # Residual plot with glmer model
 resid_panel(model2, bins = 30)
+resid_panel(model2, plots = "hist")
+

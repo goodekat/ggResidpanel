@@ -52,6 +52,7 @@ Ideas for future updates:
     - response versus predicted (with a fitted line)
     - ??? summary statistc/model fit values panel
     - make our own version of influential points plot
+- change qq plot to the version created by Heike with an option to have a confidence band
 - add options for theme, text size, axis labels, etc...
 - incorporate plotly, so you can identify outliers more easily (could include this as an
   option, so the user can decide whether they want their plots to be interactive or not)
