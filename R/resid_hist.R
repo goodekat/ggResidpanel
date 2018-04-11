@@ -25,21 +25,17 @@ resid_hist <- function(model, bins = NA){
   model_values <- data.frame(resid = resid(model))
 
   #Step to make sure are not cutting out any huge outliers
-  if (min(model_values$resid)< -4*sd(model_values$resid)){
+  if (min(model_values$resid) < -4*sd(model_values$resid)){
     min_x <- NA
   }else{
     min_x <- -4*sd(model_values$resid)
   }
 
-  if (max(model_values$resid)>4*sd(model_values$resid)){
+  if (max(model_values$resid) > 4*sd(model_values$resid)){
     max_x <- NA
   }else{
     max_x <- 4*sd(model_values$resid)
   }
-
-
-  min_x <- min(min(model_values$resid), -4*sd(model_values$resid))
-  max_x <- max(max(model_values$resid), 4*sd(model_values$resid))
 
   #do not want xlim if data outside 4*sd
   if (is.na(min_x)&is.na(max_x)){
