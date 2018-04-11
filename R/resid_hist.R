@@ -12,6 +12,10 @@
 
 resid_hist <- function(model, bins = NA){
 
+  #If bins=NA, use default
+  if(is.na(bins)){
+    bins <- 30
+  }
   # Return an error if a model is not entered in the function
   if(typeof(model) == "double")
     stop("The updated version of ggResidpanel requires a model to be input to the functions.
