@@ -40,14 +40,18 @@ resid_qq <- function(model){
 
   # Enter into data frame
   quantiles <- data.frame(actual_quantiles, normal_quantiles)
+  #Calcualte Line
+  quantiles$Line <- mean(quantiles$actual_quantiles)+sd(quantiles$actual_quantiles)*quantiles$normal_quantiles
 
   # Create the normal quantile plot
   ggplot(quantiles, aes(x = normal_quantiles, y = actual_quantiles))+
+    geom_line(aes(normal_quantiles, Line), color="blue")+
     geom_point()+
     theme_bw()+
     labs(x = "Quantiles", y = "Residuals", title = "Q-Q Plot")+
-    geom_abline(intercept = mean(actual_quantiles), slope = sd(actual_quantiles), color = "blue") +
+    #geom_abline(intercept = mean(actual_quantiles), slope = sd(actual_quantiles), color = "blue") +
     theme(plot.title = element_text(size = 12, face = "bold"),
           axis.title = element_text(size = 10))
 
 }
+
