@@ -17,7 +17,7 @@ resid_ls <- function(model){
          Accepted models currently are lm and glm.")
 
   if(!(class(model)[1] %in% c("lm", "glm")))
-    stop("The 'rstandard' function used to create this plot requires a lm or glm model.")
+    stop("Accepted models currently are lm and glm.")
 
   # Create a data frame with the square root of the standardized residuals and predicted values
   model_values <- data.frame(sqr_stand_resid = sqrt(abs(rstandard(model))),

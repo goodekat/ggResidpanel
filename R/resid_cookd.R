@@ -20,7 +20,7 @@ resid_cookd <- function(model){
          Accepted models currently are lm and glm.")
 
   if(!(class(model)[1] %in% c("lm", "glm")))
-    stop("The 'cooks.distance' function used to create this plot requires a lm or glm model.")
+    stop("Accepted models currently are lm and glm.")
 
   # Create a data frame with the cook's d values and the observation numbers
   model_values <- data.frame(cooksd = cooks.distance(model),
