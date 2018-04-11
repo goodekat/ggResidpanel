@@ -8,7 +8,8 @@
 #' @param scale Scale of graphs in panel. Takes values in (0,1].
 #' @export
 #' @importFrom ggplot2 ggplot aes geom_point geom_abline labs theme_bw theme geom_histogram
-#' stat_function xlim geom_boxplot expand_limits geom_smooth element_text ggplotGrob
+#' stat_function xlim geom_boxplot expand_limits geom_smooth element_text ggplotGrob geom_vline
+#' theme_classic geom_hline
 #' @importFrom cowplot plot_grid
 #' @importFrom gridExtra grid.arrange
 #' @importFrom MASS stdres
@@ -29,6 +30,7 @@
 #'   \itemize{
 #'     \item "boxplot": A boxplot of residuals.
 #'     \item "hist": A histogram of residuals.
+#'     \item "ls": A location scale plot of the residuals.
 #'     \item "qq": A normal quantile plot of residuals.
 #'     \item "residlev": A plot of leverage values versus residuals.
 #'     \item "residplot": A plot of residuals versus predicted values.
@@ -52,7 +54,7 @@ resid_panel <- function(model, plots = "SAS", bins = NA, scale = 1){
   # Return an error if a plots option is not specified correctly
   if("SAS" %in% plots | "R" %in% plots | "all" %in% plots | "residplot" %in% plots |
      "hist" %in% plots | "qq" %in% plots | "boxplot" %in% plots |
-     "residlev" %in% plots){
+     "residlev" %in% plots | "ls" %in% plots){
   } else{
     stop("Plots option specified incorretly")
   }
@@ -95,6 +97,13 @@ resid_panel <- function(model, plots = "SAS", bins = NA, scale = 1){
     boxplot <- NULL
   }
 
+  # Create a location-scale plot if selected in plots otherwise set as NULL
+  if("ls" %in% plots | "R" %in% plots | "all" %in% plots){
+    ls <- resid_ls(model)
+  } else{
+    ls <- NULL
+  }
+
   # Create a residual-leverage plot if selected in plots otherwise set as NULL
   if("residlev" %in% plots | "R" %in% plots | "all" %in% plots){
     residlev <- resid_lev(model)
@@ -120,7 +129,7 @@ resid_panel <- function(model, plots = "SAS", bins = NA, scale = 1){
   } else if (plots == "R") {
 
     # Create grid of R plots
-    plot_grid(residplot, qq, residlev, scale = scale)
+    plot_grid(residplot, qq, ls, residlev, scale = scale)
 
   } else if (plots == "all") {
 
@@ -131,7 +140,7 @@ resid_panel <- function(model, plots = "SAS", bins = NA, scale = 1){
 
     # Turn the specified plots into a list
     individual_plots <- list(residplot = residplot, hist = hist, qq = qq,
-                             boxplot = boxplot, residlev = residlev)
+                             boxplot = boxplot, ls = ls, residlev = residlev)
 
     # Remove the plots which are null
     individual_plots <- individual_plots[-which(sapply(individual_plots, is.null))]

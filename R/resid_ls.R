@@ -3,7 +3,6 @@
 #' Creates a scale-location plot with the square root of the standardized residuals versus predicted values from a model.
 #'
 #' @param model Model fit using either lm or glm.
-#' @export
 #' @return A plot of the square roote of the standardized residuals versus predicted values from the \code{model}
 #'  with smooth curve fit using "loess".
 #' @examples
@@ -27,8 +26,9 @@ resid_ls <- function(model){
 
   ggplot(model_values, aes(x = pred, y = sqr_stand_resid)) + geom_point() +
     labs(x = "Predicted Values", y = "SQRT(|Standardized Residuals|)", title = "Scale-Location")+
-    expand_limits(y=0)+
-    geom_smooth(colour="red", se=FALSE, method="loess")+theme_bw() +
+    expand_limits(y=0) +
+    geom_smooth(colour="red", se=FALSE, method="loess") +
+    theme_bw() +
     theme(plot.title = element_text(size = 12, face = "bold"),
           axis.title = element_text(size = 10))
 

@@ -39,6 +39,7 @@ The following grid options can be chosen for the \code{plots} argument.
   \itemize{
     \item "boxplot": A boxplot of residuals.
     \item "hist": A histogram of residuals.
+    \item "ls": A location scale plot of the residuals.
     \item "qq": A normal quantile plot of residuals.
     \item "residlev": A plot of leverage values versus residuals.
     \item "residplot": A plot of residuals versus predicted values.
