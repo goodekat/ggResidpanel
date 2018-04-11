@@ -11,9 +11,11 @@
 resid_lev <- function(model){
 
   # Return an error if a model is not entered in the function
-  if(typeof(model) == "double")
+  if(class(model)[1] == "double")
     stop("The updated version of ggResidpanel requires a model to be input to the functions.
          Accepted models currently are lm and glm.")
+  if(!(class(model)[1] %in% c("lm", "glm")))
+    stop("Accepted models currently are lm and glm.")
 
   # Create a data frame with the leverage values and standardized residuals
   model_values <- data.frame(leverage = hatvalues(model),
