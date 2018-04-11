@@ -25,10 +25,36 @@ resid_hist <- function(model, bins = NA){
   model_values <- data.frame(resid = resid(model))
 
   #Step to make sure are not cutting out any huge outliers
+  if (min(model_values$resid)< -4*sd(model_values$resid)){
+    min_x <- NA
+  }else{
+    min_x <- -4*sd(model_values$resid)
+  }
+
+  if (max(model_values$resid)>4*sd(model_values$resid)){
+    max_x <- NA
+  }else{
+    max_x <- 4*sd(model_values$resid)
+  }
+
+
   min_x <- min(min(model_values$resid), -4*sd(model_values$resid))
   max_x <- max(max(model_values$resid), 4*sd(model_values$resid))
 
-
+  #do not want xlim if data outside 4*sd
+  if (is.na(min_x)&is.na(max_x)){
+    # Create the histogram of residuals
+    ggplot(model_values, aes(x = resid)) +
+      geom_histogram(aes(y = ..density.., fill = ..count..),
+                     color = "black", fill = "grey82", bins = bins) +
+      theme_bw() +
+      stat_function(fun = dnorm, color = "blue",
+                    args = list(mean = 0,
+                                sd = sd(model_values$resid))) +
+      labs(x = "Residuals", y = "Density", title = "Histogram of Residuals") +
+      theme(plot.title = element_text(size = 12, face = "bold"),
+            axis.title = element_text(size = 10))
+  }else{
   # Create the histogram of residuals
   ggplot(model_values, aes(x = resid)) +
     geom_histogram(aes(y = ..density.., fill = ..count..),
@@ -37,9 +63,10 @@ resid_hist <- function(model, bins = NA){
     stat_function(fun = dnorm, color = "blue",
                   args = list(mean = 0,
                               sd = sd(model_values$resid))) +
-    xlim(c(min_x, max_x)) +
     labs(x = "Residuals", y = "Density", title = "Histogram of Residuals") +
+      xlim(c(min_x, max_x))+
     theme(plot.title = element_text(size = 12, face = "bold"),
           axis.title = element_text(size = 10))
+  }
 
 }
