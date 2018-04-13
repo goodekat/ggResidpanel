@@ -25,7 +25,7 @@ resid_ls <- function(model){
 
 
   ggplot(model_values, aes(x = pred, y = sqr_stand_resid)) + geom_point() +
-    labs(x = "Predicted Values", y = "SQRT(|Standardized Residuals|)", title = "Scale-Location")+
+    labs(x = "Predicted Values", y = expression(sqrt(abs("Standardized Residuals"))), title = "Scale-Location")+
     expand_limits(y = 0) +
     geom_smooth(colour = "red", se = FALSE, method = "loess", size = 0.5) +
     theme_bw() +
