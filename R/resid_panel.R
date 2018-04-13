@@ -6,6 +6,10 @@
 #' @param plots Plots chosen to include in the panel of plots. (See details for options.)
 #' @param bins Number of bins for histogram of the residuals.
 #' @param scale Scale of graphs in panel. Takes values in (0,1].
+#' @param type
+#' @param smoother Indicates whether or not to include a smoother on the residual plot.
+#' Specify TRUE or FALSE. Default is set to FALSE.
+#' @param theme
 #' @export
 #' @importFrom ggplot2 ggplot aes geom_point geom_abline labs theme_bw theme geom_histogram
 #' stat_function xlim geom_boxplot expand_limits geom_smooth element_text ggplotGrob geom_vline
@@ -39,11 +43,16 @@
 #'
 #' @return A panel of residual diagnostic plots containing plots specified.
 #' @examples
-#' model <- lm(Volume ~ Girth, data = trees)
-#' resid_panel(model)
+#' lm_model <- lm(Volume ~ Girth, data = trees)
+#' resid_panel(lm_model)
+#'
+#' library(lme4)
+#' d1 <- data.frame(y = rnorm(54, 20, 4), trt = rep(c("A", "B"), each = 27), subject = rep(1:18, each = 3))
+#' lmer_model <- lmer(y ~ trt + (1|subject), data = d1)
+#' resid_panel(lmer_model, bins = 30)
 
 resid_panel <- function(model, plots = "SAS", bins = NA, scale = 1,
-                        type = NA, smoother = NA, theme = NA){
+                        type = NA, smoother = FALSE, theme = NA){
 
   ## Errors and Warnings -------------------------------------------------------
 
@@ -55,9 +64,16 @@ resid_panel <- function(model, plots = "SAS", bins = NA, scale = 1,
   # Return an error if a plots option is not specified correctly
   if("SAS" %in% plots | "R" %in% plots | "all" %in% plots | "residplot" %in% plots |
      "hist" %in% plots | "qq" %in% plots | "boxplot" %in% plots |
-     "residlev" %in% plots | "ls" %in% plots | "cookd" %in% plots | "ls" %in% plots){
+     "residlev" %in% plots | "ls" %in% plots | "cookd" %in% plots | "ls" %in% plots |
+     "respred" %in% plots){
   } else{
     stop("Plots option specified incorretly")
+  }
+
+  # Return an error if a smoother option is not specified correctly
+  if(smoother == TRUE | smoother == FALSE){
+  }else{
+    stop("Smoother option for residual plot not specified correctly. Choose either TRUE or FALSE.")
   }
 
   # Return a warning about choosing number of bins if a histogram is included
@@ -114,9 +130,16 @@ resid_panel <- function(model, plots = "SAS", bins = NA, scale = 1,
 
   # Create a residual plot if selected in plots otherwise set as NULL
   if("residplot" %in% plots | "SAS" %in% plots | "R" %in% plots | "all" %in% plots){
-    residplot <- resid_plot(model)
+    residplot <- resid_plot(model, smoother)
   } else{
     residplot <- NULL
+  }
+
+  # Create a residual plot if selected in plots otherwise set as NULL
+  if("respred" %in% plots | "all" %in% plots){
+    respred <- resid_respred(model)
+  } else{
+    respred <- NULL
   }
 
   ## Creation of grid of plots -------------------------------------------------
@@ -142,14 +165,14 @@ resid_panel <- function(model, plots = "SAS", bins = NA, scale = 1,
   } else if (plots == "all") {
 
     # Create grid of all plots
-    plot_grid(residplot, hist, qq, boxplot, residlev, cookd, ls, scale = scale)
+    plot_grid(residplot, hist, qq, boxplot, residlev, cookd, ls, respred, scale = scale)
 
   } else if (plots == "individual") {
 
     # Turn the specified plots into a list
     individual_plots <- list(residplot = residplot, hist = hist, qq = qq,
                              boxplot = boxplot, ls = ls, residlev = residlev,
-                             cookd = cookd)
+                             cookd = cookd, respred = respred)
 
     # Remove the plots which are null
     individual_plots <- individual_plots[-which(sapply(individual_plots, is.null))]

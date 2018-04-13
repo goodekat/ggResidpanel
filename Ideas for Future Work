@@ -12,10 +12,11 @@ Katie's Tasks:
 - work on editing error messages - move to resid_panel function
 
 Katherine's Tasks:
-- residual vs. leverage plot - clean up code
-- add smoother to residual plot for R panel
 - create response versus predicted
 - summary statistc/model fit values panel
+Completed:
+- add smoother to residual plot for R panel
+- residual vs. leverage plot - clean up code
 
 To Do Before Conference:
 1. Change all functions to accept different residual types

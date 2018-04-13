@@ -5,7 +5,7 @@
 \title{Panel of Diagnostic Residual Plots.}
 \usage{
 resid_panel(model, plots = "SAS", bins = NA, scale = 1, type = NA,
-  smoother = NA, theme = NA)
+  smoother = FALSE, theme = NA)
 }
 \arguments{
 \item{model}{Model fit using either \code{lm}, \code{glm}, \code{lmer}, or \code{glmer}.}
@@ -15,6 +15,9 @@ resid_panel(model, plots = "SAS", bins = NA, scale = 1, type = NA,
 \item{bins}{Number of bins for histogram of the residuals.}
 
 \item{scale}{Scale of graphs in panel. Takes values in (0,1].}
+
+\item{smoother}{Indicates whether or not to include a smoother on the residual plot.
+Specify TRUE or FALSE. Default is set to FALSE.}
 }
 \value{
 A panel of residual diagnostic plots containing plots specified.
@@ -48,6 +51,11 @@ The following grid options can be chosen for the \code{plots} argument.
 }
 }
 \examples{
-model <- lm(Volume ~ Girth, data = trees)
-resid_panel(model)
+lm_model <- lm(Volume ~ Girth, data = trees)
+resid_panel(lm_model)
+
+library(lme4)
+d1 <- data.frame(y = rnorm(54, 20, 4), trt = rep(c("A", "B"), each = 27), subject = rep(1:18, each = 3))
+lmer_model <- lmer(y ~ trt + (1|subject), data = d1)
+resid_panel(lmer_model, bins = 30)
 }

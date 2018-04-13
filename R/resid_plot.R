@@ -3,13 +3,15 @@
 # Creates a residual plot with residuals versus predicted values from a model.
 #
 # @param model Model fit using either lm, glm, lmer, or glmer.
+# @param smoother Indicates whether or not to include a smoother on the residual plot.
+# Specify TRUE or FALSE. Default is set to FALSE.
 # @return A plot of the residuals versus predicted values from the \code{model}
 #  with a horizontal line through 0.
 # @examples
 # model <- lm(Volume ~ Girth, data = trees)
 # resid_plot(model)
 
-resid_plot <- function(model){
+resid_plot <- function(model, smoother = FALSE){
 
   # Return an error if a model is not entered in the function
   if(typeof(model) == "double")
@@ -21,12 +23,23 @@ resid_plot <- function(model){
                              pred = fitted(model))
 
   # Create the residual plot
-  ggplot(model_values, aes(x = pred, y = resid)) +
-    geom_point() +
-    geom_abline(slope = 0, intercept = 0) +
-    labs(x = "Predicted Values", y = "Residuals", title = "Residual Plot") +
-    theme_bw() +
-    theme(plot.title = element_text(size = 12, face = "bold"),
-          axis.title = element_text(size = 10))
+  if (smoother == FALSE){
+    ggplot(model_values, aes(x = pred, y = resid)) +
+      geom_point() +
+      geom_abline(slope = 0, intercept = 0) +
+      labs(x = "Predicted Values", y = "Residuals", title = "Residual Plot") +
+      theme_bw() +
+      theme(plot.title = element_text(size = 12, face = "bold"),
+            axis.title = element_text(size = 10))
+  }else if (smoother == TRUE){
+    ggplot(model_values, aes(x = pred, y = resid)) +
+      geom_point() +
+      geom_abline(slope = 0, intercept = 0) +
+      labs(x = "Predicted Values", y = "Residuals", title = "Residual Plot") +
+      geom_smooth(colour = "red", se = FALSE, method = "loess", size = 0.5) +
+      theme_bw() +
+      theme(plot.title = element_text(size = 12, face = "bold"),
+            axis.title = element_text(size = 10))
+  }
 
 }
