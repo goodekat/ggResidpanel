@@ -1,16 +1,14 @@
-#' Cook's D Plot.
-#'
-#' Creates a Cook's D plot with the Cook's D values versus the observation number.
-#'
-#' @param model Model fit using either lm or glm.
-#' @export
-#' @return A plot of the Cook's D values versus observation numbers from the \code{model}.
-#' The Horizontal line represents a cut-off to identify highly influential points. The horizontal line is
-#' placed at 4/n where n is the number of data points used in the \code{model}.
-#' @examples
-#' model <- lm(Volume ~ Girth, data = trees)
-#' resid_cookd(model)
-
+# Cook's D Plot.
+#
+# Creates a Cook's D plot with the Cook's D values versus the observation number.
+#
+# @param model Model fit using either lm or glm.
+# @return A plot of the Cook's D values versus observation numbers from the \code{model}.
+# The Horizontal line represents a cut-off to identify highly influential points. The horizontal line is
+# placed at 4/n where n is the number of data points used in the \code{model}.
+# @examples
+# model <- lm(Volume ~ Girth, data = trees)
+# resid_cookd(model)
 
 resid_cookd <- function(model){
 

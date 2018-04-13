@@ -55,7 +55,7 @@ resid_panel <- function(model, plots = "SAS", bins = NA, scale = 1,
   # Return an error if a plots option is not specified correctly
   if("SAS" %in% plots | "R" %in% plots | "all" %in% plots | "residplot" %in% plots |
      "hist" %in% plots | "qq" %in% plots | "boxplot" %in% plots |
-     "residlev" %in% plots | "ls" %in% plots){
+     "residlev" %in% plots | "ls" %in% plots | "cookd" %in% plots | "ls" %in% plots){
   } else{
     stop("Plots option specified incorretly")
   }
@@ -105,11 +105,25 @@ resid_panel <- function(model, plots = "SAS", bins = NA, scale = 1,
     ls <- NULL
   }
 
+  # Create a Cook's D plot if selected in plots otherwise set as NULL
+  if("cookd" %in% plots | "all" %in% plots){
+    cookd <- resid_cookd(model)
+  } else{
+    cookd <- NULL
+  }
+
   # Create a residual-leverage plot if selected in plots otherwise set as NULL
   if("residlev" %in% plots | "R" %in% plots | "all" %in% plots){
     residlev <- resid_lev(model)
   } else{
     residlev <- NULL
+  }
+
+  # Create a location-scale plot if selected in plots otherwise set as NULL
+  if("ls" %in% plots | "all" %in% plots){
+    ls <- resid_ls(model)
+  } else{
+    ls <- NULL
   }
 
   ## Creation of grid of plots -------------------------------------------------
@@ -135,13 +149,14 @@ resid_panel <- function(model, plots = "SAS", bins = NA, scale = 1,
   } else if (plots == "all") {
 
     # Create grid of all plots
-    plot_grid(residplot, hist, qq, boxplot, residlev, scale = scale)
+    plot_grid(residplot, hist, qq, boxplot, residlev, cookd, scale = scale)
 
   } else if (plots == "individual") {
 
     # Turn the specified plots into a list
     individual_plots <- list(residplot = residplot, hist = hist, qq = qq,
-                             boxplot = boxplot, ls = ls, residlev = residlev)
+                             boxplot = boxplot, ls = ls, residlev = residlev,
+                             cookd = cookd)
 
     # Remove the plots which are null
     individual_plots <- individual_plots[-which(sapply(individual_plots, is.null))]

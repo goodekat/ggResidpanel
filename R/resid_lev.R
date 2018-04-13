@@ -1,12 +1,12 @@
-#' Residual-Leverage plot.
-#'
-#' Creates a plot of the residuals versus leverage from a model.
-#'
-#' @param model Model fit using lm.
-#' @return A plot of residuals versus leverage values from the \code{model}.
-#' @examples
-#' model <- lm(Volume ~ Girth, data = trees)
-#' residlev_plot(model)
+# Residual-Leverage plot.
+#
+# Creates a plot of the residuals versus leverage from a model.
+#
+# @param model Model fit using lm.
+# @return A plot of residuals versus leverage values from the \code{model}.
+# @examples
+# model <- lm(Volume ~ Girth, data = trees)
+# residlev_plot(model)
 
 resid_lev <- function(model){
 
@@ -56,7 +56,7 @@ resid_lev <- function(model){
     geom_line(data = data.frame(cl_h1), aes(x = hh, y = neg), linetype = "dashed", color = "red", na.rm = TRUE) +
     geom_line(data = data.frame(cl_h2), aes(x = hh, y = pos), linetype = "dashed", color = "red", na.rm = TRUE) +
     geom_line(data = data.frame(cl_h2), aes(x = hh, y = neg), linetype = "dashed", color = "red", na.rm = TRUE) +
-    theme_classic() +
+    theme_bw() +
     theme(plot.title = element_text(size = 12, face = "bold"),
           axis.title = element_text(size = 10))
 

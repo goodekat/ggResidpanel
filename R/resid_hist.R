@@ -1,14 +1,14 @@
-#' Histogram of Residuals.
-#'
-#' Creates a histogram of the residuals from a model.
-#'
-#' @param model Model fit using either lm, glm, lmer, or glmer.
-#' @return A histogram of the residuals from the \code{model} with a normal
-#' density curve overlaid with mean equal to the mean of the residuals and
-#' standard deviation equal to the standard deviation of the residuals.
-#' @examples
-#' model <- lm(Volume ~ Girth, data = trees)
-#' resid_hist(model)
+# Histogram of Residuals.
+#
+# Creates a histogram of the residuals from a model.
+#
+# @param model Model fit using either lm, glm, lmer, or glmer.
+# @return A histogram of the residuals from the \code{model} with a normal
+# density curve overlaid with mean equal to the mean of the residuals and
+# standard deviation equal to the standard deviation of the residuals.
+# @examples
+# model <- lm(Volume ~ Girth, data = trees)
+# resid_hist(model)
 
 resid_hist <- function(model, bins = NA){
 
