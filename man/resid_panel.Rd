@@ -4,7 +4,8 @@
 \alias{resid_panel}
 \title{Panel of Diagnostic Residual Plots.}
 \usage{
-resid_panel(model, plots = "SAS", bins = NA, scale = 1)
+resid_panel(model, plots = "SAS", bins = NA, scale = 1, type = NA,
+  smoother = NA, theme = NA)
 }
 \arguments{
 \item{model}{Model fit using either \code{lm}, \code{glm}, \code{lmer}, or \code{glmer}.}

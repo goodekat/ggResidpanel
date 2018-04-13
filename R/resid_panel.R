@@ -9,7 +9,7 @@
 #' @export
 #' @importFrom ggplot2 ggplot aes geom_point geom_abline labs theme_bw theme geom_histogram
 #' stat_function xlim geom_boxplot expand_limits geom_smooth element_text ggplotGrob geom_vline
-#' theme_classic geom_hline
+#' theme_classic geom_hline geom_segment geom_line scale_x_continuous scale_y_continuous
 #' @importFrom cowplot plot_grid
 #' @importFrom gridExtra grid.arrange
 #' @importFrom MASS stdres
@@ -42,14 +42,15 @@
 #' model <- lm(Volume ~ Girth, data = trees)
 #' resid_panel(model)
 
-resid_panel <- function(model, plots = "SAS", bins = NA, scale = 1){
+resid_panel <- function(model, plots = "SAS", bins = NA, scale = 1,
+                        type = NA, smoother = NA, theme = NA){
 
   ## Errors and Warnings -------------------------------------------------------
 
   # Return an error if a model is not entered in the function
   if(typeof(model) == "double")
     stop("The updated version of ggResidpanel requires a model to be input to the functions.
-         Accepted models currently are lm and glm.")
+         Accepted models currently are lm, glm, lmer, and glmer.")
 
   # Return an error if a plots option is not specified correctly
   if("SAS" %in% plots | "R" %in% plots | "all" %in% plots | "residplot" %in% plots |
@@ -60,7 +61,7 @@ resid_panel <- function(model, plots = "SAS", bins = NA, scale = 1){
   }
 
   # Return a warning about choosing number of bins if a histogram is included
-  if("SAS" %in% plots | "R" %in% plots | "all" %in% plots | "hist" %in% plots){
+  if("SAS" %in% plots | "all" %in% plots | "hist" %in% plots){
     if(is.na(bins)){
       bins = 30
       warning("By default, bins = 30 in the histogram of residuals. If necessary, specify an appropriate number of bins.")
