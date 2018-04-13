@@ -70,39 +70,11 @@ resid_panel <- function(model, plots = "SAS", bins = NA, scale = 1,
 
   ## Creation of plots ---------------------------------------------------------
 
-  # Create a residual plot if selected in plots otherwise set as NULL
-  if("residplot" %in% plots | "SAS" %in% plots | "R" %in% plots | "all" %in% plots){
-    residplot <- resid_plot(model)
-  } else{
-    residplot <- NULL
-  }
-
-  # Create a histogram of the residuals if selected in plots otherwise set as NULL
-  if("hist" %in% plots | "SAS" %in% plots | "all" %in% plots){
-    hist <- resid_hist(model, bins = bins)
-  } else{
-    hist <- NULL
-  }
-
-  # Create a q-q plot of the residuals if selected in plots otherwise set as NULL
-  if("qq" %in% plots | "SAS" %in% plots | "R" %in% plots | "all" %in% plots){
-    qq <- resid_qq(model)
-  } else{
-    qq <- NULL
-  }
-
   # Create a boxplot of the residuals if selected in plots otherwise set as NULL
   if("boxplot" %in% plots | "SAS" %in% plots | "all" %in% plots){
     boxplot <- resid_boxplot(model)
   } else{
     boxplot <- NULL
-  }
-
-  # Create a location-scale plot if selected in plots otherwise set as NULL
-  if("ls" %in% plots | "R" %in% plots | "all" %in% plots){
-    ls <- resid_ls(model)
-  } else{
-    ls <- NULL
   }
 
   # Create a Cook's D plot if selected in plots otherwise set as NULL
@@ -112,6 +84,27 @@ resid_panel <- function(model, plots = "SAS", bins = NA, scale = 1,
     cookd <- NULL
   }
 
+  # Create a histogram of the residuals if selected in plots otherwise set as NULL
+  if("hist" %in% plots | "SAS" %in% plots | "all" %in% plots){
+    hist <- resid_hist(model, bins = bins)
+  } else{
+    hist <- NULL
+  }
+
+  # Create a location-scale plot if selected in plots otherwise set as NULL
+  if("ls" %in% plots | "R" %in% plots | "all" %in% plots){
+    ls <- resid_ls(model)
+  } else{
+    ls <- NULL
+  }
+
+  # Create a q-q plot of the residuals if selected in plots otherwise set as NULL
+  if("qq" %in% plots | "SAS" %in% plots | "R" %in% plots | "all" %in% plots){
+    qq <- resid_qq(model)
+  } else{
+    qq <- NULL
+  }
+
   # Create a residual-leverage plot if selected in plots otherwise set as NULL
   if("residlev" %in% plots | "R" %in% plots | "all" %in% plots){
     residlev <- resid_lev(model)
@@ -119,11 +112,11 @@ resid_panel <- function(model, plots = "SAS", bins = NA, scale = 1,
     residlev <- NULL
   }
 
-  # Create a location-scale plot if selected in plots otherwise set as NULL
-  if("ls" %in% plots | "all" %in% plots){
-    ls <- resid_ls(model)
+  # Create a residual plot if selected in plots otherwise set as NULL
+  if("residplot" %in% plots | "SAS" %in% plots | "R" %in% plots | "all" %in% plots){
+    residplot <- resid_plot(model)
   } else{
-    ls <- NULL
+    residplot <- NULL
   }
 
   ## Creation of grid of plots -------------------------------------------------
@@ -149,7 +142,7 @@ resid_panel <- function(model, plots = "SAS", bins = NA, scale = 1,
   } else if (plots == "all") {
 
     # Create grid of all plots
-    plot_grid(residplot, hist, qq, boxplot, residlev, cookd, scale = scale)
+    plot_grid(residplot, hist, qq, boxplot, residlev, cookd, ls, scale = scale)
 
   } else if (plots == "individual") {
 
