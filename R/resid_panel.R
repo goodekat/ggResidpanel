@@ -15,7 +15,7 @@
 #' stat_function xlim geom_boxplot expand_limits geom_smooth element_text ggplotGrob geom_vline
 #' theme_classic geom_hline geom_segment geom_line scale_x_continuous scale_y_continuous
 #' @importFrom cowplot plot_grid
-#' @importFrom gridExtra grid.arrange
+#' @importFrom gridExtra grid.arrange tableGrob ttheme_minimal
 #' @importFrom MASS stdres
 #' @details The following grid options can be chosen for the \code{plots} argument.
 #' \itemize{
@@ -61,15 +61,6 @@ resid_panel <- function(model, plots = "SAS", bins = NA, scale = 1,
     stop("The updated version of ggResidpanel requires a model to be input to the functions.
          Accepted models currently are lm, glm, lmer, and glmer.")
 
-  # Return an error if a plots option is not specified correctly
-  if("SAS" %in% plots | "R" %in% plots | "all" %in% plots | "residplot" %in% plots |
-     "hist" %in% plots | "qq" %in% plots | "boxplot" %in% plots |
-     "residlev" %in% plots | "ls" %in% plots | "cookd" %in% plots | "ls" %in% plots |
-     "respred" %in% plots){
-  } else{
-    stop("Plots option specified incorretly")
-  }
-
   # Return an error if a smoother option is not specified correctly
   if(smoother == TRUE | smoother == FALSE){
   }else{
@@ -94,14 +85,14 @@ resid_panel <- function(model, plots = "SAS", bins = NA, scale = 1,
   }
 
   # Create a Cook's D plot if selected in plots otherwise set as NULL
-  if("cookd" %in% plots | "all" %in% plots){
+  if("cookd" %in% plots | "all" %in% plots | "SASextend" %in% plots){
     cookd <- resid_cookd(model)
   } else{
     cookd <- NULL
   }
 
   # Create a histogram of the residuals if selected in plots otherwise set as NULL
-  if("hist" %in% plots | "SAS" %in% plots | "all" %in% plots){
+  if("hist" %in% plots | "SAS" %in% plots | "all" %in% plots | "SASextend" %in% plots){
     hist <- resid_hist(model, bins = bins)
   } else{
     hist <- NULL
@@ -115,31 +106,39 @@ resid_panel <- function(model, plots = "SAS", bins = NA, scale = 1,
   }
 
   # Create a q-q plot of the residuals if selected in plots otherwise set as NULL
-  if("qq" %in% plots | "SAS" %in% plots | "R" %in% plots | "all" %in% plots){
+  if("qq" %in% plots | "SAS" %in% plots | "R" %in% plots | "all" %in% plots | "SASext" %in% plots){
     qq <- resid_qq(model)
   } else{
     qq <- NULL
   }
 
   # Create a residual-leverage plot if selected in plots otherwise set as NULL
-  if("residlev" %in% plots | "R" %in% plots | "all" %in% plots){
+  if("residlev" %in% plots | "R" %in% plots | "all" %in% plots | "SASext" %in% plots){
     residlev <- resid_lev(model)
   } else{
     residlev <- NULL
   }
 
   # Create a residual plot if selected in plots otherwise set as NULL
-  if("residplot" %in% plots | "SAS" %in% plots | "R" %in% plots | "all" %in% plots){
+  if("residplot" %in% plots | "SAS" %in% plots | "R" %in% plots | "all" %in% plots | "SASextend" %in% plots){
     residplot <- resid_plot(model, smoother)
   } else{
     residplot <- NULL
   }
 
-  # Create a residual plot if selected in plots otherwise set as NULL
-  if("respred" %in% plots | "all" %in% plots){
+  # Create a plot of the response variable vs the predicted values if selected
+  # in plots otherwise set as NULL
+  if("respred" %in% plots | "all" %in% plots | "SASextend" %in% plots){
     respred <- resid_respred(model)
   } else{
     respred <- NULL
+  }
+
+  # Create a plot of the model statistics if selected in plots otherwise set as NULL
+  if("all" %in% plots | "SASextend" %in% plots){
+    stats <- resid_stats(model)
+  } else{
+    stats <- NULL
   }
 
   ## Creation of grid of plots -------------------------------------------------
@@ -157,6 +156,11 @@ resid_panel <- function(model, plots = "SAS", bins = NA, scale = 1,
     # Create grid of SAS plots in resid panel
     plot_grid(residplot, hist, qq, boxplot, scale = scale)
 
+  } else if (plots == "SASextend") {
+
+    # Create grid of R plots
+    grid.arrange(residplot, residlev, qq, respred, cookd, hist, stats, scale = scale)
+
   } else if (plots == "R") {
 
     # Create grid of R plots
@@ -165,14 +169,15 @@ resid_panel <- function(model, plots = "SAS", bins = NA, scale = 1,
   } else if (plots == "all") {
 
     # Create grid of all plots
-    plot_grid(residplot, hist, qq, boxplot, residlev, cookd, ls, respred, scale = scale)
+    plot_grid(residplot, hist, qq, boxplot, residlev, cookd, ls, respred, stats,
+          scale = scale)
 
   } else if (plots == "individual") {
 
     # Turn the specified plots into a list
     individual_plots <- list(residplot = residplot, hist = hist, qq = qq,
                              boxplot = boxplot, ls = ls, residlev = residlev,
-                             cookd = cookd, respred = respred)
+                             cookd = cookd, respred = respred, stats = stats)
 
     # Remove the plots which are null
     individual_plots <- individual_plots[-which(sapply(individual_plots, is.null))]
