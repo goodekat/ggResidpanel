@@ -13,37 +13,30 @@ Katie's Tasks:
 
 Katherine's Tasks:
 - fix problem with SASextend
-Completed:
-- add smoother to residual plot for R panel
-- residual vs. leverage plot - clean up code
-- create response versus predicted
-- summary statistc/model fit values panel
+- Completed:
+  - add smoother to residual plot for R panel
+  - residual vs. leverage plot - clean up code
+  - create response versus predicted
+  - summary statistc/model fit values panel
 
 To Do Before Conference:
-1. Change all functions to accept different residual types
-2. Make additional plot options
-3. Option for choosing types of residuals
-4. Make plots interactive
-5. get new version up and running
-6. Design and print stickers
-
-Ideas for future updates:
-- be able to choose SAS versus R default residual panel
-- be able to choose specific plots to show in the panel
-- plots to add:
-    - standardized residual plot
-    - add a smoother to the residual plot
-    - response versus predicted (with a fitted line)
-    - summary statistc/model fit values panel
+- change all functions to accept different residual types
+- add a standardized residual plot to the SASextend option
 - change qq plot to the version created by Adam and Heike with an option to have a confidence band (qqplotr)
-- add options for theme, text size, etc...
+- add options for theme
+- add options for text size
 - create error using class to specify only four model types
 - make the individual interactive plots first
   - can show response, all predictors, row number, only first five predictors
-- add in theme options
 - figure out how to get standardized lmer and glmer residuals
+- make a vignette with examples showing how to use the package
+  - examples for each of residual type
+- get new version up and running
+- design and print stickers
+
+Ideas for Future Package Versions:
+- put interactive plots in a grid
 - write a function to show residual plots from multiple models at the same time
 - write a function for showing plots from multiple transformations (the user can specify
   the transformations)
-- make a vignette with examples showing how to use the package
-  - examples for each of residual type
+
