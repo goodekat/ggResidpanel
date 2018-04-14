@@ -106,14 +106,14 @@ resid_panel <- function(model, plots = "SAS", bins = NA, scale = 1,
   }
 
   # Create a q-q plot of the residuals if selected in plots otherwise set as NULL
-  if("qq" %in% plots | "SAS" %in% plots | "R" %in% plots | "all" %in% plots | "SASext" %in% plots){
+  if("qq" %in% plots | "SAS" %in% plots | "R" %in% plots | "all" %in% plots | "SASextend" %in% plots){
     qq <- resid_qq(model)
   } else{
     qq <- NULL
   }
 
   # Create a residual-leverage plot if selected in plots otherwise set as NULL
-  if("residlev" %in% plots | "R" %in% plots | "all" %in% plots | "SASext" %in% plots){
+  if("residlev" %in% plots | "R" %in% plots | "all" %in% plots | "SASextend" %in% plots){
     residlev <- resid_lev(model)
   } else{
     residlev <- NULL
@@ -144,10 +144,15 @@ resid_panel <- function(model, plots = "SAS", bins = NA, scale = 1,
   ## Creation of grid of plots -------------------------------------------------
 
   # If individual plots have been specified, set plots equal to "individual"
-  if("SAS" %in% plots | "R" %in% plots | "all" %in% plots){
+  # Return an error if none of the correct plot options have been specified
+  if("SAS" %in% plots | "R" %in% plots | "SASextend" %in% plots | "all" %in% plots){
     plots <- plots
-  } else{
+  } else if("boxplot" %in% plots | "cookd" %in% plots | "hist" %in% plots |
+            "ls" %in% plots | "qq" %in% plots | "residlev" %in% plots |
+            "residplot" %in% plots | "respred" %in% plots | "stats" %in% plots){
     plots <- "individual"
+  } else{
+    stop("Invalid plots option entered")
   }
 
   # Create a grid of plots based on the plots specified
@@ -159,7 +164,8 @@ resid_panel <- function(model, plots = "SAS", bins = NA, scale = 1,
   } else if (plots == "SASextend") {
 
     # Create grid of R plots
-    grid.arrange(residplot, residlev, qq, respred, cookd, hist, stats, scale = scale)
+    plot_grid(residplot, residlev, qq, respred, cookd, hist, stats,
+              ncol = 3, scale = scale)
 
   } else if (plots == "R") {
 
@@ -177,7 +183,7 @@ resid_panel <- function(model, plots = "SAS", bins = NA, scale = 1,
     # Turn the specified plots into a list
     individual_plots <- list(residplot = residplot, hist = hist, qq = qq,
                              boxplot = boxplot, ls = ls, residlev = residlev,
-                             cookd = cookd, respred = respred, stats = stats)
+                             cookd = cookd, respred = respred)
 
     # Remove the plots which are null
     individual_plots <- individual_plots[-which(sapply(individual_plots, is.null))]
@@ -192,9 +198,6 @@ resid_panel <- function(model, plots = "SAS", bins = NA, scale = 1,
     grid.arrange(grobs = my_grobs, ncol = grid_col, scale = scale)
 
   } else{
-
-    stop("Invalid plots option entered")
-
   }
 
 }
