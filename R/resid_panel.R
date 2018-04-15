@@ -197,7 +197,6 @@ resid_panel <- function(model, plots = "SAS", bins = NA, scale = 1,
     # Create grid of individual plots specified
     grid.arrange(grobs = my_grobs, ncol = grid_col, scale = scale)
 
-  } else{
   }
 
 }

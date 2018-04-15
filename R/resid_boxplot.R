@@ -8,7 +8,7 @@
 # model <- lm(Volume ~ Girth, data = trees)
 # resid_boxplot(model)
 
-resid_boxplot <- function(model){
+resid_boxplot <- function(model, theme, axis.text.size, title.text.size){
 
   # Return an error if a model is not entered in the function
   if(typeof(model) == "double")
@@ -19,11 +19,21 @@ resid_boxplot <- function(model){
   model_values <- data.frame(resid = resid(model))
 
   # Create the boxplot of residuals
-  ggplot(model_values, aes(x = " ", y = resid)) +
+  plot <- ggplot(model_values, aes(x = " ", y = resid)) +
     geom_boxplot() +
-    theme_bw() +
-    labs(x = " ", y = "Residuals", title = "Boxplot of Residuals") +
-    theme(plot.title = element_text(size = 12, face = "bold"),
-          axis.title = element_text(size = 10))
+    labs(x = " ", y = "Residuals", title = "Boxplot of Residuals")
+
+  # Add theme to plot
+  if (theme == "bw"){
+    plot <- plot + theme_bw()
+  } else if (theme == "classic"){
+    plot <- plot + theme_classic()
+  } else if (theme == "gray" | theme == "grey"){
+    plot <- plot + theme_grey()
+  }
+
+  # Set text size of title and axis lables and return plot
+  plot + theme(plot.title = element_text(size = title.text.size, face = "bold"),
+               axis.title = element_text(size = axis.text.size))
 
 }

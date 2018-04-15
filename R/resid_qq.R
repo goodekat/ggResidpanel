@@ -22,7 +22,7 @@
 # model <- lm(Volume ~ Girth, data = trees)
 # resid_qq(model)
 
-resid_qq <- function(model){
+resid_qq <- function(model, theme, axis.text.size, title.text.size){
 
   # Return an error if a model is not entered in the function
   if(typeof(model) == "double")
@@ -40,18 +40,29 @@ resid_qq <- function(model){
 
   # Enter into data frame
   quantiles <- data.frame(actual_quantiles, normal_quantiles)
-  #Calcualte Line
+
+  # Calcualte Line
   quantiles$Line <- mean(quantiles$actual_quantiles)+sd(quantiles$actual_quantiles)*quantiles$normal_quantiles
 
   # Create the normal quantile plot
-  ggplot(quantiles, aes(x = normal_quantiles, y = actual_quantiles))+
-    geom_line(aes(normal_quantiles, Line), color="blue")+
-    geom_point()+
-    theme_bw()+
-    labs(x = "Quantiles", y = "Residuals", title = "Q-Q Plot")+
+  plot <- ggplot(quantiles, aes(x = normal_quantiles, y = actual_quantiles)) +
+    geom_line(aes(normal_quantiles, Line), color = "blue") +
+    geom_point() +
     #geom_abline(intercept = mean(actual_quantiles), slope = sd(actual_quantiles), color = "blue") +
-    theme(plot.title = element_text(size = 12, face = "bold"),
-          axis.title = element_text(size = 10))
+    labs(x = "Quantiles", y = "Residuals", title = "Q-Q Plot")
+
+  # Add theme to plot
+  if (theme == "bw"){
+    plot <- plot + theme_bw()
+  } else if (theme == "classic"){
+    plot <- plot + theme_classic()
+  } else if (theme == "gray" | theme == "grey"){
+    plot <- plot + theme_grey()
+  }
+
+  # Set text size of title and axis lables and return plot
+  plot + theme(plot.title = element_text(size = title.text.size, face = "bold"),
+               axis.title = element_text(size = axis.text.size))
 
 }
 

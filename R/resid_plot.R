@@ -11,7 +11,7 @@
 # model <- lm(Volume ~ Girth, data = trees)
 # resid_plot(model)
 
-resid_plot <- function(model, smoother = FALSE){
+resid_plot <- function(model, smoother = FALSE, theme, axis.text.size, title.text.size){
 
   # Return an error if a model is not entered in the function
   if(typeof(model) == "double")
@@ -23,21 +23,28 @@ resid_plot <- function(model, smoother = FALSE){
                              pred = fitted(model))
 
   # Create the residual plot
-  residplot <- ggplot(model_values, aes(x = pred, y = resid)) +
+  plot <- ggplot(model_values, aes(x = pred, y = resid)) +
     geom_point() +
     geom_abline(slope = 0, intercept = 0, color = "blue") +
-    labs(x = "Predicted Values", y = "Residuals", title = "Residual Plot") +
-    theme_bw() +
-    theme(plot.title = element_text(size = 12, face = "bold"),
-          axis.title = element_text(size = 10))
+    labs(x = "Predicted Values", y = "Residuals", title = "Residual Plot")
 
   # If smoother is set to true, add it to the plot
   if (smoother == TRUE){
-   residplot <- residplot +
+   plot <- plot +
      geom_smooth(colour = "red", se = FALSE, method = "loess", size = 0.5)
   }
 
-  # Return the plot
-  residplot
+  # Add theme to plot
+  if (theme == "bw"){
+    plot <- plot + theme_bw()
+  } else if (theme == "classic"){
+    plot <- plot + theme_classic()
+  } else if (theme == "gray" | theme == "grey"){
+    plot <- plot + theme_grey()
+  }
+
+  # Set text size of title and axis lables and return plot
+  plot + theme(plot.title = element_text(size = title.text.size, face = "bold"),
+               axis.title = element_text(size = axis.text.size))
 
 }

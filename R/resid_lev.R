@@ -8,7 +8,7 @@
 # model <- lm(Volume ~ Girth, data = trees)
 # residlev_plot(model)
 
-resid_lev <- function(model){
+resid_lev <- function(model, theme, axis.text.size, title.text.size){
 
   # Return an error if a model is not entered in the function
   if(class(model)[1] == "double")
@@ -43,7 +43,7 @@ resid_lev <- function(model){
                       neg = -sqrt(1 * p * (1 - hh) / hh))
 
   # Create the residual vs. leverage plot
-  ggplot(model_values, aes(x = leverage, y = std_res)) +
+  plot <- ggplot(model_values, aes(x = leverage, y = std_res)) +
     geom_point() +
     labs(x = "Leverage", y = "Standardized Residuals", title = "Residuals vs Leverage") +
     expand_limits(x = 0) +
@@ -55,9 +55,19 @@ resid_lev <- function(model){
     geom_line(data = data.frame(cl_h1), aes(x = hh, y = pos), linetype = "dashed", color = "red", na.rm = TRUE) +
     geom_line(data = data.frame(cl_h1), aes(x = hh, y = neg), linetype = "dashed", color = "red", na.rm = TRUE) +
     geom_line(data = data.frame(cl_h2), aes(x = hh, y = pos), linetype = "dashed", color = "red", na.rm = TRUE) +
-    geom_line(data = data.frame(cl_h2), aes(x = hh, y = neg), linetype = "dashed", color = "red", na.rm = TRUE) +
-    theme_bw() +
-    theme(plot.title = element_text(size = 12, face = "bold"),
-          axis.title = element_text(size = 10))
+    geom_line(data = data.frame(cl_h2), aes(x = hh, y = neg), linetype = "dashed", color = "red", na.rm = TRUE)
+
+  # Add theme to plot
+  if (theme == "bw"){
+    plot <- plot + theme_bw()
+  } else if (theme == "classic"){
+    plot <- plot + theme_classic()
+  } else if (theme == "gray" | theme == "grey"){
+    plot <- plot + theme_grey()
+  }
+
+  # Set text size of title and axis lables and return plot
+  plot + theme(plot.title = element_text(size = title.text.size, face = "bold"),
+               axis.title = element_text(size = axis.text.size))
 
 }
