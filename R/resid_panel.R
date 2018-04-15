@@ -66,10 +66,16 @@ resid_panel <- function(model, plots = "SAS", bins = NA, scale = 1,
     stop("The updated version of ggResidpanel requires a model to be input to the functions.
          Accepted models currently are lm, glm, lmer, and glmer.")
 
-  # Return an error if a smoother option is not specified correctly
+  # Return an error if smoother option is not specified correctly
   if(smoother == TRUE | smoother == FALSE){
   }else{
     stop("Smoother option for residual plot not specified correctly. Choose either TRUE or FALSE.")
+  }
+
+  # Return an error if theme is not specified correctly
+  if(theme == "bw" | theme == "classic" | theme == "grey" | theme == "gray"){
+  }else{
+    stop("Theme option not specified correctly. Accepted themes are bw, classic, and grey (or gray).")
   }
 
   # Return a warning about choosing number of bins if a histogram is included
