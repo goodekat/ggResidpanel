@@ -6,10 +6,12 @@ Future Work
 Katie's Tasks:
 - histogram fix so no outliers cutoff
 - add label function to all plots
-- work on residual type options
+- change all functions to accept different residual types
 - change qq plot to the version created by Adam and Heike with an option to have a confidence band (qqplotr)
 - create resid_interact
-- work on editing error messages - move to resid_panel function
+  - make the individual interactive plots first
+  - can show response, all predictors, row number, only first five predictors
+- move error messages to resid_panel function - use class to specify four model types
 
 Katherine's Tasks:
 - add additional two plots to SASextend
@@ -20,15 +22,10 @@ Katherine's Tasks:
   - summary statistc/model fit values panel
   - fix problem with SASextend
 
-To Do Before Conference:
-- change all functions to accept different residual types
+Other To Do Before Conference:
 - add a standardized residual plot to the SASextend option
-- change qq plot to the version created by Adam and Heike with an option to have a confidence band (qqplotr)
 - add options for theme
 - add options for text size
-- create error using class to specify only four model types
-- make the individual interactive plots first
-  - can show response, all predictors, row number, only first five predictors
 - figure out how to get standardized lmer and glmer residuals
 - make a vignette with examples showing how to use the package
   - examples for each of residual type

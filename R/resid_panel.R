@@ -8,12 +8,16 @@
 #' @param scale Scale of graphs in panel. Takes values in (0,1].
 #' @param type
 #' @param smoother Indicates whether or not to include a smoother on the residual plot.
+#' @param axis.text.size Specifies the size of the text for the axis labels of all plots.
+#' @param title.text.size Specifies the size of the text for the titles of all plots.
 #' Specify TRUE or FALSE. Default is set to FALSE.
-#' @param theme
+#' @param theme ggplot2 theme to be used. Options are \code{"bw"}, \code{"classic"}, and
+#' \code{"grey"} (or \code{"gray"}). Default is \code{"bw"}.
 #' @export
 #' @importFrom ggplot2 ggplot aes geom_point geom_abline labs theme_bw theme geom_histogram
 #' stat_function xlim geom_boxplot expand_limits geom_smooth element_text ggplotGrob geom_vline
 #' theme_classic geom_hline geom_segment geom_line scale_x_continuous scale_y_continuous
+#' theme_grey
 #' @importFrom cowplot plot_grid
 #' @importFrom gridExtra grid.arrange tableGrob ttheme_minimal
 #' @importFrom MASS stdres
@@ -52,7 +56,8 @@
 #' resid_panel(lmer_model, bins = 30)
 
 resid_panel <- function(model, plots = "SAS", bins = NA, scale = 1,
-                        type = NA, smoother = FALSE, theme = NA){
+                        type = NA, smoother = FALSE, theme = "bw",
+                        axis.text.size = 10, title.text.size = 12){
 
   ## Errors and Warnings -------------------------------------------------------
 
@@ -79,49 +84,49 @@ resid_panel <- function(model, plots = "SAS", bins = NA, scale = 1,
 
   # Create a boxplot of the residuals if selected in plots otherwise set as NULL
   if("boxplot" %in% plots | "SAS" %in% plots | "all" %in% plots){
-    boxplot <- resid_boxplot(model)
+    boxplot <- resid_boxplot(model, theme, axis.text.size, title.text.size)
   } else{
     boxplot <- NULL
   }
 
   # Create a Cook's D plot if selected in plots otherwise set as NULL
   if("cookd" %in% plots | "all" %in% plots | "SASextend" %in% plots){
-    cookd <- resid_cookd(model)
+    cookd <- resid_cookd(model, theme, axis.text.size, title.text.size)
   } else{
     cookd <- NULL
   }
 
   # Create a histogram of the residuals if selected in plots otherwise set as NULL
   if("hist" %in% plots | "SAS" %in% plots | "all" %in% plots | "SASextend" %in% plots){
-    hist <- resid_hist(model, bins = bins)
+    hist <- resid_hist(model, bins = bins, theme, axis.text.size, title.text.size)
   } else{
     hist <- NULL
   }
 
   # Create a location-scale plot if selected in plots otherwise set as NULL
   if("ls" %in% plots | "R" %in% plots | "all" %in% plots){
-    ls <- resid_ls(model)
+    ls <- resid_ls(model, theme, axis.text.size, title.text.size)
   } else{
     ls <- NULL
   }
 
   # Create a q-q plot of the residuals if selected in plots otherwise set as NULL
   if("qq" %in% plots | "SAS" %in% plots | "R" %in% plots | "all" %in% plots | "SASextend" %in% plots){
-    qq <- resid_qq(model)
+    qq <- resid_qq(model, theme, axis.text.size, title.text.size)
   } else{
     qq <- NULL
   }
 
   # Create a residual-leverage plot if selected in plots otherwise set as NULL
   if("residlev" %in% plots | "R" %in% plots | "all" %in% plots | "SASextend" %in% plots){
-    residlev <- resid_lev(model)
+    residlev <- resid_lev(model, theme, axis.text.size, title.text.size)
   } else{
     residlev <- NULL
   }
 
   # Create a residual plot if selected in plots otherwise set as NULL
   if("residplot" %in% plots | "SAS" %in% plots | "R" %in% plots | "all" %in% plots | "SASextend" %in% plots){
-    residplot <- resid_plot(model, smoother)
+    residplot <- resid_plot(model, smoother, theme, axis.text.size, title.text.size)
   } else{
     residplot <- NULL
   }
@@ -129,7 +134,7 @@ resid_panel <- function(model, plots = "SAS", bins = NA, scale = 1,
   # Create a plot of the response variable vs the predicted values if selected
   # in plots otherwise set as NULL
   if("respred" %in% plots | "all" %in% plots | "SASextend" %in% plots){
-    respred <- resid_respred(model)
+    respred <- resid_respred(model, theme, axis.text.size, title.text.size)
   } else{
     respred <- NULL
   }
