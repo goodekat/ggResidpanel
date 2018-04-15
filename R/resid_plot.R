@@ -23,23 +23,21 @@ resid_plot <- function(model, smoother = FALSE){
                              pred = fitted(model))
 
   # Create the residual plot
-  if (smoother == FALSE){
-    ggplot(model_values, aes(x = pred, y = resid)) +
-      geom_point() +
-      geom_abline(slope = 0, intercept = 0) +
-      labs(x = "Predicted Values", y = "Residuals", title = "Residual Plot") +
-      theme_bw() +
-      theme(plot.title = element_text(size = 12, face = "bold"),
-            axis.title = element_text(size = 10))
-  }else if (smoother == TRUE){
-    ggplot(model_values, aes(x = pred, y = resid)) +
-      geom_point() +
-      geom_abline(slope = 0, intercept = 0) +
-      labs(x = "Predicted Values", y = "Residuals", title = "Residual Plot") +
-      geom_smooth(colour = "red", se = FALSE, method = "loess", size = 0.5) +
-      theme_bw() +
-      theme(plot.title = element_text(size = 12, face = "bold"),
-            axis.title = element_text(size = 10))
+  residplot <- ggplot(model_values, aes(x = pred, y = resid)) +
+    geom_point() +
+    geom_abline(slope = 0, intercept = 0, color = "blue") +
+    labs(x = "Predicted Values", y = "Residuals", title = "Residual Plot") +
+    theme_bw() +
+    theme(plot.title = element_text(size = 12, face = "bold"),
+          axis.title = element_text(size = 10))
+
+  # If smoother is set to true, add it to the plot
+  if (smoother == TRUE){
+   residplot <- residplot +
+     geom_smooth(colour = "red", se = FALSE, method = "loess", size = 0.5)
   }
+
+  # Return the plot
+  residplot
 
 }
