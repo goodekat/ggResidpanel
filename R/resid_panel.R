@@ -26,7 +26,7 @@
 #'   \item "all": This creates a panel of all plot types included in the package.
 #'   \item "R": This creates a panel of a residual plot, a normal quantile plot of
 #'   the residuals, and a leverage versus residuals plot. This was modeled after the
-#'   plots shown in R if the \code{plots()} base function is applied to a \code{lm}
+#'   plots shown in R if the \code{plots()} base function is applied to an \code{lm}
 #'   model.
 #'   \item "SAS": This is the default option. It creates a panel of a residual plot,
 #'   a normal quantile plot of the residuals, a histogram of the residuals, and a
@@ -36,12 +36,14 @@
 #'   specify \code{plots = c("boxplot", "hist")} or \code{plots = "qq"}. The individual
 #'   plot options are as follows.
 #'   \itemize{
-#'     \item "boxplot": A boxplot of residuals.
-#'     \item "hist": A histogram of residuals.
-#'     \item "ls": A location scale plot of the residuals.
-#'     \item "qq": A normal quantile plot of residuals.
-#'     \item "residlev": A plot of leverage values versus residuals.
-#'     \item "residplot": A plot of residuals versus predicted values.
+#'     \item \code{"boxplot"}: A boxplot of residuals.
+#'     \item \code{"cookd"}: A plot of Cook's D values versus observation number.
+#'     \item \code{"hist"}: A histogram of residuals.
+#'     \item \code{"ls"}: A location scale plot of the residuals.
+#'     \item \code{"qq"}: A normal quantile plot of residuals.
+#'     \item \code{"residlev"}: A plot of leverage values versus residuals.
+#'     \item \code{"residplot"}: A plot of residuals versus predicted values.
+#'     \item \code{"respred:}: A plot of the response variable versus the predicted values.
 #'   }
 #' }
 #'

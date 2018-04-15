@@ -15,6 +15,9 @@ Katie's Tasks:
 
 Katherine's Tasks:
 - add additional two plots to SASextend
+- figure out error with text table that sometimes appears:
+  Error in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y,  :
+  polygon edge not found
 - Completed:
   - add smoother to residual plot for R panel
   - residual vs. leverage plot - clean up code
@@ -25,6 +28,7 @@ Katherine's Tasks:
   - add options for text size
 
 Other To Do Before Conference:
+- move all documentation to resid_panel or supplemental document
 - figure out how to get standardized lmer and glmer residuals
 - make a vignette with examples showing how to use the package
   - examples for each of residual type

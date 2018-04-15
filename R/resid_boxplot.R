@@ -1,12 +1,6 @@
 # Boxplot of Residuals.
 #
 # Creates a boxplot on the residuals from a model.
-#
-# @param model Model fit using either lm, glm, lmer, or glmer.
-# @return A boxplot of the residuals from the \code{model}.
-# @examples
-# model <- lm(Volume ~ Girth, data = trees)
-# resid_boxplot(model)
 
 resid_boxplot <- function(model, theme, axis.text.size, title.text.size){
 
