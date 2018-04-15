@@ -21,11 +21,10 @@ Katherine's Tasks:
   - create response versus predicted
   - summary statistc/model fit values panel
   - fix problem with SASextend
+  - add options for theme
+  - add options for text size
 
 Other To Do Before Conference:
-- add a standardized residual plot to the SASextend option
-- add options for theme
-- add options for text size
 - figure out how to get standardized lmer and glmer residuals
 - make a vignette with examples showing how to use the package
   - examples for each of residual type
