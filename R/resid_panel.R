@@ -75,7 +75,8 @@ resid_panel <- function(model, plots = "SAS", bins = NA, scale = 1,
   # Return an error if theme is not specified correctly
   if(theme == "bw" | theme == "classic" | theme == "grey" | theme == "gray"){
   }else{
-    stop("Theme option not specified correctly. Accepted themes are bw, classic, and grey (or gray).")
+    theme = "bw"
+    warning("Theme option not specified correctly. Accepted themes are bw, classic, and grey (or gray). Default theme will be used.")
   }
 
   # Return a warning about choosing number of bins if a histogram is included
