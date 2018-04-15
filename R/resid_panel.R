@@ -163,7 +163,7 @@ resid_panel <- function(model, plots = "SAS", bins = NA, scale = 1,
 
   } else if (plots == "SASextend") {
 
-    # Create grid of R plots
+    # Create grid of SAS extended plots
     plot_grid(residplot, residlev, qq, respred, cookd, hist, stats,
               ncol = 3, scale = scale)
 
