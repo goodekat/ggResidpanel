@@ -8,7 +8,7 @@
 # model <- lm(Volume ~ Girth, data = trees)
 # residlev_plot(model)
 
-resid_lev <- function(model, theme, axis.text.size, title.text.size){
+resid_lev <- function(model, theme, axis.text.size, title.text.size, title){
 
   # Return an error if a model is not entered in the function
   if(class(model)[1] == "double")
@@ -45,7 +45,7 @@ resid_lev <- function(model, theme, axis.text.size, title.text.size){
   # Create the residual vs. leverage plot
   plot <- ggplot(model_values, aes(x = leverage, y = std_res)) +
     geom_point() +
-    labs(x = "Leverage", y = "Standardized Residuals", title = "Residuals vs Leverage") +
+    labs(x = "Leverage", y = "Standardized Residuals") +
     expand_limits(x = 0) +
     geom_smooth(color = "red", se = FALSE, method = 'loess', size = 0.5) +
     geom_hline(yintercept = 0, linetype = "dashed") +
@@ -66,8 +66,14 @@ resid_lev <- function(model, theme, axis.text.size, title.text.size){
     plot <- plot + theme_grey()
   }
 
-  # Set text size of title and axis lables and return plot
-  plot + theme(plot.title = element_text(size = title.text.size, face = "bold"),
-               axis.title = element_text(size = axis.text.size))
+  # Set text size of title and axis lables, determine whether to include a title, and return plot
+  if(title == TRUE){
+    plot +
+      labs(title = "Residuals vs Leverage") +
+      theme(plot.title = element_text(size = title.text.size, face = "bold"),
+            axis.title = element_text(size = axis.text.size))
+  } else if (title == FALSE){
+    plot + theme(axis.title = element_text(size = axis.text.size))
+  }
 
 }

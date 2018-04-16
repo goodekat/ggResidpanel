@@ -9,7 +9,7 @@
 # model <- lm(Volume ~ Girth, data = trees)
 # resid_ls(model)
 
-resid_ls <- function(model, theme, axis.text.size, title.text.size){
+resid_ls <- function(model, theme, axis.text.size, title.text.size, title){
 
   # Return an error if a model is not entered in the function
   if(typeof(model) == "double")
@@ -26,8 +26,7 @@ resid_ls <- function(model, theme, axis.text.size, title.text.size){
   # Create the location-scale plot
   plot <- ggplot(model_values, aes(x = pred, y = sqr_stand_resid)) +
     geom_point() +
-    labs(x = "Predicted Values", y = expression(sqrt(abs("Standardized Residuals"))),
-         title = "Scale-Location") +
+    labs(x = "Predicted Values", y = expression(sqrt(abs("Standardized Residuals")))) +
     expand_limits(y = 0) +
     geom_smooth(colour = "red", se = FALSE, method = "loess", size = 0.5)
 
@@ -40,9 +39,15 @@ resid_ls <- function(model, theme, axis.text.size, title.text.size){
     plot <- plot + theme_grey()
   }
 
-  # Set text size of title and axis lables and return plot
-  plot + theme(plot.title = element_text(size = title.text.size, face = "bold"),
-               axis.title = element_text(size = axis.text.size))
+  # Set text size of title and axis lables, determine whether to include a title, and return plot
+  if(title == TRUE){
+    plot +
+      labs(title = "Scale-Location") +
+      theme(plot.title = element_text(size = title.text.size, face = "bold"),
+            axis.title = element_text(size = axis.text.size))
+  } else if (title == FALSE){
+    plot + theme(axis.title = element_text(size = axis.text.size))
+  }
 
 }
 

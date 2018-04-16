@@ -10,7 +10,7 @@
 # model <- lm(Volume ~ Girth, data = trees)
 # resid_hist(model)
 
-resid_hist <- function(model, bins = NA, theme, axis.text.size, title.text.size){
+resid_hist <- function(model, bins = NA, theme, axis.text.size, title.text.size, title){
 
   #If bins=NA, use default
   if(is.na(bins)){
@@ -55,7 +55,7 @@ resid_hist <- function(model, bins = NA, theme, axis.text.size, title.text.size)
     stat_function(fun = dnorm, color = "blue",
                   args = list(mean = 0,
                               sd = sd(model_values$resid))) +
-    labs(x = "Residuals", y = "Density", title = "Histogram of Residuals") +
+    labs(x = "Residuals", y = "Density") +
       xlim(c(min_x, max_x))
   }
 
@@ -68,7 +68,14 @@ resid_hist <- function(model, bins = NA, theme, axis.text.size, title.text.size)
     plot <- plot + theme_grey()
   }
 
-  # Set text size of title and axis lables and return plot
-  plot + theme(plot.title = element_text(size = title.text.size, face = "bold"),
-               axis.title = element_text(size = axis.text.size))
+  # Set text size of title and axis lables, determine whether to include a title, and return plot
+  if(title == TRUE){
+    plot +
+      labs(title = "Histogram of Residuals") +
+      theme(plot.title = element_text(size = title.text.size, face = "bold"),
+            axis.title = element_text(size = axis.text.size))
+  } else if (title == FALSE){
+    plot + theme(axis.title = element_text(size = axis.text.size))
+  }
+
 }

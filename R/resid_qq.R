@@ -22,7 +22,7 @@
 # model <- lm(Volume ~ Girth, data = trees)
 # resid_qq(model)
 
-resid_qq <- function(model, theme, axis.text.size, title.text.size){
+resid_qq <- function(model, theme, axis.text.size, title.text.size, title){
 
   # Return an error if a model is not entered in the function
   if(typeof(model) == "double")
@@ -49,7 +49,7 @@ resid_qq <- function(model, theme, axis.text.size, title.text.size){
     geom_line(aes(normal_quantiles, Line), color = "blue") +
     geom_point() +
     #geom_abline(intercept = mean(actual_quantiles), slope = sd(actual_quantiles), color = "blue") +
-    labs(x = "Quantiles", y = "Residuals", title = "Q-Q Plot")
+    labs(x = "Quantiles", y = "Residuals")
 
   # Add theme to plot
   if (theme == "bw"){
@@ -60,9 +60,15 @@ resid_qq <- function(model, theme, axis.text.size, title.text.size){
     plot <- plot + theme_grey()
   }
 
-  # Set text size of title and axis lables and return plot
-  plot + theme(plot.title = element_text(size = title.text.size, face = "bold"),
-               axis.title = element_text(size = axis.text.size))
+  # Set text size of title and axis lables, determine whether to include a title, and return plot
+  if(title == TRUE){
+    plot +
+      labs(title = "Q-Q Plot") +
+      theme(plot.title = element_text(size = title.text.size, face = "bold"),
+            axis.title = element_text(size = axis.text.size))
+  } else if (title == FALSE){
+    plot + theme(axis.title = element_text(size = axis.text.size))
+  }
 
 }
 

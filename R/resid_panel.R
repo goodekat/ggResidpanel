@@ -8,11 +8,13 @@
 #' @param scale Scale of graphs in panel. Takes values in (0,1].
 #' @param type
 #' @param smoother Indicates whether or not to include a smoother on the residual plot.
+#' Specify TRUE or FALSE. Default is set to FALSE.
 #' @param axis.text.size Specifies the size of the text for the axis labels of all plots.
 #' @param title.text.size Specifies the size of the text for the titles of all plots.
-#' Specify TRUE or FALSE. Default is set to FALSE.
 #' @param theme ggplot2 theme to be used. Options are \code{"bw"}, \code{"classic"}, and
 #' \code{"grey"} (or \code{"gray"}). Default is \code{"bw"}.
+#' @param title Indicates whether or not to include a title on the plots.
+#' Specify TRUE or FALSE. Default is set to TRUE.
 #' @export
 #' @importFrom ggplot2 ggplot aes geom_point geom_abline labs theme_bw theme geom_histogram
 #' stat_function xlim geom_boxplot expand_limits geom_smooth element_text ggplotGrob geom_vline
@@ -43,7 +45,7 @@
 #'     \item \code{"qq"}: A normal quantile plot of residuals.
 #'     \item \code{"residlev"}: A plot of leverage values versus residuals.
 #'     \item \code{"residplot"}: A plot of residuals versus predicted values.
-#'     \item \code{"respred:}: A plot of the response variable versus the predicted values.
+#'     \item \code{"respred":}: A plot of the response variable versus the predicted values.
 #'   }
 #' }
 #'
@@ -59,7 +61,8 @@
 
 resid_panel <- function(model, plots = "SAS", bins = NA, scale = 1,
                         type = NA, smoother = FALSE, theme = "bw",
-                        axis.text.size = 10, title.text.size = 12){
+                        axis.text.size = 10, title.text.size = 12,
+                        title = TRUE){
 
   ## Errors and Warnings -------------------------------------------------------
 
@@ -81,6 +84,12 @@ resid_panel <- function(model, plots = "SAS", bins = NA, scale = 1,
     warning("Theme option not specified correctly. Accepted themes are bw, classic, and grey (or gray). Default theme will be used.")
   }
 
+  # Return an error if smoother option is not specified correctly
+  if(title == TRUE | title == FALSE){
+  }else{
+    stop("Title option not specified correctly. Choose either TRUE or FALSE.")
+  }
+
   # Return a warning about choosing number of bins if a histogram is included
   if("SAS" %in% plots | "all" %in% plots | "hist" %in% plots){
     if(is.na(bins)){
@@ -93,49 +102,49 @@ resid_panel <- function(model, plots = "SAS", bins = NA, scale = 1,
 
   # Create a boxplot of the residuals if selected in plots otherwise set as NULL
   if("boxplot" %in% plots | "SAS" %in% plots | "all" %in% plots){
-    boxplot <- resid_boxplot(model, theme, axis.text.size, title.text.size)
+    boxplot <- resid_boxplot(model, theme, axis.text.size, title.text.size, title)
   } else{
     boxplot <- NULL
   }
 
   # Create a Cook's D plot if selected in plots otherwise set as NULL
   if("cookd" %in% plots | "all" %in% plots | "SASextend" %in% plots){
-    cookd <- resid_cookd(model, theme, axis.text.size, title.text.size)
+    cookd <- resid_cookd(model, theme, axis.text.size, title.text.size, title)
   } else{
     cookd <- NULL
   }
 
   # Create a histogram of the residuals if selected in plots otherwise set as NULL
   if("hist" %in% plots | "SAS" %in% plots | "all" %in% plots | "SASextend" %in% plots){
-    hist <- resid_hist(model, bins = bins, theme, axis.text.size, title.text.size)
+    hist <- resid_hist(model, bins = bins, theme, axis.text.size, title.text.size, title)
   } else{
     hist <- NULL
   }
 
   # Create a location-scale plot if selected in plots otherwise set as NULL
   if("ls" %in% plots | "R" %in% plots | "all" %in% plots){
-    ls <- resid_ls(model, theme, axis.text.size, title.text.size)
+    ls <- resid_ls(model, theme, axis.text.size, title.text.size, title)
   } else{
     ls <- NULL
   }
 
   # Create a q-q plot of the residuals if selected in plots otherwise set as NULL
   if("qq" %in% plots | "SAS" %in% plots | "R" %in% plots | "all" %in% plots | "SASextend" %in% plots){
-    qq <- resid_qq(model, theme, axis.text.size, title.text.size)
+    qq <- resid_qq(model, theme, axis.text.size, title.text.size, title)
   } else{
     qq <- NULL
   }
 
   # Create a residual-leverage plot if selected in plots otherwise set as NULL
   if("residlev" %in% plots | "R" %in% plots | "all" %in% plots | "SASextend" %in% plots){
-    residlev <- resid_lev(model, theme, axis.text.size, title.text.size)
+    residlev <- resid_lev(model, theme, axis.text.size, title.text.size, title)
   } else{
     residlev <- NULL
   }
 
   # Create a residual plot if selected in plots otherwise set as NULL
   if("residplot" %in% plots | "SAS" %in% plots | "R" %in% plots | "all" %in% plots | "SASextend" %in% plots){
-    residplot <- resid_plot(model, smoother, theme, axis.text.size, title.text.size)
+    residplot <- resid_plot(model, smoother, theme, axis.text.size, title.text.size, title)
   } else{
     residplot <- NULL
   }
@@ -143,7 +152,7 @@ resid_panel <- function(model, plots = "SAS", bins = NA, scale = 1,
   # Create a plot of the response variable vs the predicted values if selected
   # in plots otherwise set as NULL
   if("respred" %in% plots | "all" %in% plots | "SASextend" %in% plots){
-    respred <- resid_respred(model, theme, axis.text.size, title.text.size)
+    respred <- resid_respred(model, theme, axis.text.size, title.text.size, title)
   } else{
     respred <- NULL
   }
@@ -163,7 +172,7 @@ resid_panel <- function(model, plots = "SAS", bins = NA, scale = 1,
     plots <- plots
   } else if("boxplot" %in% plots | "cookd" %in% plots | "hist" %in% plots |
             "ls" %in% plots | "qq" %in% plots | "residlev" %in% plots |
-            "residplot" %in% plots | "respred" %in% plots | "stats" %in% plots){
+            "residplot" %in% plots | "respred" %in% plots){
     plots <- "individual"
   } else{
     stop("Invalid plots option entered")
