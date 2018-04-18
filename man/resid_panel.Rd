@@ -64,9 +64,11 @@ The following grid options can be chosen for the \code{plots} argument.
 }
 }
 \examples{
+# Fit a linear regression model and plot the residuals using the default panel
 lm_model <- lm(Volume ~ Girth, data = trees)
-resid_panel(lm_model)
+resid_panel(lm_model, bins = 30)
 
+# Generate data, fit a mixed effects model, and plot the residuals using the default panel
 library(lme4)
 d1 <- data.frame(y = rnorm(54, 20, 4), trt = rep(c("A", "B"), each = 27), subject = rep(1:18, each = 3))
 lmer_model <- lmer(y ~ trt + (1|subject), data = d1)
