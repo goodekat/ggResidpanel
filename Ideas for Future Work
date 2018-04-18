@@ -29,6 +29,7 @@ Katherine's Tasks:
 
 Other To Do Before Conference:
 - move all documentation to resid_panel or supplemental document
+- improve examples in help file for resid_panel
 - figure out how to get standardized lmer and glmer residuals
 - make a vignette with examples showing how to use the package
   - examples for each of residual type
