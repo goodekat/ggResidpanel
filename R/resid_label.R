@@ -12,13 +12,14 @@ resid_label <- function(type=NA, model){
       stop("The requested residual type is not available. Choose from the following options: standard, pearson, deviance.")
   }
 
-  if (type%in%c("standard", "Standard")){
+  if(!is.na(type)){
+  if (type=="response"){
     return("Residuals")
-  }else if (type %in% c("Pearson", "pearson", "pear", "Pear")){
+  }else if (type =="pearson"){
     return("Pearson Residuals")
-  }else if (type %in% c("Deviance", "deviance", "dev", "Dev")){
+  }else if (type == "deviance"){
     return("Deviance Residuals")
-  }else if (is.na(type)){
+  }}else {
     if(class(model)[1]=="lm"){
       return("Residuals")
     }else if (class(model)[1]=="lmerMod"){
@@ -34,4 +35,6 @@ resid_label <- function(type=NA, model){
       return("Deviance Residuals")
     }
   }
+
+
 }
