@@ -13,7 +13,7 @@
 #
 # Creates a boxplot on the residuals from a model.
 
-resid_boxplot <- function(model, theme=NA, axis.text.size=12, title.text.size=12, title=TRUE,type=NA){
+resid_boxplot <- function(model, theme="bw", axis.text.size=12, title.text.size=12, title=TRUE,type=NA){
 
   # Return an error if a model is not entered in the function
   if(typeof(model) == "double")
@@ -33,14 +33,13 @@ resid_boxplot <- function(model, theme=NA, axis.text.size=12, title.text.size=12
   # Create the boxplot of residuals
   plot <- ggplot(model_values, aes(x = " ", y = resid)) +
     geom_boxplot() +
-    theme_bw() +
     labs(x = " ", y = r_label) +
     theme(plot.title = element_text(size = 12, face = "bold"),
           axis.title = element_text(size = 10))
     labs(x = " ", y = "Residuals")
 
   # Add theme to plot
-  if(!is.na(theme)){
+
     if (theme == "bw"){
     plot <- plot + theme_bw()
   } else if (theme == "classic"){
@@ -48,7 +47,7 @@ resid_boxplot <- function(model, theme=NA, axis.text.size=12, title.text.size=12
   } else if (theme == "gray" | theme == "grey"){
     plot <- plot + theme_grey()
   }
-}
+
   # Set text size of title and axis lables, determine whether to include a title, and return plot
   if (title == TRUE){
     plot +

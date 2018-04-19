@@ -10,7 +10,7 @@
 # model <- lm(Volume ~ Girth, data = trees)
 # resid_cookd(model)
 
-resid_cookd <- function(model, theme=NA, axis.text.size=12, title.text.size=12, title=TRUE){
+resid_cookd <- function(model, theme="bw", axis.text.size=12, title.text.size=12, title=TRUE){
 
   # Return an error if a model is not entered in the function
   if(typeof(model) == "double")
@@ -38,7 +38,7 @@ resid_cookd <- function(model, theme=NA, axis.text.size=12, title.text.size=12, 
     geom_hline(yintercept = cutoff, colour = "blue", linetype = 5) +
     geom_hline(yintercept = 0, colour = "black")
 
-  if(!is.na(theme)){
+
   # Add theme to plot
   if (theme == "bw"){
     plot <- plot + theme_bw()
@@ -47,7 +47,7 @@ resid_cookd <- function(model, theme=NA, axis.text.size=12, title.text.size=12, 
   } else if (theme == "gray" | theme == "grey"){
     plot <- plot + theme_grey()
   }
-}
+
   # Set text size of title and axis lables, determine whether to include a title, and return plot
   if(title == TRUE){
     plot +

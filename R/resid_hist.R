@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 #' Histogram of Residuals.
 #'
 #' Creates a histogram of the residuals from a model.
@@ -13,7 +12,7 @@
 #' resid_hist(model)
 
 
-resid_hist <- function(model, bins = NA, theme=NA, axis.text.size=12, title.text.size=12, title=TRUE){
+resid_hist <- function(model, bins = NA, theme="bw", axis.text.size=12, title.text.size=12, title=TRUE){
 
   #If bins=NA, use default
   if(is.na(bins)){
@@ -76,7 +75,6 @@ resid_hist <- function(model, bins = NA, theme=NA, axis.text.size=12, title.text
 
 
   # Add theme to plot
-  if(!is.na(theme)){
   if (theme == "bw"){
     plot <- plot + theme_bw()
   } else if (theme == "classic"){
@@ -84,7 +82,7 @@ resid_hist <- function(model, bins = NA, theme=NA, axis.text.size=12, title.text
   } else if (theme == "gray" | theme == "grey"){
     plot <- plot + theme_grey()
   }
-}
+
   # Set text size of title and axis lables, determine whether to include a title, and return plot
   if(title == TRUE){
     plot +

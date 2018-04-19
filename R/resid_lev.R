@@ -8,18 +8,20 @@
 # model <- lm(Volume ~ Girth, data = trees)
 # residlev_plot(model)
 
-resid_lev <- function(model, theme, axis.text.size, title.text.size, title){
+resid_lev <- function(model, theme="bw", axis.text.size=12, title.text.size=12, title=TRUE){
 
   # Return an error if a model is not entered in the function
   if(class(model)[1] == "double")
     stop("The updated version of ggResidpanel requires a model to be input to the functions.
-         Accepted models currently are lm and glm.")
+         Accepted models currently are lm, glm, lmer, and glmer.")
   if(!(class(model)[1] %in% c("lm", "glm")))
     stop("Accepted models for currently are lm and glm.")
 
   # Create a data frame with the leverage values and standardized residuals
   model_values <- data.frame(leverage = hatvalues(model),
                              std_res = stdres(model))
+  #stdres
+  #resid(model)/(summary(model)$sigma*sqrt(1-hatvalues(model)))
 
   # Compute the hat matrix values
   hii <- (infl <- influence(model, do.coef = FALSE))$hat
@@ -56,6 +58,7 @@ resid_lev <- function(model, theme, axis.text.size, title.text.size, title){
     geom_line(data = data.frame(cl_h1), aes(x = hh, y = neg), linetype = "dashed", color = "red", na.rm = TRUE) +
     geom_line(data = data.frame(cl_h2), aes(x = hh, y = pos), linetype = "dashed", color = "red", na.rm = TRUE) +
     geom_line(data = data.frame(cl_h2), aes(x = hh, y = neg), linetype = "dashed", color = "red", na.rm = TRUE)
+
 
   # Add theme to plot
   if (theme == "bw"){
