@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 #' Boxplot of Residuals.
 #'
 #' Creates a boxplot on the residuals from a model.
@@ -10,6 +11,13 @@
 #' resid_boxplot(model)
 
 resid_boxplot <- function(model,type=NA){
+=======
+# Boxplot of Residuals.
+#
+# Creates a boxplot on the residuals from a model.
+
+resid_boxplot <- function(model, theme, axis.text.size, title.text.size, title){
+>>>>>>> a9a048f1974c38ade543c5f5ec06989d615834b5
 
   # Return an error if a model is not entered in the function
   if(typeof(model) == "double")
@@ -27,11 +35,35 @@ resid_boxplot <- function(model,type=NA){
 
 
   # Create the boxplot of residuals
-  ggplot(model_values, aes(x = " ", y = resid)) +
+  plot <- ggplot(model_values, aes(x = " ", y = resid)) +
     geom_boxplot() +
+<<<<<<< HEAD
     theme_bw() +
     labs(x = " ", y = r_label, title = "Boxplot of Residuals") +
     theme(plot.title = element_text(size = 12, face = "bold"),
           axis.title = element_text(size = 10))
+=======
+    labs(x = " ", y = "Residuals")
+
+  # Add theme to plot
+  if (theme == "bw"){
+    plot <- plot + theme_bw()
+  } else if (theme == "classic"){
+    plot <- plot + theme_classic()
+  } else if (theme == "gray" | theme == "grey"){
+    plot <- plot + theme_grey()
+  }
+
+  # Set text size of title and axis lables, determine whether to include a title, and return plot
+  if (title == TRUE){
+    plot +
+      labs(title = "Boxplot of Residuals") +
+      theme(plot.title = element_text(size = title.text.size, face = "bold"),
+                 axis.title = element_text(size = axis.text.size))
+  } else if (title == FALSE){
+    plot + theme(axis.title = element_text(size = axis.text.size))
+  }
+
+>>>>>>> a9a048f1974c38ade543c5f5ec06989d615834b5
 
 }

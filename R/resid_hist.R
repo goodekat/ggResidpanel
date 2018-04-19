@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 #' Histogram of Residuals.
 #'
 #' Creates a histogram of the residuals from a model.
@@ -12,6 +13,21 @@
 #' resid_hist(model)
 
 resid_hist <- function(model, bins = NA, type=NA){
+=======
+# Histogram of Residuals.
+#
+# Creates a histogram of the residuals from a model.
+#
+# @param model Model fit using either lm, glm, lmer, or glmer.
+# @return A histogram of the residuals from the \code{model} with a normal
+# density curve overlaid with mean equal to the mean of the residuals and
+# standard deviation equal to the standard deviation of the residuals.
+# @examples
+# model <- lm(Volume ~ Girth, data = trees)
+# resid_hist(model)
+
+resid_hist <- function(model, bins = NA, theme, axis.text.size, title.text.size, title){
+>>>>>>> a9a048f1974c38ade543c5f5ec06989d615834b5
 
   #If bins=NA, use default
   if(is.na(bins)){
@@ -48,29 +64,55 @@ resid_hist <- function(model, bins = NA, type=NA){
   #do not want xlim if data outside 4*sd
   if (is.na(min_x)&is.na(max_x)){
     # Create the histogram of residuals
-    ggplot(model_values, aes(x = resid)) +
+    plot <- ggplot(model_values, aes(x = resid)) +
       geom_histogram(aes(y = ..density.., fill = ..count..),
                      color = "black", fill = "grey82", bins = bins) +
-      theme_bw() +
       stat_function(fun = dnorm, color = "blue",
                     args = list(mean = 0,
                                 sd = sd(model_values$resid))) +
+<<<<<<< HEAD
       labs(x = r_label, y = "Density", title = "Histogram of Residuals") +
       theme(plot.title = element_text(size = 12, face = "bold"),
             axis.title = element_text(size = 10))
+=======
+      labs(x = "Residuals", y = "Density", title = "Histogram of Residuals")
+>>>>>>> a9a048f1974c38ade543c5f5ec06989d615834b5
   }else{
   # Create the histogram of residuals
-  ggplot(model_values, aes(x = resid)) +
+  plot <- ggplot(model_values, aes(x = resid)) +
     geom_histogram(aes(y = ..density.., fill = ..count..),
                    color = "black", fill = "grey82", bins = bins) +
-    theme_bw() +
     stat_function(fun = dnorm, color = "blue",
                   args = list(mean = 0,
                               sd = sd(model_values$resid))) +
+<<<<<<< HEAD
     labs(x = r_label, y = "Density", title = "Histogram of Residuals") +
       xlim(c(min_x, max_x))+
     theme(plot.title = element_text(size = 12, face = "bold"),
           axis.title = element_text(size = 10))
+=======
+    labs(x = "Residuals", y = "Density") +
+      xlim(c(min_x, max_x))
+  }
+
+  # Add theme to plot
+  if (theme == "bw"){
+    plot <- plot + theme_bw()
+  } else if (theme == "classic"){
+    plot <- plot + theme_classic()
+  } else if (theme == "gray" | theme == "grey"){
+    plot <- plot + theme_grey()
+  }
+
+  # Set text size of title and axis lables, determine whether to include a title, and return plot
+  if(title == TRUE){
+    plot +
+      labs(title = "Histogram of Residuals") +
+      theme(plot.title = element_text(size = title.text.size, face = "bold"),
+            axis.title = element_text(size = axis.text.size))
+  } else if (title == FALSE){
+    plot + theme(axis.title = element_text(size = axis.text.size))
+>>>>>>> a9a048f1974c38ade543c5f5ec06989d615834b5
   }
 
 }

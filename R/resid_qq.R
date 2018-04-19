@@ -1,28 +1,28 @@
-#' Q-Q Plot.
-#'
-#' Creates a Q-Q plot on the residuals from a model.
-#'
-#' @param model Model fit using either lm, glm, lmer, or glmer.
-#' @return A Q-Q Plot of the residuals from the \code{model}. The method for
-#' creating this Q-Q plot follows that used by SAS:
-#'
-#' \url{http://support.sas.com/documentation/cdl/en/sgug/59902/HTML/default/viewer.htm#fit_sect51.htm#sg_fit_fitresidualnormalquantiles}
-#'
-#' After sorting the residuals in ascending order, for each of the ith ordered residuals,
-#' the following quantile is computed:
-#'
-#' \deqn{\Phi^{-1} * ((i - 0.375) / (n + 0.25))}
-#'
-#' Each pair of points is then plotted to create the Q-Q plot. The line drawn on the
-#' plot has an intercept equal to the mean of the residuals and a slope equal to the
-#' standard deviation of the residuals. Data that is approximately normal will fall
-#' very close to or on the line.
-#'
-#' @examples
-#' model <- lm(Volume ~ Girth, data = trees)
-#' resid_qq(model)
+# Q-Q Plot.
+#
+# Creates a Q-Q plot on the residuals from a model.
+#
+# @param model Model fit using either lm, glm, lmer, or glmer.
+# @return A Q-Q Plot of the residuals from the \code{model}. The method for
+# creating this Q-Q plot follows that used by SAS:
+#
+# \url{http://support.sas.com/documentation/cdl/en/sgug/59902/HTML/default/viewer.htm#fit_sect51.htm#sg_fit_fitresidualnormalquantiles}
+#
+# After sorting the residuals in ascending order, for each of the ith ordered residuals,
+# the following quantile is computed:
+#
+# \deqn{\Phi^{-1} * ((i - 0.375) / (n + 0.25))}
+#
+# Each pair of points is then plotted to create the Q-Q plot. The line drawn on the
+# plot has an intercept equal to the mean of the residuals and a slope equal to the
+# standard deviation of the residuals. Data that is approximately normal will fall
+# very close to or on the line.
+#
+# @examples
+# model <- lm(Volume ~ Girth, data = trees)
+# resid_qq(model)
 
-resid_qq <- function(model){
+resid_qq <- function(model, theme, axis.text.size, title.text.size, title){
 
   # Return an error if a model is not entered in the function
   if(typeof(model) == "double")
@@ -40,18 +40,35 @@ resid_qq <- function(model){
 
   # Enter into data frame
   quantiles <- data.frame(actual_quantiles, normal_quantiles)
-  #Calcualte Line
+
+  # Calcualte Line
   quantiles$Line <- mean(quantiles$actual_quantiles)+sd(quantiles$actual_quantiles)*quantiles$normal_quantiles
 
   # Create the normal quantile plot
-  ggplot(quantiles, aes(x = normal_quantiles, y = actual_quantiles))+
-    geom_line(aes(normal_quantiles, Line), color="blue")+
-    geom_point()+
-    theme_bw()+
-    labs(x = "Quantiles", y = "Residuals", title = "Q-Q Plot")+
+  plot <- ggplot(quantiles, aes(x = normal_quantiles, y = actual_quantiles)) +
+    geom_line(aes(normal_quantiles, Line), color = "blue") +
+    geom_point() +
     #geom_abline(intercept = mean(actual_quantiles), slope = sd(actual_quantiles), color = "blue") +
-    theme(plot.title = element_text(size = 12, face = "bold"),
-          axis.title = element_text(size = 10))
+    labs(x = "Quantiles", y = "Residuals")
+
+  # Add theme to plot
+  if (theme == "bw"){
+    plot <- plot + theme_bw()
+  } else if (theme == "classic"){
+    plot <- plot + theme_classic()
+  } else if (theme == "gray" | theme == "grey"){
+    plot <- plot + theme_grey()
+  }
+
+  # Set text size of title and axis lables, determine whether to include a title, and return plot
+  if(title == TRUE){
+    plot +
+      labs(title = "Q-Q Plot") +
+      theme(plot.title = element_text(size = title.text.size, face = "bold"),
+            axis.title = element_text(size = axis.text.size))
+  } else if (title == FALSE){
+    plot + theme(axis.title = element_text(size = axis.text.size))
+  }
 
 }
 

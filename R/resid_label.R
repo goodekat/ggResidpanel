@@ -1,11 +1,10 @@
-#' Labels for Plots.
-#'
-#' Creates a label for the plots based on the type of residuals used.
-#'
-#' @param type Specifies type of desired residuals. If NA, the default residual type for each  model is used.
-#' @param model Model fit using either lm, glm, lmer, or glmer.
-#' @export
-#' @return The appropriate residual label.
+# Labels for Plots.
+#
+# Creates a label for the plots based on the type of residuals used.
+#
+# @param type Specifies type of desired residuals. If NA, the default residual type for each  model is used.
+# @param model Model fit using either lm, glm, lmer, or glmer.
+# @return The appropriate residual label.
 
 resid_label <- function(type=NA, model){
   if(!(is.na(type))){

@@ -5,7 +5,8 @@
 \title{Panel of Diagnostic Residual Plots.}
 \usage{
 resid_panel(model, plots = "SAS", bins = NA, scale = 1, type = NA,
-  smoother = NA, theme = NA)
+  smoother = FALSE, theme = "bw", axis.text.size = 10,
+  title.text.size = 12, title = TRUE)
 }
 \arguments{
 \item{model}{Model fit using either \code{lm}, \code{glm}, \code{lmer}, or \code{glmer}.}
@@ -15,6 +16,19 @@ resid_panel(model, plots = "SAS", bins = NA, scale = 1, type = NA,
 \item{bins}{Number of bins for histogram of the residuals.}
 
 \item{scale}{Scale of graphs in panel. Takes values in (0,1].}
+
+\item{smoother}{Indicates whether or not to include a smoother on the residual plot.
+Specify TRUE or FALSE. Default is set to FALSE.}
+
+\item{theme}{ggplot2 theme to be used. Options are \code{"bw"}, \code{"classic"}, and
+\code{"grey"} (or \code{"gray"}). Default is \code{"bw"}.}
+
+\item{axis.text.size}{Specifies the size of the text for the axis labels of all plots.}
+
+\item{title.text.size}{Specifies the size of the text for the titles of all plots.}
+
+\item{title}{Indicates whether or not to include a title on the plots.
+Specify TRUE or FALSE. Default is set to TRUE.}
 }
 \value{
 A panel of residual diagnostic plots containing plots specified.
@@ -28,7 +42,7 @@ The following grid options can be chosen for the \code{plots} argument.
   \item "all": This creates a panel of all plot types included in the package.
   \item "R": This creates a panel of a residual plot, a normal quantile plot of
   the residuals, and a leverage versus residuals plot. This was modeled after the
-  plots shown in R if the \code{plots()} base function is applied to a \code{lm}
+  plots shown in R if the \code{plots()} base function is applied to an \code{lm}
   model.
   \item "SAS": This is the default option. It creates a panel of a residual plot,
   a normal quantile plot of the residuals, a histogram of the residuals, and a
@@ -38,16 +52,37 @@ The following grid options can be chosen for the \code{plots} argument.
   specify \code{plots = c("boxplot", "hist")} or \code{plots = "qq"}. The individual
   plot options are as follows.
   \itemize{
-    \item "boxplot": A boxplot of residuals.
-    \item "hist": A histogram of residuals.
-    \item "ls": A location scale plot of the residuals.
-    \item "qq": A normal quantile plot of residuals.
-    \item "residlev": A plot of leverage values versus residuals.
-    \item "residplot": A plot of residuals versus predicted values.
+    \item \code{"boxplot"}: A boxplot of residuals.
+    \item \code{"cookd"}: A plot of Cook's D values versus observation number.
+    \item \code{"hist"}: A histogram of residuals.
+    \item \code{"ls"}: A location scale plot of the residuals.
+    \item \code{"qq"}: A normal quantile plot of residuals.
+    \item \code{"residlev"}: A plot of leverage values versus residuals.
+    \item \code{"residplot"}: A plot of residuals versus predicted values.
+    \item \code{"respred":}: A plot of the response variable versus the predicted values.
   }
 }
 }
 \examples{
-model <- lm(Volume ~ Girth, data = trees)
-resid_panel(model)
+# Fit a linear regression model and plot the residuals using the default panel
+lm_model <- lm(Volume ~ Girth, data = trees)
+resid_panel(lm_model, bins = 30)
+
+# Fit a generalized linear regression model and plot the residuals using
+# the default panel
+glm_model <- glm(Height ~ Girth, family = "poisson", data = trees)
+resid_panel(glm_model, bins = 30)
+
+# Generate normal data, fit a mixed effects model, and plot the residuals
+# using the default panel
+library(lme4)
+d1 <- data.frame(y = rnorm(54, 20, 4), trt = rep(c("A", "B"), each = 27), subject = rep(1:18, each = 3))
+lmer_model <- lmer(y ~ trt + (1|subject), data = d1)
+resid_panel(lmer_model, bins = 30)
+
+# Generate Poisson data, fit a mixed effects model, and plot the residuals
+# using the default panel
+d2 <- data.frame(y = rpois(54, 3), trt = rep(c("A", "B"), each = 27), subject = rep(1:18, each = 3))
+glmer_model <- glmer(y ~ trt + (1|subject), family = "poisson", data = d2)
+resid_panel(glmer_model, bins = 30)
 }

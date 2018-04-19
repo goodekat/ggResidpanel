@@ -7,42 +7,39 @@ Katie's Tasks:
 - histogram fix so no outliers cutoff
         --currently not having the same problem: I think I fixed it, but will run it          through more tests
 - add label function to all plots
-- work on residual type options
+- change all functions to accept different residual types
 - change qq plot to the version created by Adam and Heike with an option to have a confidence band (qqplotr)
 - create resid_interact
-- work on editing error messages - move to resid_panel function
+  - make the individual interactive plots first
+  - can show response, all predictors, row number, only first five predictors
+- move error messages to resid_panel function - use class to specify four model types
 
 Katherine's Tasks:
-- residual vs. leverage plot - clean up code
-- add smoother to residual plot for R panel
-- create response versus predicted
-- summary statistc/model fit values panel
+- add additional two plots to SASextend
+- figure out error with text table that sometimes appears:
+  Error in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y,  :
+  polygon edge not found
+- Completed:
+  - add smoother to residual plot for R panel
+  - residual vs. leverage plot - clean up code
+  - create response versus predicted
+  - summary statistc/model fit values panel
+  - fix problem with SASextend
+  - add options for theme
+  - add options for text size
 
-To Do Before Conference:
-1. Change all functions to accept different residual types
-2. Make additional plot options
-3. Option for choosing types of residuals
-4. Make plots interactive
-5. get new version up and running
-6. Design and print stickers
-
-Ideas for future updates:
-- be able to choose SAS versus R default residual panel
-- be able to choose specific plots to show in the panel
-- plots to add:
-    - standardized residual plot
-    - add a smoother to the residual plot
-    - response versus predicted (with a fitted line)
-    - summary statistc/model fit values panel
-- change qq plot to the version created by Adam and Heike with an option to have a confidence band (qqplotr)
-- add options for theme, text size, etc...
-- create error using class to specify only four model types
-- make the individual interactive plots first
-  - can show response, all predictors, row number, only first five predictors
-- add in theme options
+Other To Do Before Conference:
+- move all documentation to resid_panel or supplemental document
+- improve examples in help file for resid_panel
 - figure out how to get standardized lmer and glmer residuals
+- make a vignette with examples showing how to use the package
+  - examples for each of residual type
+- get new version up and running
+- design and print stickers
+
+Ideas for Future Package Versions:
+- put interactive plots in a grid
 - write a function to show residual plots from multiple models at the same time
 - write a function for showing plots from multiple transformations (the user can specify
   the transformations)
-- make a vignette with examples showing how to use the package
-  - examples for each of residual type
+
