@@ -5,6 +5,7 @@ Future Work
 
 Katie's Tasks:
 - histogram fix so no outliers cutoff
+        --currently not having the same problem: I think I fixed it, but will run it          through more tests
 - add label function to all plots
 - work on residual type options
 - change qq plot to the version created by Adam and Heike with an option to have a confidence band (qqplotr)

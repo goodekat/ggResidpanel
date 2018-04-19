@@ -4,13 +4,14 @@
 #'
 #' @param model Model fit using either lm, glm, lmer, or glmer.
 #' @return A histogram of the residuals from the \code{model} with a normal
+#' @param type The user may specify a type of residuals to use, otherwise the default residual type for each model is used.
 #' density curve overlaid with mean equal to the mean of the residuals and
 #' standard deviation equal to the standard deviation of the residuals.
 #' @examples
 #' model <- lm(Volume ~ Girth, data = trees)
 #' resid_hist(model)
 
-resid_hist <- function(model, bins = NA){
+resid_hist <- function(model, bins = NA, type=NA){
 
   #If bins=NA, use default
   if(is.na(bins)){
@@ -21,8 +22,15 @@ resid_hist <- function(model, bins = NA){
     stop("The updated version of ggResidpanel requires a model to be input to the functions.
          Accepted models currently are lm and glm.")
 
+  #call function to return appropriate residual label
+  r_label <- resid_label(type, model)
   # Create a data frame with the residuals
-  model_values <- data.frame(resid = resid(model))
+  if(is.na(type)){
+    model_values <- data.frame(resid = resid(model))
+  }else{
+    model_values <- data.frame(resid = resid(model), type=type)
+  }
+
 
   #Step to make sure are not cutting out any huge outliers
   if (min(model_values$resid) < -4*sd(model_values$resid)){
@@ -47,7 +55,7 @@ resid_hist <- function(model, bins = NA){
       stat_function(fun = dnorm, color = "blue",
                     args = list(mean = 0,
                                 sd = sd(model_values$resid))) +
-      labs(x = "Residuals", y = "Density", title = "Histogram of Residuals") +
+      labs(x = r_label, y = "Density", title = "Histogram of Residuals") +
       theme(plot.title = element_text(size = 12, face = "bold"),
             axis.title = element_text(size = 10))
   }else{
@@ -59,7 +67,7 @@ resid_hist <- function(model, bins = NA){
     stat_function(fun = dnorm, color = "blue",
                   args = list(mean = 0,
                               sd = sd(model_values$resid))) +
-    labs(x = "Residuals", y = "Density", title = "Histogram of Residuals") +
+    labs(x = r_label, y = "Density", title = "Histogram of Residuals") +
       xlim(c(min_x, max_x))+
     theme(plot.title = element_text(size = 12, face = "bold"),
           axis.title = element_text(size = 10))
