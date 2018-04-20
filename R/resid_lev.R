@@ -20,8 +20,9 @@ resid_lev <- function(model, theme="bw", axis.text.size=12, title.text.size=12, 
   # Create a data frame with the leverage values and standardized residuals
   model_values <- data.frame(leverage = hatvalues(model),
                              std_res = stdres(model))
-  #stdres
+  #stdres: linear model
   #resid(model)/(summary(model)$sigma*sqrt(1-hatvalues(model)))
+
 
   # Compute the hat matrix values
   hii <- (infl <- influence(model, do.coef = FALSE))$hat
