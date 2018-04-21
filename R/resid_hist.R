@@ -12,7 +12,7 @@
 #' resid_hist(model)
 
 
-resid_hist <- function(model, bins = NA, theme="bw", axis.text.size=12, title.text.size=12, title=TRUE){
+resid_hist <- function(model, type=NA,bins = NA, theme="bw", axis.text.size=12, title.text.size=12, title=TRUE){
 
   #If bins=NA, use default
   if(is.na(bins)){
