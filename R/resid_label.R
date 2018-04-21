@@ -23,10 +23,7 @@ resid_label <- function(type=NA, model){
     if(class(model)[1]=="lm"){
       return("Residuals")
     }else if (class(model)[1]=="lmerMod"){
-      return("Pearson Residuals")
-    }else if (class(model)[1]=="gls"){
-      #GLS defaults to raw residuals
-      return("Residuals")
+      return("Conditional Residuals")
     }else if (class(model)[1]=="glm"){
       #GLS defaults to raw residuals
       return("Deviance Residuals")
