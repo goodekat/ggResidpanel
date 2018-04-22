@@ -2,18 +2,24 @@
 #
 # Creates a plot of the response variable versus the predicted values.
 
-resid_respred <- function(model, theme, axis.text.size, title.text.size, title){
+resid_respred <- function(model,theme="bw", axis.text.size=12, title.text.size=12, title=TRUE){
+
 
   # Create a data frame with the predicted values and response variable
   model_values <- data.frame(pred = fitted(model),
                              response = model.frame(model)[[1]])
-
+  #model_values$line <- model_values$pred
   # Create the plot of response variable versus predicted values
   plot <- ggplot(model_values, aes(x = pred, y = response)) +
     geom_point() +
     geom_abline(slope = 1, intercept = 0, color = "blue") +
     labs(x = "Predicted Values", y = names(model.frame(model)[1]))
 
+
+  # plot <- ggplot(model_values, aes(x = pred, y = response)) +
+  #   geom_point() +
+  #   geom_line(aes(pred, line), color = "blue") +
+  #   labs(x = "Predicted Values", y = names(model.frame(model)[1]))
   # Add theme to plot
   if (theme == "bw"){
     plot <- plot + theme_bw()
