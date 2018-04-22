@@ -22,7 +22,7 @@
 # model <- lm(Volume ~ Girth, data = trees)
 # resid_qq(model)
 
-resid_qq <- function(model, type=NA, theme="bw", axis.text.size=12, title.text.size=12, title=TRUE, qqline=TRUE, qqbands=TRUE){
+resid_qq <- function(model, type=NA, theme="bw", axis.text.size=12, title.text.size=12, title=TRUE, qqline=TRUE, qqbands=FALSE){
 
   # Return an error if a model is not entered in the function
   if(typeof(model) == "double")
