@@ -22,12 +22,14 @@
 # model <- lm(Volume ~ Girth, data = trees)
 # resid_qq(model)
 
-resid_qq <- function(model, theme, axis.text.size, title.text.size, title){
+resid_qq <- function(model, type=NA, theme="bw", axis.text.size=12, title.text.size=12, title=TRUE){
 
   # Return an error if a model is not entered in the function
   if(typeof(model) == "double")
     stop("The updated version of ggResidpanel requires a model to be input to the functions.
-         Accepted models currently are lm and glm.")
+         Accepted models currently are lm, glm, lmer, and glmer.")
+
+  r_label <- resid_label(type, model)
 
   # Sort the residuals from the model
   actual_quantiles <- sort(resid(model))
@@ -49,7 +51,7 @@ resid_qq <- function(model, theme, axis.text.size, title.text.size, title){
     geom_line(aes(normal_quantiles, Line), color = "blue") +
     geom_point() +
     #geom_abline(intercept = mean(actual_quantiles), slope = sd(actual_quantiles), color = "blue") +
-    labs(x = "Quantiles", y = "Residuals")
+    labs(x = "Quantiles", y = r_label)
 
   # Add theme to plot
   if (theme == "bw"){
