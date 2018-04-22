@@ -13,10 +13,7 @@
 
 resid_plot <- function(model, type=NA, smoother = FALSE, theme="bw", axis.text.size=12, title.text.size=12, title=TRUE){
 
-  # Return an error if a model is not entered in the function
-  if(typeof(model) == "double")
-    stop("The updated version of ggResidpanel requires a model to be input to the functions.
-         Accepted models currently are lm,glm, lmer, and glmer.")
+
 
   r_label <- resid_label(type, model)
   Default_Title <- paste(r_label,"Plot")

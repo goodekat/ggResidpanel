@@ -6,9 +6,10 @@ Future Work
 Katie's Tasks:
 - histogram fix so no outliers cutoff
         --currently not having the same problem: I think I fixed it, but will run it          through more tests
-- add label function to all plots
 - change all functions to accept different residual types
+  --Did this, but still figuring out how to calculate some of the options
 - change qq plot to the version created by Adam and Heike with an option to have a confidence band (qqplotr)
+    -DONE
 - create resid_interact
   - make the individual interactive plots first
   - can show response, all predictors, row number, only first five predictors

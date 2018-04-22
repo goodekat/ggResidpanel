@@ -10,12 +10,7 @@
 
 resid_lev <- function(model, theme="bw", axis.text.size=12, title.text.size=12, title=TRUE){
 
-  # Return an error if a model is not entered in the function
-  if(class(model)[1] == "double")
-    stop("The updated version of ggResidpanel requires a model to be input to the functions.
-         Accepted models currently are lm, glm, lmer, and glmer.")
-  if(!(class(model)[1] %in% c("lm", "glm")))
-    stop("Accepted models for currently are lm and glm.")
+
 
   # Create a data frame with the leverage values and standardized residuals
   model_values <- data.frame(leverage = hatvalues(model),

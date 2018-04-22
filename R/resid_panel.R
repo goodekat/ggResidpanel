@@ -112,7 +112,20 @@ resid_panel <- function(model, plots = "SAS", bins = NA, scale = 1,
     }
   }
 
-  ## Creation of plots ---------------------------------------------------------
+  #Return error if request cook's d plot for anything other than lm or glm
+  if("cookd" %in% plots | "all" %in% plots | "SASextend" %in% plots){
+  if(!(class(model)[1] %in% c("lm", "glm")))
+    stop("Accepted models for a Cook's D plot are currently are lm and glm.")
+
+  }
+
+    #Return error if request leverage plot anything other than lm or glm
+    if("residlev" %in% plots | "R" %in% plots | "all" %in% plots | "SASextend" %in% plots){
+      if(!(class(model)[1] %in% c("lm", "glm")))
+      stop("Accepted models for a leverage plot are currently are lm and glm.")
+    }
+
+      ## Creation of plots ---------------------------------------------------------
 
   # Create a boxplot of the residuals if selected in plots otherwise set as NULL
   if("boxplot" %in% plots | "SAS" %in% plots | "all" %in% plots){

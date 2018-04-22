@@ -18,10 +18,6 @@ resid_hist <- function(model, type=NA,bins = NA, theme="bw", axis.text.size=12, 
   if(is.na(bins)){
     bins <- 30
   }
-  # Return an error if a model is not entered in the function
-  if(typeof(model) == "double")
-    stop("The updated version of ggResidpanel requires a model to be input to the functions.
-         Accepted models currently are lm, glm, lmer, and glmer.")
 
   #call function to return appropriate residual label
   r_label <- resid_label(type, model)

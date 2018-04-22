@@ -12,13 +12,6 @@
 
 resid_cookd <- function(model, theme="bw", axis.text.size=12, title.text.size=12, title=TRUE){
 
-  # Return an error if a model is not entered in the function
-  if(typeof(model) == "double")
-    stop("The updated version of ggResidpanel requires a model to be input to the functions.
-         Accepted models currently are lm, glm, lmere, and glmer.")
-
-  if(!(class(model)[1] %in% c("lm", "glm")))
-    stop("Accepted models currently are lm and glm.")
 
   # Create a data frame with the cook's d values and the observation numbers
   model_values <- data.frame(cooksd = cooks.distance(model),
