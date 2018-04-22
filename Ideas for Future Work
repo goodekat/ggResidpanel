@@ -14,6 +14,7 @@ Katie's Tasks:
   - make the individual interactive plots first
   - can show response, all predictors, row number, only first five predictors
 - move error messages to resid_panel function - use class to specify four model types
+  -DONE
 
 Katherine's Tasks:
 - add additional two plots to SASextend

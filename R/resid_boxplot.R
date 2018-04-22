@@ -28,7 +28,7 @@ resid_boxplot <- function(model, theme="bw", axis.text.size=12, title.text.size=
 
   Default_Title <- paste("Boxplot of", r_label)
   # Create the boxplot of residuals
-  plot <- ggplot(model_values, aes(x = " ", y = resid,label=Observation)) +
+  plot <- ggplot(model_values, aes(x = " ", y = resid)) +
     geom_boxplot() +
     labs(x = " ", y = r_label) +
     theme(plot.title = element_text(size = 12, face = "bold"),
