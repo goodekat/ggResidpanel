@@ -22,7 +22,7 @@
 # model <- lm(Volume ~ Girth, data = trees)
 # resid_qq(model)
 
-resid_qq <- function(model, type=NA, theme="bw", axis.text.size=12, title.text.size=12, title=TRUE){
+resid_qq <- function(model, type=NA, theme="bw", axis.text.size=12, title.text.size=12, title=TRUE, qqline=TRUE, qqbands=TRUE){
 
   # Return an error if a model is not entered in the function
   if(typeof(model) == "double")
@@ -31,27 +31,30 @@ resid_qq <- function(model, type=NA, theme="bw", axis.text.size=12, title.text.s
 
   r_label <- resid_label(type, model)
 
-  # Sort the residuals from the model
-  actual_quantiles <- sort(resid(model))
+  if(is.na(type)){
+    r <- data.frame(r=resid(model))
+  }else{
+    r <- data.frame(r=resid(model,type=type))
+  }
 
-  # Create indexes of residuals
-  i <- 1:length(actual_quantiles)
 
-  # Calculate theoretical normal quantiles
-  normal_quantiles <- qnorm((i - 0.375) / (length(actual_quantiles) + 0.25))
+  if(qqbands==TRUE){
+    plot <- ggplot(data = r, mapping = aes(sample = r)) +
+      stat_qq_band()+
+      stat_qq_point() +labs(x = "Theoretical Quantiles", y = "Sample Quantiles")
+  }else{
+    plot <- ggplot(data = r, mapping = aes(sample = r)) +
+      stat_qq_point() +labs(x = "Theoretical Quantiles", y = "Sample Quantiles")
+  }
 
-  # Enter into data frame
-  quantiles <- data.frame(actual_quantiles, normal_quantiles)
 
-  # Calcualte Line
-  quantiles$Line <- mean(quantiles$actual_quantiles)+sd(quantiles$actual_quantiles)*quantiles$normal_quantiles
 
-  # Create the normal quantile plot
-  plot <- ggplot(quantiles, aes(x = normal_quantiles, y = actual_quantiles)) +
-    geom_line(aes(normal_quantiles, Line), color = "blue") +
-    geom_point() +
-    #geom_abline(intercept = mean(actual_quantiles), slope = sd(actual_quantiles), color = "blue") +
-    labs(x = "Quantiles", y = r_label)
+  if(qqline==TRUE){
+    plot <- plot+stat_qq_line(color="blue")
+  }
+
+
+
 
   # Add theme to plot
   if (theme == "bw"){
