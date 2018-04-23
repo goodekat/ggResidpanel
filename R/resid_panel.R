@@ -108,11 +108,16 @@ resid_panel <- function(model, plots = "SAS", bins = NA, scale = 1,
   #Add in error if request plots involving standardized residuals for a 'lmer' or 'glmer' model.
 
   if(class(model)[1]%in%c("lmerMod", "glmerMod")){
-    if("ls" %in% plots |"residlev" %in% plots | "cookd" %in% plots | "all" %in% plots | "SASextend" %in% plots){
+    if("ls" %in% plots |"residlev" %in% plots | "all" %in% plots | "SASextend" %in% plots){
       stop("The requested plot or panel uses standardized residuals which are not currently available for 'lmer' or 'glmer' models.")
     }
   }
 
+  if(class(model)[1]%in%c("lmerMod", "glmerMod")){
+    if("cookd" %in% plots){
+      stop("The Cook's D plot is unavailable for 'lmer' and 'glmer' models.")
+    }
+  }
 
   # Return an error if a model is not entered in the function
   if(typeof(model) == "double")
@@ -167,7 +172,7 @@ resid_panel <- function(model, plots = "SAS", bins = NA, scale = 1,
 
   # Create a histogram of the residuals if selected in plots otherwise set as NULL
   if("hist" %in% plots | "SAS" %in% plots | "all" %in% plots | "SASextend" %in% plots){
-    hist <- resid_hist(model, bins = bins, theme, axis.text.size, title.text.size, title)
+    hist <- resid_hist(model, type=type,bins = bins, theme, axis.text.size, title.text.size, title)
   } else{
     hist <- NULL
   }
@@ -188,7 +193,7 @@ resid_panel <- function(model, plots = "SAS", bins = NA, scale = 1,
 
   # Create a residual-leverage plot if selected in plots otherwise set as NULL
   if("residlev" %in% plots | "R" %in% plots | "all" %in% plots | "SASextend" %in% plots){
-    residlev <- resid_lev(model, theme, axis.text.size, title.text.size, title)
+    residlev <- resid_lev(model, type, theme, axis.text.size, title.text.size, title)
   } else{
     residlev <- NULL
   }

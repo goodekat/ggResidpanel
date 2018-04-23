@@ -12,7 +12,7 @@
 # resid_hist(model)
 
 
-resid_hist <- function(model, type=NA,bins = NA, theme="bw", axis.text.size=12, title.text.size=12, title=TRUE){
+resid_hist <- function(model, type,bins, theme, axis.text.size, title.text.size, title){
 
   #If bins=NA, use default
   if(is.na(bins)){
@@ -23,9 +23,9 @@ resid_hist <- function(model, type=NA,bins = NA, theme="bw", axis.text.size=12, 
   r_label <- resid_label(type, model)
   # Create a data frame with the residuals
   if(is.na(type)){
-    model_values <- data.frame(resid = resid(model))
+    model_values <- data.frame(resid = resid_resid(type=NA, model=model))
   }else{
-    model_values <- data.frame(resid = resid(model), type=type)
+    model_values <- data.frame(resid = resid_resid(type=type, model=model))
   }
 
   Default_Title <- paste("Histogram of", r_label)

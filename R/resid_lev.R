@@ -8,13 +8,25 @@
 # model <- lm(Volume ~ Girth, data = trees)
 # residlev_plot(model)
 
-resid_lev <- function(model, theme="bw", axis.text.size=12, title.text.size=12, title=TRUE){
+resid_lev <- function(model, type, theme, axis.text.size, title.text.size, title){
 
 
 
   # Create a data frame with the leverage values and standardized residuals
+  if(class(model)[1]=="lm"){
   model_values <- data.frame(leverage = hatvalues(model),
-                             std_res = stdres(model))
+                             std_res = resid_resid(model, type="standardized"))
+  r_label <- resid_label(type="standardized", model)
+  }else if (class(model)[1]=="glm"){
+    if(is.na(type)|type=="deviance"|type=="stand.deviance"){
+      model_values <- data.frame(leverage = hatvalues(model),
+                                 std_res = resid_resid(model, type="stand.deviance"))
+      r_label <- resid_label(type="stand.deviance", model)
+    }else if (type=="pearson"|type=="stand.pearson"){
+      model_values <- data.frame(leverage = hatvalues(model),
+                                 std_res = resid_resid(model, type="stand.pearson"))
+      r_label <- resid_label(type="stand.pearson", model)}
+  }
   #stdres: linear model
   #resid(model)/(summary(model)$sigma*sqrt(1-hatvalues(model)))
 
@@ -43,7 +55,7 @@ resid_lev <- function(model, theme="bw", axis.text.size=12, title.text.size=12, 
   # Create the residual vs. leverage plot
   plot <- ggplot(model_values, aes(x = leverage, y = std_res)) +
     geom_point() +
-    labs(x = "Leverage", y = "Standardized Residuals") +
+    labs(x = "Leverage", y =   r_label) +
     expand_limits(x = 0) +
     geom_smooth(color = "red", se = FALSE, method = 'loess', size = 0.5) +
     geom_hline(yintercept = 0, linetype = "dashed") +
@@ -55,7 +67,7 @@ resid_lev <- function(model, theme="bw", axis.text.size=12, title.text.size=12, 
     geom_line(data = data.frame(cl_h2), aes(x = hh, y = pos), linetype = "dashed", color = "red", na.rm = TRUE) +
     geom_line(data = data.frame(cl_h2), aes(x = hh, y = neg), linetype = "dashed", color = "red", na.rm = TRUE)
 
-
+  Default_Title <- paste(r_label, "vs Leverage")
   # Add theme to plot
   if (theme == "bw"){
     plot <- plot + theme_bw()
@@ -68,7 +80,7 @@ resid_lev <- function(model, theme="bw", axis.text.size=12, title.text.size=12, 
   # Set text size of title and axis lables, determine whether to include a title, and return plot
   if(title == TRUE){
     plot +
-      labs(title = "Residuals vs Leverage") +
+      labs(title = Default_Title) +
       theme(plot.title = element_text(size = title.text.size, face = "bold"),
             axis.title = element_text(size = axis.text.size))
   } else if (title == FALSE){
