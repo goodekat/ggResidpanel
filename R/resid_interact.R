@@ -16,13 +16,7 @@
 #' @param title Indicates whether or not to include a title on the plots.
 #' Specify TRUE or FALSE. Default is set to TRUE.
 #' @export
-#' @importFrom ggplot2 ggplot aes geom_point geom_abline labs theme_bw theme geom_histogram
-#' stat_function xlim geom_boxplot expand_limits geom_smooth element_text ggplotGrob geom_vline
-#' theme_classic geom_hline geom_segment geom_line scale_x_continuous scale_y_continuous
-#' theme_grey plotly ggplotly
-#' @importFrom cowplot plot_grid
-#' @importFrom gridExtra grid.arrange tableGrob ttheme_minimal
-#' @importFrom MASS stdres
+#' @importFrom plotly ggplotly
 #' @details The following grid options can be chosen for the \code{plots} argument.
 #' \itemize{
 #'   \item "all": This creates a panel of all plot types included in the package.
@@ -118,7 +112,7 @@ resid_interaction <- function(model, plot = "SAS", bins = NA, scale = 1,
   if(plot=="boxplot"){
     plot_i <- resid_boxplot(model, type=type,theme, axis.text.size, title.text.size, title)
   } else if(plot=="cookd"){
-    plot_i <- resid_cookd(model, type=type,theme, axis.text.size, title.text.size, title)
+    plot_i <- resid_cookd(model, theme, axis.text.size, title.text.size, title)
   } else if(plot=="hist"){
     plot_i <- resid_hist(model, type=type,bins = bins, theme, axis.text.size, title.text.size, title)
   } else if(plot=="ls"){

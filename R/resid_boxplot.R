@@ -1,13 +1,13 @@
-#' Boxplot of Residuals.
-#'
-#' Creates a boxplot on the residuals from a model.
-#'
-#' @param model Model fit using either lm, glm, lmer, or glmer.
-#' @param type The user may specify a type of residuals to use, otherwise the default residual type for each model is used.
-#' @return A boxplot of the residuals from the \code{model}.
-#' @examples
-#' model <- lm(Volume ~ Girth, data = trees)
-#' resid_boxplot(model)
+# Boxplot of Residuals.
+#
+# Creates a boxplot on the residuals from a model.
+#
+# @param model Model fit using either lm, glm, lmer, or glmer.
+# @param type The user may specify a type of residuals to use, otherwise the default residual type for each model is used.
+# @return A boxplot of the residuals from the \code{model}.
+# @examples
+# model <- lm(Volume ~ Girth, data = trees)
+# resid_boxplot(model)
 
 # Boxplot of Residuals.
 #

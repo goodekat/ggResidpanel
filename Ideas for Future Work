@@ -4,12 +4,8 @@ Future Work
 --------------
 
 Katie's Tasks:
-- histogram fix so no outliers cutoff
-        --currently not having the same problem: I think I fixed it, but will run it          through more tests
 - change all functions to accept different residual types
   --Did this, but still figuring out how to calculate some of the options
-- change qq plot to the version created by Adam and Heike with an option to have a confidence band (qqplotr)
-    -DONE
 - create resid_interact
   - make the individual interactive plots first
   - can show response, all predictors, row number, only first five predictors
@@ -40,6 +36,8 @@ Other To Do Before Conference:
 - design and print stickers
 
 Ideas for Future Package Versions:
+- write a function for computing standardized residuals for lmer and glmer
+- add option to plot standardized residuals for lmer and glmer
 - put interactive plots in a grid
 - write a function to show residual plots from multiple models at the same time
 - write a function for showing plots from multiple transformations (the user can specify

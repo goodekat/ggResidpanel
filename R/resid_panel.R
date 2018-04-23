@@ -23,6 +23,7 @@
 #' @importFrom cowplot plot_grid
 #' @importFrom gridExtra grid.arrange tableGrob ttheme_minimal
 #' @importFrom MASS stdres
+#' @importFrom qqplotr stat_qq_point stat_qq_line stat_qq_band
 #' @details The following grid options can be chosen for the \code{plots} argument.
 #' \itemize{
 #'   \item "all": This creates a panel of all plot types included in the package.
@@ -76,7 +77,7 @@
 resid_panel <- function(model, plots = "SAS", bins = NA, scale = 1,
                         type = NA, smoother = FALSE, theme = "bw",
                         axis.text.size = 10, title.text.size = 12,
-                        title = TRUE,qqline=TRUE, qqbands=FALSE){
+                        title = TRUE, qqline=TRUE, qqbands=FALSE){
 
   ## Errors and Warnings -------------------------------------------------------
 

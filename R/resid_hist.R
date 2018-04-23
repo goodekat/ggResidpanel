@@ -1,15 +1,15 @@
-#' Histogram of Residuals.
-#'
-#' Creates a histogram of the residuals from a model.
-#'
-#' @param model Model fit using either lm, glm, lmer, or glmer.
-#' @return A histogram of the residuals from the \code{model} with a normal
-#' @param type The user may specify a type of residuals to use, otherwise the default residual type for each model is used.
-#' density curve overlaid with mean equal to the mean of the residuals and
-#' standard deviation equal to the standard deviation of the residuals.
-#' @examples
-#' model <- lm(Volume ~ Girth, data = trees)
-#' resid_hist(model)
+# Histogram of Residuals.
+#
+# Creates a histogram of the residuals from a model.
+#
+# @param model Model fit using either lm, glm, lmer, or glmer.
+# @return A histogram of the residuals from the \code{model} with a normal
+# @param type The user may specify a type of residuals to use, otherwise the default residual type for each model is used.
+# density curve overlaid with mean equal to the mean of the residuals and
+# standard deviation equal to the standard deviation of the residuals.
+# @examples
+# model <- lm(Volume ~ Girth, data = trees)
+# resid_hist(model)
 
 
 resid_hist <- function(model, type=NA,bins = NA, theme="bw", axis.text.size=12, title.text.size=12, title=TRUE){
@@ -28,7 +28,7 @@ resid_hist <- function(model, type=NA,bins = NA, theme="bw", axis.text.size=12, 
     model_values <- data.frame(resid = resid(model), type=type)
   }
 
-  Default_Title <- paste("Boxplot of", r_label)
+  Default_Title <- paste("Histogram of", r_label)
   #Step to make sure are not cutting out any huge outliers
   if (min(model_values$resid) < -4*sd(model_values$resid)){
     min_x <- NA
