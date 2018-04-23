@@ -81,11 +81,37 @@ resid_panel <- function(model, plots = "SAS", bins = NA, scale = 1,
 
   ## Errors and Warnings -------------------------------------------------------
 
-  # #Error for residual type:
-  # if(!(is.na(type))){
-  #   if(!(type %in% c("response", "pearson", "deviance", "standardized", "stand.pearson", "stand.deviance")))
-  #     stop("The requested residual type is not available. Choose from the following options: standard, pearson, deviance.")
-  # }
+
+    #Add error if they requested a type to make sure that type of residuals is
+  #available for the model type.
+  type <- tolower(type)
+  if(!is.na(type)){
+    if(class(model)[1]=="lm"){
+      if(!(type%in%c("response", "pearson", "standardized"))){
+        stop("The requested residual type is not available. Please select the following options for a 'lm' model: response, pearson, or standardized.")
+      }
+    }else if(class(model)[1]=="glm"){
+      if(!(type%in%c("response", "pearson", "deviance", "stand.pearson", "stand.deviance"))){
+        stop("The requested residual type is not available. Please select the following options for a 'glm' model: response, pearson, deviance, stand.deviance, or stand.pearson.")
+      }
+    }else if(class(model)[1]=="lmerMod"){
+      if(!(type%in%c("response", "pearson"))){
+        stop("The requested residual type is not available. Please select the following options for a 'lmer' model: response or pearson.")
+      }
+    }else if(class(model)[1]=="glmerMod"){
+      if(!(type%in%c("response", "pearson", "deviance"))){
+        stop("The requested residual type is not available. Please select the following options for a 'glmer' model: response, pearson, or deviance.")
+      }
+    }
+  }
+
+  #Add in error if request plots involving standardized residuals for a 'lmer' or 'glmer' model.
+
+  if(class(model)[1]%in%c("lmerMod", "glmerMod")){
+    if("ls" %in% plots |"residlev" %in% plots | "cookd" %in% plots | "all" %in% plots | "SASextend" %in% plots){
+      stop("The requested plot or panel uses standardized residuals which are not currently available for 'lmer' or 'glmer' models.")
+    }
+  }
 
 
   # Return an error if a model is not entered in the function
@@ -120,24 +146,14 @@ resid_panel <- function(model, plots = "SAS", bins = NA, scale = 1,
     }
   }
 
-  #Return error if request cook's d plot for anything other than lm or glm
-  if("cookd" %in% plots | "all" %in% plots | "SASextend" %in% plots){
-  if(!(class(model)[1] %in% c("lm", "glm")))
-    stop("Accepted models for a Cook's D plot are currently are lm and glm.")
 
-  }
-
-    #Return error if request leverage plot anything other than lm or glm
-    if("residlev" %in% plots | "R" %in% plots | "all" %in% plots | "SASextend" %in% plots){
-      if(!(class(model)[1] %in% c("lm", "glm")))
-      stop("Accepted models for a leverage plot are currently are lm and glm.")
-    }
 
       ## Creation of plots ---------------------------------------------------------
 
   # Create a boxplot of the residuals if selected in plots otherwise set as NULL
   if("boxplot" %in% plots | "SAS" %in% plots | "all" %in% plots){
-    boxplot <- resid_boxplot(model, theme, axis.text.size, title.text.size, title)
+    boxplot <- resid_boxplot(model, type,theme,axis.text.size, title.text.size, title)
+
   } else{
     boxplot <- NULL
   }
