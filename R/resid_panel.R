@@ -108,7 +108,7 @@ resid_panel <- function(model, plots = "SAS", bins = NA, scale = 1,
   #Add in error if request plots involving standardized residuals for a 'lmer' or 'glmer' model.
 
   if(class(model)[1]%in%c("lmerMod", "glmerMod")){
-    if("ls" %in% plots |"residlev" %in% plots | "all" %in% plots | "SASextend" %in% plots){
+    if("ls" %in% plots |"residlev" %in% plots | "all" %in% plots | "SASextend" %in% plots | "R" %in% plots){
       stop("The requested plot or panel uses standardized residuals which are not currently available for 'lmer' or 'glmer' models.")
     }
   }
@@ -179,14 +179,14 @@ resid_panel <- function(model, plots = "SAS", bins = NA, scale = 1,
 
   # Create a location-scale plot if selected in plots otherwise set as NULL
   if("ls" %in% plots | "R" %in% plots | "all" %in% plots){
-    ls <- resid_ls(model, theme, axis.text.size, title.text.size, title)
+    ls <- resid_ls(model, type, theme, axis.text.size, title.text.size, title)
   } else{
     ls <- NULL
   }
 
   # Create a q-q plot of the residuals if selected in plots otherwise set as NULL
   if("qq" %in% plots | "SAS" %in% plots | "R" %in% plots | "all" %in% plots | "SASextend" %in% plots){
-    qq <- resid_qq(model, theme, axis.text.size, title.text.size, title,qqline, qqbands)
+    qq <- resid_qq(model, type, theme, axis.text.size, title.text.size, title,qqline, qqbands)
   } else{
     qq <- NULL
   }
@@ -200,7 +200,7 @@ resid_panel <- function(model, plots = "SAS", bins = NA, scale = 1,
 
   # Create a residual plot if selected in plots otherwise set as NULL
   if("residplot" %in% plots | "SAS" %in% plots | "R" %in% plots | "all" %in% plots | "SASextend" %in% plots){
-    residplot <- resid_plot(model, smoother, theme, axis.text.size, title.text.size, title)
+    residplot <- resid_plot(model, type,smoother, theme, axis.text.size, title.text.size, title)
   } else{
     residplot <- NULL
   }

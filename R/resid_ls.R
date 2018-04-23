@@ -9,20 +9,26 @@
 # model <- lm(Volume ~ Girth, data = trees)
 # resid_ls(model)
 
-resid_ls <- function(model, type=NA,theme="bw", axis.text.size=12, title.text.size=12, title=TRUE){
+resid_ls <- function(model, type,theme, axis.text.size, title.text.size, title){
 
-  # Return an error if a model is not entered in the function
-  if(typeof(model) == "double")
-    stop("The updated version of ggResidpanel requires a model to be input to the functions.
-         Accepted models currently are lm, glm, lmer, and glmer.")
-
-  if(!(class(model)[1] %in% c("lm", "glm")))
-    stop("Accepted models currently are lm and glm.")
 
 
   # Create a data frame with the square root of the standardized residuals and predicted values
-  model_values <- data.frame(sqr_stand_resid = sqrt(abs(rstandard(model))),
-                             pred = fitted(model))
+  if(class(model)[1]=="lm"){
+    model_values <- data.frame(sqr_stand_resid = sqrt(abs(resid_resid(type="standardized", model=model))),
+                               pred = fitted(model))
+
+  }else if (class(model)[1]=="glm"){
+    if(is.na(type)|type=="deviance"|type=="stand.deviance"){
+      model_values <- data.frame(sqr_stand_resid = sqrt(abs(resid_resid(type="stand.deviance", model=model))),
+                                 pred = fitted(model))
+
+    }else if (type=="pearson"|type=="stand.pearson"){
+      model_values <- data.frame(sqr_stand_resid = sqrt(abs(resid_resid(type="stand.pearson", model=model))),
+                                 pred = fitted(model))
+     }
+  }
+
 
 
   if (class(model)[1]=="lm"){
@@ -32,13 +38,20 @@ resid_ls <- function(model, type=NA,theme="bw", axis.text.size=12, title.text.si
       expand_limits(y = 0) +
       geom_smooth(colour = "red", se = FALSE, method = "loess", size = 0.5)
 
-  }else{
+  }else if (class(model)[1]=="glm"){
+    if(is.na(type)|type=="deviance"|type=="stand.deviance"){
     plot <- ggplot(model_values, aes(x = pred, y = sqr_stand_resid)) +
       geom_point() +
       labs(x = "Predicted Values", y = expression(sqrt(abs(" Standardized Deviance Residuals  ")))) +
       expand_limits(y = 0) +
       geom_smooth(colour = "red", se = FALSE, method = "loess", size = 0.5)
-
+    }else if(type=="pearson"|type=="stand.pearson"){
+      plot <- ggplot(model_values, aes(x = pred, y = sqr_stand_resid)) +
+        geom_point() +
+        labs(x = "Predicted Values", y = expression(sqrt(abs(" Standardized Pearson Residuals  ")))) +
+        expand_limits(y = 0) +
+        geom_smooth(colour = "red", se = FALSE, method = "loess", size = 0.5)
+    }
   }
 
     # Create the location-scale plot

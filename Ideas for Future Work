@@ -4,17 +4,20 @@ Future Work
 --------------
 
 Katie's Tasks:
-- change all functions to accept different residual types
-  -Update to use resid_resid
--Add in error to moderate residual types
 - update resid_interact to show relevant info
   - make the individual interactive plots first
   - can show response, all predictors, row number, only first five predictors
-- Take out default values in individual functions
+
 - look into standardized residuals used in ls and lev for glm
-- Add in error so lmer and glmer can't use All, R, lev, los, and cook's d
+
 -at resid to vinette
--error to check if model contains X matrix
+
+Completed:
+- change all functions to accept different residual types
+-Add in error to moderate residual types
+- Take out default values in individual functions
+- Add in error so lmer and glmer can't use All, R, lev, los, and cook's d
+
 
 Katherine's Tasks:
 - Two factor leverage plot

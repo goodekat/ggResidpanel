@@ -11,7 +11,7 @@
 # model <- lm(Volume ~ Girth, data = trees)
 # resid_plot(model)
 
-resid_plot <- function(model, type=NA, smoother = FALSE, theme="bw", axis.text.size=12, title.text.size=12, title=TRUE){
+resid_plot <- function(model, type, smoother, theme, axis.text.size, title.text.size, title){
 
 
 
@@ -19,10 +19,10 @@ resid_plot <- function(model, type=NA, smoother = FALSE, theme="bw", axis.text.s
   Default_Title <- paste(r_label,"Plot")
   # Create a data frame with the residuals
   if(is.na(type)){
-    model_values <- data.frame(resid = resid(model),
+    model_values <- data.frame(resid = resid_resid(type=NA, model=model),
                                pred = fitted(model))
   }else{
-    model_values <- data.frame(resid = resid(model,type=type),
+    model_values <- data.frame(resid = resid_resid(type=type, model=model),
                                pred = fitted(model))
   }
 

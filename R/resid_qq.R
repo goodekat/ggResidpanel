@@ -22,15 +22,15 @@
 # model <- lm(Volume ~ Girth, data = trees)
 # resid_qq(model)
 
-resid_qq <- function(model, type=NA, theme="bw", axis.text.size=12, title.text.size=12, title=TRUE, qqline=TRUE, qqbands=FALSE){
+resid_qq <- function(model, type, theme, axis.text.size, title.text.size, title, qqline, qqbands){
 
 
   r_label <- resid_label(type, model)
 
   if(is.na(type)){
-    r <- data.frame(r=resid(model))
+    r <- data.frame(r=resid_resid(type=NA, model=model))
   }else{
-    r <- data.frame(r=resid(model,type=type))
+    r <- data.frame(r=resid_resid(type=type, model=model))
   }
 
 
@@ -61,10 +61,11 @@ resid_qq <- function(model, type=NA, theme="bw", axis.text.size=12, title.text.s
     plot <- plot + theme_grey()
   }
 
+  Default_Title <- paste("Q-Q Plot of", r_label)
   # Set text size of title and axis lables, determine whether to include a title, and return plot
   if(title == TRUE){
     plot +
-      labs(title = "Q-Q Plot") +
+      labs(title = Default_Title) +
       theme(plot.title = element_text(size = title.text.size, face = "bold"),
             axis.title = element_text(size = axis.text.size))
   } else if (title == FALSE){
