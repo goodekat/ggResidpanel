@@ -6,10 +6,11 @@
 # @param model Model fit using either lm, glm, lmer, or glmer.
 # @return The appropriate residual label.
 
-resid_label <- function(type=NA, model){
+resid_resid <- function(type=NA, model){
 
 
   if(class(model)[1]=="lm"){
+      ##DEFAULT
     if(is.na(type)|type=="response"){
       return(resid(model, type="response"))
     }else if(type=="pearson"){
@@ -21,6 +22,7 @@ resid_label <- function(type=NA, model){
 
 
   if (class(model)[1]=="glm"){
+    ###DEFAULT
     if(is.na(type)|type=="deviance"){
       return(resid(model, type="deviance"))
     }else if (type=="response"){
@@ -35,23 +37,17 @@ resid_label <- function(type=NA, model){
   }
 
   if (class(model)[1]=="lmerMod"){
+    ###Default is pearson
     if(is.na(type)|type="pearson"){
       #condtional on blups
       return(resid(model, type="response")/summary(model)$sigma)
     }else if (type=="response"){
       return(resid(model, type="response"))
-    }else if (type="standardized"){
-        #X matrix
-        X <- as.matrix((model@pp)$X)
-        #Random effects matrix
-        Z <- t(as.matrix((model@pp)$Zt))
-
-        #Covariance of random effects matrix
-        G <- diag(rep(1378.2,ncol(Z)))
     }
   }
 
   if (class(model)[1]=="glmerMod"){
+    ##DEFAULT
     if(is.na(type)|type="deviance"){
       return(resid(model, type="deviance"))
     }else if (type="response"){
