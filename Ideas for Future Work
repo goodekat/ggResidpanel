@@ -5,26 +5,24 @@ Future Work
 
 Katie's Tasks:
 - change all functions to accept different residual types
-  --Did this, but still figuring out how to calculate some of the options
-- create resid_interact
+  -Update to use resid_resid
+-Add in error to moderate residual types
+- update resid_interact to show relevant info
   - make the individual interactive plots first
   - can show response, all predictors, row number, only first five predictors
-- move error messages to resid_panel function - use class to specify four model types
-  -DONE
+- Take out default values in individual functions
+- look into standardized residuals used in ls and lev for glm
+- Add in error so lmer and glmer can't use All, R, lev, los, and cook's d
+-at resid to vinette
+-error to check if model contains X matrix
 
 Katherine's Tasks:
+- Two factor leverage plot
 - add additional two plots to SASextend
 - figure out error with text table that sometimes appears:
   Error in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y,  :
   polygon edge not found
-- Completed:
-  - add smoother to residual plot for R panel
-  - residual vs. leverage plot - clean up code
-  - create response versus predicted
-  - summary statistc/model fit values panel
-  - fix problem with SASextend
-  - add options for theme
-  - add options for text size
+
 
 Other To Do Before Conference:
 - move all documentation to resid_panel or supplemental document
