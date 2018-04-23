@@ -81,11 +81,11 @@ resid_panel <- function(model, plots = "SAS", bins = NA, scale = 1,
 
   ## Errors and Warnings -------------------------------------------------------
 
-  #Error for residual type:
-  if(!(is.na(type))){
-    if(!(type %in% c("response", "pearson", "deviance", "standardized", "stand.pearson", "stand.deviance")))
-      stop("The requested residual type is not available. Choose from the following options: standard, pearson, deviance.")
-  }
+  # #Error for residual type:
+  # if(!(is.na(type))){
+  #   if(!(type %in% c("response", "pearson", "deviance", "standardized", "stand.pearson", "stand.deviance")))
+  #     stop("The requested residual type is not available. Choose from the following options: standard, pearson, deviance.")
+  # }
 
 
   # Return an error if a model is not entered in the function

@@ -7,10 +7,7 @@
 # @return The appropriate residual label.
 
 resid_label <- function(type=NA, model){
-  if(!(is.na(type))){
-    if(!(type %in% c("response", "pearson", "deviance")))
-      stop("The requested residual type is not available. Choose from the following options: standard, pearson, deviance.")
-  }
+
 
   if(!is.na(type)){
   if (type=="response"){
