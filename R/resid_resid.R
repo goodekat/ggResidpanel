@@ -41,30 +41,24 @@ resid_label <- function(type=NA, model){
     }else if (type=="response"){
       return(resid(model, type="response"))
     }else if (type="standardized"){
+        #X matrix
+        X <- as.matrix((model@pp)$X)
+        #Random effects matrix
+        Z <- t(as.matrix((model@pp)$Zt))
 
+        #Covariance of random effects matrix
+        G <- diag(rep(1378.2,ncol(Z)))
     }
   }
 
-  if(!is.na(type)){
-    if (type=="response"){
-      return("Residuals")
-    }else if (type =="pearson"){
-      return("Pearson Residuals")
-    }else if (type == "deviance"){
-      return("Deviance Residuals")
-    }}else {
-      if(class(model)[1]=="lm"){
-        return("Residuals")
-      }else if (class(model)[1]=="lmerMod"){
-        return("Conditional Residuals")
-      }else if (class(model)[1]=="glm"){
-        #GLS defaults to raw residuals
-        return("Deviance Residuals")
-      }else if (class(model)[1]=="glmerMod"){
-        #GLS defaults to raw residuals
-        return("Deviance Residuals")
+  if (class(model)[1]=="glmerMod"){
+    if(is.na(type)|type="deviance"){
+      return(resid(model, type="deviance"))
+    }else if (type="response"){
+      return(resid(model, type="response"))
+    }else if (type="pearson"){
+        return(resid(model, type="pearson"))
       }
     }
-
 
 }
