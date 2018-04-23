@@ -3,7 +3,7 @@
 #' Creates interaction versions of all residual diagnostic plots.
 #'
 #' @param model Model fit using either \code{lm}, \code{glm}, \code{lmer}, or \code{glmer}.
-#' @param plot Plots chosen to include in the panel of plots. (See details for options.)
+#' @param plots Plots chosen to include in the panel of plots. (See details for options.)
 #' @param bins Number of bins for histogram of the residuals.
 #' @param scale Scale of graphs in panel. Takes values in (0,1].
 #' @param type
@@ -67,12 +67,53 @@
 #' glmer_model <- glmer(y ~ trt + (1|subject), family = "poisson", data = d2)
 #' resid_panel(glmer_model, bins = 30)
 
-resid_interaction <- function(model, plot = "SAS", bins = NA, scale = 1,
+resid_interact <- function(model, plots = NA, bins = NA, scale = 1,
                         type = NA, smoother = FALSE, theme = "bw",
                         axis.text.size = 10, title.text.size = 12,
-                        title = TRUE,qqline=TRUE, qqbands=FALSE){
+                        title = TRUE,qqline=TRUE){
 
   ## Errors and Warnings -------------------------------------------------------
+
+  # if(is.na(plots) | !(plots %in% c("boxplot", "cookd", "hist", "ls", "qq", "residlev", "residplot", "respred"))){
+  #   stop("Please specify a plot from the following list: boxplot, cookd, hist, ls, qq, residlev, residplot, respred.")
+  # }
+
+  #Add error if they requested a type to make sure that type of residuals is
+  #available for the model type.
+  type <- tolower(type)
+  if(!is.na(type)){
+    if(class(model)[1]=="lm"){
+      if(!(type%in%c("response", "pearson", "standardized"))){
+        stop("The requested residual type is not available. Please select the following options for a 'lm' model: response, pearson, or standardized.")
+      }
+    }else if(class(model)[1]=="glm"){
+      if(!(type%in%c("response", "pearson", "deviance", "stand.pearson", "stand.deviance"))){
+        stop("The requested residual type is not available. Please select the following options for a 'glm' model: response, pearson, deviance, stand.deviance, or stand.pearson.")
+      }
+    }else if(class(model)[1]=="lmerMod"){
+      if(!(type%in%c("response", "pearson"))){
+        stop("The requested residual type is not available. Please select the following options for a 'lmer' model: response or pearson.")
+      }
+    }else if(class(model)[1]=="glmerMod"){
+      if(!(type%in%c("response", "pearson", "deviance"))){
+        stop("The requested residual type is not available. Please select the following options for a 'glmer' model: response, pearson, or deviance.")
+      }
+    }
+  }
+
+  #Add in error if request plots involving standardized residuals for a 'lmer' or 'glmer' model.
+
+  if(class(model)[1]%in%c("lmerMod", "glmerMod")){
+    if("ls" %in% plots |"residlev" %in% plots | "all" %in% plots | "SASextend" %in% plots | "R" %in% plots){
+      stop("The requested plot or panel uses standardized residuals which are not currently available for 'lmer' or 'glmer' models.")
+    }
+  }
+
+  if(class(model)[1]%in%c("lmerMod", "glmerMod")){
+    if("cookd" %in% plots){
+      stop("The Cook's D plot is unavailable for 'lmer' and 'glmer' models.")
+    }
+  }
 
   # Return an error if a model is not entered in the function
   if(typeof(model) == "double")
@@ -99,12 +140,13 @@ resid_interaction <- function(model, plot = "SAS", bins = NA, scale = 1,
   }
 
   # Return a warning about choosing number of bins if a histogram is included
-  if(plot=="hist"){
+  if("SAS" %in% plots | "all" %in% plots | "hist" %in% plots){
     if(is.na(bins)){
       bins = 30
       warning("By default, bins = 30 in the histogram of residuals. If necessary, specify an appropriate number of bins.")
     }
   }
+
 
   ## Creation of plots ---------------------------------------------------------
 
