@@ -10,7 +10,7 @@
 # model <- lm(Volume ~ Girth, data = trees)
 # resid_cookd(model)
 
-resid_cookd <- function(model, theme="bw", axis.text.size=12, title.text.size=12, title=TRUE){
+resid_cookd <- function(model, theme, axis.text.size, title.text.size, title){
 
 
   # Create a data frame with the cook's d values and the observation numbers
