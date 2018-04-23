@@ -29,11 +29,46 @@ resid_plot <- function(model, type, smoother, theme, axis.text.size, title.text.
   # Create a data frame with the residuals and predicted values
 
 
+
+  if(class(model)[1]%in%c("lm", "glm")){
+    #Get names of variables
+    names_data <- names(model$model)
+    #Get data used in model from model
+    plotly_data <- model$model
+    plotly_data$Obs <- 1:nrow(plotly_data)
+    names_data[{length(names_data)+1}] <- "Obs"
+    #Add name to rows
+    for(i in 1:ncol(plotly_data)){
+      plotly_data[,i] <- paste(names_data[i],":" ,plotly_data[,i])
+    }
+
+    #Paste all together
+    Data <- plotly_data[,1]
+    for(i in 2:ncol(plotly_data)){
+      Data <- paste(Data, ",", plotly_data[,{i}])
+    }
+      }else{
+    names_data <- names(model@frame)
+    plotly_data <- model@frame
+    plotly_data$Obs <- 1:nrow(plotly_data)
+    names_data[{length(names_data)+1}] <- "Obs"
+    #Add name to rows
+    for(i in 1:ncol(plotly_data)){
+      plotly_data[,i] <- paste(names_data[i],":" ,plotly_data[,i])
+    }
+
+    #Paste all together
+    Data <- plotly_data[,1]
+    for(i in 2:ncol(plotly_data)){
+      Data <- paste(Data, ",", plotly_data[,{i}])
+    }
+      }
   # Create the residual plot
-  plot <- ggplot(model_values, aes(x = pred, y = resid)) +
+  plot <- ggplot(data=model_values, aes(x = pred, y = resid,label=Data)) +
     geom_point() +
     geom_abline(slope = 0, intercept = 0, color = "blue") +
     labs(x = "Predicted Values", y = r_label)
+
 
   # If smoother is set to true, add it to the plot
   if (smoother == TRUE){

@@ -4,7 +4,7 @@
 \alias{resid_interact}
 \title{Interaction Versions of Residual Diagnostics Plots.}
 \usage{
-resid_interact(model, plots = NA, bins = NA, scale = 1, type = NA,
+resid_interact(model, plots = NA, bins = NA, type = NA,
   smoother = FALSE, theme = "bw", axis.text.size = 10,
   title.text.size = 12, title = TRUE, qqline = TRUE)
 }
@@ -14,8 +14,6 @@ resid_interact(model, plots = NA, bins = NA, scale = 1, type = NA,
 \item{plots}{Plots chosen to include in the panel of plots. (See details for options.)}
 
 \item{bins}{Number of bins for histogram of the residuals.}
-
-\item{scale}{Scale of graphs in panel. Takes values in (0,1].}
 
 \item{smoother}{Indicates whether or not to include a smoother on the residual plot.
 Specify TRUE or FALSE. Default is set to FALSE.}

@@ -5,7 +5,6 @@
 #' @param model Model fit using either \code{lm}, \code{glm}, \code{lmer}, or \code{glmer}.
 #' @param plots Plots chosen to include in the panel of plots. (See details for options.)
 #' @param bins Number of bins for histogram of the residuals.
-#' @param scale Scale of graphs in panel. Takes values in (0,1].
 #' @param type
 #' @param smoother Indicates whether or not to include a smoother on the residual plot.
 #' Specify TRUE or FALSE. Default is set to FALSE.
@@ -67,16 +66,16 @@
 #' glmer_model <- glmer(y ~ trt + (1|subject), family = "poisson", data = d2)
 #' resid_panel(glmer_model, bins = 30)
 
-resid_interact <- function(model, plots = NA, bins = NA, scale = 1,
+resid_interact <- function(model, plots = NA, bins = NA,
                         type = NA, smoother = FALSE, theme = "bw",
                         axis.text.size = 10, title.text.size = 12,
                         title = TRUE,qqline=TRUE){
 
   ## Errors and Warnings -------------------------------------------------------
 
-  # if(is.na(plots) | !(plots %in% c("boxplot", "cookd", "hist", "ls", "qq", "residlev", "residplot", "respred"))){
-  #   stop("Please specify a plot from the following list: boxplot, cookd, hist, ls, qq, residlev, residplot, respred.")
-  # }
+  if(is.na(plots) | !(plots %in% c("boxplot", "cookd", "hist", "ls", "qq", "residlev", "residplot", "respred"))){
+    stop("Please specify a plot from the following list: boxplot, cookd, hist, ls, qq, residlev, residplot, respred.")
+  }
 
   #Add error if they requested a type to make sure that type of residuals is
   #available for the model type.
@@ -151,28 +150,27 @@ resid_interact <- function(model, plots = NA, bins = NA, scale = 1,
   ## Creation of plots ---------------------------------------------------------
 
   # Create a boxplot of the residuals if selected in plots otherwise set as NULL
-  if(plot=="boxplot"){
+  if(plots=="boxplot"){
     plot_i <- resid_boxplot(model, type=type,theme, axis.text.size, title.text.size, title)
-  } else if(plot=="cookd"){
+  } else if(plots=="cookd"){
     plot_i <- resid_cookd(model, theme, axis.text.size, title.text.size, title)
-  } else if(plot=="hist"){
+  } else if(plots=="hist"){
     plot_i <- resid_hist(model, type=type,bins = bins, theme, axis.text.size, title.text.size, title)
-  } else if(plot=="ls"){
+  } else if(plots=="ls"){
     plot_i <- resid_ls(model, theme, axis.text.size, title.text.size, title)
-  } else if(plot=="qq"){
-    plot_i <- resid_qq(model, type=type,theme, axis.text.size, title.text.size, title, qqline, qqbands)
-  } else if(plot=="residlev"){
+  } else if(plots=="qq"){
+    plot_i <- resid_qq(model, type=type,theme, axis.text.size, title.text.size, title, qqline, qqbands=FALSE)
+  } else if(plots=="residlev"){
     plot_i <- resid_lev(model,type=type, theme, axis.text.size, title.text.size, title)
-  } else if(plot=="residplot"){
+  } else if(plots=="residplot"){
     plot_i <- resid_plot(model, type=type,smoother, theme, axis.text.size, title.text.size, title)
-  } else if(plot=="respred"){
+  } else if(plots=="respred"){
     plot_i <- resid_respred(model, type=type,theme, axis.text.size, title.text.size, title)
   }
 
   ## Creation of grid of plots -------------------------------------------------
 
-  ggplotly(plot_i)
-
+  ggplotly(plot_i, tooltip = "Data")
   }
 
 
