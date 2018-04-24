@@ -1,0 +1,194 @@
+---
+title: "Overview of Residuals"
+output: html_document
+---
+
+
+# Linear Model
+
+'Proc Reg' offers raw residuals and studentized residuals (internally).
+'proc glm' offers raw, internally studentized, and externally studentized residuals.
+
+https://support.sas.com/documentation/cdl/en/statug/63033/HTML/default/viewer.htm#statug_reg_sect034.htm
+https://support.sas.com/documentation/cdl/en/statug/63033/HTML/default/viewer.htm#statug_glm_sect020.htm
+
+
+http://support.sas.com/documentation/cdl/en/statug/63033/HTML/default/viewer.htm#statug_introreg_sect010.htm
+
+SAS refers to the residuals as standardized for when $\sigma^2$ is known. SAS refers to the residuals as internally studentized when $s^2$ is used. They are called externally studentized when $s_{-i}^2$ is used.
+
+Scaled (divided by standard deviation) are called pearson.
+
+http://support.sas.com/documentation/cdl/en/statug/63033/HTML/default/viewer.htm#statug_intromod_a0000000355.htm
+
+Not consistent though and sometimes calls the internally studentized, the standardized residual:
+
+http://support.sas.com/documentation/cdl/en/sgug/59902/HTML/default/viewer.htm#fit_sect54.htm
+
+
+*SUGGESTION: Only offer raw, pearson, and internally studentized residuals (what stdres does)*
+
+#### Raw Residuals
+
+$y_i-\hat{y_i}$
+
+This is what the 'resid(model, type="response")' reports for a linear model.
+
+#### Pearson Residuals
+
+$\frac{y_i-\hat{y_i}}{\sqrt{s^2}}$
+
+**This is NOT what the 'resid(model, type="pearson") reports for a linear model.)** It reports the raw residuals regardless of the option for linear models. When requesting the pearson residuals for a Gaussian distribution in SAS, the results are the formula above. 
+
+#### Deviance Residuals
+
+$\frac{y_i-\hat{y_i}}{\sqrt{s^2}}$ or $y_i-\hat{y_i}$
+
+I found this in my 520 notes. The first is the scaled deviance. The un-scaled deviance is the raw residuals (page 130 of Dr. Kaiser's 520 notes).
+
+The function 'resid(model, type="deviance")' reports the raw residuals.
+
+These don't really make sense to use for linear models so might want to add in a warning if a person enters a linear model and request deviance residuals.
+
+
+#### Standardized Residuals
+$\frac{y_i-\hat{y_i}}{\sqrt{\sigma^2(1-h_{ii})}}$ where $h_{ii}$ is the diagonal from the matrix $X(X'X)^{-1}X'$
+
+This is what 'stdres(model)' reports for a linear model.
+
+#### Studentized Residuals
+
+$\frac{y_i-\hat{y_i}}{\sqrt{\sigma_{-i}^2(1-h_{ii})}}$ where $h_{ii}$ is the diagonal from the matrix $X(X'X)^{-1}X'$ and $\sigma_{-i}^2$ is the estimate of the variance of the model not including row $i$.
+
+This is what 'studres(model)' reports for a linear model.
+
+# Generalized Linear Model
+
+'proc genmod' offers pearson residuals, deviance residuals, raw residuals, standardized pearson residuals, and standardized deviance residuals
+
+https://support.sas.com/documentation/cdl/en/statug/63033/HTML/default/viewer.htm#statug_glm_sect020.htm
+
+Deviance and standardized deviance:
+
+http://support.sas.com/documentation/cdl/en/sgug/59902/HTML/default/viewer.htm#fit_sect55.htm
+
+Pearson and standardized deviance:
+
+http://support.sas.com/documentation/cdl/en/sgug/59902/HTML/default/viewer.htm#fit_sect56.htm
+
+*SUGGESTION: provide raw residuals on ilink scale, deviance, pearson, standardized pearson, and standardized deviance.*
+
+#### Raw Residuals
+
+$y_i-\hat{\mu_i}$ where $\hat{\mu_i}$ is the prediction with the inverse link function applied.
+
+This is what 'resid(model, type="response")' returns for a generalized linear. I checked this for Poisson, binomial, and Bernoulli. 
+
+#### Pearson Residuals.
+
+Poisson:
+
+$\frac{y_i-\hat{\lambda_i}}{\sqrt{\hat{\lambda_i}}}$
+
+Binomial:
+
+$\frac{y_i/m_i-\hat{\pi_i}}{\sqrt{\hat{\pi_i}(1-\hat{\pi_i})}}*\sqrt{m_i}$
+
+
+Bernoulli:
+
+$\frac{y_i-\hat{\pi_i}}{\sqrt{\hat{\pi_i}(1-\hat{\pi_i})}}$
+
+This is what the 'resid(model, type="pearson")' returns for a generalized linear model. I checked this for Poisson, binomial, and Bernoulli.
+
+
+#### Deviance Residuals
+
+Poisson:
+
+$sign(y_i-\hat{\lambda_i})\sqrt{2(y_i*log(y_i/\hat{\lambda_i})-(y_i-\hat{\lambda_i}))}$
+
+Binomial:
+
+$sign(y_i/m_i-\hat{\pi_i})\sqrt{2(y_ilog(y_i/(m_i\hat{\pi_i}))+(m_i-y_i)log((m_i-y_i)/(m_i-m_i\hat{\pi_i}))}$
+
+Bernoulli:
+
+$sign(y_i-\hat{\pi_i})\sqrt{-2(y_ilog(\hat{\pi_i})+(1-y_i)log(1-\hat\pi_i))}$
+
+This is what the 'resid(model, type="deviance")' returns for a generalized linear model. I checked this for Poisson, binomial, and Bernoulli. I am not sure what is does for when $y_i=0$.
+
+#### Standardized Residuals
+
+For each type of residual, for a generalized linear model, SAS uses the formula below. 
+$\frac{r_{type}}{\phi\sqrt{(1-h_{ii})}}$ where $h_{ii}$ is the diagonal from the matrix $W^{1/2}X(X'WX)^{-1}X'W^{1/2}$.
+
+For Poisson, binomial, and Bernoulli, $\phi$ is assumed to be one.
+
+When I calculated this by hand using the 'hatvalues' function, it matched exactly what SAS returned for standardized Pearson and and standardized deviance residuals. 
+
+For Gamma and other continuous distributions, the dispersion parameter is estimated using the deviance/residual df. This matches what SAS returns for standardized if set 'scale=deviance' in the 'model' statement. 
+
+I have not found exactly how R is calculating it yet. What I have calculated so far that is closest to stdres is using the deviance/df.residual in place of $\phi$ for all distributions on the 'pearson' residuals (for Poisson and binomial). It is different for each distribution.
+
+This was all tested in proc genmod.
+
+'rstandard' calculates the standardized deviance residuals just like SAS.
+
+# Mixed Linear Model
+
+'proc mixed' reports raw (conditional and marginal) residuals, the pearson residuals, and the internally studentized (or standardized) residuals. 
+
+https://support.sas.com/documentation/cdl/en/statug/63033/HTML/default/viewer.htm#statug_mixed_sect015.htm
+
+https://support.sas.com/documentation/cdl/en/statug/63033/HTML/default/viewer.htm#statug_mixed_sect024.htm
+
+Also includes notes on Cook's D and leverage for mixed linear model. These both lead to acquiring matrices that are not simple (or even possible in some cases) to extract from an lmer object. 
+
+*SUGGESTION: include raw, pearson for now, and eventually internally studentized (standardized) residuals (r is set up to do conditional. Will have to code all by hand if want raw marginal.*
+
+#### Raw Residuals
+
+$y_i-\hat{y_i}|blups$
+
+The 'resid(model, type="response")' gives the raw residuals where the predictions include the blups of the random effects. 
+
+#### Pearson Residuals
+
+
+*The 'resid(model, type="pearson")' does not give the pearson residuals.* It gives the raw residuals conditional on the blups.
+
+For the conditional residuals, SAS calculates it in the following way:
+
+$\frac{y_i-\hat{y_i}|blups}{\sqrt{\sigma^2}}$ where $\sigma^2$ is the estimate of the residual variance.
+
+
+# Mixed Generalized Linear Model
+
+'proc glimmix' reports raw (marginal and conditional), pearson, and internally studentized (standardized) residuals.
+
+https://support.sas.com/documentation/cdl/en/statug/63033/HTML/default/viewer.htm#statug_glimmix_a0000001413.htm
+
+*SUGGESTION: Include raw, pearson, and deviance as given by the 'resid' function. 
+#### Raw Residuals
+
+$y_i-\hat{\mu_i}|blups$
+
+The 'resid(model, type="response")' gives the raw residuals on the ilink scale where the predictions include the blups of the random effects. 
+
+#### Pearson
+
+$raw/sqrt(var(\mu|blups))$
+
+I believe the 'resid(model, type="pearson")' gives the correct values, but I cannot get SAS to give me pearson residuals on ilink.
+
+
+#### Deviance
+
+
+
+I believe the 'resid(model, type="deviance")' gives the correct values, but I cannot get SAS to give me pearson residuals on ilink. Using the deviance functions for a generalized linear model gives the same results as using 'resid'
+
+#### Scaled
+
+SAS says to take raw residuals and divide by the estimate of the variance of the residuals. I cannot tell if this is just the sample standard deviation of the residuals.
