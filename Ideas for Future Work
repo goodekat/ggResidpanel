@@ -10,6 +10,8 @@ Katie's Tasks:
 - look into standardized residuals used in ls and lev for glm
 -at resid to vinette
 - figure out how to get standardized lmer and glmer residuals
+-Need to figure out how to limit display of numbers to three decimals without
+    turning integers into decimals
 
 Completed:
 - change all functions to accept different residual types
