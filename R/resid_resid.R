@@ -58,3 +58,4 @@ resid_resid <- function(type=NA, model){
     }
 
 }
+

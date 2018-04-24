@@ -23,8 +23,61 @@ resid_cookd <- function(model, theme, axis.text.size, title.text.size, title){
   #SAS
   cutoff <- 4/length(resid(model))
 
+  #Get names of variables
+  names_data <- names(model$model)
+  #Get data used in model from model
+  plotly_data <- as.data.frame(as.matrix(model$model))
+
+  #If binomial, the response variables are two columsn
+  if(class(model)[1]=="glm"){
+    if(model$family[[1]]=="binomial"){
+
+      #Find first parentheses
+      firstp <- as.numeric(gregexpr(pattern ='\\(',names_data[1])[1])
+      #Find end parentheses
+      lastp <- as.numeric(gregexpr(pattern ='\\)',names_data[1])[1])
+      #Find first comma
+      firstc <- as.numeric(gregexpr(pattern ='\\,',names_data[1])[1])
+      #Grab the name of the number of successes
+      names(plotly_data)[1] <- str_sub(names_data[1], {firstp+1}, {firstc-1})
+
+      #Check if the person gave the number of failures or calculated the number
+      #of failures
+      if (grepl("\\-", names_data[1])){
+        #First the '-' sign
+        firstm <- as.numeric(gregexpr(pattern ='\\-',names_data[1])[1])
+        #Set the name of the total
+        names(plotly_data)[2] <- gsub(" ", "",str_sub(names_data[1], {firstc+1}, {firstm-1}))
+
+        #Make sure are numeric
+        plotly_data[,1] <- as.numeric(as.character(plotly_data[,1]))
+        plotly_data[,2] <- as.numeric(as.character(plotly_data[,2]))
+
+        #Second column needs to contain total so add first two
+        plotly_data[,2] <- plotly_data[,1]+plotly_data[,2]
+      }else{
+        names(plotly_data)[2] <- gsub(" ", "",str_sub(names_data[1], {firstc+1}, {lastp-1}))
+      }
+    }
+  }
+  plotly_data$Obs <- 1:nrow(plotly_data)
+
+  names_data<- names(plotly_data)
+  #Add name to rows
+  for(i in 1:ncol(plotly_data)){
+    plotly_data[,i] <- paste(names_data[i],":" ,plotly_data[,i])
+  }
+
+
+  #Paste all together
+  Data <- plotly_data[,1]
+  for(i in 2:ncol(plotly_data)){
+    Data <- paste(Data, ",", plotly_data[,{i}])
+  }
+
   # Create the Cook's D plot
-  plot <- ggplot(model_values, aes(x = obs, y = cooksd)) +
+
+plot <- ggplot(model_values, aes(x = obs, y = cooksd, label=Data)) +
     geom_point() +
     geom_segment(aes(xend = obs, yend = 0), color = "blue") +
     labs(x = "Observation", y = "COOK's D") +

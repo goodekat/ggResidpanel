@@ -24,6 +24,7 @@
 #' @importFrom gridExtra grid.arrange tableGrob ttheme_minimal
 #' @importFrom MASS stdres
 #' @importFrom qqplotr stat_qq_point stat_qq_line stat_qq_band
+#' @importFrom stringr str_sub
 #' @details The following grid options can be chosen for the \code{plots} argument.
 #' \itemize{
 #'   \item "all": This creates a panel of all plot types included in the package.
