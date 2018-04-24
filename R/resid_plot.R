@@ -68,12 +68,23 @@ resid_plot <- function(model, type, smoother, theme, axis.text.size, title.text.
     }
     plotly_data$Obs <- 1:nrow(plotly_data)
 
+
+    #Trim down to 3 decimal places
+    for(i in 1:ncol(plotly_data)){
+      plotly_data[grepl("\\.", as.character(plotly_data[,i])),i] <- round(as.numeric(as.character(plotly_data[grepl("\\.", as.character(plotly_data[,i])),i])), 3)
+    }
+
     names_data<- names(plotly_data)
     #Add name to rows
     for(i in 1:ncol(plotly_data)){
       plotly_data[,i] <- paste(names_data[i],":" ,plotly_data[,i])
     }
 
+
+    #Limit to 10 variables showing
+    if(ncol(plotly_data)>10){
+      plotly_data <- plotly_data[,c(1:9, ncol(plotly_data))]
+    }
 
     #Paste all together
       Data <- plotly_data[,1]
@@ -118,12 +129,22 @@ resid_plot <- function(model, type, smoother, theme, axis.text.size, title.text.
     }
     plotly_data$Obs <- 1:nrow(plotly_data)
 
+
+    #Trim down to 3 decimal places
+    for(i in 1:ncol(plotly_data)){
+      plotly_data[grepl("\\.", as.character(plotly_data[,i])),i] <- round(as.numeric(as.character(plotly_data[grepl("\\.", as.character(plotly_data[,i])),i])), 3)
+    }
+
     names_data<- names(plotly_data)
     #Add name to rows
     for(i in 1:ncol(plotly_data)){
       plotly_data[,i] <- paste(names_data[i],":" ,plotly_data[,i])
     }
 
+    #Limit to 10 variables showing
+    if(ncol(plotly_data)>10){
+      plotly_data <- plotly_data[,c(1:9, ncol(plotly_data))]
+    }
 
     #Paste all together
     Data <- plotly_data[,1]
