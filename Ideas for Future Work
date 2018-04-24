@@ -7,14 +7,13 @@ Katie's Tasks:
 - update resid_interact to show relevant info
   - make the individual interactive plots first
   - can show response, all predictors, row number, only first five predictors
-
 - look into standardized residuals used in ls and lev for glm
-
 -at resid to vinette
+- figure out how to get standardized lmer and glmer residuals
 
 Completed:
 - change all functions to accept different residual types
--Add in error to moderate residual types
+- Add in error to moderate residual types
 - Take out default values in individual functions
 - Add in error so lmer and glmer can't use All, R, lev, los, and cook's d
 
@@ -25,12 +24,10 @@ Katherine's Tasks:
 - figure out error with text table that sometimes appears:
   Error in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y,  :
   polygon edge not found
-
-
-Other To Do Before Conference:
 - move all documentation to resid_panel or supplemental document
 - improve examples in help file for resid_panel
-- figure out how to get standardized lmer and glmer residuals
+
+Other To Do Before Conference:
 - make a vignette with examples showing how to use the package
   - examples for each of residual type
 - get new version up and running
@@ -40,7 +37,6 @@ Ideas for Future Package Versions:
 - write a function for computing standardized residuals for lmer and glmer
 - add option to plot standardized residuals for lmer and glmer
 - put interactive plots in a grid
+- write a function for showing plots from multiple transformations (the user can specify the transformations)
 - write a function to show residual plots from multiple models at the same time
-- write a function for showing plots from multiple transformations (the user can specify
-  the transformations)
 
