@@ -67,48 +67,56 @@
 #' resid_panel(glmer_model, bins = 30)
 
 resid_interact <- function(model, plots = NA, bins = NA,
-                        type = NA, smoother = FALSE, theme = "bw",
-                        axis.text.size = 10, title.text.size = 12,
-                        title = TRUE,qqline=TRUE){
+                           type = NA, smoother = FALSE, theme = "bw",
+                           axis.text.size = 10, title.text.size = 12,
+                           title = TRUE, qqline = TRUE){
 
   ## Errors and Warnings -------------------------------------------------------
 
-  if(is.na(plots) | !(plots %in% c("boxplot", "cookd", "hist", "ls", "qq", "residlev", "residplot", "respred"))){
+  if(is.na(plots) | !(plots %in% c("boxplot", "cookd", "hist", "ls", "qq",
+                                   "residlev", "residplot", "respred"))){
     stop("Please specify a plot from the following list: boxplot, cookd, hist, ls, qq, residlev, residplot, respred.")
   }
 
-  #Add error if they requested a type to make sure that type of residuals is
-  #available for the model type.
+  # Add error if they requested a type to make sure that type of residuals is
+  # available for the model type.
   type <- tolower(type)
   if(!is.na(type)){
-    if(class(model)[1]=="lm"){
-      if(!(type%in%c("response", "pearson", "standardized"))){
-        stop("The requested residual type is not available. Please select the following options for a 'lm' model: response, pearson, or standardized.")
+    if(class(model)[1] == "lm"){
+      if(!(type %in% c("response", "pearson", "standardized"))){
+        stop("The requested residual type is not available. Please select from the following
+             options for a 'lm' model: response, pearson, or standardized.")
       }
-    }else if(class(model)[1]=="glm"){
-      if(!(type%in%c("response", "pearson", "deviance", "stand.pearson", "stand.deviance"))){
-        stop("The requested residual type is not available. Please select the following options for a 'glm' model: response, pearson, deviance, stand.deviance, or stand.pearson.")
+    }else if(class(model)[1] == "glm"){
+      if(!(type %in% c("response", "pearson", "deviance", "stand.pearson", "stand.deviance"))){
+        stop("The requested residual type is not available. Please select from the following
+             options for a 'glm' model: response, pearson, deviance, stand.deviance, or
+             stand.pearson.")
       }
-    }else if(class(model)[1]=="lmerMod"){
-      if(!(type%in%c("response", "pearson"))){
-        stop("The requested residual type is not available. Please select the following options for a 'lmer' model: response or pearson.")
+    }else if(class(model)[1] == "lmerMod"){
+      if(!(type %in% c("response", "pearson"))){
+        stop("The requested residual type is not available. Please select from the following
+             options for a 'lmer' model: response or pearson.")
       }
-    }else if(class(model)[1]=="glmerMod"){
-      if(!(type%in%c("response", "pearson", "deviance"))){
-        stop("The requested residual type is not available. Please select the following options for a 'glmer' model: response, pearson, or deviance.")
+    }else if(class(model)[1] == "glmerMod"){
+      if(!(type %in% c("response", "pearson", "deviance"))){
+        stop("The requested residual type is not available. Please select from the following
+             options for a 'glmer' model: response, pearson, or deviance.")
       }
     }
   }
 
-  #Add in error if request plots involving standardized residuals for a 'lmer' or 'glmer' model.
-
-  if(class(model)[1]%in%c("lmerMod", "glmerMod")){
-    if("ls" %in% plots |"residlev" %in% plots | "all" %in% plots | "SASextend" %in% plots | "R" %in% plots){
-      stop("The requested plot or panel uses standardized residuals which are not currently available for 'lmer' or 'glmer' models.")
+  # Add in error if request plots involving standardized residuals for a 'lmer' or 'glmer' model.
+  if(class(model)[1] %in% c("lmerMod", "glmerMod")){
+    if("ls" %in% plots |"residlev" %in% plots | "all" %in% plots | "SASextend" %in% plots |
+       "R" %in% plots){
+      stop("The requested plot or panel uses standardized residuals which are not
+           currently available for 'lmer' or 'glmer' models.")
     }
   }
 
-  if(class(model)[1]%in%c("lmerMod", "glmerMod")){
+  # Stop and return an error if Cook's D plot is requested for a 'lmer' or 'glmer' model.
+  if(class(model)[1] %in% c("lmerMod", "glmerMod")){
     if("cookd" %in% plots){
       stop("The Cook's D plot is unavailable for 'lmer' and 'glmer' models.")
     }
@@ -122,14 +130,16 @@ resid_interact <- function(model, plots = NA, bins = NA,
   # Return an error if smoother option is not specified correctly
   if(smoother == TRUE | smoother == FALSE){
   }else{
-    stop("Smoother option for residual plot not specified correctly. Choose either TRUE or FALSE.")
+    stop("Smoother option for residual plot not specified correctly.
+         Choose either TRUE or FALSE.")
   }
 
   # Return an error if theme is not specified correctly
   if(theme == "bw" | theme == "classic" | theme == "grey" | theme == "gray"){
   }else{
     theme = "bw"
-    warning("Theme option not specified correctly. Accepted themes are bw, classic, and grey (or gray). Default theme will be used.")
+    warning("Theme option not specified correctly. Accepted themes are bw, classic, and
+            grey (or gray). Default theme will be used.")
   }
 
   # Return an error if smoother option is not specified correctly
@@ -142,7 +152,8 @@ resid_interact <- function(model, plots = NA, bins = NA,
   if("SAS" %in% plots | "all" %in% plots | "hist" %in% plots){
     if(is.na(bins)){
       bins = 30
-      warning("By default, bins = 30 in the histogram of residuals. If necessary, specify an appropriate number of bins.")
+      warning("By default, bins = 30 in the histogram of residuals. If necessary, specify
+              an appropriate number of bins.")
     }
   }
 
@@ -150,27 +161,29 @@ resid_interact <- function(model, plots = NA, bins = NA,
   ## Creation of plots ---------------------------------------------------------
 
   # Create a boxplot of the residuals if selected in plots otherwise set as NULL
-  if(plots=="boxplot"){
-    plot_i <- resid_boxplot(model, type=type,theme, axis.text.size, title.text.size, title)
-  } else if(plots=="cookd"){
+  if(plots == "boxplot"){
+    plot_i <- resid_boxplot(model, type = type, theme, axis.text.size, title.text.size, title)
+  } else if(plots == "cookd"){
     plot_i <- resid_cookd(model, theme, axis.text.size, title.text.size, title)
-  } else if(plots=="hist"){
-    plot_i <- resid_hist(model, type=type,bins = bins, theme, axis.text.size, title.text.size, title)
-  } else if(plots=="ls"){
+  } else if(plots == "hist"){
+    plot_i <- resid_hist(model, type = type, bins = bins, theme, axis.text.size, title.text.size, title)
+  } else if(plots == "ls"){
     plot_i <- resid_ls(model, theme, axis.text.size, title.text.size, title)
-  } else if(plots=="qq"){
-    plot_i <- resid_qq(model, type=type,theme, axis.text.size, title.text.size, title, qqline, qqbands=FALSE)
-  } else if(plots=="residlev"){
-    plot_i <- resid_lev(model,type=type, theme, axis.text.size, title.text.size, title)
-  } else if(plots=="residplot"){
-    plot_i <- resid_plot(model, type=type,smoother, theme, axis.text.size, title.text.size, title)
-  } else if(plots=="respred"){
-    plot_i <- resid_respred(model, type=type,theme, axis.text.size, title.text.size, title)
+  } else if(plots == "qq"){
+    plot_i <- resid_qq(model, type = type, theme, axis.text.size, title.text.size, title, qqline, qqbands = FALSE)
+  } else if(plots == "residlev"){
+    plot_i <- resid_lev(model, type = type, theme, axis.text.size, title.text.size, title)
+  } else if(plots == "residplot"){
+    plot_i <- resid_plot(model, type = type, smoother, theme, axis.text.size, title.text.size, title)
+  } else if(plots == "respred"){
+    plot_i <- resid_respred(model, type = type, theme, axis.text.size, title.text.size, title)
   }
 
-  ## Creation of grid of plots -------------------------------------------------
+  ## Creation of interactive plot -------------------------------------------------
 
+  # Use plotly to plot interactive plot requested
   ggplotly(plot_i, tooltip = "Data")
-  }
+
+}
 
 
