@@ -78,10 +78,16 @@
 resid_panel <- function(model, plots = "SAS", bins = NA, scale = 1,
                         type = NA, smoother = FALSE, theme = "bw",
                         axis.text.size = 10, title.text.size = 12,
-                        title = TRUE, qqline=TRUE, qqbands=FALSE){
+                        title = TRUE, qqline = TRUE, qqbands = FALSE){
 
   ## Errors and Warnings -------------------------------------------------------
 
+<<<<<<< HEAD
+  # Return an error if an acceptable model type is not entered in the function
+  if(!(class(model)[1] %in% c("lm", "glm", "lmerMod", "glmerMod")))
+    stop("The updated version of ggResidpanel requires a model to be input to the functions.
+         Accepted models currently are lm, glm, lmer, and glmer.")
+=======
   # Return an error if a model is not entered in the function
   if(typeof(model) == "double")
     stop("The updated version of ggResidpanel requires a model to be input to the functions.
@@ -92,11 +98,33 @@ resid_panel <- function(model, plots = "SAS", bins = NA, scale = 1,
 
   # if(!(class(model)[1]%in%c("lm", "glm", "lmerMod", "glmerMod", "randomForest.formula", "function", "nn")))
   #     stop("Accepted models currently are lm, glm, lmer, glmer, nnet, neuralnet, randomForest")
+>>>>>>> 0d9e102b51fd57171805942afef565e54afb8294
 
-    #Add error if they requested a type to make sure that type of residuals is
-  #available for the model type.
+  # Return an error if the request residual type is not available for the model type
   type <- tolower(type)
   if(!is.na(type)){
+<<<<<<< HEAD
+    if(class(model)[1] == "lm"){
+      if(!(type %in% c("response", "pearson", "standardized"))){
+        stop("The requested residual type is not available. Please select from the following
+             options for a 'lm' model: response, pearson, or standardized.")
+      }
+    }else if(class(model)[1] == "glm"){
+      if(!(type %in% c("response", "pearson", "deviance", "stand.pearson", "stand.deviance"))){
+        stop("The requested residual type is not available. Please select from the
+             following options for a 'glm' model: response, pearson, deviance, stand.deviance,
+             or stand.pearson.")
+      }
+    }else if(class(model)[1] == "lmerMod"){
+      if(!(type %in% c("response", "pearson"))){
+        stop("The requested residual type is not available. Please select from the
+             following options for a 'lmer' model: response or pearson.")
+      }
+    }else if(class(model)[1] == "glmerMod"){
+      if(!(type %in% c("response", "pearson", "deviance"))){
+        stop("The requested residual type is not available. Please select from the
+             following options for a 'glmer' model: response, pearson, or deviance.")
+=======
     if(class(model)[1]=="lm"){
       if(!(type%in%c("response", "pearson", "standardized"))){
         stop("The requested residual type is not available. Please select from the following options for a 'lm' model: response, pearson, or standardized.")
@@ -124,36 +152,45 @@ resid_panel <- function(model, plots = "SAS", bins = NA, scale = 1,
     }else if(class(model)[1]=="nn"){
       if(type!="response"){
         stop("The requested residual type is not available. Please select from the following options for a 'neuralnet' model: response. ")
+>>>>>>> 0d9e102b51fd57171805942afef565e54afb8294
       }
     }
   }
 
-  #Add in error if request plots involving standardized residuals for a 'lmer' or 'glmer' model.
-
-  if(class(model)[1]%in%c("lmerMod", "glmerMod")){
-    if("ls" %in% plots |"residlev" %in% plots | "all" %in% plots | "SASextend" %in% plots | "R" %in% plots){
-      stop("The requested plot or panel uses standardized residuals which are not currently available for 'lmer' or 'glmer' models.")
+  # Return an error if the requested plots involve standardizing residuals for an 'lmer' or
+  # 'glmer' model
+  if(class(model)[1] %in% c("lmerMod", "glmerMod")){
+    if("ls" %in% plots |"residlev" %in% plots | "all" %in% plots | "SASextend" %in% plots |
+       "R" %in% plots){
+      stop("The requested plot or panel uses standardized residuals which are not currently
+           available for 'lmer' or 'glmer' models.")
     }
   }
 
-  if(class(model)[1]%in%c("lmerMod", "glmerMod")){
+  # Return an error if Cook's D plot is requested for an 'lmer' or 'glmer' model
+  if(class(model)[1] %in% c("lmerMod", "glmerMod")){
     if("cookd" %in% plots){
       stop("The Cook's D plot is unavailable for 'lmer' and 'glmer' models.")
     }
   }
 
+<<<<<<< HEAD
+=======
 
+>>>>>>> 0d9e102b51fd57171805942afef565e54afb8294
   # Return an error if smoother option is not specified correctly
   if(smoother == TRUE | smoother == FALSE){
   }else{
-    stop("Smoother option for residual plot not specified correctly. Choose either TRUE or FALSE.")
+    stop("Smoother option for residual plot not specified correctly.
+         Choose either TRUE or FALSE.")
   }
 
   # Return an error if theme is not specified correctly
   if(theme == "bw" | theme == "classic" | theme == "grey" | theme == "gray"){
   }else{
     theme = "bw"
-    warning("Theme option not specified correctly. Accepted themes are bw, classic, and grey (or gray). Default theme will be used.")
+    warning("Theme option not specified correctly. Accepted themes are bw, classic,
+            and grey (or gray). Default theme will be used.")
   }
 
   # Return an error if smoother option is not specified correctly
@@ -166,18 +203,16 @@ resid_panel <- function(model, plots = "SAS", bins = NA, scale = 1,
   if("SAS" %in% plots | "all" %in% plots | "hist" %in% plots){
     if(is.na(bins)){
       bins = 30
-      warning("By default, bins = 30 in the histogram of residuals. If necessary, specify an appropriate number of bins.")
+      warning("By default, bins = 30 in the histogram of residuals. If necessary, specify
+              an appropriate number of bins.")
     }
   }
 
-
-
-      ## Creation of plots ---------------------------------------------------------
+  ## Creation of plots ---------------------------------------------------------
 
   # Create a boxplot of the residuals if selected in plots otherwise set as NULL
   if("boxplot" %in% plots | "SAS" %in% plots | "all" %in% plots){
-    boxplot <- resid_boxplot(model, type,theme,axis.text.size, title.text.size, title)
-
+    boxplot <- resid_boxplot(model, type = type, theme, axis.text.size, title.text.size, title)
   } else{
     boxplot <- NULL
   }
@@ -191,7 +226,8 @@ resid_panel <- function(model, plots = "SAS", bins = NA, scale = 1,
 
   # Create a histogram of the residuals if selected in plots otherwise set as NULL
   if("hist" %in% plots | "SAS" %in% plots | "all" %in% plots | "SASextend" %in% plots){
-    hist <- resid_hist(model, type=type,bins = bins, theme, axis.text.size, title.text.size, title)
+    hist <- resid_hist(model, type, bins = bins, theme, axis.text.size,
+                       title.text.size, title)
   } else{
     hist <- NULL
   }
@@ -204,8 +240,9 @@ resid_panel <- function(model, plots = "SAS", bins = NA, scale = 1,
   }
 
   # Create a q-q plot of the residuals if selected in plots otherwise set as NULL
-  if("qq" %in% plots | "SAS" %in% plots | "R" %in% plots | "all" %in% plots | "SASextend" %in% plots){
-    qq <- resid_qq(model, type, theme, axis.text.size, title.text.size, title,qqline, qqbands)
+  if("qq" %in% plots | "SAS" %in% plots | "R" %in% plots | "all" %in% plots |
+     "SASextend" %in% plots){
+    qq <- resid_qq(model, type, theme, axis.text.size, title.text.size, title, qqline, qqbands)
   } else{
     qq <- NULL
   }
@@ -219,7 +256,7 @@ resid_panel <- function(model, plots = "SAS", bins = NA, scale = 1,
 
   # Create a residual plot if selected in plots otherwise set as NULL
   if("residplot" %in% plots | "SAS" %in% plots | "R" %in% plots | "all" %in% plots | "SASextend" %in% plots){
-    residplot <- resid_plot(model, type,smoother, theme, axis.text.size, title.text.size, title)
+    residplot <- resid_plot(model, type, smoother, theme, axis.text.size, title.text.size, title)
   } else{
     residplot <- NULL
   }
