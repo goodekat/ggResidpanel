@@ -176,13 +176,14 @@ resid_interact <- function(model, plots = NA, bins = NA,
   } else if(plots == "residplot"){
     plot_i <- resid_plot(model, type = type, smoother, theme, axis.text.size, title.text.size, title)
   } else if(plots == "respred"){
-    plot_i <- resid_respred(model, type = type, theme, axis.text.size, title.text.size, title)
+    plot_i <- resid_respred(model, theme, axis.text.size, title.text.size, title)
   }
 
   ## Creation of interactive plot -------------------------------------------------
 
   # Use plotly to plot interactive plot requested
-  ggplotly(plot_i, tooltip = "Data")
+  #ggplotly(plot_i, tooltip = "Data")
+  ggplotly(plot_i)
 
 }
 
