@@ -33,13 +33,14 @@ resid_qq <- function(model, type, theme, axis.text.size, title.text.size, title,
     r <- data.frame(r=resid_resid(type=type, model=model))
   }
 
+  Data <- resid_plotly_label(model)
 
   if(qqbands==TRUE){
-    plot <- ggplot(data = r, mapping = aes(sample = r)) +
+    plot <- ggplot(data = r, mapping = aes(sample = r,label=Data)) +
       stat_qq_band()+
       stat_qq_point() +labs(x = "Theoretical Quantiles", y = "Sample Quantiles")
   }else{
-    plot <- ggplot(data = r, mapping = aes(sample = r)) +
+    plot <- ggplot(data = r, mapping = aes(sample = r, label=Data)) +
       stat_qq_point() +labs(x = "Theoretical Quantiles", y = "Sample Quantiles")
   }
 

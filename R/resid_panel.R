@@ -82,14 +82,28 @@ resid_panel <- function(model, plots = "SAS", bins = NA, scale = 1,
 
   ## Errors and Warnings -------------------------------------------------------
 
+<<<<<<< HEAD
   # Return an error if an acceptable model type is not entered in the function
   if(!(class(model)[1] %in% c("lm", "glm", "lmerMod", "glmerMod")))
     stop("The updated version of ggResidpanel requires a model to be input to the functions.
          Accepted models currently are lm, glm, lmer, and glmer.")
+=======
+  # Return an error if a model is not entered in the function
+  if(typeof(model) == "double")
+    stop("The updated version of ggResidpanel requires a model to be input to the functions.
+         Accepted models currently are lm, glm, lmer, and glmer.")
+
+  if(!(class(model)[1]%in%c("lm", "glm", "lmerMod", "glmerMod")))
+    stop("Accepted models currently are lm, glm, lmer, and glmer.")
+
+  # if(!(class(model)[1]%in%c("lm", "glm", "lmerMod", "glmerMod", "randomForest.formula", "function", "nn")))
+  #     stop("Accepted models currently are lm, glm, lmer, glmer, nnet, neuralnet, randomForest")
+>>>>>>> 0d9e102b51fd57171805942afef565e54afb8294
 
   # Return an error if the request residual type is not available for the model type
   type <- tolower(type)
   if(!is.na(type)){
+<<<<<<< HEAD
     if(class(model)[1] == "lm"){
       if(!(type %in% c("response", "pearson", "standardized"))){
         stop("The requested residual type is not available. Please select from the following
@@ -110,6 +124,35 @@ resid_panel <- function(model, plots = "SAS", bins = NA, scale = 1,
       if(!(type %in% c("response", "pearson", "deviance"))){
         stop("The requested residual type is not available. Please select from the
              following options for a 'glmer' model: response, pearson, or deviance.")
+=======
+    if(class(model)[1]=="lm"){
+      if(!(type%in%c("response", "pearson", "standardized"))){
+        stop("The requested residual type is not available. Please select from the following options for a 'lm' model: response, pearson, or standardized.")
+      }
+    }else if(class(model)[1]=="glm"){
+      if(!(type%in%c("response", "pearson", "deviance", "stand.pearson", "stand.deviance"))){
+        stop("The requested residual type is not available. Please select from the following options for a 'glm' model: response, pearson, deviance, stand.deviance, or stand.pearson.")
+      }
+    }else if(class(model)[1]=="lmerMod"){
+      if(!(type%in%c("response", "pearson"))){
+        stop("The requested residual type is not available. Please select from the following options for a 'lmer' model: response or pearson.")
+      }
+    }else if(class(model)[1]=="glmerMod"){
+      if(!(type%in%c("response", "pearson", "deviance"))){
+        stop("The requested residual type is not available. Please select from the following options for a 'glmer' model: response, pearson, or deviance.")
+      }
+    }else if(class(model)[1]=="randomForest.formula"){
+      if(type!="response"){
+        stop("The requested residual type is not available. Please select from the following options for a 'randomForest' model: response. ")
+      }
+    }else if(class(model)[1]=="function"){
+      if(type!="response"){
+        stop("The requested residual type is not available. Please select from the following options for a 'nnet' model: response. ")
+      }
+    }else if(class(model)[1]=="nn"){
+      if(type!="response"){
+        stop("The requested residual type is not available. Please select from the following options for a 'neuralnet' model: response. ")
+>>>>>>> 0d9e102b51fd57171805942afef565e54afb8294
       }
     }
   }
@@ -131,6 +174,10 @@ resid_panel <- function(model, plots = "SAS", bins = NA, scale = 1,
     }
   }
 
+<<<<<<< HEAD
+=======
+
+>>>>>>> 0d9e102b51fd57171805942afef565e54afb8294
   # Return an error if smoother option is not specified correctly
   if(smoother == TRUE | smoother == FALSE){
   }else{

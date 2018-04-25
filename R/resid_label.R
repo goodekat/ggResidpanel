@@ -33,6 +33,8 @@ resid_label <- function(type=NA, model){
     }else if (class(model)[1]=="glmerMod"){
       #GLS defaults to raw residuals
       return("Deviance Residuals")
+    }else{
+      return("Residuals")
     }
   }
 

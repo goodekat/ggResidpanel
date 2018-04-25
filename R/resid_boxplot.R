@@ -26,6 +26,7 @@ resid_boxplot <- function(model, type, theme, axis.text.size, title.text.size, t
   }
   model_values$Observation <- 1:nrow(model_values)
 
+<<<<<<< HEAD
   # Create Data to use as labels
 
   if(class(model)[1]%in%c("lm", "glm")){
@@ -157,6 +158,9 @@ resid_boxplot <- function(model, type, theme, axis.text.size, title.text.size, t
   }
 
 
+=======
+  Data <- resid_plotly_label(model)
+>>>>>>> 0d9e102b51fd57171805942afef565e54afb8294
 
   Default_Title <- paste("Boxplot of", r_label)
   # Create the boxplot of residuals

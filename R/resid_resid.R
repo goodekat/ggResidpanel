@@ -18,10 +18,7 @@ resid_resid <- function(type=NA, model){
     }else if(type=="standardized"){
       return(stdres(model))
     }
-  }
-
-
-  if (class(model)[1]=="glm"){
+  }else if (class(model)[1]=="glm"){
     ###DEFAULT
     if(is.na(type)|type=="deviance"){
       return(resid(model, type="deviance"))
@@ -34,9 +31,7 @@ resid_resid <- function(type=NA, model){
     }else if (type=="stand.pearson"){
       return((resid(model, type="pearson"))/(sqrt(summary(model)$dispersion*(1-hatvalues(model)))))
     }
-  }
-
-  if (class(model)[1]=="lmerMod"){
+  }else if (class(model)[1]=="lmerMod"){
     ###Default is pearson
     if(is.na(type)|type=="pearson"){
       #condtional on blups
@@ -44,9 +39,7 @@ resid_resid <- function(type=NA, model){
     }else if (type=="response"){
       return(resid(model, type="response"))
     }
-  }
-
-  if (class(model)[1]=="glmerMod"){
+  }else if (class(model)[1]=="glmerMod"){
     ##DEFAULT
     if(is.na(type)|type=="deviance"){
       return(resid(model, type="deviance"))
@@ -55,7 +48,13 @@ resid_resid <- function(type=NA, model){
     }else if (type=="pearson"){
         return(resid(model, type="pearson"))
       }
-    }
+   }#else if(class(model)[1]=="randomForest.formula"){
+  #   return(model$y-model$predicted)
+  # }else if(class(model)[1]=="function"){
+  #   return(model$residuals)
+  # }else if(class(model)[1]=="nn"){
+  #   return(model$response-model$net.result[[1]])
+  # }
 
 }
 
