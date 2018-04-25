@@ -14,7 +14,7 @@ resid_cookd <- function(model, theme, axis.text.size, title.text.size, title){
 
 
   # Create a data frame with the cook's d values and the observation numbers
-  model_values <- data.frame(cooksd = cooks.distance(model),
+  model_values <- data.frame(cooksd = round(cooks.distance(model),3),
                              obs = 1:length(resid(model)))
 
   #Alternative
