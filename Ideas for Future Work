@@ -22,12 +22,23 @@ Completed:
 
 Katherine's Tasks:
 - Two factor leverage plot
+- move all documentation to resid_panel or supplemental document
+- improve examples in help file for resid_panel
 - add additional two plots to SASextend
 - figure out error with text table that sometimes appears:
   Error in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y,  :
   polygon edge not found
-- move all documentation to resid_panel or supplemental document
-- improve examples in help file for resid_panel
+Notes:
+- Title for standardized deviance residuals vs ... gets cut off in R
+- I realized that I made a mistake with the stats -- will need to write a
+  much more detailed function that extracts the correct information from
+  each model
+- I'm wondering if we should not include the SASextend option in this
+  version of the model (unless I get time to finish this next week)
+- convert prediction to ilink scale in respred: I think it is already on
+  the ilink scale -- is there something that I missed?
+- Something is not right with the interaction function -- it will not let
+  me interact
 
 Other To Do Before Conference:
 - make a vignette with examples showing how to use the package
