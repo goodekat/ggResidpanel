@@ -46,40 +46,28 @@
 #' @examples
 #' # Fit a linear regression model and plot the residuals using the default panel
 #' lm_model <- lm(Volume ~ Girth, data = trees)
-#' resid_panel(lm_model, bins = 30)
-#'
-#' # Fit a generalized linear regression model and plot the residuals using
-#' # the default panel
-#' glm_model <- glm(Height ~ Girth, family = "poisson", data = trees)
-#' resid_panel(glm_model, bins = 30)
-#'
-#' # Generate normal data, fit a mixed effects model, and plot the residuals
-#' # using the default panel
-#' library(lme4)
-#' d1 <- data.frame(y = rnorm(54, 20, 4), trt = rep(c("A", "B"), each = 27), subject = rep(1:18, each = 3))
-#' lmer_model <- lmer(y ~ trt + (1|subject), data = d1)
-#' resid_panel(lmer_model, bins = 30)
-#'
-#' # Generate Poisson data, fit a mixed effects model, and plot the residuals
-#' # using the default panel
-#' d2 <- data.frame(y = rpois(54, 3), trt = rep(c("A", "B"), each = 27), subject = rep(1:18, each = 3))
-#' glmer_model <- glmer(y ~ trt + (1|subject), family = "poisson", data = d2)
-#' resid_panel(glmer_model, bins = 30)
+#' resid_interact(lm_model, bins = 30)
 
-resid_interact <- function(model, plots = NA, bins = NA,
-                           type = NA, smoother = FALSE, theme = "bw",
+resid_interact <- function(model, plots = NA, bins = NA, type = NA,
+                           smoother = FALSE, theme = "bw",
                            axis.text.size = 10, title.text.size = 12,
                            title = TRUE, qqline = TRUE){
 
   ## Errors and Warnings -------------------------------------------------------
 
+  # Return an error if an acceptable model type is not entered in the function
+  if(!(class(model)[1] %in% c("lm", "glm", "lmerMod", "glmerMod")))
+    stop("The updated version of ggResidpanel requires a model to be input to the functions.
+         Accepted models currently are lm, glm, lmer, and glmer.")
+
+  # Return an error if the plot type is not entered correctly
   if(is.na(plots) | !(plots %in% c("boxplot", "cookd", "hist", "ls", "qq",
                                    "residlev", "residplot", "respred"))){
-    stop("Please specify a plot from the following list: boxplot, cookd, hist, ls, qq, residlev, residplot, respred.")
+    stop("Please specify a plot from the following list:
+         boxplot, cookd, hist, ls, qq, residlev, residplot, respred.")
   }
 
-  # Add error if they requested a type to make sure that type of residuals is
-  # available for the model type.
+  # Return an error if the request residual type is not available for the model type
   type <- tolower(type)
   if(!is.na(type)){
     if(class(model)[1] == "lm"){
@@ -106,7 +94,8 @@ resid_interact <- function(model, plots = NA, bins = NA,
     }
   }
 
-  # Add in error if request plots involving standardized residuals for a 'lmer' or 'glmer' model.
+  # Return an error if the requested plots involve standardizing residuals for an 'lmer' or
+  # 'glmer' model
   if(class(model)[1] %in% c("lmerMod", "glmerMod")){
     if("ls" %in% plots |"residlev" %in% plots | "all" %in% plots | "SASextend" %in% plots |
        "R" %in% plots){
@@ -115,17 +104,12 @@ resid_interact <- function(model, plots = NA, bins = NA,
     }
   }
 
-  # Stop and return an error if Cook's D plot is requested for a 'lmer' or 'glmer' model.
+  # Return an error if Cook's D plot is requested for an 'lmer' or 'glmer' model
   if(class(model)[1] %in% c("lmerMod", "glmerMod")){
     if("cookd" %in% plots){
       stop("The Cook's D plot is unavailable for 'lmer' and 'glmer' models.")
     }
   }
-
-  # Return an error if a model is not entered in the function
-  if(typeof(model) == "double")
-    stop("The updated version of ggResidpanel requires a model to be input to the functions.
-         Accepted models currently are lm, glm, lmer, and glmer.")
 
   # Return an error if smoother option is not specified correctly
   if(smoother == TRUE | smoother == FALSE){
@@ -157,7 +141,6 @@ resid_interact <- function(model, plots = NA, bins = NA,
     }
   }
 
-
   ## Creation of plots ---------------------------------------------------------
 
   # Create a boxplot of the residuals if selected in plots otherwise set as NULL
@@ -181,7 +164,7 @@ resid_interact <- function(model, plots = NA, bins = NA,
 
   ## Creation of interactive plot -------------------------------------------------
 
-  # Use plotly to plot interactive plot requested
+  # Use plotly to create interactive plot requested
   ggplotly(plot_i, tooltip = "Data")
 
 }

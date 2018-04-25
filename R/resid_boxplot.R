@@ -13,20 +13,20 @@
 #
 # Creates a boxplot on the residuals from a model.
 
-resid_boxplot <- function(model, type,theme, axis.text.size, title.text.size, title){
+resid_boxplot <- function(model, type, theme, axis.text.size, title.text.size, title){
 
-
-  #call function to return appropriate residual label
+  # Call function to return appropriate residual label
   r_label <- resid_label(type, model)
+
   # Create a data frame with the residuals
   if(is.na(type)){
-    model_values <- data.frame(resid = resid_resid(type=NA, model=model))
+    model_values <- data.frame(resid = resid_resid(type = NA, model = model))
   }else{
-    model_values <- data.frame(resid = resid_resid(type=type, model=model))
+    model_values <- data.frame(resid = resid_resid(type = type, model = model))
   }
   model_values$Observation <- 1:nrow(model_values)
 
-  #Create Data to use as labels
+  # Create Data to use as labels
 
   if(class(model)[1]%in%c("lm", "glm")){
     #Get names of variables
