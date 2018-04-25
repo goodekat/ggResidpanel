@@ -173,6 +173,15 @@ resid_interact <- function(model, plots = NA, bins = NA, type = NA,
     ggplotly(plot_i, tooltip=c("Residual", "Data"))
   }else if (plots=="residlev"){
     ggplotly(plot_i, tooltip=c("Leverage", "Std_Res", "Data"))
+  }else if (plots=="ls"){
+    if (class(model)[1]=="lm"){
+      ggplotly(plot_i+labs(x = "Predicted Values", y = "sqrt(|Standardized Residuals|)"), tooltip=c("Prediction", "Sqrt_Std_Res", "Data"))
+
+    }else if(is.na(type)|type=="deviance"|type=="stand.deviance"){
+      ggplotly(plot_i+labs(x = "Predicted Values", y = "sqrt(|Standardized Deviance Residuals|)"), tooltip=c("Prediction", "Sqrt_Std_Res", "Data"))
+    }else if(type=="pearson"|type=="stand.pearson"){
+      ggplotly(plot_i+labs(x = "Predicted Values", y = "sqrt(|Standardized Pearson Residuals|)"), tooltip=c("Prediction", "Sqrt_Std_Res", "Data"))
+    }
   }else{
     ggplotly(plot_i)
   }

@@ -15,17 +15,17 @@ resid_ls <- function(model, type,theme, axis.text.size, title.text.size, title){
 
   # Create a data frame with the square root of the standardized residuals and predicted values
   if(class(model)[1]=="lm"){
-    model_values <- data.frame(sqr_stand_resid = sqrt(abs(resid_resid(type="standardized", model=model))),
-                               pred = fitted(model))
+    model_values <- data.frame(Sqrt_Std_Res = sqrt(abs(resid_resid(type="standardized", model=model))),
+                               Prediction = fitted(model))
 
   }else if (class(model)[1]=="glm"){
     if(is.na(type)|type=="deviance"|type=="stand.deviance"){
-      model_values <- data.frame(sqr_stand_resid = sqrt(abs(resid_resid(type="stand.deviance", model=model))),
-                                 pred = fitted(model))
+      model_values <- data.frame(Sqrt_Std_Res = sqrt(abs(resid_resid(type="stand.deviance", model=model))),
+                                 Prediction = fitted(model))
 
     }else if (type=="pearson"|type=="stand.pearson"){
-      model_values <- data.frame(sqr_stand_resid = sqrt(abs(resid_resid(type="stand.pearson", model=model))),
-                                 pred = fitted(model))
+      model_values <- data.frame(Sqrt_Std_Res = sqrt(abs(resid_resid(type="stand.pearson", model=model))),
+                                 Prediction = fitted(model))
      }
   }
 
@@ -33,7 +33,7 @@ resid_ls <- function(model, type,theme, axis.text.size, title.text.size, title){
   Data <- resid_plotly_label(model)
 
   if (class(model)[1]=="lm"){
-    plot <- ggplot(model_values, aes(x = pred, y = sqr_stand_resid,label=Data)) +
+    plot <- ggplot(model_values, aes(x = Prediction, y = Sqrt_Std_Res,label=Data)) +
       geom_point() +
       labs(x = "Predicted Values", y = expression(sqrt(abs(" Standardized Residuals  ")))) +
       expand_limits(y = 0) +
@@ -41,13 +41,13 @@ resid_ls <- function(model, type,theme, axis.text.size, title.text.size, title){
 
   }else if (class(model)[1]=="glm"){
     if(is.na(type)|type=="deviance"|type=="stand.deviance"){
-    plot <- ggplot(model_values, aes(x = pred, y = sqr_stand_resid,label=Data)) +
+    plot <- ggplot(model_values, aes(x = Prediction, y = Sqrt_Std_Res,label=Data)) +
       geom_point() +
       labs(x = "Predicted Values", y = expression(sqrt(abs(" Standardized Deviance Residuals  ")))) +
       expand_limits(y = 0) +
       geom_smooth(colour = "red", se = FALSE, method = "loess", size = 0.5)
     }else if(type=="pearson"|type=="stand.pearson"){
-      plot <- ggplot(model_values, aes(x = pred, y = sqr_stand_resid,label=Data)) +
+      plot <- ggplot(model_values, aes(x = Prediction, y = Sqrt_Std_Res,label=Data)) +
         geom_point() +
         labs(x = "Predicted Values", y = expression(sqrt(abs(" Standardized Pearson Residuals  ")))) +
         expand_limits(y = 0) +
