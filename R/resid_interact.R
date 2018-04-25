@@ -164,14 +164,14 @@ resid_interact <- function(model, plots = NA, bins = NA, type = NA,
 
   ## Creation of interactive plot -------------------------------------------------
 
-<<<<<<< HEAD
+
   # Use plotly to plot interactive plot requested
   #ggplotly(plot_i, tooltip = "Data")
   ggplotly(plot_i)
-=======
+
   # Use plotly to create interactive plot requested
   ggplotly(plot_i, tooltip = "Data")
->>>>>>> 8b894bf7e236e926d5f7b14a7d2b874b0e51a7b4
+
 
 }
 
