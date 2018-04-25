@@ -30,9 +30,10 @@ resid_ls <- function(model, type,theme, axis.text.size, title.text.size, title){
   }
 
 
+  Data <- resid_plotly_label(model)
 
   if (class(model)[1]=="lm"){
-    plot <- ggplot(model_values, aes(x = pred, y = sqr_stand_resid)) +
+    plot <- ggplot(model_values, aes(x = pred, y = sqr_stand_resid,label=Data)) +
       geom_point() +
       labs(x = "Predicted Values", y = expression(sqrt(abs(" Standardized Residuals  ")))) +
       expand_limits(y = 0) +

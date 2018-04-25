@@ -5,13 +5,11 @@ Future Work
 
 Katie's Tasks:
 - update resid_interact to show relevant info
-  - make the individual interactive plots first
-  - can show response, all predictors, row number, only first five predictors
-- look into standardized residuals used in ls and lev for glm
--at resid to vinette
+- with sligth additions, we could modify so works for predictive models
+Farther future:
 - figure out how to get standardized lmer and glmer residuals
--Need to figure out how to limit display of numbers to three decimals without
-    turning integers into decimals
+
+
 
 Completed:
 - change all functions to accept different residual types
