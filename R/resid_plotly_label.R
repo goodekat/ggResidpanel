@@ -100,8 +100,11 @@ if(class(model)[1]%in%c("lm", "glm")){
   #of the information
   Data <- plotly_data[,1]
   for(i in 2:ncol(plotly_data)){
-    Data <- paste(Data, ",", plotly_data[,{i}])
+    Data <- paste(Data, "\n", plotly_data[,{i}])
   }
+  Data <- paste(Data, "\n")
+  Data <- paste("\n",Data)
+
 }else if (class(model)[1]%in%c("lmerMod", "glmerMod")) {
   names_data <- names(model@frame)
   plotly_data <- data.frame(as.matrix(model@frame))
@@ -167,11 +170,12 @@ if(class(model)[1]%in%c("lm", "glm")){
     plotly_data <- plotly_data[,c(1:9, ncol(plotly_data))]
   }
 
-  #Paste all together
   Data <- plotly_data[,1]
   for(i in 2:ncol(plotly_data)){
-    Data <- paste(Data, ",", plotly_data[,{i}])
+    Data <- paste(Data, "\n", plotly_data[,{i}])
   }
+  Data <- paste(Data, "\n")
+  Data <- paste("\n",Data)
 
 }
 return(Data)
