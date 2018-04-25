@@ -149,7 +149,6 @@ resid_panel <- function(model, plots = "SAS", bins = NA, scale = 1,
     }else if(class(model)[1]=="nn"){
       if(type!="response"){
         stop("The requested residual type is not available. Please select from the following options for a 'neuralnet' model: response. ")
->>>>>>> 0d9e102b51fd57171805942afef565e54afb8294
       }
     }
   }
