@@ -20,9 +20,9 @@ resid_boxplot <- function(model, type, theme, axis.text.size, title.text.size, t
 
   # Create a data frame with the residuals
   if(is.na(type)){
-    model_values <- data.frame(resid = resid_resid(type = NA, model = model))
+    model_values <- data.frame(Residual = resid_resid(type = NA, model = model))
   }else{
-    model_values <- data.frame(resid = resid_resid(type = type, model = model))
+    model_values <- data.frame(Residual = resid_resid(type = type, model = model))
   }
   model_values$Observation <- 1:nrow(model_values)
 
@@ -162,7 +162,7 @@ resid_boxplot <- function(model, type, theme, axis.text.size, title.text.size, t
 
   Default_Title <- paste("Boxplot of", r_label)
   # Create the boxplot of residuals
-  plot <- ggplot(model_values, aes(x = " ", y = resid, label=Data)) +
+  plot <- ggplot(model_values, aes(x = " ", y = Residual, label=Data)) +
     geom_boxplot() +
     geom_point(alpha=0)+
     labs(x = " ", y = r_label) +
