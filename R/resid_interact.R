@@ -170,7 +170,7 @@ resid_interact <- function(model, plots = NA, bins = NA, type = NA,
   ggplotly(plot_i)
 
   # Use plotly to create interactive plot requested
-  ggplotly(plot_i, tooltip = "Data")
+  #ggplotly(plot_i, tooltip = "Data")
 
 
 }
