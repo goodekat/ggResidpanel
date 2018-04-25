@@ -2,37 +2,27 @@
 #
 # Creates a residual plot with residuals versus predicted values from a model.
 #
-# @param model Model fit using either lm, glm, lmer, or glmer.
-# @param smoother Indicates whether or not to include a smoother on the residual plot.
-# Specify TRUE or FALSE. Default is set to FALSE.
-# @return A plot of the residuals versus predicted values from the \code{model}
-#  with a horizontal line through 0.
+# @param resid Residuals from a model.
+# @param pred Fitted values from a model.
+# @return A histogram of the residuals.
 # @examples
 # model <- lm(Volume ~ Girth, data = trees)
-# resid_plot(model)
-
-resid_plot <- function(model, type, smoother, theme, axis.text.size, title.text.size, title){
+# resid_splot(resid(model), pred(model))
 
 
+resid_splot <- function(resid, pred,smoother, theme, axis.text.size, title.text.size, title){
 
-  r_label <- resid_label(type, model)
-  Default_Title <- paste(r_label,"Plot")
+
+
   # Create a data frame with the residuals
-  if(is.na(type)){
-    model_values <- data.frame(Residual = resid_resid(type=NA, model=model),
-                               Predicted = fitted(model))
-  }else{
-    model_values <- data.frame(Residual = resid_resid(type=type, model=model),
-                               Predicted = fitted(model))
-  }
 
-  Data <- resid_plotly_label(model)
+  model_values <- data.frame(Residual=resid, Predicted=pred)
 
   # Create the residual plot
-  plot <- ggplot(data=model_values, aes(x = Predicted, y = Residual,label=Data)) +
+  plot <- ggplot(data=model_values, aes(x = Predicted, y = Residual)) +
     geom_point() +
     geom_abline(slope = 0, intercept = 0, color = "blue") +
-    labs(x = "Predicted Values", y = r_label)
+    labs(x = "Predicted Values", y = "Residuals")
 
 
   # If smoother is set to true, add it to the plot
@@ -53,7 +43,7 @@ resid_plot <- function(model, type, smoother, theme, axis.text.size, title.text.
   # Set text size of title and axis lables, determine whether to include a title, and return plot
   if(title == TRUE){
     plot +
-      labs(title = Default_Title) +
+      labs(title = "Residuals Plot") +
       theme(plot.title = element_text(size = title.text.size, face = "bold"),
             axis.title = element_text(size = axis.text.size))
   } else if (title == FALSE){

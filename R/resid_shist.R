@@ -2,34 +2,22 @@
 #
 # Creates a histogram of the residuals from a model.
 #
-# @param model Model fit using either lm, glm, lmer, or glmer.
-# @return A histogram of the residuals from the \code{model} with a normal
-# @param type The user may specify a type of residuals to use, otherwise the default residual type for each model is used.
-# density curve overlaid with mean equal to the mean of the residuals and
-# standard deviation equal to the standard deviation of the residuals.
+# @param resid Residuals from a model.
+# @param pred Fitted values from a model.
+# @return A histogram of the residuals.
 # @examples
 # model <- lm(Volume ~ Girth, data = trees)
-# resid_hist(model)
+# resid_shist(resid(model), pred(model))
 
 
-resid_hist <- function(model, type,bins, theme, axis.text.size, title.text.size, title){
+resid_shist <- function(resid, pred, bins, theme, axis.text.size, title.text.size, title){
 
   #If bins=NA, use default
   if(is.na(bins)){
     bins <- 30
   }
 
-  #call function to return appropriate residual label
-  r_label <- resid_label(type, model)
-  # Create a data frame with the residuals
-  if(is.na(type)){
-    model_values <- data.frame(resid = resid_resid(type=NA, model=model))
-  }else{
-    model_values <- data.frame(resid = resid_resid(type=type, model=model))
-  }
-
-
-  Default_Title <- paste("Histogram of", r_label)
+    model_values <- data.frame(resid=resid)
   #Step to make sure are not cutting out any huge outliers
   if (min(model_values$resid) < -4*sd(model_values$resid)){
     min_x <- NA
@@ -52,7 +40,7 @@ resid_hist <- function(model, type,bins, theme, axis.text.size, title.text.size,
       stat_function(fun = dnorm, color = "blue",
                     args = list(mean = 0,
                                 sd = sd(model_values$resid))) +
-      labs(x = r_label, y = "Density") +
+      labs(x = "Residuals", y = "Density") +
       theme(plot.title = element_text(size = 12, face = "bold"),
             axis.title = element_text(size = 10))
   }else{
@@ -63,7 +51,7 @@ resid_hist <- function(model, type,bins, theme, axis.text.size, title.text.size,
     stat_function(fun = dnorm, color = "blue",
                   args = list(mean = 0,
                               sd = sd(model_values$resid))) +
-    labs(x = r_label, y = "Density") +
+    labs(x = "Residuals", y = "Density") +
       xlim(c(min_x, max_x))+
     theme(plot.title = element_text(size = 12, face = "bold"),
           axis.title = element_text(size = 10))
@@ -82,7 +70,7 @@ resid_hist <- function(model, type,bins, theme, axis.text.size, title.text.size,
   # Set text size of title and axis lables, determine whether to include a title, and return plot
   if(title == TRUE){
     plot +
-      labs(title =  Default_Title) +
+      labs(title =  "Histogram of Residuals") +
       theme(plot.title = element_text(size = title.text.size, face = "bold"),
             axis.title = element_text(size = axis.text.size))
   } else if (title == FALSE){

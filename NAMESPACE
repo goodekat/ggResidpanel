@@ -2,6 +2,7 @@
 
 export(resid_interact)
 export(resid_panel)
+export(resid_spanel)
 importFrom(MASS,stdres)
 importFrom(cowplot,plot_grid)
 importFrom(ggplot2,aes)
