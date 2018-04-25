@@ -168,7 +168,7 @@ resid_interact <- function(model, plots = NA, bins = NA,
   } else if(plots == "hist"){
     plot_i <- resid_hist(model, type = type, bins = bins, theme, axis.text.size, title.text.size, title)
   } else if(plots == "ls"){
-    plot_i <- resid_ls(model, theme, axis.text.size, title.text.size, title)
+    plot_i <- resid_ls(model, type,theme, axis.text.size, title.text.size, title)
   } else if(plots == "qq"){
     plot_i <- resid_qq(model, type = type, theme, axis.text.size, title.text.size, title, qqline, qqbands = FALSE)
   } else if(plots == "residlev"){

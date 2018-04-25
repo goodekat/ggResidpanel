@@ -41,13 +41,13 @@ resid_ls <- function(model, type,theme, axis.text.size, title.text.size, title){
 
   }else if (class(model)[1]=="glm"){
     if(is.na(type)|type=="deviance"|type=="stand.deviance"){
-    plot <- ggplot(model_values, aes(x = pred, y = sqr_stand_resid)) +
+    plot <- ggplot(model_values, aes(x = pred, y = sqr_stand_resid,label=Data)) +
       geom_point() +
       labs(x = "Predicted Values", y = expression(sqrt(abs(" Standardized Deviance Residuals  ")))) +
       expand_limits(y = 0) +
       geom_smooth(colour = "red", se = FALSE, method = "loess", size = 0.5)
     }else if(type=="pearson"|type=="stand.pearson"){
-      plot <- ggplot(model_values, aes(x = pred, y = sqr_stand_resid)) +
+      plot <- ggplot(model_values, aes(x = pred, y = sqr_stand_resid,label=Data)) +
         geom_point() +
         labs(x = "Predicted Values", y = expression(sqrt(abs(" Standardized Pearson Residuals  ")))) +
         expand_limits(y = 0) +

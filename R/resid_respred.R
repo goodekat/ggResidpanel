@@ -10,7 +10,8 @@ resid_respred <- function(model,theme="bw", axis.text.size=12, title.text.size=1
                              response = model.frame(model)[[1]])
   #model_values$line <- model_values$pred
   # Create the plot of response variable versus predicted values
-  plot <- ggplot(model_values, aes(x = pred, y = response)) +
+  Data <- resid_plotly_label(model)
+  plot <- ggplot(model_values, aes(x = pred, y = response,label=Data)) +
     geom_point() +
     geom_abline(slope = 1, intercept = 0, color = "blue") +
     labs(x = "Predicted Values", y = names(model.frame(model)[1]))
