@@ -169,9 +169,12 @@ resid_interact <- function(model, plots = NA, bins = NA, type = NA,
   #ggplotly(plot_i, tooltip = "Data")
   if(plots=="cookd"){
     ggplotly(plot_i, tooltip=c("cooksd", "Data"))
+  }else if (plots=="boxplot"){
+    ggplotly(plot_i, tooltip=c("Residual", "Data"))
+  }else if (plots=="residlev"){
+    ggplotly(plot_i, tooltip=c("Leverage", "Std_Res", "Data"))
   }else{
     ggplotly(plot_i)
-
   }
 
   # Use plotly to create interactive plot requested

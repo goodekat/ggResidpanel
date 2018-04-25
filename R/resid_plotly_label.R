@@ -102,7 +102,7 @@ if(class(model)[1]%in%c("lm", "glm")){
   for(i in 2:ncol(plotly_data)){
     Data <- paste(Data, "\n", plotly_data[,{i}])
   }
-  Data <- paste(Data, "\n")
+  Data <- paste(Data)
   Data <- paste("\n",Data)
 
 }else if (class(model)[1]%in%c("lmerMod", "glmerMod")) {

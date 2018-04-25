@@ -14,17 +14,17 @@ resid_lev <- function(model, type, theme, axis.text.size, title.text.size, title
 
   # Create a data frame with the leverage values and standardized residuals
   if(class(model)[1]=="lm"){
-  model_values <- data.frame(leverage = hatvalues(model),
-                             std_res = resid_resid(model, type="standardized"))
+  model_values <- data.frame(Leverage = hatvalues(model),
+                             Std_Res = resid_resid(model, type="standardized"))
   r_label <- resid_label(type="standardized", model)
   }else if (class(model)[1]=="glm"){
     if(is.na(type)|type=="deviance"|type=="stand.deviance"){
-      model_values <- data.frame(leverage = hatvalues(model),
-                                 std_res = resid_resid(model, type="stand.deviance"))
+      model_values <- data.frame(Leverage = hatvalues(model),
+                                 Std_Res = resid_resid(model, type="stand.deviance"))
       r_label <- resid_label(type="stand.deviance", model)
     }else if (type=="pearson"|type=="stand.pearson"){
-      model_values <- data.frame(leverage = hatvalues(model),
-                                 std_res = resid_resid(model, type="stand.pearson"))
+      model_values <- data.frame(Leverage = hatvalues(model),
+                                 Std_Res = resid_resid(model, type="stand.pearson"))
       r_label <- resid_label(type="stand.pearson", model)}
   }
   Data <- resid_plotly_label(model)
@@ -52,15 +52,15 @@ resid_lev <- function(model, type, theme, axis.text.size, title.text.size, title
 
   model_values$Data <- Data
   # Create the residual vs. leverage plot
-  plot <- ggplot(data=model_values, aes(x = leverage, y = std_res)) +
+  plot <- ggplot(data=model_values, aes(x = Leverage, y = Std_Res)) +
     geom_point(aes(group=Data)) +
     labs(x = "Leverage", y =   r_label) +
     expand_limits(x = 0) +
     geom_smooth(color = "red", se = FALSE, method = 'loess', size = 0.5) +
     geom_hline(yintercept = 0, linetype = "dashed") +
     geom_vline(xintercept = 0, linetype = "dashed") +
-    scale_x_continuous(limits = c(0, max(model_values$leverage, na.rm = TRUE))) +
-    scale_y_continuous(limits = extendrange(range(model_values$std_res, na.rm = TRUE), f = 0.08))+
+    scale_x_continuous(limits = c(0, max(model_values$Leverage, na.rm = TRUE))) +
+    scale_y_continuous(limits = extendrange(range(model_values$Std_Res, na.rm = TRUE), f = 0.08))+
     geom_line(data = data.frame(cl_h1), aes(x = hh, y = pos), linetype = "dashed", color = "red", na.rm = TRUE) +
     geom_line(data = data.frame(cl_h1), aes(x = hh, y = neg), linetype = "dashed", color = "red", na.rm = TRUE) +
     geom_line(data = data.frame(cl_h2), aes(x = hh, y = pos), linetype = "dashed", color = "red", na.rm = TRUE) +
