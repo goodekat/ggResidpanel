@@ -28,6 +28,8 @@ resid_ls <- function(model, type,theme, axis.text.size, title.text.size, title){
                                  Prediction = fitted(model))
      }
   }
+  model_values$Lowess.x <- lowess(x=model_values$Prediction, y=model_values$Sqrt_Std_Res)$x
+  model_values$Lowess.y <- lowess(x=model_values$Prediction, y=model_values$Sqrt_Std_Res)$y
 
 
   Data <- resid_plotly_label(model)
@@ -37,7 +39,7 @@ resid_ls <- function(model, type,theme, axis.text.size, title.text.size, title){
       geom_point() +
       labs(x = "Predicted Values", y = expression(sqrt(abs(" Standardized Residuals  ")))) +
       expand_limits(y = 0) +
-      geom_smooth(colour = "red", se = FALSE, method = "loess", size = 0.5)
+      geom_line(aes(Lowess.x, Lowess.y),colour = "red", size = 0.5)
 
   }else if (class(model)[1]=="glm"){
     if(is.na(type)|type=="deviance"|type=="stand.deviance"){
@@ -45,13 +47,13 @@ resid_ls <- function(model, type,theme, axis.text.size, title.text.size, title){
       geom_point() +
       labs(x = "Predicted Values", y = expression(sqrt(abs(" Standardized Deviance Residuals  ")))) +
       expand_limits(y = 0) +
-      geom_smooth(colour = "red", se = FALSE, method = "loess", size = 0.5)
+      geom_line(aes(Lowess.x, Lowess.y),colour = "red", size = 0.5)
     }else if(type=="pearson"|type=="stand.pearson"){
       plot <- ggplot(model_values, aes(x = Prediction, y = Sqrt_Std_Res,label=Data)) +
         geom_point() +
         labs(x = "Predicted Values", y = expression(sqrt(abs(" Standardized Pearson Residuals  ")))) +
         expand_limits(y = 0) +
-        geom_smooth(colour = "red", se = FALSE, method = "loess", size = 0.5)
+        geom_line(aes(Lowess.x, Lowess.y),colour = "red", size = 0.5)
     }
   }
 

@@ -27,6 +27,9 @@ resid_lev <- function(model, type, theme, axis.text.size, title.text.size, title
                                  Std_Res = resid_resid(model, type="stand.pearson"))
       r_label <- resid_label(type="stand.pearson", model)}
   }
+  model_values$Lowess.x <- lowess(x=model_values$Leverage, y=model_values$Std_Res)$x
+  model_values$Lowess.y <- lowess(x=model_values$Leverage, y=model_values$Std_Res)$y
+
   Data <- resid_plotly_label(model)
 
   # Compute the hat matrix values
@@ -52,11 +55,25 @@ resid_lev <- function(model, type, theme, axis.text.size, title.text.size, title
 
   model_values$Data <- Data
   # Create the residual vs. leverage plot
+  # plot <- ggplot(data=model_values, aes(x = Leverage, y = Std_Res)) +
+  #   geom_point(aes(group=Data)) +
+  #   labs(x = "Leverage", y =   r_label) +
+  #   expand_limits(x = 0) +
+  #   geom_smooth(color = "red", se = FALSE, method = 'loess', size = 0.5) +
+  #   geom_hline(yintercept = 0, linetype = "dashed") +
+  #   geom_vline(xintercept = 0, linetype = "dashed") +
+  #   scale_x_continuous(limits = c(0, max(model_values$Leverage, na.rm = TRUE))) +
+  #   scale_y_continuous(limits = extendrange(range(model_values$Std_Res, na.rm = TRUE), f = 0.08))+
+  #   geom_line(data = data.frame(cl_h1), aes(x = hh, y = pos), linetype = "dashed", color = "red", na.rm = TRUE) +
+  #   geom_line(data = data.frame(cl_h1), aes(x = hh, y = neg), linetype = "dashed", color = "red", na.rm = TRUE) +
+  #   geom_line(data = data.frame(cl_h2), aes(x = hh, y = pos), linetype = "dashed", color = "red", na.rm = TRUE) +
+  #   geom_line(data = data.frame(cl_h2), aes(x = hh, y = neg), linetype = "dashed", color = "red", na.rm = TRUE)
+
   plot <- ggplot(data=model_values, aes(x = Leverage, y = Std_Res)) +
     geom_point(aes(group=Data)) +
     labs(x = "Leverage", y =   r_label) +
     expand_limits(x = 0) +
-    geom_smooth(color = "red", se = FALSE, method = 'loess', size = 0.5) +
+    geom_line(aes(Lowess.x, Lowess.y),color = "red", size = 0.5) +
     geom_hline(yintercept = 0, linetype = "dashed") +
     geom_vline(xintercept = 0, linetype = "dashed") +
     scale_x_continuous(limits = c(0, max(model_values$Leverage, na.rm = TRUE))) +

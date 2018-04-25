@@ -16,10 +16,13 @@ resid_splot <- function(resid, pred,smoother, theme, axis.text.size, title.text.
 
   # Create a data frame with the residuals
 
-  model_values <- data.frame(Residual=resid, Predicted=pred)
+  model_values <- data.frame(Residual=resid, Prediction=pred)
+
+  model_values$Lowess.x <- lowess(x=model_values$Prediction, y=model_values$Residual)$x
+  model_values$Lowess.y <- lowess(x=model_values$Prediction, y=model_values$Residual)$y
 
   # Create the residual plot
-  plot <- ggplot(data=model_values, aes(x = Predicted, y = Residual)) +
+  plot <- ggplot(data=model_values, aes(x = Prediction, y = Residual)) +
     geom_point() +
     geom_abline(slope = 0, intercept = 0, color = "blue") +
     labs(x = "Predicted Values", y = "Residuals")
@@ -28,7 +31,8 @@ resid_splot <- function(resid, pred,smoother, theme, axis.text.size, title.text.
   # If smoother is set to true, add it to the plot
   if (smoother == TRUE){
    plot <- plot +
-     geom_smooth(colour = "red", se = FALSE, method = "loess", size = 0.5)
+     geom_line(aes(Lowess.x, Lowess.y),colour = "red", size = 0.5)
+
   }
 
   # Add theme to plot
