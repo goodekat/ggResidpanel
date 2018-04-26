@@ -69,7 +69,7 @@ resid_lev <- function(model, type, theme, axis.text.size, title.text.size, title
   #   geom_line(data = data.frame(cl_h2), aes(x = hh, y = pos), linetype = "dashed", color = "red", na.rm = TRUE) +
   #   geom_line(data = data.frame(cl_h2), aes(x = hh, y = neg), linetype = "dashed", color = "red", na.rm = TRUE)
 
-  plot <- ggplot(data=model_values, aes(x = Leverage, y = Std_Res)) +
+  plot <- ggplot(data=model_values, aes(x = Leverage, y = Std_Res),na.rm=TRUE) +
     geom_point(aes(group=Data)) +
     labs(x = "Leverage", y =   r_label) +
     expand_limits(x = 0) +

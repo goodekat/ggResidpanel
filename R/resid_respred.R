@@ -5,12 +5,34 @@
 resid_respred <- function(model,theme="bw", axis.text.size=12, title.text.size=12, title=TRUE){
 
 
-  # Create a data frame with the predicted values and response variable
-  model_values <- data.frame(pred = fitted(model),
-                             response = model.frame(model)[[1]])
+
   #model_values$line <- model_values$pred
   # Create the plot of response variable versus predicted values
   Data <- resid_plotly_label(model)
+
+  # Create a data frame with the predicted values and response variable
+
+  if(class(model)[1]=="glm"){
+    if(model$family[[1]]=="binomial"){
+    model_values <- data.frame(pred = fitted(model),
+                               response = resid_glm_actual(model))
+    }else{
+      model_values <- data.frame(pred = fitted(model),
+                                 response = model.frame(model)[[1]])
+    }
+  }else if (class(model)[1]=="glmerMod"){
+    if(model@resp$family[[1]]=="binomial"){
+      model_values <- data.frame(pred = fitted(model),
+                                 response = resid_glm_actual(model))
+    }else{
+      model_values <- data.frame(pred = fitted(model),
+                                 response = model.frame(model)[[1]])
+    }
+  }else{
+    model_values <- data.frame(pred = fitted(model),
+                                   response = model.frame(model)[[1]])
+  }
+
   plot <- ggplot(model_values, aes(x = pred, y = response,label=Data)) +
     geom_point() +
     geom_abline(slope = 1, intercept = 0, color = "blue") +

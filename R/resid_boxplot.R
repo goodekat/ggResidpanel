@@ -32,7 +32,7 @@ resid_boxplot <- function(model, type, theme, axis.text.size, title.text.size, t
   Default_Title <- paste("Boxplot of", r_label)
   # Create the boxplot of residuals
   plot <- ggplot(model_values, aes(x = " ", y = Residual,label=Data)) +
-    geom_boxplot() +
+    geom_boxplot(width=.5) +
     geom_point(alpha=0)+
     labs(x = " ", y = r_label) +
     theme(plot.title = element_text(size = 12, face = "bold"),

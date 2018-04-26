@@ -238,7 +238,9 @@ resid_panel <- function(model, plots = "SAS", bins = NA, scale = 1,
 
   # Create a plot of the model statistics if selected in plots otherwise set as NULL
   if("all" %in% plots | "SASextend" %in% plots){
+    if(class(model)[1]=="lm"){
     stats <- resid_stats(model)
+    }
   } else{
     stats <- NULL
   }
@@ -254,7 +256,7 @@ resid_panel <- function(model, plots = "SAS", bins = NA, scale = 1,
             "residplot" %in% plots | "respred" %in% plots){
     plots <- "individual"
   } else{
-    stop("Invalid plots option entered")
+    stop("Invalid plots option entered. Choose from the following list: SAS, R, SASextend, all, boxplot, cookd, hist, ls, qq, residlev, residplot, respred.")
   }
 
   # Create a grid of plots based on the plots specified
@@ -264,10 +266,14 @@ resid_panel <- function(model, plots = "SAS", bins = NA, scale = 1,
     plot_grid(residplot, hist, qq, boxplot, scale = scale)
 
   } else if (plots == "SASextend") {
-
+    if(class(model)[1]=="lm"){
     # Create grid of SAS extended plots
     plot_grid(residplot, residlev, qq, respred, cookd, hist, stats,
               ncol = 3, scale = scale)
+    }else{
+      plot_grid(residplot, residlev, qq, respred, cookd, hist,
+                ncol = 3, scale = scale)
+    }
 
   } else if (plots == "R") {
 
@@ -277,8 +283,14 @@ resid_panel <- function(model, plots = "SAS", bins = NA, scale = 1,
   } else if (plots == "all") {
 
     # Create grid of all plots
+    if(class(model)[1]=="lm"){
     plot_grid(residplot, hist, qq, boxplot, residlev, cookd, ls, respred, stats,
           scale = scale)
+    }else{
+      plot_grid(residplot, hist, qq, boxplot, residlev, cookd, ls, respred,
+                scale = scale)
+
+    }
 
   } else if (plots == "individual") {
 
