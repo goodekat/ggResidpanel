@@ -78,6 +78,10 @@ resid_spanel <- function(resid, pred, plots = "SAS", bins = NA, scale = 1,
   # Return an error if the requested plots involve standardizing residuals for an 'lmer' or
   # 'glmer' model
 
+  if (class(resid)[1]%in%c("lm", "glm", "lmerMod", "glmerMod")){
+    stop("'resid_spanel' recieves the residuals and fitted values. Please use 'resid_panel' to input the model.")
+  }
+
   # Return an error if smoother option is not specified correctly
   if(smoother == TRUE | smoother == FALSE){
   }else{

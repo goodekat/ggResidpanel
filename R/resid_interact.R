@@ -53,6 +53,8 @@ resid_interact <- function(model, plots = NA, bins = NA, type = NA,
                            axis.text.size = 10, title.text.size = 12,
                            title = TRUE, qqline = TRUE){
 
+  warnings("Some of the interactive plots do not function with the dev version of ggplot from github. To achieve full functionallity, please install ggplot2 from CRAN.")
+
   ## Errors and Warnings -------------------------------------------------------
 
   # Return an error if an acceptable model type is not entered in the function

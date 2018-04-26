@@ -144,6 +144,106 @@ resid_panel(m4, plots="respred")
 
 ######Spanel#########
 
-resid_spanel(m1, plots="SAS")
+resid_spanel(resid(m1), fitted(m1), plots="SAS")
+resid_spanel(resid(m2), fitted(m2), plots="SAS")
+resid_spanel(resid(m3), fitted(m3), plots="SAS")
+resid_spanel(resid(m4), fitted(m4), plots="SAS")
 
+######sboxplot#########
+
+resid_spanel(resid(m1), fitted(m1), plots="boxplot")
+resid_spanel(resid(m2), fitted(m2), plots="boxplot")
+resid_spanel(resid(m3), fitted(m3), plots="boxplot")
+resid_spanel(resid(m4), fitted(m4), plots="boxplot")
+
+
+######histogram#########
+
+resid_spanel(resid(m1), fitted(m1), plots="hist")
+resid_spanel(resid(m2), fitted(m2), plots="hist")
+resid_spanel(resid(m3), fitted(m3), plots="hist")
+resid_spanel(resid(m4), fitted(m4), plots="hist")
+
+######residplot#########
+
+resid_spanel(resid(m1), fitted(m1), plots="residplot")
+resid_spanel(resid(m2), fitted(m2), plots="residplot")
+resid_spanel(resid(m3), fitted(m3), plots="residplot")
+resid_spanel(resid(m4), fitted(m4), plots="residplot")
+
+######qq#########
+
+resid_spanel(resid(m1), fitted(m1), plots="qq")
+resid_spanel(resid(m2), fitted(m2), plots="qq")
+resid_spanel(resid(m3), fitted(m3), plots="qq")
+resid_spanel(resid(m4), fitted(m4), plots="qq")
+
+
+######resid_interact######
+
+
+###Boxplot#####
+
+resid_interact(m1, plots="boxplot")
+resid_interact(m2, plots="boxplot")
+resid_interact(m3, plots="boxplot")
+resid_interact(m4, plots="boxplot")
+
+###Boxplot#####
+
+resid_interact(m1, plots="cookd")
+resid_interact(m2, plots="cookd")
+
+#Check for error
+resid_interact(m3, plots="cookd")
+resid_interact(m4, plots="cookd")
+
+
+
+###hist#####
+
+resid_interact(m1, plots="hist")
+resid_interact(m2, plots="hist")
+resid_interact(m3, plots="hist")
+resid_interact(m4, plots="hist")
+
+###leverage#####
+
+resid_interact(m1, plots="residlev")
+resid_interact(m2, plots="residlev")
+
+#show errors
+resid_interact(m3, plots="residlev")
+resid_interact(m4, plots="residlev")
+
+###location-scale#####
+
+resid_interact(m1, plots="ls")
+resid_interact(m2, plots="ls")
+
+#show errors
+resid_interact(m3, plots="ls")
+resid_interact(m4, plots="ls")
+
+###residplot#####
+
+resid_interact(m1, plots="residplot")
+resid_interact(m2, plots="residplot")
+resid_interact(m3, plots="residplot")
+resid_interact(m4, plots="residplot")
+
+
+###qq##### (Still working on)
+
+resid_interact(m1, plots="qq")
+resid_interact(m2, plots="qq")
+resid_interact(m3, plots="qq")
+resid_interact(m4, plots="qq")
+
+####Actual vs. predicted######
+
+resid_interact(m1, plots="respred")
+resid_interact(m2, plots="respred")
+resid_interact(m3, plots="respred")
+resid_interact(m4, plots="respred")
 
