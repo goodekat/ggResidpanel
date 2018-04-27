@@ -41,14 +41,14 @@ resid_qq <- function(model, type, theme, axis.text.size, title.text.size, title,
       stat_qq_band()+
       stat_qq_point() +labs(x = "Theoretical Quantiles", y = "Sample Quantiles")
   }else{
-    plot <- ggplot(data = r, mapping = aes(sample = residual, label=Datat)) +
+    plot <- ggplot(data = r, mapping = aes(sample = residual, label=Data)) +
       stat_qq_point() +labs(x = "Theoretical Quantiles", y = "Sample Quantiles")
   }
 
 
 
   if(qqline==TRUE){
-    plot <- plot+stat_qq_line(color="blue")
+    plot <- plot+stat_qq_line(color="blue",size=.5)
   }
 
 

@@ -40,7 +40,7 @@ resid_sqq <- function(resid, pred, theme, axis.text.size, title.text.size, title
 
 
   if(qqline==TRUE){
-    plot <- plot+stat_qq_line(color="blue")
+    plot <- plot+stat_qq_line(color="blue",size=.5)
   }
 
 
