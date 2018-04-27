@@ -28,19 +28,20 @@ resid_qq <- function(model, type, theme, axis.text.size, title.text.size, title,
   r_label <- resid_label(type, model)
 
   if(is.na(type)){
-    r <- data.frame(r=resid_resid(type=NA, model=model))
+    r <- data.frame(residual=resid_resid(type=NA, model=model))
   }else{
-    r <- data.frame(r=resid_resid(type=type, model=model))
+    r <- data.frame(residual=resid_resid(type=type, model=model))
   }
 
   Data <- resid_plotly_label(model)
+  r$Data <- Data
 
   if(qqbands==TRUE){
-    plot <- ggplot(data = r, mapping = aes(sample = r,label=Data)) +
+    plot <- ggplot(data = r, mapping = aes(sample = residual,label=Data)) +
       stat_qq_band()+
       stat_qq_point() +labs(x = "Theoretical Quantiles", y = "Sample Quantiles")
   }else{
-    plot <- ggplot(data = r, mapping = aes(sample = r, label=Data)) +
+    plot <- ggplot(data = r, mapping = aes(sample = residual, label=Datat)) +
       stat_qq_point() +labs(x = "Theoretical Quantiles", y = "Sample Quantiles")
   }
 
