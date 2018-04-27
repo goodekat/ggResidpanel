@@ -71,22 +71,23 @@ if(class(model)[1]%in%c("lm", "glm")){
   #Create a variable containing the observation number
   plotly_data$Obs <- 1:nrow(plotly_data)
 
+  #NO LONGER NEED THIS SINCE DISPLAYING VERTICALLY
   #Trim variables that are numeric and contain a decimal
   #down to 3 decimal places
-  for(i in 1:ncol(plotly_data)){
-    #First part checks for rows in teh column that contain a decimal
-    #if they do not contian a decimal, do nothing to them.
-
-    #The second part checks to see if the row values are value numbers
-    #A cateogrical value could contain a period
-    plotly_data[grepl("\\.", as.character(plotly_data[,i]))&!is.na(as.numeric(plotly_data[,i])),i] <- round(as.numeric(as.character(plotly_data[grepl("\\.", as.character(plotly_data[,i]))&!is.na(as.numeric(plotly_data[,i])),i])), 3)
-  }
+  # for(i in 1:ncol(plotly_data)){
+  #   #First part checks for rows in teh column that contain a decimal
+  #   #if they do not contian a decimal, do nothing to them.
+  #
+  #   #The second part checks to see if the row values are value numbers
+  #   #A cateogrical value could contain a period
+  #   plotly_data[grepl("\\.", as.character(plotly_data[,i]))&!is.na(as.numeric(plotly_data[,i])),i] <- round(as.numeric(as.character(plotly_data[grepl("\\.", as.character(plotly_data[,i]))&!is.na(as.numeric(plotly_data[,i])),i])), 3)
+  # }
 
   #Create a vector with the final set of names
   names_data<- names(plotly_data)
   #Concatonate variable name to data
   for(i in 1:ncol(plotly_data)){
-    plotly_data[,i] <- paste(names_data[i],":" ,plotly_data[,i])
+    plotly_data[,i] <- paste(names_data[i],": " ,plotly_data[,i],sep="")
   }
 
 
@@ -144,16 +145,17 @@ if(class(model)[1]%in%c("lm", "glm")){
   plotly_data$Obs <- 1:nrow(plotly_data)
 
   plotly_data[] <- lapply(plotly_data, as.character)
+  #NO LONGER NEED THIS BECAUSE DISPLAYING VERTICALLY
   #Trim variables that are numeric and contain a decimal
   #down to 3 decimal places
-  for(i in 1:ncol(plotly_data)){
-    #First part checks for rows in teh column that contain a decimal
-    #if they do not contian a decimal, do nothing to them.
-
-    #The second part checks to see if the row values are value numbers
-    #A cateogrical value could contain a period
-    plotly_data[grepl("\\.", as.character(plotly_data[,i]))&!is.na(as.numeric(plotly_data[,i])),i] <- round(as.numeric(as.character(plotly_data[grepl("\\.", as.character(plotly_data[,i]))&!is.na(as.numeric(plotly_data[,i])),i])), 3)
-  }
+  # for(i in 1:ncol(plotly_data)){
+  #   #First part checks for rows in teh column that contain a decimal
+  #   #if they do not contian a decimal, do nothing to them.
+  #
+  #   #The second part checks to see if the row values are value numbers
+  #   #A cateogrical value could contain a period
+  #   plotly_data[grepl("\\.", as.character(plotly_data[,i]))&!is.na(as.numeric(plotly_data[,i])),i] <- round(as.numeric(as.character(plotly_data[grepl("\\.", as.character(plotly_data[,i]))&!is.na(as.numeric(plotly_data[,i])),i])), 3)
+  # }
 
 
   names_data<- names(plotly_data)
@@ -161,7 +163,7 @@ if(class(model)[1]%in%c("lm", "glm")){
 
   #Add name to rows
   for(i in 1:ncol(plotly_data)){
-    plotly_data[,i] <- paste(names_data[i],":" ,plotly_data[,i])
+    plotly_data[,i] <- paste(names_data[i],": " ,plotly_data[,i], sep="")
   }
 
 
