@@ -11,7 +11,9 @@
 
 resid_ls <- function(model, type,theme, axis.text.size, title.text.size, title.opt){
 
-
+  ## Creation of model values -------------------------------------------------------
+  ## Creation of Labels -------------------------------------------------------------
+  ## Creation of Plot ---------------------------------------------------------------
 
   # Create a data frame with the square root of the standardized residuals and predicted values
   if(class(model)[1]=="lm"){

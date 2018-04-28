@@ -13,7 +13,9 @@
 
 resid_plot <- function(model, type, smoother, theme, axis.text.size, title.text.size, title.opt){
 
-
+  ## Creation of model values -------------------------------------------------------
+  ## Creation of Labels -------------------------------------------------------------
+  ## Creation of Plot ---------------------------------------------------------------
 
   r_label <- resid_label(type, model)
   Default_Title <- paste(r_label,"Plot")

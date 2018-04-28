@@ -24,6 +24,9 @@
 
 resid_qq <- function(model, type, theme, axis.text.size, title.text.size, title.opt, qqline, qqbands){
 
+  ## Creation of model values -------------------------------------------------------
+  ## Creation of Labels -------------------------------------------------------------
+  ## Creation of Plot ---------------------------------------------------------------
 
   r_label <- resid_label(type, model)
 

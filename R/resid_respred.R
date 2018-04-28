@@ -4,7 +4,9 @@
 
 resid_respred <- function(model, theme, axis.text.size, title.text.size, title.opt){
 
-
+  ## Creation of model values -------------------------------------------------------
+  ## Creation of Labels -------------------------------------------------------------
+  ## Creation of Plot ---------------------------------------------------------------
 
   #model_values$line <- model_values$pred
   # Create the plot of response variable versus predicted values

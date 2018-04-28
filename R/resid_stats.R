@@ -1,7 +1,5 @@
 # Response versus predicted plot. -- UNDER CONSTRUCTION
 #
-# Creates a plot of the response variable versus the predicted values.
-#
 # resid_stats <- function(model){
 #
 #   # Create a data frame with model statistics

@@ -10,7 +10,9 @@
 
 resid_lev <- function(model, type, theme, axis.text.size, title.text.size, title.opt){
 
-
+  ## Creation of model values -------------------------------------------------------
+  ## Creation of Labels -------------------------------------------------------------
+  ## Creation of Plot ---------------------------------------------------------------
 
   # Create a data frame with the leverage values and standardized residuals
   if(class(model)[1]=="lm"){

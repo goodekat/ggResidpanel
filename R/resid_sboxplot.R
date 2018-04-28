@@ -15,6 +15,9 @@
 
 resid_sboxplot <- function(resid,pred, theme, axis.text.size, title.text.size, title.opt){
 
+  ## Creation of model values -------------------------------------------------------
+  ## Creation of Labels -------------------------------------------------------------
+  ## Creation of Plot ---------------------------------------------------------------
 
   model_values <- data.frame(Residual=resid)
   model_values$Observation <- 1:nrow(model_values)
