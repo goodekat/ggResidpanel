@@ -6,7 +6,7 @@ resid_resid <- function(type=NA, model){
   # lm residuals
   if(class(model)[1] == "lm"){
 
-    # Default is raw residuals
+    # Default: raw residuals
     if(is.na(type) | type == "response"){
       return(resid(model, type = "response"))
     }else if(type == "pearson"){
@@ -18,7 +18,7 @@ resid_resid <- function(type=NA, model){
   # glm residuals
   } else if (class(model)[1] == "glm"){
 
-    # Default is deviance residuals
+    # Default: deviance residuals
     if(is.na(type) | type == "deviance"){
       return(resid(model, type = "deviance"))
     }else if (type == "response"){
@@ -34,7 +34,7 @@ resid_resid <- function(type=NA, model){
   # lmer residuals
   } else if (class(model)[1] == "lmerMod"){
 
-    # Default is Pearson residuals (condtional on BLUPs)
+    # Default: Pearson residuals (condtional on BLUPs)
     if(is.na(type) | type == "pearson"){
         return(resid(model, type = "response") / summary(model)$sigma)
     }else if (type == "response"){
@@ -44,7 +44,7 @@ resid_resid <- function(type=NA, model){
   # glmer residuals
   } else if (class(model)[1] == "glmerMod"){
 
-    # Default is deviance residuals
+    # Default: deviance residuals
     if(is.na(type) | type == "deviance"){
       return(resid(model, type = "deviance"))
     }else if (type == "response"){
