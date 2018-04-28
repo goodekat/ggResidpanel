@@ -6,7 +6,7 @@
 #' @param plots Plots chosen to include in the panel of plots. (See details for options.)
 #' @param bins Number of bins for histogram of the residuals.
 #' @param scale Scale of graphs in panel. Takes values in (0,1].
-#' @param type
+#' @param type Specifies the type of residuals to use. (See details for options.)
 #' @param smoother Indicates whether or not to include a smoother on the residual plot.
 #' Specify TRUE or FALSE. Default is set to FALSE.
 #' @param axis.text.size Specifies the size of the text for the axis labels of all plots.
@@ -15,6 +15,8 @@
 #' \code{"grey"} (or \code{"gray"}). Default is \code{"bw"}.
 #' @param title Indicates whether or not to include a title on the plots.
 #' Specify TRUE or FALSE. Default is set to TRUE.
+#' @param ipanel_ncol Specifies the number of columns when individual plots have been specified.
+#' Default is set to 2 columns.
 #' @export
 #' @importFrom ggplot2 ggplot aes geom_point geom_abline labs theme_bw theme geom_histogram
 #' stat_function xlim geom_boxplot expand_limits geom_smooth element_text ggplotGrob geom_vline
@@ -78,7 +80,8 @@
 resid_panel <- function(model, plots = "SAS", bins = NA, scale = 1,
                         type = NA, smoother = FALSE, theme = "bw",
                         axis.text.size = 10, title.text.size = 12,
-                        title = TRUE, qqline = TRUE, qqbands = FALSE){
+                        title = TRUE, qqline = TRUE, qqbands = FALSE,
+                        ipanel_ncol = 2){
 
   ## Errors and Warnings -------------------------------------------------------
 
@@ -119,10 +122,9 @@ resid_panel <- function(model, plots = "SAS", bins = NA, scale = 1,
   # Return an error if the requested plots involve standardizing residuals for an 'lmer' or
   # a 'glmer' model
   if(class(model)[1] %in% c("lmerMod", "glmerMod")){
-    if("ls" %in% plots |"residlev" %in% plots | "all" %in% plots | "SASextend" %in% plots |
-       "R" %in% plots){
-      stop("The requested plot or panel uses standardized residuals, which are not currently
-           available for 'lmer' or 'glmer' models.")
+    if("ls" %in% plots |"residlev" %in% plots | "all" %in% plots | "R" %in% plots){
+      stop("The requested plot or panel uses standardized residuals, which are not
+           currently available for 'lmer' or 'glmer' models.")
     }
   }
 
@@ -170,7 +172,7 @@ resid_panel <- function(model, plots = "SAS", bins = NA, scale = 1,
   ## Creation of plots ---------------------------------------------------------
 
   # Create a boxplot of the residuals if selected in plots otherwise set as NULL
-  if("boxplot" %in% plots | "SAS" == plots | "all" == plots){
+  if("boxplot" %in% plots | "SAS" %in% plots | "all" %in% plots){
     boxplot <- resid_boxplot(type = type,
                              model = model,
                              theme = theme,
@@ -182,7 +184,7 @@ resid_panel <- function(model, plots = "SAS", bins = NA, scale = 1,
   }
 
   # Create a Cook's D plot if selected in plots otherwise set as NULL
-  if("cookd" %in% plots | "all" == plots){
+  if("cookd" %in% plots | "all" %in% plots){
     cookd <- resid_cookd(model = model,
                          theme = theme,
                          axis.text.size = axis.text.size,
@@ -193,7 +195,7 @@ resid_panel <- function(model, plots = "SAS", bins = NA, scale = 1,
   }
 
   # Create a histogram of the residuals if selected in plots otherwise set as NULL
-  if("hist" %in% plots | "SAS" == plots | "all" == plots){
+  if("hist" %in% plots | "SAS" %in% plots | "all" %in% plots){
     hist <- resid_hist(model = model,
                        type = type,
                        bins = bins,
@@ -206,7 +208,7 @@ resid_panel <- function(model, plots = "SAS", bins = NA, scale = 1,
   }
 
   # Create a location-scale plot if selected in plots otherwise set as NULL
-  if("ls" %in% plots | "R" == plots | "all" == plots){
+  if("ls" %in% plots | "R" %in% plots | "all" %in% plots){
     ls <- resid_ls(model = model,
                    type = type,
                    theme = theme,
@@ -218,7 +220,7 @@ resid_panel <- function(model, plots = "SAS", bins = NA, scale = 1,
   }
 
   # Create a q-q plot of the residuals if selected in plots otherwise set as NULL
-  if("qq" %in% plots | "SAS" == plots | "R" == plots | "all" == plots){
+  if("qq" %in% plots | "SAS" %in% plots | "R" %in% plots | "all" %in% plots){
     qq <- resid_qq(model = model,
                    type = type,
                    theme = theme,
@@ -232,7 +234,7 @@ resid_panel <- function(model, plots = "SAS", bins = NA, scale = 1,
   }
 
   # Create a residual-leverage plot if selected in plots otherwise set as NULL
-  if("residlev" %in% plots | "R" == plots | "all" == plots){
+  if("residlev" %in% plots | "R" %in% plots | "all" %in% plots){
     residlev <- resid_lev(model = model,
                           type = type,
                           theme = theme,
@@ -244,7 +246,7 @@ resid_panel <- function(model, plots = "SAS", bins = NA, scale = 1,
   }
 
   # Create a residual plot if selected in plots otherwise set as NULL
-  if("residplot" %in% plots | "SAS" == plots | "R" == plots | "all" == plots){
+  if("residplot" %in% plots | "SAS" %in% plots | "R" %in% plots | "all" %in% plots){
     residplot <- resid_plot(model = model,
                             type = type,
                             smoother = smoother,
@@ -258,7 +260,7 @@ resid_panel <- function(model, plots = "SAS", bins = NA, scale = 1,
 
   # Create a plot of the response variable vs the predicted values if selected
   # in plots otherwise set as NULL
-  if("respred" %in% plots | "all" == plots){
+  if("respred" %in% plots | "all" %in% plots){
     respred <- resid_respred(model = model,
                              theme = theme,
                              axis.text.size = axis.text.size,
@@ -279,8 +281,8 @@ resid_panel <- function(model, plots = "SAS", bins = NA, scale = 1,
             "residplot" %in% plots | "respred" %in% plots){
     plots <- "individual"
   } else{
-    stop("Invalid plots option entered. Choose from the following list:
-         SAS, R, all, boxplot, cookd, hist, ls, qq, residlev, residplot, respred.")
+    stop("Invalid plots option entered. See the resid_panel help file for
+         available options.")
   }
 
   # Create a grid of plots based on the plots specified
@@ -289,29 +291,32 @@ resid_panel <- function(model, plots = "SAS", bins = NA, scale = 1,
     # Create grid of SAS plots in resid panel
     plot_grid(residplot, hist, qq, boxplot, scale = scale)
 
-  }else if (plots == "R") {
+  } else if (plots == "R") {
 
     # Create grid of R plots
     plot_grid(residplot, qq, ls, residlev, scale = scale)
 
-  }else if (plots == "all") {
+  } else if (plots == "all") {
 
     # Create grid of all plots
-    if(class(model)[1]=="lm"){
-    plot_grid(residplot, hist, qq, boxplot, residlev, cookd, ls, respred,
-          scale = scale)
-    }else{
-      plot_grid(residplot, hist, qq, boxplot, residlev, cookd, ls, respred,
+    if(class(model)[1] == "lm" | class(model)[1] == "glm"){
+      plot_grid(residplot, hist, qq, boxplot, cookd, ls, residlev, respred,
                 scale = scale)
-
+    } else{
+      plot_grid(residplot, hist, qq, boxplot, respred, scale = scale)
     }
 
-  }else if (plots == "individual") {
+  } else if (plots == "individual") {
 
     # Turn the specified plots into a list
-    individual_plots <- list(residplot = residplot, hist = hist, qq = qq,
-                             boxplot = boxplot, ls = ls, residlev = residlev,
-                             cookd = cookd, respred = respred)
+    individual_plots <- list(boxplot = boxplot,
+                             cookd = cookd,
+                             hist = hist,
+                             ls = ls,
+                             qq = qq,
+                             residlev = residlev,
+                             residplot = residplot,
+                             respred = respred)
 
     # Remove the plots which are null
     individual_plots <- individual_plots[-which(sapply(individual_plots, is.null))]
@@ -320,7 +325,7 @@ resid_panel <- function(model, plots = "SAS", bins = NA, scale = 1,
     my_grobs = lapply(individual_plots, ggplotGrob)
 
     # Specify number of columns for grid of plots based on number of plots specified
-    ifelse(length(individual_plots) == 1, grid_col <- 1, grid_col <- 2)
+    ifelse(length(individual_plots) == 1, grid_col <- 1, grid_col <- ipanel_ncol)
 
     # Create grid of individual plots specified
     grid.arrange(grobs = my_grobs, ncol = grid_col, scale = scale)

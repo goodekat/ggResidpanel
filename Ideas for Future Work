@@ -29,6 +29,8 @@ Notes:
 - convert prediction to ilink scale in respred: I think it is already on
   the ilink scale -- is there something that I missed?
 - Maybe change the name of type to residtype
+- Which plots should only be used with "lm" models? (We need to update this
+  in the "all" part of the resid_panel function.)
 
 Other To Do Before Conference:
 - make a vignette with examples showing how to use the package
