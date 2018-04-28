@@ -2,7 +2,7 @@
 #
 # Creates a plot of the response variable versus the predicted values.
 
-resid_respred <- function(model,theme="bw", axis.text.size=12, title.text.size=12, title=TRUE){
+resid_respred <- function(model, theme, axis.text.size, title.text.size, title.opt){
 
 
 
@@ -53,12 +53,12 @@ resid_respred <- function(model,theme="bw", axis.text.size=12, title.text.size=1
   }
 
   # Set text size of title and axis lables, determine whether to include a title, and return plot
-  if(title == TRUE){
+  if(title.opt == TRUE){
     plot +
       labs(title = "Response vs Predicted") +
       theme(plot.title = element_text(size = title.text.size, face = "bold"),
             axis.title = element_text(size = axis.text.size))
-  } else if (title == FALSE){
+  } else if (title.opt == FALSE){
     plot + theme(axis.title = element_text(size = axis.text.size))
   }
 

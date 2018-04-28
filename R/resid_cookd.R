@@ -10,7 +10,7 @@
 # model <- lm(Volume ~ Girth, data = trees)
 # resid_cookd(model)
 
-resid_cookd <- function(model, theme, axis.text.size, title.text.size, title){
+resid_cookd <- function(model, theme, axis.text.size, title.text.size, title.opt){
 
 
   # Create a data frame with the cook's d values and the observation numbers
@@ -44,12 +44,12 @@ plot <- ggplot(model_values, aes(x = obs, y = cooksd, label=Data)) +
   }
 
   # Set text size of title and axis lables, determine whether to include a title, and return plot
-  if(title == TRUE){
+  if(title.opt == TRUE){
     plot +
       labs(title = "COOK's D") +
       theme(plot.title = element_text(size = title.text.size, face = "bold"),
                  axis.title = element_text(size = axis.text.size))
-  } else if (title == FALSE){
+  } else if (title.opt == FALSE){
     plot + theme(axis.title = element_text(size = axis.text.size))
   }
 

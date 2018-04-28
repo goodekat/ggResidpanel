@@ -13,7 +13,7 @@
 #
 # Creates a boxplot on the residuals from a model.
 
-resid_sboxplot <- function(resid,pred, theme, axis.text.size, title.text.size, title){
+resid_sboxplot <- function(resid,pred, theme, axis.text.size, title.text.size, title.opt){
 
 
   model_values <- data.frame(Residual=resid)
@@ -38,12 +38,12 @@ resid_sboxplot <- function(resid,pred, theme, axis.text.size, title.text.size, t
   }
 
   # Set text size of title and axis lables, determine whether to include a title, and return plot
-  if (title == TRUE){
+  if (title.opt == TRUE){
     plot +
       labs(title = "Boxplot of Residuals") +
       theme(plot.title = element_text(size = title.text.size, face = "bold"),
                  axis.title = element_text(size = axis.text.size))
-  } else if (title == FALSE){
+  } else if (title.opt == FALSE){
     plot + theme(axis.title = element_text(size = axis.text.size))
   }
 

@@ -11,7 +11,7 @@
 # model <- lm(Volume ~ Girth, data = trees)
 # resid_plot(model)
 
-resid_plot <- function(model, type, smoother, theme, axis.text.size, title.text.size, title){
+resid_plot <- function(model, type, smoother, theme, axis.text.size, title.text.size, title.opt){
 
 
 
@@ -55,12 +55,12 @@ resid_plot <- function(model, type, smoother, theme, axis.text.size, title.text.
   }
 
   # Set text size of title and axis lables, determine whether to include a title, and return plot
-  if(title == TRUE){
+  if(title.opt == TRUE){
     plot +
       labs(title = Default_Title) +
       theme(plot.title = element_text(size = title.text.size, face = "bold"),
             axis.title = element_text(size = axis.text.size))
-  } else if (title == FALSE){
+  } else if (title.opt == FALSE){
     plot + theme(axis.title = element_text(size = axis.text.size))
   }
 

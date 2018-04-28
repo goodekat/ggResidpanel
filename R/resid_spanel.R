@@ -13,7 +13,7 @@
 #' @param title.text.size Specifies the size of the text for the titles of all plots.
 #' @param theme ggplot2 theme to be used. Options are \code{"bw"}, \code{"classic"}, and
 #' \code{"grey"} (or \code{"gray"}). Default is \code{"bw"}.
-#' @param title Indicates whether or not to include a title on the plots.
+#' @param title.opt Indicates whether or not to include a title on the plots.
 #' Specify TRUE or FALSE. Default is set to TRUE.
 #' @export
 #' @importFrom ggplot2 ggplot aes geom_point geom_abline labs theme_bw theme geom_histogram
@@ -69,7 +69,7 @@
 resid_spanel <- function(resid, pred, plots = "SAS", bins = NA, scale = 1,
                         smoother = FALSE, theme = "bw",
                         axis.text.size = 10, title.text.size = 12,
-                        title = TRUE, qqline = TRUE, qqbands = FALSE){
+                        title.opt = TRUE, qqline = TRUE, qqbands = FALSE){
 
   ## Errors and Warnings -------------------------------------------------------
 

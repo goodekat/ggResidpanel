@@ -13,10 +13,11 @@
 #' @param title.text.size Specifies the size of the text for the titles of all plots.
 #' @param theme ggplot2 theme to be used. Options are \code{"bw"}, \code{"classic"}, and
 #' \code{"grey"} (or \code{"gray"}). Default is \code{"bw"}.
-#' @param title Indicates whether or not to include a title on the plots.
+#' @param title.opt Indicates whether or not to include a title on the plots.
 #' Specify TRUE or FALSE. Default is set to TRUE.
 #' @param ind.ncol Sets the number of columns in the panel when more than one individual plot
 #' has been specified. Default is set to 2 columns.
+#'
 #' @export
 #' @importFrom ggplot2 ggplot aes geom_point geom_abline labs theme_bw theme geom_histogram
 #' stat_function xlim geom_boxplot expand_limits geom_smooth element_text ggplotGrob geom_vline
@@ -80,7 +81,7 @@
 resid_panel <- function(model, plots = "SAS", bins = NA, scale = 1,
                         type = NA, smoother = FALSE, theme = "bw",
                         axis.text.size = 10, title.text.size = 12,
-                        title = TRUE, qqline = TRUE, qqbands = FALSE,
+                        title.opt = TRUE, qqline = TRUE, qqbands = FALSE,
                         ind.ncol = 2){
 
   ## Errors and Warnings -------------------------------------------------------
@@ -152,9 +153,9 @@ resid_panel <- function(model, plots = "SAS", bins = NA, scale = 1,
   }
 
   # Return a warning if the title option is not specified correctly
-  if(title == TRUE | title == FALSE){
+  if(title.opt == TRUE | title.opt == FALSE){
   } else{
-    title <- TRUE
+    title.opt <- TRUE
     warning("The title option was not specified correctly. The default title
             option will be used. Accepted options are TRUE or FALSE.")
   }
@@ -178,7 +179,7 @@ resid_panel <- function(model, plots = "SAS", bins = NA, scale = 1,
                              theme = theme,
                              axis.text.size = axis.text.size,
                              title.text.size = title.text.size,
-                             title = title)
+                             title.opt = title.opt)
   } else{
     boxplot <- NULL
   }
@@ -189,7 +190,7 @@ resid_panel <- function(model, plots = "SAS", bins = NA, scale = 1,
                          theme = theme,
                          axis.text.size = axis.text.size,
                          title.text.size = title.text.size,
-                         title = title)
+                         title.opt = title.opt)
   } else{
     cookd <- NULL
   }
@@ -202,7 +203,7 @@ resid_panel <- function(model, plots = "SAS", bins = NA, scale = 1,
                        theme = theme,
                        axis.text.size = axis.text.size,
                        title.text.size = title.text.size,
-                       title = title)
+                       title.opt = title.opt)
   } else{
     hist <- NULL
   }
@@ -214,7 +215,7 @@ resid_panel <- function(model, plots = "SAS", bins = NA, scale = 1,
                    theme = theme,
                    axis.text.size = axis.text.size,
                    title.text.size = title.text.size,
-                   title = title)
+                   title.opt = title.opt)
   } else{
     ls <- NULL
   }
@@ -226,7 +227,7 @@ resid_panel <- function(model, plots = "SAS", bins = NA, scale = 1,
                    theme = theme,
                    axis.text.size = axis.text.size,
                    title.text.size = title.text.size,
-                   title = title,
+                   title.opt = title.opt,
                    qqline = qqline,
                    qqbands = qqbands)
   } else{
@@ -240,7 +241,7 @@ resid_panel <- function(model, plots = "SAS", bins = NA, scale = 1,
                           theme = theme,
                           axis.text.size = axis.text.size,
                           title.text.size = title.text.size,
-                          title = title)
+                          title.opt = title.opt)
   } else{
     residlev <- NULL
   }
@@ -253,7 +254,7 @@ resid_panel <- function(model, plots = "SAS", bins = NA, scale = 1,
                             theme = theme,
                             axis.text.size = axis.text.size,
                             title.text.size = title.text.size,
-                            title = title)
+                            title.opt = title.opt)
   } else{
     residplot <- NULL
   }
@@ -265,7 +266,7 @@ resid_panel <- function(model, plots = "SAS", bins = NA, scale = 1,
                              theme = theme,
                              axis.text.size = axis.text.size,
                              title.text.size = title.text.size,
-                             title = title)
+                             title.opt = title.opt)
   } else{
     respred <- NULL
   }

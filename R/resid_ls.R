@@ -9,7 +9,7 @@
 # model <- lm(Volume ~ Girth, data = trees)
 # resid_ls(model)
 
-resid_ls <- function(model, type,theme, axis.text.size, title.text.size, title){
+resid_ls <- function(model, type,theme, axis.text.size, title.text.size, title.opt){
 
 
 
@@ -70,12 +70,12 @@ resid_ls <- function(model, type,theme, axis.text.size, title.text.size, title){
   }
 
   # Set text size of title and axis lables, determine whether to include a title, and return plot
-  if(title == TRUE){
+  if(title.opt == TRUE){
     plot +
       labs(title = "Scale-Location") +
       theme(plot.title = element_text(size = title.text.size, face = "bold"),
             axis.title = element_text(size = axis.text.size))
-  } else if (title == FALSE){
+  } else if (title.opt == FALSE){
     plot + theme(axis.title = element_text(size = axis.text.size))
   }
 
