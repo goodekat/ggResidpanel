@@ -53,6 +53,8 @@
 #'     \item \code{"respred":}: A plot of the response variable versus the predicted values.
 #'   }
 #' }
+#' Cook's D: The Horizontal line represents a cut-off to identify highly influential points. The horizontal line is
+#' placed at 4/n where n is the number of data points used in the \code{model}.
 #'
 #' @return A panel of residual diagnostic plots containing plots specified.
 #' @examples

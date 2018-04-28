@@ -68,6 +68,8 @@ The following grid options can be chosen for the \code{plots} argument.
     \item \code{"respred":}: A plot of the response variable versus the predicted values.
   }
 }
+Cook's D: The Horizontal line represents a cut-off to identify highly influential points. The horizontal line is
+placed at 4/n where n is the number of data points used in the \code{model}.
 }
 \examples{
 # Fit a linear regression model and plot the residuals using the default panel
