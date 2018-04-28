@@ -171,58 +171,99 @@ resid_panel <- function(model, plots = "SAS", bins = NA, scale = 1,
 
   # Create a boxplot of the residuals if selected in plots otherwise set as NULL
   if("boxplot" %in% plots | "SAS" == plots | "all" == plots){
-    boxplot <- resid_boxplot(model, type = type, theme, axis.text.size, title.text.size, title)
+    boxplot <- resid_boxplot(type = type,
+                             model = model,
+                             theme = theme,
+                             axis.text.size = axis.text.size,
+                             title.text.size = title.text.size,
+                             title = title)
   } else{
     boxplot <- NULL
   }
 
   # Create a Cook's D plot if selected in plots otherwise set as NULL
   if("cookd" %in% plots | "all" == plots){
-    cookd <- resid_cookd(model, theme, axis.text.size, title.text.size, title)
+    cookd <- resid_cookd(model = model,
+                         theme = theme,
+                         axis.text.size = axis.text.size,
+                         title.text.size = title.text.size,
+                         title = title)
   } else{
     cookd <- NULL
   }
 
   # Create a histogram of the residuals if selected in plots otherwise set as NULL
-  if("hist" %in% plots | "SAS" %in% plots | "all" %in% plots){
-    hist <- resid_hist(model, type, bins = bins, theme, axis.text.size,
-                       title.text.size, title)
+  if("hist" %in% plots | "SAS" == plots | "all" == plots){
+    hist <- resid_hist(model = model,
+                       type = type,
+                       bins = bins,
+                       theme = theme,
+                       axis.text.size = axis.text.size,
+                       title.text.size = title.text.size,
+                       title = title)
   } else{
     hist <- NULL
   }
 
   # Create a location-scale plot if selected in plots otherwise set as NULL
-  if("ls" %in% plots | "R" %in% plots | "all" %in% plots){
-    ls <- resid_ls(model, type, theme, axis.text.size, title.text.size, title)
+  if("ls" %in% plots | "R" == plots | "all" == plots){
+    ls <- resid_ls(model = model,
+                   type = type,
+                   theme = theme,
+                   axis.text.size = axis.text.size,
+                   title.text.size = title.text.size,
+                   title = title)
   } else{
     ls <- NULL
   }
 
   # Create a q-q plot of the residuals if selected in plots otherwise set as NULL
-  if("qq" %in% plots | "SAS" %in% plots | "R" %in% plots | "all" %in% plots){
-    qq <- resid_qq(model, type, theme, axis.text.size, title.text.size, title, qqline, qqbands)
+  if("qq" %in% plots | "SAS" == plots | "R" == plots | "all" == plots){
+    qq <- resid_qq(model = model,
+                   type = type,
+                   theme = theme,
+                   axis.text.size = axis.text.size,
+                   title.text.size = title.text.size,
+                   title = title,
+                   qqline = qqline,
+                   qqbands = qqbands)
   } else{
     qq <- NULL
   }
 
   # Create a residual-leverage plot if selected in plots otherwise set as NULL
-  if("residlev" %in% plots | "R" %in% plots | "all" %in% plots){
-    residlev <- resid_lev(model, type, theme, axis.text.size, title.text.size, title)
+  if("residlev" %in% plots | "R" == plots | "all" == plots){
+    residlev <- resid_lev(model = model,
+                          type = type,
+                          theme = theme,
+                          axis.text.size = axis.text.size,
+                          title.text.size = title.text.size,
+                          title = title)
   } else{
     residlev <- NULL
   }
 
   # Create a residual plot if selected in plots otherwise set as NULL
-  if("residplot" %in% plots | "SAS" %in% plots | "R" %in% plots | "all" %in% plots){
-    residplot <- resid_plot(model, type, smoother, theme, axis.text.size, title.text.size, title)
+  if("residplot" %in% plots | "SAS" == plots | "R" == plots | "all" == plots){
+    residplot <- resid_plot(model = model,
+                            type = type,
+                            smoother = smoother,
+                            theme = theme,
+                            axis.text.size = axis.text.size,
+                            title.text.size = title.text.size,
+                            title = title)
   } else{
     residplot <- NULL
   }
 
   # Create a plot of the response variable vs the predicted values if selected
   # in plots otherwise set as NULL
-  if("respred" %in% plots | "all" %in% plots){
-    respred <- resid_respred(model, theme, axis.text.size, title.text.size, title)
+  if("respred" %in% plots | "all" == plots){
+    respred <- resid_respred(model = model,
+                             theme = theme,
+                             axis.text.size = axis.text.size,
+                             title.text.size = title.text.size,
+                             title = title)
   } else{
     respred <- NULL
   }
