@@ -9,23 +9,16 @@ Katie's Tasks:
 Farther future:
 - figure out how to get standardized lmer and glmer residuals
 
-
-
 Completed:
 - change all functions to accept different residual types
 - Add in error to moderate residual types
 - Take out default values in individual functions
 - Add in error so lmer and glmer can't use All, R, lev, los, and cook's d
 
-
 Katherine's Tasks:
+- Move all documentation to resid_panel or supplemental document
+- Improve examples in help file for resid_panel
 - Two factor leverage plot
-- move all documentation to resid_panel or supplemental document
-- improve examples in help file for resid_panel
-- add additional two plots to SASextend
-- figure out error with text table that sometimes appears:
-  Error in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y,  :
-  polygon edge not found
 Notes:
 - Title for standardized deviance residuals vs ... gets cut off in R
 - I realized that I made a mistake with the stats -- will need to write a
@@ -35,19 +28,20 @@ Notes:
   version of the model (unless I get time to finish this next week)
 - convert prediction to ilink scale in respred: I think it is already on
   the ilink scale -- is there something that I missed?
-- Something is not right with the interaction function -- it will not let
-  me interact
+- Maybe change the name of type to residtype
 
 Other To Do Before Conference:
 - make a vignette with examples showing how to use the package
   - examples for each of residual type
 - get new version up and running
 - design and print stickers
+- figure out how to handle the plotly warning
 
 Ideas for Future Package Versions:
+- include a SASextended option
 - write a function for computing standardized residuals for lmer and glmer
 - add option to plot standardized residuals for lmer and glmer
 - put interactive plots in a grid
 - write a function for showing plots from multiple transformations (the user can specify the transformations)
 - write a function to show residual plots from multiple models at the same time
-
+- create an option for the user to add their own theme
