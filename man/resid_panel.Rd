@@ -7,7 +7,7 @@
 resid_panel(model, plots = "SAS", bins = NA, scale = 1, type = NA,
   smoother = FALSE, theme = "bw", axis.text.size = 10,
   title.text.size = 12, title = TRUE, qqline = TRUE, qqbands = FALSE,
-  ipanel_ncol = 2)
+  ind.ncol = 2)
 }
 \arguments{
 \item{model}{Model fit using either \code{lm}, \code{glm}, \code{lmer}, or \code{glmer}.}
@@ -33,8 +33,8 @@ Specify TRUE or FALSE. Default is set to FALSE.}
 \item{title}{Indicates whether or not to include a title on the plots.
 Specify TRUE or FALSE. Default is set to TRUE.}
 
-\item{ipanel_ncol}{Specifies the number of columns when individual plots have been specified.
-Default is set to 2 columns.}
+\item{ind.ncol}{Sets the number of columns in the panel when more than one individual plot
+has been specified. Default is set to 2 columns.}
 }
 \value{
 A panel of residual diagnostic plots containing plots specified.

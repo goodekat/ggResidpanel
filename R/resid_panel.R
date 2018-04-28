@@ -15,8 +15,8 @@
 #' \code{"grey"} (or \code{"gray"}). Default is \code{"bw"}.
 #' @param title Indicates whether or not to include a title on the plots.
 #' Specify TRUE or FALSE. Default is set to TRUE.
-#' @param ipanel_ncol Specifies the number of columns when individual plots have been specified.
-#' Default is set to 2 columns.
+#' @param ind.ncol Sets the number of columns in the panel when more than one individual plot
+#' has been specified. Default is set to 2 columns.
 #' @export
 #' @importFrom ggplot2 ggplot aes geom_point geom_abline labs theme_bw theme geom_histogram
 #' stat_function xlim geom_boxplot expand_limits geom_smooth element_text ggplotGrob geom_vline
@@ -81,7 +81,7 @@ resid_panel <- function(model, plots = "SAS", bins = NA, scale = 1,
                         type = NA, smoother = FALSE, theme = "bw",
                         axis.text.size = 10, title.text.size = 12,
                         title = TRUE, qqline = TRUE, qqbands = FALSE,
-                        ipanel_ncol = 2){
+                        ind.ncol = 2){
 
   ## Errors and Warnings -------------------------------------------------------
 
@@ -325,7 +325,7 @@ resid_panel <- function(model, plots = "SAS", bins = NA, scale = 1,
     my_grobs = lapply(individual_plots, ggplotGrob)
 
     # Specify number of columns for grid of plots based on number of plots specified
-    ifelse(length(individual_plots) == 1, grid_col <- 1, grid_col <- ipanel_ncol)
+    ifelse(length(individual_plots) == 1, grid_col <- 1, grid_col <- ind.ncol)
 
     # Create grid of individual plots specified
     grid.arrange(grobs = my_grobs, ncol = grid_col, scale = scale)
