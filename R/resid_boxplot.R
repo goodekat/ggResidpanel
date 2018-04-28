@@ -1,47 +1,41 @@
 # Boxplot of Residuals.
-#
-# Creates a boxplot on the residuals from a model.
-#
-# @param model Model fit using either lm, glm, lmer, or glmer.
-# @param type The user may specify a type of residuals to use, otherwise the default residual type for each model is used.
-# @return A boxplot of the residuals from the \code{model}.
-# @examples
-# model <- lm(Volume ~ Girth, data = trees)
-# resid_boxplot(model)
 
-# Boxplot of Residuals.
-#
-# Creates a boxplot on the residuals from a model.
+# Function for creating a boxplot of the residuals
+resid_boxplot <- function(model, type, theme, axis.text.size, title.text.size, title.opt){
 
-resid_boxplot <- function(model, type, theme, axis.text.size, title.text.size, title){
-
-  # Call function to return appropriate residual label
-  r_label <- resid_label(type, model)
+  ## Creation of model values -------------------------------------------------------
 
   # Create a data frame with the residuals
   if(is.na(type)){
-    model_values <- data.frame(Residual = resid_resid(type = NA, model = model))
-  }else{
-    model_values <- data.frame(Residual = resid_resid(type = type, model = model))
+    model_values <- data.frame(residual = resid_resid(type = NA, model = model))
+  } else{
+    model_values <- data.frame(residual = resid_resid(type = type, model = model))
   }
+
+  # Add an observation variable
   model_values$Observation <- 1:nrow(model_values)
 
-  #Create labels for plotly
-  Data <- resid_plotly_label(model)
+  ## Creation of Labels -------------------------------------------------------------
 
-  Default_Title <- paste("Boxplot of", r_label)
+  # Call function to return appropriate residual label
+  r_label <- resid_label(type = type, model = model)
+
+  # Create a title for the plot based on r_label
+  title <- paste("Boxplot of", r_label)
+
+  # Create labels for plotly
+  data <- resid_plotly_label(model)
+
+  ## Creation of Plot ---------------------------------------------------------------
+
   # Create the boxplot of residuals
-  plot <- ggplot(model_values, aes(x = " ", y = Residual,label=Data)) +
-    geom_boxplot(width=.5) +
-    geom_point(alpha=0)+
-    labs(x = " ", y = r_label) +
-    theme(plot.title = element_text(size = 12, face = "bold"),
-          axis.title = element_text(size = 10))
-    labs(x = " ", y = "Residuals")
+  plot <- ggplot(model_values, aes(x = " ", y = residual, label = data)) +
+    geom_boxplot(width = .5) +
+    geom_point(alpha = 0) +
+    labs(x = " ", y = r_label)
 
   # Add theme to plot
-
-    if (theme == "bw"){
+  if (theme == "bw"){
     plot <- plot + theme_bw()
   } else if (theme == "classic"){
     plot <- plot + theme_classic()
@@ -49,15 +43,15 @@ resid_boxplot <- function(model, type, theme, axis.text.size, title.text.size, t
     plot <- plot + theme_grey()
   }
 
-  # Set text size of title and axis lables, determine whether to include a title, and return plot
-  if (title == TRUE){
+  # Set text size of title and axis lables, determine whether to include a title,
+  # and return plot
+  if (title.opt == TRUE){
     plot +
-      labs(title = Default_Title) +
+      labs(title = title) +
       theme(plot.title = element_text(size = title.text.size, face = "bold"),
                  axis.title = element_text(size = axis.text.size))
-  } else if (title == FALSE){
+  } else if (title.opt == FALSE){
     plot + theme(axis.title = element_text(size = axis.text.size))
   }
-
 
 }
