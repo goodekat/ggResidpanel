@@ -7,12 +7,10 @@ Katie's Tasks:
 - update resid_interact to show relevant info
 
 Katherine's Tasks:
-- updated documentation for resid_panel, resid_interact, and resid_auxpanel
-- improve examples in the help files
+- update documentation for resid_panel, resid_interact, and resid_auxpanel
 - clean up helper_glm_actual and helper_plotly_label
 - change all files to treat ls as ls and not sl
 - add alpha values to lev plot
-- figure out how to get desired order of plots when individual plots are requested
 - email Heike about plotly error and other error
   - Error in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y,  :
   polygon edge not found
@@ -35,6 +33,7 @@ Katherine's Tasks:
   - I left out a link to the residual document for now in the documentation. I
     figure we can include this later on when we have worked more on the vignettes.
   - Is there anything else we need to add to the details for the histogram.
+  - Figure out how to get desired order of plots when individual plots are requested
 
 Other To Do Before Conference:
 - get new version up and running
