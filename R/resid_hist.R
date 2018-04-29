@@ -1,78 +1,67 @@
 # Histogram of Residuals.
-#
-# Creates a histogram of the residuals from a model.
-#
-# @param model Model fit using either lm, glm, lmer, or glmer.
-# @return A histogram of the residuals from the \code{model} with a normal
-# @param type The user may specify a type of residuals to use, otherwise the default residual type for each model is used.
-# density curve overlaid with mean equal to the mean of the residuals and
-# standard deviation equal to the standard deviation of the residuals.
-# @examples
-# model <- lm(Volume ~ Girth, data = trees)
-# resid_hist(model)
 
-
-resid_hist <- function(model, type,bins, theme, axis.text.size, title.text.size, title.opt){
+# Creates a histogram of the residuals from a model
+resid_hist <- function(model, type, bins, theme, axis.text.size, title.text.size, title.opt){
 
   ## Creation of Values to Plot -----------------------------------------------------
-  ## Creation of Labels -------------------------------------------------------------
-  ## Creation of Plot ---------------------------------------------------------------
 
-  #If bins=NA, use default
+  # If bins = NA, use default value of 30
   if(is.na(bins)){
     bins <- 30
   }
 
-  #call function to return appropriate residual label
-  r_label <- resid_label(type, model)
   # Create a data frame with the residuals
   if(is.na(type)){
-    model_values <- data.frame(resid = resid_resid(type=NA, model=model))
+    model_values <- data.frame(resid = resid_resid(type = NA, model = model))
   }else{
-    model_values <- data.frame(resid = resid_resid(type=type, model=model))
+    model_values <- data.frame(resid = resid_resid(type = type, model = model))
   }
 
-
-  Default_Title <- paste("Histogram of", r_label)
-  #Step to make sure are not cutting out any huge outliers
-  if (min(model_values$resid) < -4*sd(model_values$resid)){
+  # Steps to make sure any huge outliers are not cut off
+  if (min(model_values$resid) < -4 * sd(model_values$resid)){
     min_x <- NA
-  }else{
+  } else{
     min_x <- -4*sd(model_values$resid)
   }
-
-  if (max(model_values$resid) > 4*sd(model_values$resid)){
+  if (max(model_values$resid) > 4 * sd(model_values$resid)){
     max_x <- NA
-  }else{
-    max_x <- 4*sd(model_values$resid)
+  } else{
+    max_x <- 4 * sd(model_values$resid)
   }
 
-  #do not want xlim if data outside 4*sd
-  if (is.na(min_x)&is.na(max_x)){
-    # Create the histogram of residuals
+  ## Creation of Labels -------------------------------------------------------------
+
+  # Call function to return appropriate residual label
+  r_label <- resid_label(type, model)
+
+  # Create a title for the plot based on r_label
+  title <- paste("Histogram of", r_label)
+
+  ## Creation of Plot ---------------------------------------------------------------
+
+  # Create the histogram of residuals
+  if (is.na(min_x) & is.na(max_x)){
+
+    # Data is outside of 4*sd, so xlim is not used
     plot <- ggplot(model_values, aes(x = resid)) +
       geom_histogram(aes(y = ..density.., fill = ..count..),
                      color = "black", fill = "grey82", bins = bins) +
       stat_function(fun = dnorm, color = "blue",
-                    args = list(mean = 0,
-                                sd = sd(model_values$resid))) +
-      labs(x = r_label, y = "Density") +
-      theme(plot.title = element_text(size = 12, face = "bold"),
-            axis.title = element_text(size = 10))
-  }else{
-  # Create the histogram of residuals
-  plot <- ggplot(model_values, aes(x = resid)) +
-    geom_histogram(aes(y = ..density.., fill = ..count..),
-                   color = "black", fill = "grey82", bins = bins) +
-    stat_function(fun = dnorm, color = "blue",
-                  args = list(mean = 0,
-                              sd = sd(model_values$resid))) +
-    labs(x = r_label, y = "Density") +
-      xlim(c(min_x, max_x))+
-    theme(plot.title = element_text(size = 12, face = "bold"),
-          axis.title = element_text(size = 10))
-  }
+                    args = list(mean = 0, sd = sd(model_values$resid))) +
+      labs(x = r_label, y = "Density")
 
+  } else{
+
+    # Data is not outside of 4*sd, so xlim is used
+    plot <- ggplot(model_values, aes(x = resid)) +
+      geom_histogram(aes(y = ..density.., fill = ..count..),
+                     color = "black", fill = "grey82", bins = bins) +
+      stat_function(fun = dnorm, color = "blue",
+                    args = list(mean = 0, sd = sd(model_values$resid))) +
+      labs(x = r_label, y = "Density") +
+      xlim(c(min_x, max_x))
+
+  }
 
   # Add theme to plot
   if (theme == "bw"){
@@ -83,10 +72,11 @@ resid_hist <- function(model, type,bins, theme, axis.text.size, title.text.size,
     plot <- plot + theme_grey()
   }
 
-  # Set text size of title and axis lables, determine whether to include a title, and return plot
+  # Set text size of title and axis lables, determine whether to include a title,
+  # and return plot
   if(title.opt == TRUE){
     plot +
-      labs(title =  Default_Title) +
+      labs(title =  title) +
       theme(plot.title = element_text(size = title.text.size, face = "bold"),
             axis.title = element_text(size = axis.text.size))
   } else if (title.opt == FALSE){
