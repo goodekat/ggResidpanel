@@ -6,7 +6,8 @@
 #' @param plots Plots chosen to include in the panel of plots. (See details for options.)
 #' @param bins Number of bins for histogram of the residuals.
 #' @param scale Scale of graphs in panel. Takes values in (0,1].
-#' @param type Specifies the type of residuals to use. (See details for options.)
+#' @param type The user may specify a type of residuals to use, otherwise the default
+#' residual type for each model is used. (See details for options.)
 #' @param smoother Indicates whether or not to include a smoother on the residual plot.
 #' Specify TRUE or FALSE. Default is set to FALSE.
 #' @param axis.text.size Specifies the size of the text for the axis labels of all plots.
@@ -55,6 +56,9 @@
 #' }
 #' Cook's D: The Horizontal line represents a cut-off to identify highly influential points. The horizontal line is
 #' placed at 4/n where n is the number of data points used in the \code{model}.
+#'
+#' Histogram: density curve overlaid with mean equal to the mean of the residuals and
+#' standard deviation equal to the standard deviation of the residuals.
 #'
 #' @return A panel of residual diagnostic plots containing plots specified.
 #' @examples

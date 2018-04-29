@@ -18,7 +18,8 @@ resid_panel(model, plots = "SAS", bins = NA, scale = 1, type = NA,
 
 \item{scale}{Scale of graphs in panel. Takes values in (0,1].}
 
-\item{type}{Specifies the type of residuals to use. (See details for options.)}
+\item{type}{The user may specify a type of residuals to use, otherwise the default
+residual type for each model is used. (See details for options.)}
 
 \item{smoother}{Indicates whether or not to include a smoother on the residual plot.
 Specify TRUE or FALSE. Default is set to FALSE.}
@@ -70,6 +71,9 @@ The following grid options can be chosen for the \code{plots} argument.
 }
 Cook's D: The Horizontal line represents a cut-off to identify highly influential points. The horizontal line is
 placed at 4/n where n is the number of data points used in the \code{model}.
+
+Histogram: density curve overlaid with mean equal to the mean of the residuals and
+standard deviation equal to the standard deviation of the residuals.
 }
 \examples{
 # Fit a linear regression model and plot the residuals using the default panel
