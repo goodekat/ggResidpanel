@@ -7,9 +7,9 @@ resid_boxplot <- function(model, type, theme, axis.text.size, title.text.size, t
 
   # Create a data frame with the residuals
   if(is.na(type)){
-    model_values <- data.frame(residual = resid_resid(type = NA, model = model))
+    model_values <- data.frame(Residual = resid_resid(type = NA, model = model))
   } else{
-    model_values <- data.frame(residual = resid_resid(type = type, model = model))
+    model_values <- data.frame(Residual = resid_resid(type = type, model = model))
   }
 
   # Add an observation variable

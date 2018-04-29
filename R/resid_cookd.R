@@ -6,8 +6,8 @@ resid_cookd <- function(model, theme, axis.text.size, title.text.size, title.opt
   ## Creation of Values to Plot -----------------------------------------------------
 
   # Create a data frame with the Cook's D values and the observation numbers
-  model_values <- data.frame(cooksd = round(cooks.distance(model), 3),
-                             obs = 1:length(resid(model)))
+  model_values <- data.frame(Cooksd = round(cooks.distance(model), 3),
+                             Obs = 1:length(resid(model)))
 
   # Create the cutoff SAS uses with Cook's D
   cutoff <- 4 / length(resid(model))
@@ -24,7 +24,7 @@ resid_cookd <- function(model, theme, axis.text.size, title.text.size, title.opt
   ## Creation of Plot ---------------------------------------------------------------
 
   # Create the Cook's D plot
-  plot <- ggplot(model_values, aes(x = obs, y = cooksd, label = Data)) +
+  plot <- ggplot(model_values, aes(x = Obs, y = Cooksd, label = Data)) +
     geom_point() +
     geom_segment(aes(xend = obs, yend = 0), color = "blue") +
     labs(x = "Observation", y = "COOK's D") +
