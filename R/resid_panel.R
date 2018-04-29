@@ -6,7 +6,7 @@
 #' @param plots Plots chosen to include in the panel of plots. (See details for options.)
 #' @param bins Number of bins for histogram of the residuals.
 #' @param scale Scale of graphs in panel. Takes values in (0,1].
-#' @param type The user may specify a type of residuals to use, otherwise the default
+#' @param type The user may specify a type of residuals to use. Otherwise, the default
 #' residual type for each model is used. (See details for options.)
 #' @param smoother Indicates whether or not to include a smoother on the residual plot.
 #' Specify TRUE or FALSE. Default is set to FALSE.

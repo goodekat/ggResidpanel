@@ -18,7 +18,7 @@ resid_panel(model, plots = "SAS", bins = NA, scale = 1, type = NA,
 
 \item{scale}{Scale of graphs in panel. Takes values in (0,1].}
 
-\item{type}{The user may specify a type of residuals to use, otherwise the default
+\item{type}{The user may specify a type of residuals to use. Otherwise, the default
 residual type for each model is used. (See details for options.)}
 
 \item{smoother}{Indicates whether or not to include a smoother on the residual plot.

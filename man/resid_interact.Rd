@@ -15,6 +15,9 @@ resid_interact(model, plots = NA, bins = NA, type = NA,
 
 \item{bins}{Number of bins for histogram of the residuals.}
 
+\item{type}{The user may specify a type of residuals to use. Otherwise, the default
+residual type for each model is used. (See details for options.)}
+
 \item{smoother}{Indicates whether or not to include a smoother on the residual plot.
 Specify TRUE or FALSE. Default is set to FALSE.}
 
