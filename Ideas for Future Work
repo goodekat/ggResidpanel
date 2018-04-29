@@ -34,9 +34,11 @@ Notes:
 - Which plots should only be used with "lm" models? (We need to update this
   in the "all" part of the resid_panel function.)
 - Do we need standardized Pearson residuals for "lm"
-- How to get density and count to be captialized in the histogram
+- How to get density and count to be captialized in the histogram?
+  - same with theoretical and sample in the qq plot
 Completed:
 - changed title to title.opt
+- cleaned up resid_panel and all static plots
 
 
 Other To Do Before Conference:
