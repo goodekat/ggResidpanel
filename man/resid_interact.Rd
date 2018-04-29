@@ -4,32 +4,38 @@
 \alias{resid_interact}
 \title{Interaction Versions of Residual Diagnostics Plots.}
 \usage{
-resid_interact(model, plot = NA, bins = NA, type = NA, smoother = FALSE,
-  theme = "bw", axis.text.size = 10, title.text.size = 12,
-  title.opt = TRUE, qqline = TRUE)
+resid_interact(model, plot = NA, type = NA, bins = NA, smoother = FALSE,
+  qqline = TRUE, axis.text.size = 10, title.text.size = 12,
+  title.opt = TRUE, theme = "bw")
 }
 \arguments{
 \item{model}{Model fit using either \code{lm}, \code{glm}, \code{lmer}, or \code{glmer}.}
 
-\item{plot}{Plot chosen to create interactive plot. (See details for options.)}
-
-\item{bins}{Number of bins for histogram of the residuals.}
+\item{plot}{Specify plot to create an interactive version. (See details for options.)}
 
 \item{type}{The user may specify a type of residuals to use. Otherwise, the default
-residual type for each model is used. (See details for options.)}
+residual type for each model is used. (See details in the help file for
+\code{resid_panel} for options.)}
+
+\item{bins}{Number of bins to use when creating a histogram of the residuals.}
 
 \item{smoother}{Indicates whether or not to include a smoother on the residual plot.
 Specify TRUE or FALSE. Default is set to FALSE.}
 
-\item{theme}{ggplot2 theme to be used. Options are \code{"bw"}, \code{"classic"}, and
-\code{"grey"} (or \code{"gray"}). Default is \code{"bw"}.}
+\item{qqline}{Indicates whether to include a 1-1 line on the qq-plot. Specify TRUE or
+FALSE. Default is set to TRUE.}
 
-\item{axis.text.size}{Specifies the size of the text for the axis labels of the plot.}
+\item{axis.text.size}{Specifies the size of the text for the axis labels of all plots
+in the panel.}
 
-\item{title.text.size}{Specifies the size of the text for the titles of the plot.}
+\item{title.text.size}{Specifies the size of the text for the titles of all plots in
+the panel.}
 
-\item{title.opt}{Indicates whether or not to include a title on the plot.
+\item{title.opt}{Indicates whether or not to include a title on the plots in the panel.
 Specify TRUE or FALSE. Default is set to TRUE.}
+
+\item{theme}{ggplot2 theme to be used. Current options are \code{"bw"}, \code{"classic"},
+and \code{"grey"} (or \code{"gray"}). Default is \code{"bw"}.}
 }
 \value{
 The interactive residual diagnostic plot specified.
@@ -38,7 +44,8 @@ The interactive residual diagnostic plot specified.
 Creates interaction versions of all residual diagnostic plots.
 }
 \details{
-The following...
+Currently, only one plot can be made interactive at a time. The options are as
+follows.
   \itemize{
     \item \code{"boxplot"}: A boxplot of residuals.
     \item \code{"cookd"}: A plot of Cook's D values versus observation number.
@@ -49,9 +56,71 @@ The following...
     \item \code{"residplot"}: A plot of residuals versus predicted values.
     \item \code{"respred":}: A plot of the response variable versus the predicted values.
   }
+Note: \code{"cookd"}, \code{"ls"}, and \code{"residlev"} are not available for "lmer"
+and "glmer" models.
+
+Details on the creation of the plots can be found in the details section of the help
+file for \code{resid_panel}.
 }
 \examples{
-# Fit a linear regression model and plot the residuals using the default panel
-lm_model <- lm(Volume ~ Girth, data = trees)
-resid_interact(lm_model, bins = 30)
+## --------------------------------------------------------------------------------
+## Linear Regression Models
+## --------------------------------------------------------------------------------
+
+# Fit a linear regression model to predict the volume of a tree based on the
+# girth of a tree using the R "trees" data
+lm_model1 <- lm(Volume ~ Girth, data = trees)
+
+# Create an interactive Cook's D plot
+resid_interact(lm_model1, plot = "cookd")
+
+# Fit a linear model to compare the weights of plants bewteen different
+# treatment groups using the R "PlantGrowth" data
+lm_model2 <- lm(weight ~ group, data = PlantGrowth)
+
+# Create an interactive location-scale plot with them classic theme
+resid_interact(lm_model2, plot = "ls", theme = "classic")
+
+## --------------------------------------------------------------------------------
+## Generalized Linear Regression Models
+## --------------------------------------------------------------------------------
+
+# Fit a generalized linear regression model using a Poisson family to compare
+# the insect counts between different sprays from the R "InsectSprays" data
+glm_model <- glm(count ~ spray, family = "poisson", data = InsectSprays)
+
+# Create an interactive residual plot with a smoother
+resid_interact(glm_model, plot = "residplot", smoother = TRUE)
+
+## --------------------------------------------------------------------------------
+## Linear Mixed Effects Models
+## --------------------------------------------------------------------------------
+
+# Load the lme4 package
+library(lme4)
+
+# Fit a linear mixed effect model to compare weights of chicks between diets using
+# the R "ChickWeight" data and including chick as a random effect to account for the
+# multiple measurements over time
+lmer_model <- lmer(weight ~ Time + Diet + Time*Diet + (1|Chick), data = ChickWeight)
+
+# Create an interactive qq-plot without a title
+resid_interact(lmer_model, plot = "qq", title.opt = FALSE)
+
+## --------------------------------------------------------------------------------
+## Generalized Linear Mixed Effects Models
+## --------------------------------------------------------------------------------
+
+# Generate Poisson data
+example_data <- data.frame(y = rpois(54, 3),
+                           trt = rep(c("A", "B"), each = 27),
+                           subject = rep(1:18, each = 3))
+
+# Fit a generalized linear mixed effects model with a Poisson family to compare
+# the response between the treatments with a random effect for subject to
+# account for the dependence within a subject
+glmer_model <- glmer(y ~ trt + (1|subject), family = "poisson", data = example_data)
+
+# Create an interactive residual plot with the Pearson residuals
+resid_interact(glmer_model, plot = "residplot", type = "pearson")
 }

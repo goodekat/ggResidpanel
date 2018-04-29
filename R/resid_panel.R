@@ -185,7 +185,7 @@
 #' resid_panel(glm_model, type = "stand.deviance")
 #'
 #' ## --------------------------------------------------------------------------------
-#' ## Linear Mixed Effects Model
+#' ## Linear Mixed Effects Models
 #' ## --------------------------------------------------------------------------------
 #'
 #' # Load the lme4 package
@@ -201,7 +201,7 @@
 #' resid_panel(lmer_model, plots = c("residplot", "qq"), qqbands = TRUE)
 #'
 #' ## --------------------------------------------------------------------------------
-#' ## Generalized Linear Mixed Effects Model
+#' ## Generalized Linear Mixed Effects Models
 #' ## --------------------------------------------------------------------------------
 #'
 #' # Generate Poisson data
