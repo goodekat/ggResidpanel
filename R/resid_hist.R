@@ -14,7 +14,7 @@
 
 resid_hist <- function(model, type,bins, theme, axis.text.size, title.text.size, title.opt){
 
-  ## Creation of model values -------------------------------------------------------
+  ## Creation of Values to Plot -----------------------------------------------------
   ## Creation of Labels -------------------------------------------------------------
   ## Creation of Plot ---------------------------------------------------------------
 
