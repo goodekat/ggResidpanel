@@ -7,7 +7,7 @@ Katie's Tasks:
 - update resid_interact to show relevant info
 
 Katherine's Tasks:
-- move all documentation to resid_panel or supplemental document
+- updated documentation for resid_panel, resid_interact, and resid_auxpanel
 - improve examples in the help files
 - clean up helper_glm_actual and helper_plotly_label
 - email Heike about plotly error
