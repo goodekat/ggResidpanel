@@ -4,23 +4,29 @@
 #' type "lm", "glm", "lmerMod", and "glmerMod".
 #'
 #' @param model Model fit using either \code{lm}, \code{glm}, \code{lmer}, or \code{glmer}.
-#' @param plots Plots chosen to include in the panel of plots. (See details for options.)
-#' @param bins Number of bins to use when creating a histogram of the residuals.
-#' @param scale Scales the size of the graphs in a panel. Takes values in (0,1].
+#' @param plots Plots chosen to include in the panel of plots. Default is set to "SAS".
+#' (See details for options.)
 #' @param type The user may specify a type of residuals to use. Otherwise, the default
 #' residual type for each model is used. (See details for options.)
+#' @param bins Number of bins to use when creating a histogram of the residuals.
 #' @param smoother Indicates whether or not to include a smoother on the residual plot.
 #' Specify TRUE or FALSE. Default is set to FALSE.
+#' @param qqline Indicates whether to include a 1-1 line on the qq-plot. Specify TRUE or
+#' FALSE. Default is set to TRUE.
+#' @param qqbands Indicates whether to include confidence bands on the qq-plot. Specify
+#' TRUE or FALSE. Default is set to FALSE.
+#' @param scale Scales the size of the graphs in a panel. Takes values in (0,1].
 #' @param axis.text.size Specifies the size of the text for the axis labels of all plots
 #' in the panel.
 #' @param title.text.size Specifies the size of the text for the titles of all plots in
 #' the panel.
-#' @param theme ggplot2 theme to be used. Current options are \code{"bw"}, \code{"classic"},
-#' and \code{"grey"} (or \code{"gray"}). Default is \code{"bw"}.
 #' @param title.opt Indicates whether or not to include a title on the plots in the panel.
 #' Specify TRUE or FALSE. Default is set to TRUE.
+#' @param theme ggplot2 theme to be used. Current options are \code{"bw"}, \code{"classic"},
+#' and \code{"grey"} (or \code{"gray"}). Default is \code{"bw"}.
 #' @param ind.ncol When a vector of individual plots has been requested, this specifies the
 #' number of columns in the panel. Default is set to 2 columns.
+#'
 #'
 #' @export
 #'
@@ -155,10 +161,14 @@
 #' # residual plot
 #' resid_panel(lm_model1, bins = 30, plots = "all", smoother = TRUE)
 #'
-#' # Fit a
+#' # Fit a linear model to compare the weights of plants bewteen different
+#' # treatment groups using the R "PlantGrowth" data
 #' lm_model2 <- lm(weight ~ group, data = PlantGrowth)
 #'
-#' resid_panel(lm_model2)
+#' # Create a panel of the R diagnostic plots for "lm" models using the classic
+#' # theme
+#' resid_panel(lm_model2, theme = "classic", plots = "R")
+#'
 #' ## --------------------------------------------------------------------------------
 #' ## Generalized Linear Regression Models
 #' ## --------------------------------------------------------------------------------
@@ -167,26 +177,53 @@
 #' # the insect counts between different sprays from the R "InsectSprays" data
 #' glm_model <- glm(count ~ spray, family = "poisson", data = InsectSprays)
 #'
-#' # Plot the residuals using the default panel without titles
-#' resid_panel(glm_model, bins = 30, title.opt = FALSE)
+#' # Plot the residuals using the default panel without titles and with a gray theme
+#' resid_panel(glm_model, bins = 30, title.opt = FALSE, theme = "gray")
+#' resid_panel(glm_model, bins = 30, title.opt = FALSE, theme = "grey")
 #'
-#' # Generate normal data, fit a mixed effects model, and plot the residuals
-#' # using the default panel
+#' # Plot the residuals using the default panel with standarized deviance residuals
+#' resid_panel(glm_model, type = "stand.deviance")
+#'
+#' ## --------------------------------------------------------------------------------
+#' ## Linear Mixed Effects Model
+#' ## --------------------------------------------------------------------------------
+#'
+#' # Load the lme4 package
 #' library(lme4)
-#' d1 <- data.frame(y = rnorm(54, 20, 4), trt = rep(c("A", "B"), each = 27), subject = rep(1:18, each = 3))
-#' lmer_model <- lmer(y ~ trt + (1|subject), data = d1)
-#' resid_panel(lmer_model, bins = 30)
 #'
-#' # Generate Poisson data, fit a mixed effects model, and plot the residuals
-#' # using the default panel
-#' d2 <- data.frame(y = rpois(54, 3), trt = rep(c("A", "B"), each = 27), subject = rep(1:18, each = 3))
-#' glmer_model <- glmer(y ~ trt + (1|subject), family = "poisson", data = d2)
-#' resid_panel(glmer_model, bins = 30)
+#' # Fit a linear mixed effect model to compare weights of chicks between diets using
+#' # the R "ChickWeight" data and including chick as a random effect to account for the
+#' # multiple measurements over time
+#' lmer_model <- lmer(weight ~ Time + Diet + Time*Diet + (1|Chick), data = ChickWeight)
+#'
+#' # Create a panel of the residual plot and the normal quantile plot with
+#' # confidence bands
+#' resid_panel(lmer_model, plots = c("residplot", "qq"), qqbands = TRUE)
+#'
+#' ## --------------------------------------------------------------------------------
+#' ## Generalized Linear Mixed Effects Model
+#' ## --------------------------------------------------------------------------------
+#'
+#' # Generate Poisson data
+#' example_data <- data.frame(y = rpois(54, 3),
+#'                            trt = rep(c("A", "B"), each = 27),
+#'                            subject = rep(1:18, each = 3))
+#'
+#' # Fit a generalized linear mixed effects model with a Poisson family to compare
+#' # the response between the treatments with a random effect for subject to
+#' # account for the dependence within a subject
+#' glmer_model <- glmer(y ~ trt + (1|subject), family = "poisson", data = example_data)
+#'
+#' # Plot the residual plot with the size of the title and axis lables increased
+#' resid_panel(glmer_model, plots = "residplot", title.text.size = 14, axis.text.size = 12)
+#'
+#' # Plot the residual plot using the Pearson residuals
+#' resid_panel(glmer_model, plots = "residplot", type = "pearson")
 
-resid_panel <- function(model, plots = "SAS", bins = NA, scale = 1,
-                        type = NA, smoother = FALSE, theme = "bw",
-                        axis.text.size = 10, title.text.size = 12,
-                        title.opt = TRUE, qqline = TRUE, qqbands = FALSE,
+resid_panel <- function(model, plots = "SAS", type = NA, bins = NA,
+                        smoother = FALSE, qqline = TRUE, qqbands = FALSE,
+                        scale = 1, theme = "bw", axis.text.size = 10,
+                        title.text.size = 12, title.opt = TRUE,
                         ind.ncol = 2){
 
   ## Errors and Warnings -------------------------------------------------------

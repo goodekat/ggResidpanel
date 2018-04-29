@@ -12,6 +12,7 @@ Katherine's Tasks:
 - clean up helper_glm_actual and helper_plotly_label
 - change all files to treat ls as ls and not sl
 - add alpha values to lev plot
+- figure out how to get desired order of plots when individual plots are requested
 - email Heike about plotly error and other error
   - Error in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y,  :
   polygon edge not found
