@@ -10,7 +10,7 @@ resid_respred <- function(model, theme, axis.text.size, title.text.size, title.o
   if(class(model)[1] == "glm"){
     if(model$family[[1]] == "binomial"){
       model_values <- data.frame(Predicted = fitted(model),
-                                 Response = resid_glm_actual(model))
+                                 Response = helper_glm_actual(model))
     } else{
       model_values <- data.frame(Predicted = fitted(model),
                                  Response = model.frame(model)[[1]])
@@ -18,7 +18,7 @@ resid_respred <- function(model, theme, axis.text.size, title.text.size, title.o
   } else if (class(model)[1] == "glmerMod"){
     if(model@resp$family[[1]] == "binomial"){
       model_values <- data.frame(Predicted = fitted(model),
-                                 Response = resid_glm_actual(model))
+                                 Response = helper_glm_actual(model))
     } else{
       model_values <- data.frame(Predicted = fitted(model),
                                  Response = model.frame(model)[[1]])
@@ -31,7 +31,7 @@ resid_respred <- function(model, theme, axis.text.size, title.text.size, title.o
   ## Creation of Labels -------------------------------------------------------------
 
   # Create labels for plotly
-  Data <- resid_plotly_label(model)
+  Data <- helper_plotly_label(model)
 
   ## Creation of Plot ---------------------------------------------------------------
 

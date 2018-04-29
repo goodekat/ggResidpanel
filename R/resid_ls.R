@@ -9,17 +9,17 @@ resid_ls <- function(model, type, theme, axis.text.size, title.text.size, title.
   # Create a data frame with the square root of the standardized residuals and
   # predicted values based on the model type
   if(class(model)[1] == "lm"){
-    model_values <- data.frame(Sqrt_Std_Res = sqrt(abs(resid_resid(type = "standardized",
+    model_values <- data.frame(Sqrt_Std_Res = sqrt(abs(helper_resid(type = "standardized",
                                                                    model = model))),
                                Prediction = fitted(model))
   } else if (class(model)[1] == "glm"){
     if(is.na(type) | type == "deviance" | type == "stand.deviance"){
-      model_values <- data.frame(Sqrt_Std_Res = sqrt(abs(resid_resid(type = "stand.deviance",
+      model_values <- data.frame(Sqrt_Std_Res = sqrt(abs(helper_resid(type = "stand.deviance",
                                                                      model = model))),
                                  Prediction = fitted(model))
 
     } else if (type == "pearson" | type == "stand.pearson"){
-      model_values <- data.frame(Sqrt_Std_Res = sqrt(abs(resid_resid(type = "stand.pearson",
+      model_values <- data.frame(Sqrt_Std_Res = sqrt(abs(helper_resid(type = "stand.pearson",
                                                                      model = model))),
                                  Prediction = fitted(model))
     }
@@ -32,7 +32,7 @@ resid_ls <- function(model, type, theme, axis.text.size, title.text.size, title.
   ## Creation of Labels -------------------------------------------------------------
 
   # Create labels for plotly
-  Data <- resid_plotly_label(model)
+  Data <- helper_plotly_label(model)
 
   ## Creation of Plot ---------------------------------------------------------------
 

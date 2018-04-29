@@ -19,7 +19,7 @@ resid_cookd <- function(model, theme, axis.text.size, title.text.size, title.opt
   ## Creation of Labels -------------------------------------------------------------
 
   # Create labels for plotly
-  Data <- resid_plotly_label(model)
+  Data <- helper_plotly_label(model)
 
   ## Creation of Plot ---------------------------------------------------------------
 

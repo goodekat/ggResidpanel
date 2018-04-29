@@ -12,9 +12,9 @@ resid_hist <- function(model, type, bins, theme, axis.text.size, title.text.size
 
   # Create a data frame with the residuals
   if(is.na(type)){
-    model_values <- data.frame(Residual = resid_resid(type = NA, model = model))
+    model_values <- data.frame(Residual = helper_resid(type = NA, model = model))
   }else{
-    model_values <- data.frame(Residual = resid_resid(type = type, model = model))
+    model_values <- data.frame(Residual = helper_resid(type = type, model = model))
   }
 
   # Steps to make sure any huge outliers are not cut off
@@ -32,7 +32,7 @@ resid_hist <- function(model, type, bins, theme, axis.text.size, title.text.size
   ## Creation of Labels -------------------------------------------------------------
 
   # Call function to return appropriate residual label
-  r_label <- resid_label(type, model)
+  r_label <- helper_label(type, model)
 
   # Create a title for the plot based on r_label
   title <- paste("Histogram of", r_label)

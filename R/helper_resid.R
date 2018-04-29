@@ -1,7 +1,7 @@
 # Extended Residual Calculations.
 
 # Calculates residuals beyond what 'resid' can do
-resid_resid <- function(type=NA, model){
+helper_resid <- function(type = NA, model){
 
   # lm residuals
   if(class(model)[1] == "lm"){

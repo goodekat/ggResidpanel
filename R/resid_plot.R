@@ -7,10 +7,10 @@ resid_plot <- function(model, type, smoother, theme, axis.text.size, title.text.
 
   # Create a data frame with the residuals
   if(is.na(type)){
-    model_values <- data.frame(Residual = resid_resid(type = NA, model = model),
+    model_values <- data.frame(Residual = helper_resid(type = NA, model = model),
                                Prediction = fitted(model))
   }else{
-    model_values <- data.frame(Residual = resid_resid(type = type, model = model),
+    model_values <- data.frame(Residual = helper_resid(type = type, model = model),
                                Prediction = fitted(model))
   }
 
@@ -21,13 +21,13 @@ resid_plot <- function(model, type, smoother, theme, axis.text.size, title.text.
   ## Creation of Labels -------------------------------------------------------------
 
   # Call function to return appropriate residual label
-  r_label <- resid_label(type, model)
+  r_label <- helper_label(type, model)
 
   # Create a title for the plot based on r_label
   title <- paste(r_label, "Plot")
 
   # Create labels for plotly
-  Data <- resid_plotly_label(model)
+  Data <- helper_plotly_label(model)
 
   ## Creation of Plot ---------------------------------------------------------------
 

@@ -7,10 +7,9 @@ Katie's Tasks:
 - update resid_interact to show relevant info
 
 Katherine's Tasks:
-- change helper function names
 - move all documentation to resid_panel or supplemental document
 - improve examples in the help files
-- clean up resid_glm_actual and resid_plotly_label
+- clean up helper_glm_actual and helper_plotly_label
 - email Heike about plotly error
 - add two factor leverage plot
 - Completed:
@@ -18,6 +17,7 @@ Katherine's Tasks:
   - cleaned up resid_panel and all static plots
   - clean up "s" plot options and change name to "aux"
   - clean up resid_interact
+  - change helper function names
 - Notes:
   - Which plots should only be used with "lm" models? (We need to update this
     in the "all" part of the resid_panel function.)

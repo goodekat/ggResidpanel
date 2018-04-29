@@ -9,14 +9,14 @@ resid_lev <- function(model, type, theme, axis.text.size, title.text.size, title
   # on the type of model
   if(class(model)[1] == "lm"){
       model_values <- data.frame(Leverage = hatvalues(model),
-                                 Std_Res = resid_resid(model, type = "standardized"))
+                                 Std_Res = helper_resid(model, type = "standardized"))
   } else if (class(model)[1] == "glm"){
     if(is.na(type) | type == "deviance" | type == "stand.deviance"){
       model_values <- data.frame(Leverage = hatvalues(model),
-                                 Std_Res = resid_resid(model, type = "stand.deviance"))
+                                 Std_Res = helper_resid(model, type = "stand.deviance"))
     } else if (type == "pearson" | type == "stand.pearson"){
       model_values <- data.frame(Leverage = hatvalues(model),
-                                 Std_Res = resid_resid(model, type = "stand.pearson"))
+                                 Std_Res = helper_resid(model, type = "stand.pearson"))
     }
   }
 
@@ -49,12 +49,12 @@ resid_lev <- function(model, type, theme, axis.text.size, title.text.size, title
 
   # Call function to return appropriate residual label based on model type
   if(class(model)[1] == "lm"){
-    r_label <- resid_label(type = "standardized", model)
+    r_label <- helper_label(type = "standardized", model)
   } else if (class(model)[1] == "glm"){
     if(is.na(type) | type == "deviance" | type == "stand.deviance"){
-      r_label <- resid_label(type = "stand.deviance", model)
+      r_label <- helper_label(type = "stand.deviance", model)
     } else if (type == "pearson" | type == "stand.pearson"){
-      r_label <- resid_label(type = "stand.pearson", model)
+      r_label <- helper_label(type = "stand.pearson", model)
     }
   }
 
@@ -62,7 +62,7 @@ resid_lev <- function(model, type, theme, axis.text.size, title.text.size, title
   title <- paste(r_label, "vs Leverage")
 
   # Create labels for plotly
-  Data <- resid_plotly_label(model)
+  Data <- helper_plotly_label(model)
   model_values$Data <- Data
 
   ## Creation of Plot ---------------------------------------------------------------

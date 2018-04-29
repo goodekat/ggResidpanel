@@ -1,15 +1,8 @@
 # Actual values from a glm model.
-#
-# Finds the number of successes divided by the total.
-#
-# @param model Model fit using either lm, glm, lmer, or glmer.
-# @return The actual proportion of successes.
 
+# Finds the number of successes divided by the total
 
-
-
-
-resid_glm_actual <- function(model){
+helper_glm_actual <- function(model){
   ###############################################################
   #Create Data to use as labels
   #The only way to get plotly to plot the y, the x's, and the observation when

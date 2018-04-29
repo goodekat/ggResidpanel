@@ -9,7 +9,7 @@
 
 
 
-resid_plotly_label <- function(model){
+helper_plotly_label <- function(model){
 ###############################################################
 #Create Data to use as labels
 #The only way to get plotly to plot the y, the x's, and the observation when

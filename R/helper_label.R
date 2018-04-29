@@ -1,7 +1,7 @@
 # Labels for Plots.
 
 # Creates a label for the plots based on the type of residuals used
-resid_label <- function(type = NA, model){
+helper_label <- function(type = NA, model){
   if(!is.na(type)){
     if (type == "response"){
       return("Residuals")
