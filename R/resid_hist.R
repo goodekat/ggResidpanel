@@ -12,21 +12,21 @@ resid_hist <- function(model, type, bins, theme, axis.text.size, title.text.size
 
   # Create a data frame with the residuals
   if(is.na(type)){
-    model_values <- data.frame(resid = resid_resid(type = NA, model = model))
+    model_values <- data.frame(Residual = resid_resid(type = NA, model = model))
   }else{
-    model_values <- data.frame(resid = resid_resid(type = type, model = model))
+    model_values <- data.frame(Residual = resid_resid(type = type, model = model))
   }
 
   # Steps to make sure any huge outliers are not cut off
-  if (min(model_values$resid) < -4 * sd(model_values$resid)){
+  if (min(model_values$Residual) < -4 * sd(model_values$Residual)){
     min_x <- NA
   } else{
-    min_x <- -4*sd(model_values$resid)
+    min_x <- -4*sd(model_values$Residual)
   }
-  if (max(model_values$resid) > 4 * sd(model_values$resid)){
+  if (max(model_values$Residual) > 4 * sd(model_values$Residual)){
     max_x <- NA
   } else{
-    max_x <- 4 * sd(model_values$resid)
+    max_x <- 4 * sd(model_values$Residual)
   }
 
   ## Creation of Labels -------------------------------------------------------------
@@ -43,21 +43,21 @@ resid_hist <- function(model, type, bins, theme, axis.text.size, title.text.size
   if (is.na(min_x) & is.na(max_x)){
 
     # Data is outside of 4*sd, so xlim is not used
-    plot <- ggplot(model_values, aes(x = resid)) +
+    plot <- ggplot(model_values, aes(x = Residual)) +
       geom_histogram(aes(y = ..density.., fill = ..count..),
                      color = "black", fill = "grey82", bins = bins) +
       stat_function(fun = dnorm, color = "blue",
-                    args = list(mean = 0, sd = sd(model_values$resid))) +
+                    args = list(mean = 0, sd = sd(model_values$Residual))) +
       labs(x = r_label, y = "Density")
 
   } else{
 
     # Data is not outside of 4*sd, so xlim is used
-    plot <- ggplot(model_values, aes(x = resid)) +
+    plot <- ggplot(model_values, aes(x = Residual)) +
       geom_histogram(aes(y = ..density.., fill = ..count..),
                      color = "black", fill = "grey82", bins = bins) +
       stat_function(fun = dnorm, color = "blue",
-                    args = list(mean = 0, sd = sd(model_values$resid))) +
+                    args = list(mean = 0, sd = sd(model_values$Residual))) +
       labs(x = r_label, y = "Density") +
       xlim(c(min_x, max_x))
 

@@ -29,7 +29,7 @@ resid_boxplot <- function(model, type, theme, axis.text.size, title.text.size, t
   ## Creation of Plot ---------------------------------------------------------------
 
   # Create the boxplot of residuals
-  plot <- ggplot(model_values, aes(x = " ", y = residual, label = Data)) +
+  plot <- ggplot(model_values, aes(x = " ", y = Residual, label = Data)) +
     geom_boxplot(width = .5) +
     geom_point(alpha = 0) +
     labs(x = " ", y = r_label)
