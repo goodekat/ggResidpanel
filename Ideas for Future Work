@@ -19,6 +19,8 @@ Katherine's Tasks:
 - Move all documentation to resid_panel or supplemental document
 - Improve examples in help file for resid_panel
 - Two factor leverage plot
+- Email Heike about plotly error
+- add title.opt to plotly
 Notes:
 - Title for standardized deviance residuals vs ... gets cut off in R
 - I realized that I made a mistake with the stats -- will need to write a

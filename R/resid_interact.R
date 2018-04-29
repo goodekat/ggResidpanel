@@ -12,7 +12,7 @@
 #' @param title.text.size Specifies the size of the text for the titles of all plots.
 #' @param theme ggplot2 theme to be used. Options are \code{"bw"}, \code{"classic"}, and
 #' \code{"grey"} (or \code{"gray"}). Default is \code{"bw"}.
-#' @param title Indicates whether or not to include a title on the plots.
+#' @param title.opt Indicates whether or not to include a title on the plots.
 #' Specify TRUE or FALSE. Default is set to TRUE.
 #' @export
 #' @importFrom plotly ggplotly
@@ -51,7 +51,7 @@
 resid_interact <- function(model, plots = NA, bins = NA, type = NA,
                            smoother = FALSE, theme = "bw",
                            axis.text.size = 10, title.text.size = 12,
-                           title = TRUE, qqline = TRUE){
+                           title.opt = TRUE, qqline = TRUE){
 
   warnings("Some of the interactive plots do not function with the dev version of ggplot from github. To achieve full functionallity, please install ggplot2 from CRAN.")
 
@@ -129,7 +129,7 @@ resid_interact <- function(model, plots = NA, bins = NA, type = NA,
   }
 
   # Return an error if smoother option is not specified correctly
-  if(title == TRUE | title == FALSE){
+  if(title.opt == TRUE | title.opt == FALSE){
   }else{
     stop("Title option not specified correctly. Choose either TRUE or FALSE.")
   }
@@ -147,21 +147,21 @@ resid_interact <- function(model, plots = NA, bins = NA, type = NA,
 
   # Create a boxplot of the residuals if selected in plots otherwise set as NULL
   if(plots == "boxplot"){
-    plot_i <- resid_boxplot(model, type = type, theme, axis.text.size, title.text.size, title)
+    plot_i <- resid_boxplot(model, type = type, theme, axis.text.size, title.text.size, title.opt)
   } else if(plots == "cookd"){
-    plot_i <- resid_cookd(model, theme, axis.text.size, title.text.size, title)
+    plot_i <- resid_cookd(model, theme, axis.text.size, title.text.size, title.opt)
   } else if(plots == "hist"){
-    plot_i <- resid_hist(model, type = type, bins = bins, theme, axis.text.size, title.text.size, title)
+    plot_i <- resid_hist(model, type = type, bins = bins, theme, axis.text.size, title.text.size, title.opt)
   } else if(plots == "ls"){
-    plot_i <- resid_ls(model, type,theme, axis.text.size, title.text.size, title)
+    plot_i <- resid_ls(model, type,theme, axis.text.size, title.text.size, title.opt)
   } else if(plots == "qq"){
-    plot_i <- resid_qq(model, type = type, theme, axis.text.size, title.text.size, title, qqline, qqbands = FALSE)
+    plot_i <- resid_qq(model, type = type, theme, axis.text.size, title.text.size, title.opt, qqline, qqbands = FALSE)
   } else if(plots == "residlev"){
-    plot_i <- resid_lev(model, type = type, theme, axis.text.size, title.text.size, title)
+    plot_i <- resid_lev(model, type = type, theme, axis.text.size, title.text.size, title.opt)
   } else if(plots == "residplot"){
-    plot_i <- resid_plot(model, type = type, smoother, theme, axis.text.size, title.text.size, title)
+    plot_i <- resid_plot(model, type = type, smoother, theme, axis.text.size, title.text.size, title.opt)
   } else if(plots == "respred"){
-    plot_i <- resid_respred(model, theme, axis.text.size, title.text.size, title)
+    plot_i <- resid_respred(model, theme, axis.text.size, title.text.size, title.opt)
   }
 
   ## Creation of interactive plot -------------------------------------------------

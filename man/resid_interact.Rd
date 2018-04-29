@@ -6,7 +6,7 @@
 \usage{
 resid_interact(model, plots = NA, bins = NA, type = NA,
   smoother = FALSE, theme = "bw", axis.text.size = 10,
-  title.text.size = 12, title = TRUE, qqline = TRUE)
+  title.text.size = 12, title.opt = TRUE, qqline = TRUE)
 }
 \arguments{
 \item{model}{Model fit using either \code{lm}, \code{glm}, \code{lmer}, or \code{glmer}.}
@@ -25,7 +25,7 @@ Specify TRUE or FALSE. Default is set to FALSE.}
 
 \item{title.text.size}{Specifies the size of the text for the titles of all plots.}
 
-\item{title}{Indicates whether or not to include a title on the plots.
+\item{title.opt}{Indicates whether or not to include a title on the plots.
 Specify TRUE or FALSE. Default is set to TRUE.}
 }
 \value{

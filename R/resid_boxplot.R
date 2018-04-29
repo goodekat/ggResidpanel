@@ -3,7 +3,7 @@
 # Function for creating a boxplot of the residuals
 resid_boxplot <- function(model, type, theme, axis.text.size, title.text.size, title.opt){
 
-  ## Creation of model values -------------------------------------------------------
+  ## Creation of Values to Plot -----------------------------------------------------
 
   # Create a data frame with the residuals
   if(is.na(type)){
@@ -24,12 +24,12 @@ resid_boxplot <- function(model, type, theme, axis.text.size, title.text.size, t
   title <- paste("Boxplot of", r_label)
 
   # Create labels for plotly
-  data <- resid_plotly_label(model)
+  Data <- resid_plotly_label(model)
 
   ## Creation of Plot ---------------------------------------------------------------
 
   # Create the boxplot of residuals
-  plot <- ggplot(model_values, aes(x = " ", y = residual, label = data)) +
+  plot <- ggplot(model_values, aes(x = " ", y = residual, label = Data)) +
     geom_boxplot(width = .5) +
     geom_point(alpha = 0) +
     labs(x = " ", y = r_label)
