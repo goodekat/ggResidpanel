@@ -1,61 +1,46 @@
 # Q-Q Plot.
-#
-# Creates a Q-Q plot on the residuals from a model.
-#
-# @param model Model fit using either lm, glm, lmer, or glmer.
-# @return A Q-Q Plot of the residuals from the \code{model}. The method for
-# creating this Q-Q plot follows that used by SAS:
-#
-# \url{http://support.sas.com/documentation/cdl/en/sgug/59902/HTML/default/viewer.htm#fit_sect51.htm#sg_fit_fitresidualnormalquantiles}
-#
-# After sorting the residuals in ascending order, for each of the ith ordered residuals,
-# the following quantile is computed:
-#
-# \deqn{\Phi^{-1} * ((i - 0.375) / (n + 0.25))}
-#
-# Each pair of points is then plotted to create the Q-Q plot. The line drawn on the
-# plot has an intercept equal to the mean of the residuals and a slope equal to the
-# standard deviation of the residuals. Data that is approximately normal will fall
-# very close to or on the line.
-#
-# @examples
-# model <- lm(Volume ~ Girth, data = trees)
-# resid_qq(model)
 
-resid_qq <- function(model, type, theme, axis.text.size, title.text.size, title.opt, qqline, qqbands){
+# Creates a Q-Q plot on the residuals from a model
+resid_qq <- function(model, type, theme, axis.text.size, title.text.size, title.opt,
+                     qqline, qqbands){
 
   ## Creation of Values to Plot -----------------------------------------------------
-  ## Creation of Labels -------------------------------------------------------------
-  ## Creation of Plot ---------------------------------------------------------------
 
+  # Compute the residuals and put in a dataframe
+  if(is.na(type)){
+    model_values <- data.frame(Residual = resid_resid(type = NA, model = model))
+  } else{
+    model_values <- data.frame(Residual = resid_resid(type = type, model = model))
+  }
+
+  ## Creation of Labels -------------------------------------------------------------
+
+  # Call function to return appropriate residual label
   r_label <- resid_label(type, model)
 
-  if(is.na(type)){
-    r <- data.frame(residual=resid_resid(type=NA, model=model))
-  }else{
-    r <- data.frame(residual=resid_resid(type=type, model=model))
-  }
+  # Create a title for the plot based on r_label
+  title <- paste("Q-Q Plot of", r_label)
 
+  # Create labels for plotly
   Data <- resid_plotly_label(model)
-  r$Data <- Data
+  model_values$Data <- Data
 
-  if(qqbands==TRUE){
-    plot <- ggplot(data = r, mapping = aes(sample = residual,label=Data)) +
-      stat_qq_band()+
-      stat_qq_point() +labs(x = "Theoretical Quantiles", y = "Sample Quantiles")
-  }else{
-    plot <- ggplot(data = r, mapping = aes(sample = residual, label=Data)) +
-      stat_qq_point() +labs(x = "Theoretical Quantiles", y = "Sample Quantiles")
+  ## Creation of Plot ---------------------------------------------------------------
+
+  # Create the qq plot
+  plot <- ggplot(data = model_values, mapping = aes(sample = Residual, label = Data)) +
+    stat_qq_point() +
+    labs(x = "Theoretical Quantiles", y = "Sample Quantiles")
+
+  # Add a confidence band if requested
+  if(qqbands == TRUE){
+    plot <- plot + stat_qq_band()
   }
 
-
-
-  if(qqline==TRUE){
-    plot <- plot+stat_qq_line(color="blue",size=.5)
+  # Add a line if requested
+  if(qqline == TRUE){
+    plot <- plot + stat_qq_line(color = "blue", size = .5)
   }
-
-
-
 
   # Add theme to plot
   if (theme == "bw"){
@@ -66,11 +51,11 @@ resid_qq <- function(model, type, theme, axis.text.size, title.text.size, title.
     plot <- plot + theme_grey()
   }
 
-  Default_Title <- paste("Q-Q Plot of", r_label)
-  # Set text size of title and axis lables, determine whether to include a title, and return plot
+  # Set text size of title and axis lables, determine whether to include a title,
+  # and return plot
   if(title.opt == TRUE){
     plot +
-      labs(title = Default_Title) +
+      labs(title = title) +
       theme(plot.title = element_text(size = title.text.size, face = "bold"),
             axis.title = element_text(size = axis.text.size))
   } else if (title.opt == FALSE){
