@@ -1,7 +1,7 @@
 # Boxplot of Residuals.
 
 # Creates a boxplot from input residuals and predicted values
-resid_auxboxplot <- function(resid, pred, theme, axis.text.size, title.text.size, title.opt){
+resid_auxboxplot <- function(resid, theme, axis.text.size, title.text.size, title.opt){
 
   ## Creation of Values to Plot -----------------------------------------------------
 

@@ -112,7 +112,6 @@ resid_auxpanel <- function(resid, pred, plots = "SAS", bins = NA, scale = 1,
   # Create a boxplot of the residuals if selected in plots otherwise set as NULL
   if("boxplot" %in% plots | "SAS" %in% plots){
     boxplot <- resid_auxboxplot(resid = resid,
-                                pred = pred,
                                 theme = theme,
                                 axis.text.size = axis.text.size,
                                 title.text.size = title.text.size,
@@ -124,7 +123,6 @@ resid_auxpanel <- function(resid, pred, plots = "SAS", bins = NA, scale = 1,
   # Create a histogram of the residuals if selected in plots otherwise set as NULL
   if("hist" %in% plots | "SAS" %in% plots){
     hist <- resid_auxhist(resid = resid,
-                          pred = pred,
                           bins = bins,
                           theme = theme,
                           axis.text.size = axis.text.size,
@@ -137,7 +135,6 @@ resid_auxpanel <- function(resid, pred, plots = "SAS", bins = NA, scale = 1,
   # Create a q-q plot of the residuals if selected in plots otherwise set as NULL
   if("qq" %in% plots | "SAS" %in% plots){
     qq <- resid_auxqq(resid = resid,
-                      pred = pred,
                       theme = theme,
                       axis.text.size = axis.text.size,
                       title.text.size = title.text.size,
