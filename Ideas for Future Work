@@ -7,8 +7,8 @@ Katie's Tasks:
 - update resid_interact to show relevant info
 
 Katherine's Tasks:
-- clean up resid_interact
 - clean up "s" plot options and change name to "aux"
+- clean up resid_interact
 - clean up resid_glm_actual and resid_plotly_label
 - move all documentation to resid_panel or supplemental document
 - improve examples in the help files
