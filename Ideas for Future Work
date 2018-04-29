@@ -5,54 +5,36 @@ Future Work
 
 Katie's Tasks:
 - update resid_interact to show relevant info
-- with sligth additions, we could modify so works for predictive models
-Farther future:
-- figure out how to get standardized lmer and glmer residuals
-
-Completed:
-- change all functions to accept different residual types
-- Add in error to moderate residual types
-- Take out default values in individual functions
-- Add in error so lmer and glmer can't use All, R, lev, los, and cook's d
 
 Katherine's Tasks:
-- Move all documentation to resid_panel or supplemental document
-- Improve examples in help file for resid_panel
-- Two factor leverage plot
-- Email Heike about plotly error
-- add title.opt to plotly
+- clean up resid_interact
+- clean up "s" plot options and change name to "aux"
+- clean up resid_glm_actual and resid_plotly_label
+- move all documentation to resid_panel or supplemental document
+- improve examples in the help files
+- determine what to do about plotly error
+- add two factor leverage plot
+- adjust title for standardized deviance residuals vs ... gets cut off in R
+Completed:
+- changed title to title.opt
+- cleaned up resid_panel and all static plots
 Notes:
-- Title for standardized deviance residuals vs ... gets cut off in R
-- I realized that I made a mistake with the stats -- will need to write a
-  much more detailed function that extracts the correct information from
-  each model
-- I'm wondering if we should not include the SASextend option in this
-  version of the model (unless I get time to finish this next week)
-- convert prediction to ilink scale in respred: I think it is already on
-  the ilink scale -- is there something that I missed?
-- Maybe change the name of type to residtype
 - Which plots should only be used with "lm" models? (We need to update this
   in the "all" part of the resid_panel function.)
 - Do we need standardized Pearson residuals for "lm"
 - How to get density and count to be captialized in the histogram?
   - same with theoretical and sample in the qq plot
-Completed:
-- changed title to title.opt
-- cleaned up resid_panel and all static plots
-
 
 Other To Do Before Conference:
-- make a vignette with examples showing how to use the package
-  - examples for each of residual type
 - get new version up and running
 - design and print stickers
-- figure out how to handle the plotly warning
+- make a vignette with examples showing how to use the package
+  - examples for each of residual type
 
 Ideas for Future Package Versions:
 - include a SASextended option
 - write a function for computing standardized residuals for lmer and glmer
-- add option to plot standardized residuals for lmer and glmer
 - put interactive plots in a grid
-- write a function for showing plots from multiple transformations (the user can specify the transformations)
 - write a function to show residual plots from multiple models at the same time
 - create an option for the user to add their own theme
+- modify so works for predictive models
