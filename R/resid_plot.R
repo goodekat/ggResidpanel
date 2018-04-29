@@ -52,7 +52,8 @@ resid_plot <- function(model, type, smoother, theme, axis.text.size, title.text.
     plot <- plot + theme_grey()
   }
 
-  # Set text size of title and axis lables, determine whether to include a title, and return plot
+  # Set text size of title and axis lables, determine whether to include a title,
+  # and return plot
   if(title.opt == TRUE){
     plot +
       labs(title = title) +
