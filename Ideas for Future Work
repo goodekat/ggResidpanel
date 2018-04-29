@@ -7,7 +7,6 @@ Katie's Tasks:
 - update resid_interact to show relevant info
 
 Katherine's Tasks:
-- clean up "s" plot options and change name to "aux"
 - clean up resid_interact
 - clean up resid_glm_actual and resid_plotly_label
 - move all documentation to resid_panel or supplemental document
@@ -15,15 +14,16 @@ Katherine's Tasks:
 - determine what to do about plotly error
 - add two factor leverage plot
 - adjust title for standardized deviance residuals vs ... gets cut off in R
-Completed:
-- changed title to title.opt
-- cleaned up resid_panel and all static plots
-Notes:
-- Which plots should only be used with "lm" models? (We need to update this
-  in the "all" part of the resid_panel function.)
-- Do we need standardized Pearson residuals for "lm"
-- How to get density and count to be captialized in the histogram?
-  - same with theoretical and sample in the qq plot
+- Completed:
+  - changed title to title.opt
+  - cleaned up resid_panel and all static plots
+  - clean up "s" plot options and change name to "aux"
+- Notes:
+  - Which plots should only be used with "lm" models? (We need to update this
+    in the "all" part of the resid_panel function.)
+  - Do we need standardized Pearson residuals for "lm"
+  - How to get density and count to be captialized in the histogram?
+    - same with theoretical and sample in the qq plot
 
 Other To Do Before Conference:
 - get new version up and running

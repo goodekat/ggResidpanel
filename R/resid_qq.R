@@ -28,13 +28,21 @@ resid_qq <- function(model, type, theme, axis.text.size, title.text.size, title.
   ## Creation of Plot ---------------------------------------------------------------
 
   # Create the qq plot
-  plot <- ggplot(data = model_values, mapping = aes(sample = Residual, label = Data)) +
-    stat_qq_point() +
-    labs(x = "Theoretical Quantiles", y = "Sample Quantiles")
-
-  # Add a confidence band if requested
   if(qqbands == TRUE){
-    plot <- plot + stat_qq_band()
+
+    # Add bands if requested
+    plot <- ggplot(data = model_values, mapping = aes(sample = Residual, label = Data)) +
+      stat_qq_band() +
+      stat_qq_point() +
+      labs(x = "Theoretical Quantiles", y = "Sample Quantiles")
+
+  } else{
+
+    # Don't add bands
+    plot <- ggplot(data = model_values, mapping = aes(sample = Residual, label = Data)) +
+      stat_qq_point() +
+      labs(x = "Theoretical Quantiles", y = "Sample Quantiles")
+
   }
 
   # Add a line if requested
