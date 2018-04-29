@@ -13,14 +13,14 @@
 #' Specify TRUE or FALSE. Default is set to FALSE.
 #' @param qqline Indicates whether to include a 1-1 line on the qq-plot. Specify TRUE or
 #' FALSE. Default is set to TRUE.
+#' @param theme ggplot2 theme to be used. Current options are \code{"bw"}, \code{"classic"},
+#' and \code{"grey"} (or \code{"gray"}). Default is \code{"bw"}.
 #' @param axis.text.size Specifies the size of the text for the axis labels of all plots
 #' in the panel.
 #' @param title.text.size Specifies the size of the text for the titles of all plots in
 #' the panel.
 #' @param title.opt Indicates whether or not to include a title on the plots in the panel.
 #' Specify TRUE or FALSE. Default is set to TRUE.
-#' @param theme ggplot2 theme to be used. Current options are \code{"bw"}, \code{"classic"},
-#' and \code{"grey"} (or \code{"gray"}). Default is \code{"bw"}.
 #'
 #' @export
 #'
@@ -109,9 +109,9 @@
 #' resid_interact(glmer_model, plot = "residplot", type = "pearson")
 
 resid_interact <- function(model, plot = NA, type = NA, bins = NA,
-                           smoother = FALSE, qqline = TRUE,
+                           smoother = FALSE, qqline = TRUE, theme = "bw",
                            axis.text.size = 10, title.text.size = 12,
-                           title.opt = TRUE, theme = "bw"){
+                           title.opt = TRUE){
 
   ## Errors and Warnings -------------------------------------------------------
 

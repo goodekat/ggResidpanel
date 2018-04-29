@@ -182,7 +182,8 @@
 #' resid_panel(glm_model, bins = 30, title.opt = FALSE, theme = "grey")
 #'
 #' # Plot the residuals using the default panel with standarized deviance residuals
-#' resid_panel(glm_model, type = "stand.deviance")
+#' # and use a smaller scaling of the plots
+#' resid_panel(glm_model, type = "stand.deviance", scale = 0.9)
 #'
 #' ## --------------------------------------------------------------------------------
 #' ## Linear Mixed Effects Models

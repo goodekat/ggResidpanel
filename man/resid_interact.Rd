@@ -5,8 +5,8 @@
 \title{Interaction Versions of Residual Diagnostics Plots.}
 \usage{
 resid_interact(model, plot = NA, type = NA, bins = NA, smoother = FALSE,
-  qqline = TRUE, axis.text.size = 10, title.text.size = 12,
-  title.opt = TRUE, theme = "bw")
+  qqline = TRUE, theme = "bw", axis.text.size = 10,
+  title.text.size = 12, title.opt = TRUE)
 }
 \arguments{
 \item{model}{Model fit using either \code{lm}, \code{glm}, \code{lmer}, or \code{glmer}.}
@@ -25,6 +25,9 @@ Specify TRUE or FALSE. Default is set to FALSE.}
 \item{qqline}{Indicates whether to include a 1-1 line on the qq-plot. Specify TRUE or
 FALSE. Default is set to TRUE.}
 
+\item{theme}{ggplot2 theme to be used. Current options are \code{"bw"}, \code{"classic"},
+and \code{"grey"} (or \code{"gray"}). Default is \code{"bw"}.}
+
 \item{axis.text.size}{Specifies the size of the text for the axis labels of all plots
 in the panel.}
 
@@ -33,9 +36,6 @@ the panel.}
 
 \item{title.opt}{Indicates whether or not to include a title on the plots in the panel.
 Specify TRUE or FALSE. Default is set to TRUE.}
-
-\item{theme}{ggplot2 theme to be used. Current options are \code{"bw"}, \code{"classic"},
-and \code{"grey"} (or \code{"gray"}). Default is \code{"bw"}.}
 }
 \value{
 The interactive residual diagnostic plot specified.

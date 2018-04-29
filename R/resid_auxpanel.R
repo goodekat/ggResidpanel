@@ -6,19 +6,24 @@
 #' @param pred The fitted values from the model.
 #' @param plots Plots chosen to include in the panel of plots. (See details for options.)
 #' @param bins Number of bins for histogram of the residuals.
-#' @param scale Scale of graphs in panel. Takes values in (0,1].
 #' @param smoother Indicates whether or not to include a smoother on the residual plot.
 #' Specify TRUE or FALSE. Default is set to FALSE.
-#' @param axis.text.size Specifies the size of the text for the axis labels of all plots.
-#' @param title.text.size Specifies the size of the text for the titles of all plots.
+#' @param qqline Indicates whether to include a 1-1 line on the qq-plot. Specify TRUE or
+#' FALSE. Default is set to TRUE.
+#' @param qqbands Indicates whether to include confidence bands on the qq-plot. Specify
+#' TRUE or FALSE. Default is set to FALSE.
+#' @param scale Scales the size of the graphs in a panel. Takes values in (0,1].
 #' @param theme ggplot2 theme to be used. Options are \code{"bw"}, \code{"classic"}, and
 #' \code{"grey"} (or \code{"gray"}). Default is \code{"bw"}.
+#' @param axis.text.size Specifies the size of the text for the axis labels of all plots.
+#' @param title.text.size Specifies the size of the text for the titles of all plots.
 #' @param title.opt Indicates whether or not to include a title on the plots.
 #' Specify TRUE or FALSE. Default is set to TRUE.
 #' @param ind.ncol Sets the number of columns in the panel when more than one individual plot
 #' has been specified. Default is set to 2 columns.
 #'
 #' @export
+#'
 #' @details The following grid options can be chosen for the \code{plots} argument.
 #' \itemize{
 #'   \item "SAS": This is the default option. It creates a panel of a residual plot,
@@ -36,42 +41,47 @@
 #'   }
 #' }
 #'
+#' Details on the creation of the plots can be found in the details section of the help
+#' file for \code{resid_panel}.
+#'
 #' @return A panel of residual diagnostic plots containing plots specified.
+#'
 #' @examples
-#' # Fit a linear regression model and plot the residuals using the default panel
-#' lm_model <- lm(Volume ~ Girth, data = trees)
-#' resid_spanel(resid(lm_model), fitted(lm_model), bins = 30)
+#' # Fit a linear regression model to predict the volume of a tree based on the
+#' # girth of a tree using the R "trees" data
+#' lm_model1 <- lm(Volume ~ Girth, data = trees)
 #'
-#' # Fit a generalized linear regression model and plot the residuals using
-#' # the default panel
-#' glm_model <- glm(Height ~ Girth, family = "poisson", data = trees)
-#' resid_spanel(resid(glm_model), fitted(glm_model), bins = 30)
+#' # Plot the residuals using the default panel
+#' resid_auxpanel(resid(lm_model1), fitted(lm_model1), bins = 30)
 #'
-#' # Generate normal data, fit a mixed effects model, and plot the residuals
-#' # using the default panel
-#' library(lme4)
-#' d1 <- data.frame(y = rnorm(54, 20, 4), trt = rep(c("A", "B"), each = 27), subject = rep(1:18, each = 3))
-#' lmer_model <- lmer(y ~ trt + (1|subject), data = d1)
-#' resid_spanel(resid(lmer_model), fitted(lmer_model), bins = 30)
+#' # Fit a linear model to compare the weights of plants bewteen different
+#' # treatment groups using the R "PlantGrowth" data
+#' lm_model2 <- lm(weight ~ group, data = PlantGrowth)
 #'
-#' # Generate Poisson data, fit a mixed effects model, and plot the residuals
-#' # using the default panel
-#' d2 <- data.frame(y = rpois(54, 3), trt = rep(c("A", "B"), each = 27), subject = rep(1:18, each = 3))
-#' glmer_model <- glmer(y ~ trt + (1|subject), family = "poisson", data = d2)
-#' resid_spanel(resid(glmer_model), fitted(glmer_model), bins = 30)
+#' # Create a grid of the residual plot and qq-plot
+#' resid_auxpanel(resid(lm_model2), fitted(lm_model2), plots = c("residplot", "qq"))
+#'
+#' # Fit a generalized linear regression model using a Poisson family to compare
+#' # the insect counts between different sprays from the R "InsectSprays" data
+#' glm_model <- glm(count ~ spray, family = "poisson", data = InsectSprays)
+#'
+#' # Create the SAS panel of plots without titles, with a grey theme, and with a
+#' # smaller scaling of the plots
+#' resid_auxpanel(resid(glm_model), fitted(glm_model), title.opt = F, theme = "grey",
+#'                bins = 30, scale = 0.9)
 
-resid_auxpanel <- function(resid, pred, plots = "SAS", bins = NA, scale = 1,
-                           smoother = FALSE, theme = "bw",
-                           axis.text.size = 10, title.text.size = 12,
-                           title.opt = TRUE, qqline = TRUE, qqbands = FALSE,
-                           ind.ncol = 2){
+
+resid_auxpanel <- function(resid, pred, plots = "SAS", bins = NA,
+                           smoother = FALSE, qqline = TRUE, qqbands = FALSE,
+                           scale = 1, theme = "bw", axis.text.size = 10,
+                           title.text.size = 12, title.opt = TRUE, ind.ncol = 2){
 
   ## Errors and Warnings -------------------------------------------------------
 
   # Return an error if a model is input into the function
-  if (class(resid)[1]%in%c("lm", "glm", "lmerMod", "glmerMod")){
+  if (class(resid)[1] %in% c("lm", "glm", "lmerMod", "glmerMod")){
     stop("'resid_auxpanel' recieves the residuals and fitted values. Please use
-         'resid_panel' to input the model.")
+         'resid_panel' to input a model.")
   }
 
   # Return a warning if the smoother option is not specified correctly
@@ -162,7 +172,7 @@ resid_auxpanel <- function(resid, pred, plots = "SAS", bins = NA, scale = 1,
 
   # If individual plots have been specified, set plots equal to "individual"
   # Return an error if none of the correct plot options have been specified
-  if(plots == "SAS"){
+  if("SAS" %in% plots){
     plots <- plots
   } else if("boxplot" %in% plots | "hist" %in% plots | "qq" %in% plots |
             "residplot" %in% plots){
