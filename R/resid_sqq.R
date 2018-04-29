@@ -1,28 +1,6 @@
 # Q-Q Plot.
-#
-# Creates a Q-Q plot on the residuals from a model.
-#
-# @param resid Residuals from a model.
-# @param pred Fitted values from a model.
-# @return A Q-Q plot of the residuals.
-# creating this Q-Q plot follows that used by SAS:
-#
-# \url{http://support.sas.com/documentation/cdl/en/sgug/59902/HTML/default/viewer.htm#fit_sect51.htm#sg_fit_fitresidualnormalquantiles}
-#
-# After sorting the residuals in ascending order, for each of the ith ordered residuals,
-# the following quantile is computed:
-#
-# \deqn{\Phi^{-1} * ((i - 0.375) / (n + 0.25))}
-#
-# Each pair of points is then plotted to create the Q-Q plot. The line drawn on the
-# plot has an intercept equal to the mean of the residuals and a slope equal to the
-# standard deviation of the residuals. Data that is approximately normal will fall
-# very close to or on the line.
-#
-# @examples
-# model <- lm(Volume ~ Girth, data = trees)
-# resid_qq(resid(model), fitted(model))
 
+# Creates a Q-Q plot on the residuals from a model
 resid_sqq <- function(resid, pred, theme, axis.text.size, title.text.size, title.opt, qqline, qqbands){
 
   ## Creation of Values to Plot -----------------------------------------------------

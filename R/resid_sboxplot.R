@@ -1,18 +1,6 @@
 # Boxplot of Residuals.
-#
-# Creates a boxplot on the residuals from a model.
-#
-# @param resid Residuals from a model.
-# @param pred Fitted values from a model.
-# @return A boxplot of the residuals.
-# @examples
-# model <- lm(Volume ~ Girth, data = trees)
-# resid_sboxplot(resid(model), pred(model))
 
-# Boxplot of Residuals.
-#
-# Creates a boxplot on the residuals from a model.
-
+# Creates a boxplot on the residuals from a model
 resid_sboxplot <- function(resid,pred, theme, axis.text.size, title.text.size, title.opt){
 
   ## Creation of Values to Plot -----------------------------------------------------

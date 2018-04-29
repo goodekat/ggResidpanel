@@ -1,15 +1,6 @@
 # Histogram of Residuals.
-#
-# Creates a histogram of the residuals from a model.
-#
-# @param resid Residuals from a model.
-# @param pred Fitted values from a model.
-# @return A histogram of the residuals.
-# @examples
-# model <- lm(Volume ~ Girth, data = trees)
-# resid_shist(resid(model), pred(model))
 
-
+# Creates a histogram of the residuals from a model
 resid_shist <- function(resid, pred, bins, theme, axis.text.size, title.text.size, title.opt){
 
   ## Creation of Values to Plot -----------------------------------------------------

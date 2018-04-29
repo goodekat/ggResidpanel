@@ -1,15 +1,6 @@
 # Residual Plot.
-#
-# Creates a residual plot with residuals versus predicted values from a model.
-#
-# @param resid Residuals from a model.
-# @param pred Fitted values from a model.
-# @return A histogram of the residuals.
-# @examples
-# model <- lm(Volume ~ Girth, data = trees)
-# resid_splot(resid(model), pred(model))
 
-
+# Creates a residual plot with residuals versus predicted values from a model
 resid_splot <- function(resid, pred,smoother, theme, axis.text.size, title.text.size, title.opt){
 
   ## Creation of Values to Plot -----------------------------------------------------
