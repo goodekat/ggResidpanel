@@ -37,6 +37,19 @@ The interactive residual diagnostic plot specified.
 \description{
 Creates interaction versions of all residual diagnostic plots.
 }
+\details{
+The following...
+  \itemize{
+    \item \code{"boxplot"}: A boxplot of residuals.
+    \item \code{"cookd"}: A plot of Cook's D values versus observation number.
+    \item \code{"hist"}: A histogram of residuals.
+    \item \code{"ls"}: A location scale plot of the residuals.
+    \item \code{"qq"}: A normal quantile plot of residuals.
+    \item \code{"residlev"}: A plot of leverage values versus residuals.
+    \item \code{"residplot"}: A plot of residuals versus predicted values.
+    \item \code{"respred":}: A plot of the response variable versus the predicted values.
+  }
+}
 \examples{
 # Fit a linear regression model and plot the residuals using the default panel
 lm_model <- lm(Volume ~ Girth, data = trees)

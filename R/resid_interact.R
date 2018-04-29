@@ -28,7 +28,6 @@
 #'     \item \code{"residplot"}: A plot of residuals versus predicted values.
 #'     \item \code{"respred":}: A plot of the response variable versus the predicted values.
 #'   }
-#' }
 #'
 #' @return The interactive residual diagnostic plot specified.
 #' @examples
@@ -232,19 +231,18 @@ resid_interact <- function(model, plot = NA, bins = NA, type = NA,
     ggplotly(plot_i, tooltip = c("Residual", "Data"))
   } else if (plot == "residlev"){
     ggplotly(plot_i, tooltip = c("Leverage", "Std_Res", "Data"))
-  } else if (plot == "ls"){
+  }else if (plot == "ls"){
     if (class(model)[1] == "lm"){
-      ggplotly(plot_i + labs(x = "Predicted Values",
-                             y = expression(sqrt(abs(" Standardized Residuals ")))),
-               tooltip = c("Prediction", "Sqrt_Std_Res", "Data"))
-    } else if(is.na(type) | type == "deviance" | type == "stand.deviance"){
-      ggplotly(plot_i + labs(x = "Predicted Values",
-                             y = expression(sqrt(abs(" Standardized Deviance Residuals ")))),
-               tooltip = c("Prediction", "Sqrt_Std_Res", "Data"))
-    } else if(type == "pearson" | type == "stand.pearson"){
-      ggplotly(plot_i + labs(x = "Predicted Values",
-                           y = expression(sqrt(abs(" Standardized Pearson Residuals ")))),
-               tooltip = c("Prediction", "Sqrt_Std_Res", "Data"))
+      ggplotly(plot_i + labs(x = "Predicted Values", y = "sqrt(|Standardized Residuals|)"),
+               tooltip=c("Prediction", "Sqrt_Std_Res", "Data"))
+      } else if(is.na(type) | type == "deviance" | type == "stand.deviance"){
+        ggplotly(plot_i + labs(x = "Predicted Values",
+                               y = "sqrt(|Standardized Deviance Residuals|)"),
+                 tooltip = c("Prediction", "Sqrt_Std_Res", "Data"))
+      } else if(type == "pearson" | type == "stand.pearson"){
+        ggplotly(plot_i + labs(x = "Predicted Values",
+                               y = "sqrt(|Standardized Pearson Residuals|)"),
+                 tooltip = c("Prediction", "Sqrt_Std_Res", "Data"))
     }
   } else{
     ggplotly(plot_i)
