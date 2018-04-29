@@ -18,6 +18,7 @@ Katherine's Tasks:
   - clean up "s" plot options and change name to "aux"
   - clean up resid_interact
   - change helper function names
+  - moved all documentation to exported functions
 - Notes:
   - Which plots should only be used with "lm" models? (We need to update this
     in the "all" part of the resid_panel function.)
