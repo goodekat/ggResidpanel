@@ -41,7 +41,7 @@ has been specified. Default is set to 2 columns.}
 A panel of residual diagnostic plots containing plots specified.
 }
 \description{
-Creates a panel of residual diagnostic plots.
+Creates a panel of residual diagnostic plots given a model.
 }
 \details{
 The following grid options can be chosen for the \code{plots} argument.

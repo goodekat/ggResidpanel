@@ -1,6 +1,6 @@
 #' Panel of Diagnostic Residual Plots.
 #'
-#' Creates a panel of residual diagnostic plots.
+#' Creates a panel of residual diagnostic plots given a model.
 #'
 #' @param model Model fit using either \code{lm}, \code{glm}, \code{lmer}, or \code{glmer}.
 #' @param plots Plots chosen to include in the panel of plots. (See details for options.)
