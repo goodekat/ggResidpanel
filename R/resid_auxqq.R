@@ -1,0 +1,49 @@
+# Q-Q Plot.
+
+# Creates a Q-Q plot from the input residuals
+resid_auxqq <- function(resid, theme, axis.text.size, title.text.size, title.opt, qqline, qqbands){
+
+  ## Creation of Values to Plot -----------------------------------------------------
+
+  # Create a data frame with the residuals
+  model_values <- data.frame(Residual = resid)
+
+  ## Creation of Plot ---------------------------------------------------------------
+
+  # Create the qq plot
+  plot <- ggplot(data = model_values, mapping = aes(sample = Residual)) +
+    stat_qq_point() +
+    labs(x = "Theoretical Quantiles", y = "Sample Quantiles")
+
+  # Add a confidence band if requested
+  if(qqbands == TRUE){
+    plot <- plot + stat_qq_band()
+  }
+
+  # Add a line if requested
+  if(qqline == TRUE){
+    plot <- plot + stat_qq_line(color = "blue", size = .5)
+  }
+
+  # Add theme to plot
+  if (theme == "bw"){
+    plot <- plot + theme_bw()
+  } else if (theme == "classic"){
+    plot <- plot + theme_classic()
+  } else if (theme == "gray" | theme == "grey"){
+    plot <- plot + theme_grey()
+  }
+
+  # Set text size of title and axis lables, determine whether to include a title,
+  # and return plot
+  if(title.opt == TRUE){
+    plot +
+      labs(title = "Q-Q Plot of Residuals") +
+      theme(plot.title = element_text(size = title.text.size, face = "bold"),
+            axis.title = element_text(size = axis.text.size))
+  } else if (title.opt == FALSE){
+    plot + theme(axis.title = element_text(size = axis.text.size))
+  }
+
+}
+
