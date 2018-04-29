@@ -1,66 +1,73 @@
 # Scale-Location Plot.
-#
-# Creates a scale-location plot with the square root of the standardized residuals versus predicted values from a model.
-#
-# @param model Model fit using either lm or glm.
-# @return A plot of the square roote of the standardized residuals versus predicted values from the \code{model}
-#  with smooth curve fit using "loess".
-# @examples
-# model <- lm(Volume ~ Girth, data = trees)
-# resid_ls(model)
 
-resid_ls <- function(model, type,theme, axis.text.size, title.text.size, title.opt){
+# Creates a scale-location plot with the square root of the standardized residuals
+# versus predicted values from a model
+resid_ls <- function(model, type, theme, axis.text.size, title.text.size, title.opt){
 
   ## Creation of Values to Plot -----------------------------------------------------
-  ## Creation of Labels -------------------------------------------------------------
-  ## Creation of Plot ---------------------------------------------------------------
 
-  # Create a data frame with the square root of the standardized residuals and predicted values
-  if(class(model)[1]=="lm"){
-    model_values <- data.frame(Sqrt_Std_Res = sqrt(abs(resid_resid(type="standardized", model=model))),
+  # Create a data frame with the square root of the standardized residuals and
+  # predicted values based on the model type
+  if(class(model)[1] == "lm"){
+    model_values <- data.frame(Sqrt_Std_Res = sqrt(abs(resid_resid(type = "standardized",
+                                                                   model = model))),
                                Prediction = fitted(model))
-
-  }else if (class(model)[1]=="glm"){
-    if(is.na(type)|type=="deviance"|type=="stand.deviance"){
-      model_values <- data.frame(Sqrt_Std_Res = sqrt(abs(resid_resid(type="stand.deviance", model=model))),
+  } else if (class(model)[1] == "glm"){
+    if(is.na(type) | type == "deviance" | type == "stand.deviance"){
+      model_values <- data.frame(Sqrt_Std_Res = sqrt(abs(resid_resid(type = "stand.deviance",
+                                                                     model = model))),
                                  Prediction = fitted(model))
 
-    }else if (type=="pearson"|type=="stand.pearson"){
-      model_values <- data.frame(Sqrt_Std_Res = sqrt(abs(resid_resid(type="stand.pearson", model=model))),
+    } else if (type == "pearson" | type == "stand.pearson"){
+      model_values <- data.frame(Sqrt_Std_Res = sqrt(abs(resid_resid(type = "stand.pearson",
+                                                                     model = model))),
                                  Prediction = fitted(model))
-     }
-  }
-  model_values$Lowess.x <- lowess(x=model_values$Prediction, y=model_values$Sqrt_Std_Res)$x
-  model_values$Lowess.y <- lowess(x=model_values$Prediction, y=model_values$Sqrt_Std_Res)$y
-
-
-  Data <- resid_plotly_label(model)
-
-  if (class(model)[1]=="lm"){
-    plot <- ggplot(model_values, aes(x = Prediction, y = Sqrt_Std_Res,label=Data)) +
-      geom_point() +
-      labs(x = "Predicted Values", y = expression(sqrt(abs(" Standardized Residuals  ")))) +
-      expand_limits(y = 0) +
-      geom_line(aes(Lowess.x, Lowess.y),colour = "red", size = 0.5)
-
-  }else if (class(model)[1]=="glm"){
-    if(is.na(type)|type=="deviance"|type=="stand.deviance"){
-    plot <- ggplot(model_values, aes(x = Prediction, y = Sqrt_Std_Res,label=Data)) +
-      geom_point() +
-      labs(x = "Predicted Values", y = expression(sqrt(abs(" Standardized Deviance Residuals  ")))) +
-      expand_limits(y = 0) +
-      geom_line(aes(Lowess.x, Lowess.y),colour = "red", size = 0.5)
-    }else if(type=="pearson"|type=="stand.pearson"){
-      plot <- ggplot(model_values, aes(x = Prediction, y = Sqrt_Std_Res,label=Data)) +
-        geom_point() +
-        labs(x = "Predicted Values", y = expression(sqrt(abs(" Standardized Pearson Residuals  ")))) +
-        expand_limits(y = 0) +
-        geom_line(aes(Lowess.x, Lowess.y),colour = "red", size = 0.5)
     }
   }
 
-    # Create the location-scale plot
+  # Compute the values for the lowess curve
+  model_values$Lowess.x <- lowess(x = model_values$Prediction, y = model_values$Sqrt_Std_Res)$x
+  model_values$Lowess.y <- lowess(x = model_values$Prediction, y = model_values$Sqrt_Std_Res)$y
 
+  ## Creation of Labels -------------------------------------------------------------
+
+  # Create labels for plotly
+  Data <- resid_plotly_label(model)
+
+  ## Creation of Plot ---------------------------------------------------------------
+
+  # Create the location-scale plot - labels are adjusted based on the model type
+  if (class(model)[1] == "lm"){
+
+    # Location-scale plot for lm model
+    plot <- ggplot(model_values, aes(x = Prediction, y = Sqrt_Std_Res, label = Data)) +
+      geom_point() +
+      labs(x = "Predicted Values", y = expression(sqrt(abs(" Standardized Residuals ")))) +
+      expand_limits(y = 0) +
+      geom_line(aes(Lowess.x, Lowess.y), colour = "red", size = 0.5)
+
+  } else if (class(model)[1] == "glm"){
+
+    # Location-scale plot for glm model with deviance residuals
+    if(is.na(type) | type == "deviance" | type == "stand.deviance"){
+      plot <- ggplot(model_values, aes(x = Prediction, y = Sqrt_Std_Res, label = Data)) +
+        geom_point() +
+        labs(x = "Predicted Values",
+             y = expression(sqrt(abs(" Standardized Deviance Residuals ")))) +
+        expand_limits(y = 0) +
+        geom_line(aes(Lowess.x, Lowess.y), colour = "red", size = 0.5)
+
+    # Location-scale plot for glm model with Pearson residuals
+    } else if(type == "pearson" | type == "stand.pearson"){
+      plot <- ggplot(model_values, aes(x = Prediction, y = Sqrt_Std_Res, label = Data)) +
+        geom_point() +
+        labs(x = "Predicted Values",
+             y = expression(sqrt(abs(" Standardized Pearson Residuals ")))) +
+        expand_limits(y = 0) +
+        geom_line(aes(Lowess.x, Lowess.y), colour = "red", size = 0.5)
+    }
+
+  }
 
   # Add theme to plot
   if (theme == "bw"){
