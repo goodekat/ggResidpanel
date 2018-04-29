@@ -1,15 +1,8 @@
 # Labels for Plotly Points.
-#
+
 # Creates a label for each data point in the residual plots
-#
-# @param model Model fit using either lm, glm, lmer, or glmer.
-# @return The appropriate residual label.
-
-
-
-
-
 helper_plotly_label <- function(model){
+
 ###############################################################
 #Create Data to use as labels
 #The only way to get plotly to plot the y, the x's, and the observation when
