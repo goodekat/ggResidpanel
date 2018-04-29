@@ -4,14 +4,14 @@
 \alias{resid_interact}
 \title{Interaction Versions of Residual Diagnostics Plots.}
 \usage{
-resid_interact(model, plots = NA, bins = NA, type = NA,
-  smoother = FALSE, theme = "bw", axis.text.size = 10,
-  title.text.size = 12, title.opt = TRUE, qqline = TRUE)
+resid_interact(model, plot = NA, bins = NA, type = NA, smoother = FALSE,
+  theme = "bw", axis.text.size = 10, title.text.size = 12,
+  title.opt = TRUE, qqline = TRUE)
 }
 \arguments{
 \item{model}{Model fit using either \code{lm}, \code{glm}, \code{lmer}, or \code{glmer}.}
 
-\item{plots}{Plots chosen to include in the panel of plots. (See details for options.)}
+\item{plot}{Plot chosen to create interactive plot. (See details for options.)}
 
 \item{bins}{Number of bins for histogram of the residuals.}
 
@@ -24,45 +24,18 @@ Specify TRUE or FALSE. Default is set to FALSE.}
 \item{theme}{ggplot2 theme to be used. Options are \code{"bw"}, \code{"classic"}, and
 \code{"grey"} (or \code{"gray"}). Default is \code{"bw"}.}
 
-\item{axis.text.size}{Specifies the size of the text for the axis labels of all plots.}
+\item{axis.text.size}{Specifies the size of the text for the axis labels of the plot.}
 
-\item{title.text.size}{Specifies the size of the text for the titles of all plots.}
+\item{title.text.size}{Specifies the size of the text for the titles of the plot.}
 
-\item{title.opt}{Indicates whether or not to include a title on the plots.
+\item{title.opt}{Indicates whether or not to include a title on the plot.
 Specify TRUE or FALSE. Default is set to TRUE.}
 }
 \value{
-A panel of residual diagnostic plots containing plots specified.
+The interactive residual diagnostic plot specified.
 }
 \description{
 Creates interaction versions of all residual diagnostic plots.
-}
-\details{
-The following grid options can be chosen for the \code{plots} argument.
-\itemize{
-  \item "all": This creates a panel of all plot types included in the package.
-  \item "R": This creates a panel of a residual plot, a normal quantile plot of
-  the residuals, and a leverage versus residuals plot. This was modeled after the
-  plots shown in R if the \code{plots()} base function is applied to an \code{lm}
-  model.
-  \item "SAS": This is the default option. It creates a panel of a residual plot,
-  a normal quantile plot of the residuals, a histogram of the residuals, and a
-  boxplot of the residuals. This was modeled after the residpanel option in proc
-  mixed from SAS version 9.4.
-  \item A vector of individual plots can also be specified. For example, one can
-  specify \code{plots = c("boxplot", "hist")} or \code{plots = "qq"}. The individual
-  plot options are as follows.
-  \itemize{
-    \item \code{"boxplot"}: A boxplot of residuals.
-    \item \code{"cookd"}: A plot of Cook's D values versus observation number.
-    \item \code{"hist"}: A histogram of residuals.
-    \item \code{"ls"}: A location scale plot of the residuals.
-    \item \code{"qq"}: A normal quantile plot of residuals.
-    \item \code{"residlev"}: A plot of leverage values versus residuals.
-    \item \code{"residplot"}: A plot of residuals versus predicted values.
-    \item \code{"respred":}: A plot of the response variable versus the predicted values.
-  }
-}
 }
 \examples{
 # Fit a linear regression model and plot the residuals using the default panel
