@@ -1,14 +1,15 @@
 # Boxplot of Residuals.
 
 # Creates a boxplot on the residuals from a model
-resid_sboxplot <- function(resid,pred, theme, axis.text.size, title.text.size, title.opt){
+resid_sboxplot <- function(resid, pred, theme, axis.text.size, title.text.size, title.opt){
 
   ## Creation of Values to Plot -----------------------------------------------------
+
+  model_values <- data.frame(Residual = resid)
+  model_values$Observation <- 1:nrow(model_values)
+
   ## Creation of Labels -------------------------------------------------------------
   ## Creation of Plot ---------------------------------------------------------------
-
-  model_values <- data.frame(Residual=resid)
-  model_values$Observation <- 1:nrow(model_values)
 
   # Create the boxplot of residuals
   plot <- ggplot(model_values, aes(x = " ", y = Residual)) +
@@ -19,8 +20,7 @@ resid_sboxplot <- function(resid,pred, theme, axis.text.size, title.text.size, t
           axis.title = element_text(size = 10))
 
   # Add theme to plot
-
-    if (theme == "bw"){
+  if (theme == "bw"){
     plot <- plot + theme_bw()
   } else if (theme == "classic"){
     plot <- plot + theme_classic()
@@ -28,7 +28,8 @@ resid_sboxplot <- function(resid,pred, theme, axis.text.size, title.text.size, t
     plot <- plot + theme_grey()
   }
 
-  # Set text size of title and axis lables, determine whether to include a title, and return plot
+  # Set text size of title and axis lables, determine whether to include a title,
+  # and return plot
   if (title.opt == TRUE){
     plot +
       labs(title = "Boxplot of Residuals") +
