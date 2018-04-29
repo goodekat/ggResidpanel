@@ -14,9 +14,9 @@ resid_panel(model, plots = "SAS", bins = NA, scale = 1, type = NA,
 
 \item{plots}{Plots chosen to include in the panel of plots. (See details for options.)}
 
-\item{bins}{Number of bins for histogram of the residuals.}
+\item{bins}{Number of bins to use when creating a histogram of the residuals.}
 
-\item{scale}{Scale of graphs in panel. Takes values in (0,1].}
+\item{scale}{Scales the size of the graphs in a panel. Takes values in (0,1].}
 
 \item{type}{The user may specify a type of residuals to use. Otherwise, the default
 residual type for each model is used. (See details for options.)}
@@ -24,34 +24,44 @@ residual type for each model is used. (See details for options.)}
 \item{smoother}{Indicates whether or not to include a smoother on the residual plot.
 Specify TRUE or FALSE. Default is set to FALSE.}
 
-\item{theme}{ggplot2 theme to be used. Options are \code{"bw"}, \code{"classic"}, and
-\code{"grey"} (or \code{"gray"}). Default is \code{"bw"}.}
+\item{theme}{ggplot2 theme to be used. Current options are \code{"bw"}, \code{"classic"},
+and \code{"grey"} (or \code{"gray"}). Default is \code{"bw"}.}
 
-\item{axis.text.size}{Specifies the size of the text for the axis labels of all plots.}
+\item{axis.text.size}{Specifies the size of the text for the axis labels of all plots
+in the panel.}
 
-\item{title.text.size}{Specifies the size of the text for the titles of all plots.}
+\item{title.text.size}{Specifies the size of the text for the titles of all plots in
+the panel.}
 
-\item{title.opt}{Indicates whether or not to include a title on the plots.
+\item{title.opt}{Indicates whether or not to include a title on the plots in the panel.
 Specify TRUE or FALSE. Default is set to TRUE.}
 
-\item{ind.ncol}{Sets the number of columns in the panel when more than one individual plot
-has been specified. Default is set to 2 columns.}
+\item{ind.ncol}{When a vector of individual plots has been requested, this specifies the
+number of columns in the panel. Default is set to 2 columns.}
 }
 \value{
 A panel of residual diagnostic plots containing plots specified.
 }
 \description{
-Creates a panel of residual diagnostic plots given a model.
+Creates a panel of residual diagnostic plots given a model. Currently accepts models of
+type "lm", "glm", "lmerMod", and "glmerMod".
 }
 \details{
-The following grid options can be chosen for the \code{plots} argument.
+The first two sections below contain information on the available input options for the
+\code{plots} and \code{type} arguments in \code{resid_panel}. The third section contains
+information on the details relating to the creation of the plots.
+
+\strong{Options for} \code{plots}
+
+The following options can be chosen for the \code{plots} argument.
 \itemize{
-  \item "all": This creates a panel of all plot types included in the package.
-  \item "R": This creates a panel of a residual plot, a normal quantile plot of
+  \item "all": This creates a panel of all plot types included in the package that
+  are available for the model type input into \code{residpanel}. (See note below.)
+  \item "R": This creates a panel with a residual plot, a normal quantile plot of
   the residuals, and a leverage versus residuals plot. This was modeled after the
   plots shown in R if the \code{plots()} base function is applied to an \code{lm}
-  model.
-  \item "SAS": This is the default option. It creates a panel of a residual plot,
+  model. This option can only be used with an \code{lm} or \code{glm} model.
+  \item "SAS": This is the default option. It creates a panel with a residual plot,
   a normal quantile plot of the residuals, a histogram of the residuals, and a
   boxplot of the residuals. This was modeled after the residpanel option in proc
   mixed from SAS version 9.4.
@@ -69,21 +79,100 @@ The following grid options can be chosen for the \code{plots} argument.
     \item \code{"respred":}: A plot of the response variable versus the predicted values.
   }
 }
-Cook's D: The Horizontal line represents a cut-off to identify highly influential points. The horizontal line is
-placed at 4/n where n is the number of data points used in the \code{model}.
+Note: \code{"cookd"}, \code{"ls"}, and \code{"residlev"} are not available for "lmer"
+and "glmer" models.
 
-Histogram: density curve overlaid with mean equal to the mean of the residuals and
-standard deviation equal to the standard deviation of the residuals.
+\strong{Options for} \code{type}
+
+Several residual types are available to be requested based on the model type that
+is input into \code{resid_panel}. These currently are as follows.
+\itemize{
+  \item \code{lm} residual options
+  \itemize{
+    \item \code{"pearson"}: The Pearson residuals.
+    \item \code{"response"}: The raw residuals. (Default for "lm".)
+    \item \code{"standardized"}: The standardized raw residuals.
+  }
+  \item \code{glm} residual options
+  \itemize{
+    \item \code{"deviance"}: The deviance residuals. (Default for "glm".)
+    \item \code{"pearson"}: The Pearson residuals.
+    \item \code{"response"}: The raw residuals.
+    \item \code{"stand.deviance"}: The standardized deviance residuals.
+    \item \code{"stand.pearson"}: The standardized Pearson residuals.
+  }
+  \item \code{lmer} residual options
+  \itemize{
+    \item \code{"pearson"}: The Pearson residuals. (Default for "lmer".)
+    \item \code{"response"}: The raw residuals.
+  }
+  \item \code{glmer} residual options
+  \itemize{
+    \item \code{"deviance"}: The deviance residuals. (Default for "glmer".)
+    \item \code{"pearson"}: The Pearson residuals.
+    \item \code{"response"}: The raw residuals.
+  }
+}
+Note: The plots of \code{"ls"} and \code{"lev"} only accept standarized residuals.
+
+\strong{Details on the Creation of Plots}
+
+Boxplot (\code{boxplot}): Boxplot of the residuals.
+
+Cook's D (\code{cookd}): The horizontal line represents a cut-off to identify highly
+influential points. The horizontal line is placed at 4/n where n is the number of
+data points used in the \code{model}.
+
+Histogram (\code{hist}): Plots a historgram of the residuals. The density
+curve overlaid has mean equal to the mean of the residuals and standard deviation
+equal to the standard deviation of the residuals.
+
+Leverage Plot (\code{lev}): Plots the standardized residuals on the y-axis and the
+leverage values on the x-axis. A lowess curve is overlaid, and Cook's D contours
+are included for \eqn{\alpha = 0.5} and \eqn{\alpha = 1}.
+
+Location-Scale Plot (\code{ls}): Plots the square root of the absolute value of the
+standardized residuals on the y-axis and the predicted values on the x-axis. The
+predicted values are plotted on the original scale for \code{glm} and \code{glmer}
+models. A lowess curve is overlaid.
+
+QQ Plot (\code{qq}): Makes use of the \code{R} package \code{qqplotr} for creating
+a normal quantile plot of the residuals.
+
+Residual Plot (\code{residplot}): Plots the residuals on the y-axis and the predicted
+values on the x-axis. The predicted values are plotted on the original scale for
+\code{glm} and \code{glmer} models.
+
+Response vs. Predicted (\code{respred}): Plots the response variable from the model
+on the y-axis and the predicted values on the x-axis. Both response variable and
+predicted values are plotted on the original scale for \code{glm} and \code{glmer}
+models.
 }
 \examples{
-# Fit a linear regression model and plot the residuals using the default panel
+## --------------------------------------------------------------------------------
+## Linear Regression Models
+## --------------------------------------------------------------------------------
+
+# Fit a linear regression model to predict the volume of a tree based on the
+# girth of a tree using the R "trees" data
 lm_model <- lm(Volume ~ Girth, data = trees)
+
+# Plot the residuals using the default panel
 resid_panel(lm_model, bins = 30)
 
-# Fit a generalized linear regression model and plot the residuals using
-# the default panel
-glm_model <- glm(Height ~ Girth, family = "poisson", data = trees)
-resid_panel(glm_model, bins = 30)
+# Create a panel of all diagnostic plot options and add a smoother to the residual plot
+resid_panel(lm_model, bins = 30, plots = "all", smoother = TRUE)
+
+## --------------------------------------------------------------------------------
+## Generalized Linear Regression Models
+## --------------------------------------------------------------------------------
+
+# Fit a generalized linear regression model using a Poisson family to compare
+# the insect counts between different sprays from the R "InsectSprays" data
+glm_model <- glm(count ~ spray, family = "poisson", data = InsectSprays)
+
+# Plot the residuals using the default panel without titles
+resid_panel(glm_model, bins = 30, title.opt = FALSE)
 
 # Generate normal data, fit a mixed effects model, and plot the residuals
 # using the default panel
