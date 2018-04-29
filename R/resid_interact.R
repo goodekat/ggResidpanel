@@ -1,6 +1,7 @@
 #' Interaction Versions of Residual Diagnostics Plots.
 #'
-#' Creates interaction versions of all residual diagnostic plots.
+#' Creates interaction versions of all residual diagnostic plots given a model.
+#' Currently accepts models of type "lm", "glm", "lmerMod", and "glmerMod".
 #'
 #' @param model Model fit using either \code{lm}, \code{glm}, \code{lmer}, or \code{glmer}.
 #' @param plot Specify plot to create an interactive version. (See details for options.)

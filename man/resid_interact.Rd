@@ -41,7 +41,8 @@ and \code{"grey"} (or \code{"gray"}). Default is \code{"bw"}.}
 The interactive residual diagnostic plot specified.
 }
 \description{
-Creates interaction versions of all residual diagnostic plots.
+Creates interaction versions of all residual diagnostic plots given a model.
+Currently accepts models of type "lm", "glm", "lmerMod", and "glmerMod".
 }
 \details{
 Currently, only one plot can be made interactive at a time. The options are as
