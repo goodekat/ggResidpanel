@@ -31,7 +31,7 @@ Other To Do Before Conference:
 - create a development rmd file with updates for each version
 - design and print stickers
 - make a vignette with examples showing how to use the package
-  - examples for each of residual type
+  - examples for each residual type
 
 Ideas for Future Package Versions:
 - include a SASextended option
