@@ -37,6 +37,7 @@ resid_hist <- function(model, type, bins, theme, axis.text.size, title.text.size
   # Create a title for the plot based on r_label
   title <- paste("Histogram of", r_label)
 
+  sd_resid <- sd(model_values$Residual)
   ## Creation of Plot ---------------------------------------------------------------
 
   # Create the histogram of residuals
@@ -47,7 +48,7 @@ resid_hist <- function(model, type, bins, theme, axis.text.size, title.text.size
       geom_histogram(aes(y = ..density.., fill = ..count..),
                      color = "black", fill = "grey82", bins = bins) +
       stat_function(fun = dnorm, color = "blue",
-                    args = list(mean = 0, sd = sd(model_values$Residual))) +
+                    args = list(mean = 0, sd = sd_resid)) +
       labs(x = r_label, y = "Density")
 
   } else{
@@ -57,7 +58,7 @@ resid_hist <- function(model, type, bins, theme, axis.text.size, title.text.size
       geom_histogram(aes(y = ..density.., fill = ..count..),
                      color = "black", fill = "grey82", bins = bins) +
       stat_function(fun = dnorm, color = "blue",
-                    args = list(mean = 0, sd = sd(model_values$Residual))) +
+                    args = list(mean = 0, sd = sd_resid)) +
       labs(x = r_label, y = "Density") +
       xlim(c(min_x, max_x))
 
