@@ -26,7 +26,7 @@ library(lme4)
 
 #another posibility for a lmer: Theoph
 
-m_ChickWeight <- lmer(log(weight)~Time+Diet+(1|Chick), data=ChickWeight)
+m_ChickWeight <- lmer(weight ~ Time+Diet+(1|Chick), data=ChickWeight)
 
 ##Mixed generalized linear model (binomial)
 
@@ -171,7 +171,7 @@ resid_panel(m4, plots="ls")
 
 ######residual plot######
 
-resid_panel(m_trees, plots="residplot")
+resid_panel(m_trees, plots="resid")
 resid_panel(m_InsectSprays, plots="residplot")
 resid_panel(m_ChickWeight, plots="residplot")
 resid_panel(m4, plots="residplot")
