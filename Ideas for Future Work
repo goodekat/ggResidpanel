@@ -7,21 +7,11 @@ Katie's Tasks:
 - update resid_interact to show relevant info
 
 Katherine's Tasks:
-- update documentation for resid_panel, resid_interact, and resid_auxpanel
-- clean up helper_glm_actual and helper_plotly_label
-- change all files to treat ls as ls and not sl
-- add alpha values to lev plot
 - email Heike about plotly error and other error
   - Error in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y,  :
   polygon edge not found
+- add alpha values to lev plot
 - add two factor leverage plot
-- Completed:
-  - changed title to title.opt
-  - cleaned up resid_panel and all static plots
-  - clean up "s" plot options and change name to "aux"
-  - clean up resid_interact
-  - change helper function names
-  - moved all documentation to exported functions
 - Notes:
   - Which plots should only be used with "lm" models? (We need to update this
     in the "all" part of the resid_panel function and in the documentation.)
@@ -37,6 +27,7 @@ Katherine's Tasks:
 
 Other To Do Before Conference:
 - get new version up and running
+- update README.md
 - create a development rmd file with updates for each version
 - design and print stickers
 - make a vignette with examples showing how to use the package

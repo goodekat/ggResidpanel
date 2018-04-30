@@ -1,6 +1,6 @@
-# Scale-Location Plot.
+# Location-Scale Plot.
 
-# Creates a scale-location plot with the square root of the standardized residuals
+# Creates a location-scale plot with the square root of the standardized residuals
 # versus predicted values from a model
 resid_ls <- function(model, type, theme, axis.text.size, title.text.size, title.opt){
 
@@ -82,7 +82,7 @@ resid_ls <- function(model, type, theme, axis.text.size, title.text.size, title.
   # and return plot
   if(title.opt == TRUE){
     plot +
-      labs(title = "Scale-Location") +
+      labs(title = "Location-Scale") +
       theme(plot.title = element_text(size = title.text.size, face = "bold"),
             axis.title = element_text(size = axis.text.size))
   } else if (title.opt == FALSE){
