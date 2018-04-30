@@ -66,7 +66,7 @@ The following options can be chosen for the \code{plots} argument.
   are available for the model type input into \code{residpanel}. (See note below.)
   \item "R": This creates a panel with a residual plot, a normal quantile plot of
   the residuals, and a leverage versus residuals plot. This was modeled after the
-  plots shown in R if the \code{plots()} base function is applied to an \code{lm}
+  plots shown in R if the \code{plot()} base function is applied to an \code{lm}
   model. This option can only be used with an \code{lm} or \code{glm} model.
   \item "SAS": This is the default option. It creates a panel with a residual plot,
   a normal quantile plot of the residuals, a histogram of the residuals, and a
@@ -81,12 +81,12 @@ The following options can be chosen for the \code{plots} argument.
     \item \code{"hist"}: A histogram of residuals.
     \item \code{"ls"}: A location scale plot of the residuals.
     \item \code{"qq"}: A normal quantile plot of residuals.
-    \item \code{"residlev"}: A plot of leverage values versus residuals.
-    \item \code{"residplot"}: A plot of residuals versus predicted values.
-    \item \code{"respred":}: A plot of the response variable versus the predicted values.
+    \item \code{"lev"}: A plot of leverage values versus residuals.
+    \item \code{"resid"}: A plot of residuals versus predicted values.
+    \item \code{"yvp":}: A plot of the response variable versus the predicted values.
   }
 }
-Note: \code{"cookd"}, \code{"ls"}, and \code{"residlev"} are not available for "lmer"
+Note: \code{"cookd"}, \code{"ls"}, and \code{"lev"} are not available for "lmer"
 and "glmer" models.
 
 \strong{Options for} \code{type}
@@ -146,11 +146,11 @@ models. A lowess curve is overlaid.
 QQ Plot (\code{qq}): Makes use of the \code{R} package \code{qqplotr} for creating
 a normal quantile plot of the residuals.
 
-Residual Plot (\code{residplot}): Plots the residuals on the y-axis and the predicted
+Residual Plot (\code{resid}): Plots the residuals on the y-axis and the predicted
 values on the x-axis. The predicted values are plotted on the original scale for
 \code{glm} and \code{glmer} models.
 
-Response vs. Predicted (\code{respred}): Plots the response variable from the model
+Response vs. Predicted (\code{yvp}): Plots the response variable from the model
 on the y-axis and the predicted values on the x-axis. Both response variable and
 predicted values are plotted on the original scale for \code{glm} and \code{glmer}
 models.
@@ -209,7 +209,7 @@ lmer_model <- lmer(weight ~ Time + Diet + Time*Diet + (1|Chick), data = ChickWei
 
 # Create a panel of the residual plot and the normal quantile plot with
 # confidence bands
-resid_panel(lmer_model, plots = c("residplot", "qq"), qqbands = TRUE)
+resid_panel(lmer_model, plots = c("resid", "qq"), qqbands = TRUE)
 
 ## --------------------------------------------------------------------------------
 ## Generalized Linear Mixed Effects Models
@@ -226,8 +226,8 @@ example_data <- data.frame(y = rpois(54, 3),
 glmer_model <- glmer(y ~ trt + (1|subject), family = "poisson", data = example_data)
 
 # Plot the residual plot with the size of the title and axis lables increased
-resid_panel(glmer_model, plots = "residplot", title.text.size = 14, axis.text.size = 12)
+resid_panel(glmer_model, plots = "resid", title.text.size = 14, axis.text.size = 12)
 
 # Plot the residual plot using the Pearson residuals
-resid_panel(glmer_model, plots = "residplot", type = "pearson")
+resid_panel(glmer_model, plots = "resid", type = "pearson")
 }

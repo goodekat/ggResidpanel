@@ -53,11 +53,11 @@ follows.
     \item \code{"hist"}: A histogram of residuals.
     \item \code{"ls"}: A location scale plot of the residuals.
     \item \code{"qq"}: A normal quantile plot of residuals.
-    \item \code{"residlev"}: A plot of leverage values versus residuals.
-    \item \code{"residplot"}: A plot of residuals versus predicted values.
-    \item \code{"respred":}: A plot of the response variable versus the predicted values.
+    \item \code{"lev"}: A plot of leverage values versus residuals.
+    \item \code{"resid"}: A plot of residuals versus predicted values.
+    \item \code{"yvp":}: A plot of the response variable versus the predicted values.
   }
-Note: \code{"cookd"}, \code{"ls"}, and \code{"residlev"} are not available for "lmer"
+Note: \code{"cookd"}, \code{"ls"}, and \code{"lev"} are not available for "lmer"
 and "glmer" models.
 
 Details on the creation of the plots can be found in the details section of the help
@@ -91,7 +91,7 @@ resid_interact(lm_model2, plot = "ls", theme = "classic")
 glm_model <- glm(count ~ spray, family = "poisson", data = InsectSprays)
 
 # Create an interactive residual plot with a smoother
-resid_interact(glm_model, plot = "residplot", smoother = TRUE)
+resid_interact(glm_model, plot = "resid", smoother = TRUE)
 
 ## --------------------------------------------------------------------------------
 ## Linear Mixed Effects Models
@@ -123,5 +123,5 @@ example_data <- data.frame(y = rpois(54, 3),
 glmer_model <- glmer(y ~ trt + (1|subject), family = "poisson", data = example_data)
 
 # Create an interactive residual plot with the Pearson residuals
-resid_interact(glmer_model, plot = "residplot", type = "pearson")
+resid_interact(glmer_model, plot = "resid", type = "pearson")
 }

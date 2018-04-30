@@ -34,11 +34,11 @@
 #'     \item \code{"hist"}: A histogram of residuals.
 #'     \item \code{"ls"}: A location scale plot of the residuals.
 #'     \item \code{"qq"}: A normal quantile plot of residuals.
-#'     \item \code{"residlev"}: A plot of leverage values versus residuals.
-#'     \item \code{"residplot"}: A plot of residuals versus predicted values.
-#'     \item \code{"respred":}: A plot of the response variable versus the predicted values.
+#'     \item \code{"lev"}: A plot of leverage values versus residuals.
+#'     \item \code{"resid"}: A plot of residuals versus predicted values.
+#'     \item \code{"yvp":}: A plot of the response variable versus the predicted values.
 #'   }
-#' Note: \code{"cookd"}, \code{"ls"}, and \code{"residlev"} are not available for "lmer"
+#' Note: \code{"cookd"}, \code{"ls"}, and \code{"lev"} are not available for "lmer"
 #' and "glmer" models.
 #'
 #' Details on the creation of the plots can be found in the details section of the help
@@ -74,7 +74,7 @@
 #' glm_model <- glm(count ~ spray, family = "poisson", data = InsectSprays)
 #'
 #' # Create an interactive residual plot with a smoother
-#' resid_interact(glm_model, plot = "residplot", smoother = TRUE)
+#' resid_interact(glm_model, plot = "resid", smoother = TRUE)
 #'
 #' ## --------------------------------------------------------------------------------
 #' ## Linear Mixed Effects Models
@@ -106,7 +106,7 @@
 #' glmer_model <- glmer(y ~ trt + (1|subject), family = "poisson", data = example_data)
 #'
 #' # Create an interactive residual plot with the Pearson residuals
-#' resid_interact(glmer_model, plot = "residplot", type = "pearson")
+#' resid_interact(glmer_model, plot = "resid", type = "pearson")
 
 resid_interact <- function(model, plot = NA, type = NA, bins = NA,
                            smoother = FALSE, qqline = TRUE, theme = "bw",
@@ -127,7 +127,7 @@ resid_interact <- function(model, plot = NA, type = NA, bins = NA,
 
   # Return an error if the plot type is not entered correctly
   if(is.na(plot) | !(plot %in% c("boxplot", "cookd", "hist", "ls", "qq",
-                                   "residlev", "residplot", "respred"))){
+                                   "lev", "resid", "yvp"))){
     stop("Invalid plot option entered. See the resid_interact help file for
          available options.")
   }
@@ -162,7 +162,7 @@ resid_interact <- function(model, plot = NA, type = NA, bins = NA,
   # Return an error if the requested plot involves standardizing residuals for an 'lmer' or
   # 'glmer' model
   if(class(model)[1] %in% c("lmerMod", "glmerMod")){
-    if("ls" %in% plot |"residlev" %in% plot | "all" %in% plot | "R" %in% plot){
+    if("ls" %in% plot |"lev" %in% plot){
       stop("The requested plot or panel uses standardized residuals, which are not
            currently available for 'lmer' or 'glmer' models.")
     }
@@ -263,7 +263,7 @@ resid_interact <- function(model, plot = NA, type = NA, bins = NA,
                        qqline = qqline,
                        qqbands = FALSE)
 
-  } else if(plot == "residlev"){
+  } else if(plot == "lev"){
 
     # Leverage plot
     plot_i <- resid_lev(model = model,
@@ -273,7 +273,7 @@ resid_interact <- function(model, plot = NA, type = NA, bins = NA,
                         title.text.size = title.text.size,
                         title.opt = title.opt)
 
-  } else if(plot == "residplot"){
+  } else if(plot == "resid"){
 
     # Residual plot
     plot_i <- resid_plot(model = model,
@@ -284,10 +284,10 @@ resid_interact <- function(model, plot = NA, type = NA, bins = NA,
                          title.text.size = title.text.size,
                          title.opt = title.opt)
 
-  } else if(plot == "respred"){
+  } else if(plot == "yvp"){
 
     # Response vs Predicted plot
-    plot_i <- resid_respred(model = model,
+    plot_i <- resid_yvp(model = model,
                             theme = theme,
                             axis.text.size = axis.text.size,
                             title.text.size = title.text.size,
@@ -302,7 +302,7 @@ resid_interact <- function(model, plot = NA, type = NA, bins = NA,
     ggplotly(plot_i, tooltip = c("cooksd", "Data"))
   } else if (plot == "boxplot"){
     ggplotly(plot_i, tooltip = c("Residual", "Data"))
-  } else if (plot == "residlev"){
+  } else if (plot == "lev"){
     ggplotly(plot_i, tooltip = c("Leverage", "Std_Res", "Data"))
   }else if (plot == "ls"){
     if (class(model)[1] == "lm"){

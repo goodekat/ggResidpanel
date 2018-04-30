@@ -5,25 +5,18 @@ Future Work
 
 Katie's Tasks:
 - update resid_interact to show relevant info
+- look into when to use the constant leverage factor plot
+- suppress geom_path warning
+- change titles to shorter names
+- include a binomial example in resid_panel
+- update histogram tooltip
+- change upper limit of variables in tooltip
 
 Katherine's Tasks:
 - email Heike about plotly error and other error
   - Error in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y,  :
   polygon edge not found
 - add alpha values to lev plot
-- add two factor leverage plot
-- Notes:
-  - Which plots should only be used with "lm" models? (We need to update this
-    in the "all" part of the resid_panel function and in the documentation.)
-  - Do we need standardized Pearson residuals for "lm"
-  - How to get density and count to be captialized in the histogram?
-    - same with theoretical and sample in the qq plot
-  - Titles are getting cut off with longer names -- could we make shorter titles
-    that don't include the type of residual -- just have the axis with the type?
-  - I left out a link to the residual document for now in the documentation. I
-    figure we can include this later on when we have worked more on the vignettes.
-  - Is there anything else we need to add to the details for the histogram.
-  - Figure out how to get desired order of plots when individual plots are requested
 
 Other To Do Before Conference:
 - get new version up and running
@@ -34,9 +27,23 @@ Other To Do Before Conference:
   - examples for each residual type
 
 Ideas for Future Package Versions:
+- Include a link to the residual document in the documentation
+- figure out how to get desired order of plots when individual plots are requested
 - include a SASextended option
 - write a function for computing standardized residuals for lmer and glmer
 - put interactive plots in a grid
 - write a function to show residual plots from multiple models at the same time
 - create an option for the user to add their own theme
 - modify so works for predictive models
+
+Mystery Errors/Warnings:
+
+geom_path: Each group consists of only one observation. Do you need to adjust the group aesthetic?
+Warning messages:
+1: In sqrt(0.5 * p * (1 - hh)/hh) : NaNs produced
+2: In sqrt(0.5 * p * (1 - hh)/hh) : NaNs produced
+3: In sqrt(1 * p * (1 - hh)/hh) : NaNs produced
+4: In sqrt(1 * p * (1 - hh)/hh) : NaNs produced
+
+Error in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y,  :
+  polygon edge not found

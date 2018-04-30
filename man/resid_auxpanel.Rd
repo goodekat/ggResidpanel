@@ -4,16 +4,12 @@
 \alias{resid_auxpanel}
 \title{Panel of Diagnostic Residual Plots.}
 \usage{
-resid_auxpanel(resid, pred, plots = "SAS", bins = NA, smoother = FALSE,
-  qqline = TRUE, qqbands = FALSE, scale = 1, theme = "bw",
-  axis.text.size = 10, title.text.size = 12, title.opt = TRUE,
-  ind.ncol = 2)
+resid_auxpanel(residuals, predicted, plots = "SAS", bins = NA,
+  smoother = FALSE, qqline = TRUE, qqbands = FALSE, scale = 1,
+  theme = "bw", axis.text.size = 10, title.text.size = 12,
+  title.opt = TRUE, ind.ncol = 2)
 }
 \arguments{
-\item{resid}{The residuals from the model.}
-
-\item{pred}{The fitted values from the model.}
-
 \item{plots}{Plots chosen to include in the panel of plots. (See details for options.)}
 
 \item{bins}{Number of bins for histogram of the residuals.}
@@ -41,6 +37,10 @@ Specify TRUE or FALSE. Default is set to TRUE.}
 
 \item{ind.ncol}{Sets the number of columns in the panel when more than one individual plot
 has been specified. Default is set to 2 columns.}
+
+\item{resid}{The residuals from the model.}
+
+\item{pred}{The fitted values from the model.}
 }
 \value{
 A panel of residual diagnostic plots containing plots specified.
@@ -62,7 +62,7 @@ The following grid options can be chosen for the \code{plots} argument.
     \item \code{"boxplot"}: A boxplot of residuals.
     \item \code{"hist"}: A histogram of residuals.
     \item \code{"qq"}: A normal quantile plot of residuals.
-    \item \code{"residplot"}: A plot of residuals versus predicted values.
+    \item \code{"resid"}: A plot of residuals versus predicted values.
   }
 }
 
@@ -82,7 +82,7 @@ resid_auxpanel(resid(lm_model1), fitted(lm_model1), bins = 30)
 lm_model2 <- lm(weight ~ group, data = PlantGrowth)
 
 # Create a grid of the residual plot and qq-plot
-resid_auxpanel(resid(lm_model2), fitted(lm_model2), plots = c("residplot", "qq"))
+resid_auxpanel(resid(lm_model2), fitted(lm_model2), plots = c("resid", "qq"))
 
 # Fit a generalized linear regression model using a Poisson family to compare
 # the insect counts between different sprays from the R "InsectSprays" data
