@@ -44,7 +44,7 @@ resid_cookd <- function(model, theme, axis.text.size, title.text.size, title.opt
   # and return plot
   if(title.opt == TRUE){
     plot +
-      labs(title = "COOK's D") +
+      labs(title = "COOK's D Plot") +
       theme(plot.title = element_text(size = title.text.size, face = "bold"),
                  axis.title = element_text(size = axis.text.size))
   } else if (title.opt == FALSE){

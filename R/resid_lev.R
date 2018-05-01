@@ -95,7 +95,7 @@ resid_lev <- function(model, type, theme, axis.text.size, title.text.size, title
   # and return plot
   if(title.opt == TRUE){
     plot +
-      labs(title = "Leverage") +
+      labs(title = "Leverage Plot") +
       theme(plot.title = element_text(size = title.text.size, face = "bold"),
             axis.title = element_text(size = axis.text.size))
   } else if (title.opt == FALSE){
