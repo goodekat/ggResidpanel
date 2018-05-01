@@ -19,7 +19,7 @@ resid_qq <- function(model, type, theme, axis.text.size, title.text.size, title.
   r_label <- helper_label(type, model)
 
   # Create a title for the plot based on r_label
-  title <- paste("Q-Q Plot of", r_label)
+  #title <- paste("Q-Q Plot of", r_label)
 
   # Create labels for plotly
   Data <- helper_plotly_label(model)
@@ -63,7 +63,7 @@ resid_qq <- function(model, type, theme, axis.text.size, title.text.size, title.
   # and return plot
   if(title.opt == TRUE){
     plot +
-      labs(title = title) +
+      labs(title = "Q-Q Plot") +
       theme(plot.title = element_text(size = title.text.size, face = "bold"),
             axis.title = element_text(size = axis.text.size))
   } else if (title.opt == FALSE){

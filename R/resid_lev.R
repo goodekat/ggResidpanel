@@ -59,7 +59,7 @@ resid_lev <- function(model, type, theme, axis.text.size, title.text.size, title
   }
 
   # Create a title for the plot based on r_label
-  title <- paste(r_label, "vs Leverage")
+  #title <- paste(r_label, "vs Leverage")
 
   # Create labels for plotly
   Data <- helper_plotly_label(model)
@@ -95,7 +95,7 @@ resid_lev <- function(model, type, theme, axis.text.size, title.text.size, title
   # and return plot
   if(title.opt == TRUE){
     plot +
-      labs(title = title) +
+      labs(title = "Leverage") +
       theme(plot.title = element_text(size = title.text.size, face = "bold"),
             axis.title = element_text(size = axis.text.size))
   } else if (title.opt == FALSE){

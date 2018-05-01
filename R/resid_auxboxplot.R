@@ -32,7 +32,7 @@ resid_auxboxplot <- function(resid, theme, axis.text.size, title.text.size, titl
   # and return plot
   if (title.opt == TRUE){
     plot +
-      labs(title = "Boxplot of Residuals") +
+      labs(title = "Boxplot") +
       theme(plot.title = element_text(size = title.text.size, face = "bold"),
                  axis.title = element_text(size = axis.text.size))
   } else if (title.opt == FALSE){

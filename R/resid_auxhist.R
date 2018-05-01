@@ -64,7 +64,7 @@ resid_auxhist <- function(resid, bins, theme, axis.text.size, title.text.size, t
   # and return plot
   if(title.opt == TRUE){
     plot +
-      labs(title =  "Histogram of Residuals") +
+      labs(title =  "Histogram") +
       theme(plot.title = element_text(size = title.text.size, face = "bold"),
             axis.title = element_text(size = axis.text.size))
   } else if (title.opt == FALSE){

@@ -46,7 +46,7 @@ resid_auxqq <- function(resid, theme, axis.text.size, title.text.size, title.opt
   # and return plot
   if(title.opt == TRUE){
     plot +
-      labs(title = "Q-Q Plot of Residuals") +
+      labs(title = "Q-Q Plot") +
       theme(plot.title = element_text(size = title.text.size, face = "bold"),
             axis.title = element_text(size = axis.text.size))
   } else if (title.opt == FALSE){

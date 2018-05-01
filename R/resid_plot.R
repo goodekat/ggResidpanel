@@ -24,7 +24,7 @@ resid_plot <- function(model, type, smoother, theme, axis.text.size, title.text.
   r_label <- helper_label(type, model)
 
   # Create a title for the plot based on r_label
-  title <- paste(r_label, "Plot")
+  #title <- paste(r_label, "Plot")
 
   # Create labels for plotly
   Data <- helper_plotly_label(model)
@@ -56,7 +56,7 @@ resid_plot <- function(model, type, smoother, theme, axis.text.size, title.text.
   # and return plot
   if(title.opt == TRUE){
     plot +
-      labs(title = title) +
+      labs(title = "Residual Plot") +
       theme(plot.title = element_text(size = title.text.size, face = "bold"),
             axis.title = element_text(size = axis.text.size))
   } else if (title.opt == FALSE){

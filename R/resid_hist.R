@@ -35,7 +35,7 @@ resid_hist <- function(model, type, bins, theme, axis.text.size, title.text.size
   r_label <- helper_label(type, model)
 
   # Create a title for the plot based on r_label
-  title <- paste("Histogram of", r_label)
+  # title <- paste("Histogram of", r_label)
 
   sd_resid <- sd(model_values$Residual)
   ## Creation of Plot ---------------------------------------------------------------
@@ -77,7 +77,7 @@ resid_hist <- function(model, type, bins, theme, axis.text.size, title.text.size
   # and return plot
   if(title.opt == TRUE){
     plot +
-      labs(title =  title) +
+      labs(title =  "Histogram") +
       theme(plot.title = element_text(size = title.text.size, face = "bold"),
             axis.title = element_text(size = axis.text.size))
   } else if (title.opt == FALSE){

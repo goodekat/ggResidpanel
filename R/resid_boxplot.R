@@ -21,7 +21,7 @@ resid_boxplot <- function(model, type, theme, axis.text.size, title.text.size, t
   r_label <- helper_label(type = type, model = model)
 
   # Create a title for the plot based on r_label
-  title <- paste("Boxplot of", r_label)
+  #title <- paste("Boxplot of", r_label)
 
   # Create labels for plotly
   Data <- helper_plotly_label(model)
@@ -47,7 +47,7 @@ resid_boxplot <- function(model, type, theme, axis.text.size, title.text.size, t
   # and return plot
   if (title.opt == TRUE){
     plot +
-      labs(title = title) +
+      labs(title = "Boxplot") +
       theme(plot.title = element_text(size = title.text.size, face = "bold"),
                  axis.title = element_text(size = axis.text.size))
   } else if (title.opt == FALSE){

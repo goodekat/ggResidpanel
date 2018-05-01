@@ -41,7 +41,7 @@ resid_auxplot <- function(resid, pred, smoother, theme, axis.text.size, title.te
   # and return plot
   if(title.opt == TRUE){
     plot +
-      labs(title = "Residuals Plot") +
+      labs(title = "Residual Plot") +
       theme(plot.title = element_text(size = title.text.size, face = "bold"),
             axis.title = element_text(size = axis.text.size))
   } else if (title.opt == FALSE){
