@@ -29,6 +29,10 @@ resid_hist <- function(model, type, bins, theme, axis.text.size, title.text.size
     max_x <- 4 * sd(model_values$Residual)
   }
 
+  Residual <- seq(-4 * sd(model_values$Residual),4 * sd(model_values$Residual),.01)
+  y <- dnorm(Residual, mea=0, sd=sd(model_values$Residual))
+
+  d_data <- data.frame(Residual, y)
   ## Creation of Labels -------------------------------------------------------------
 
   # Call function to return appropriate residual label
@@ -41,28 +45,35 @@ resid_hist <- function(model, type, bins, theme, axis.text.size, title.text.size
   ## Creation of Plot ---------------------------------------------------------------
 
   # Create the histogram of residuals
-  if (is.na(min_x) & is.na(max_x)){
+  # if (is.na(min_x) & is.na(max_x)){
+  #
+  #   # Data is outside of 4*sd, so xlim is not used
+  #   plot <- ggplot(model_values, aes(x = Residual)) +
+  #     geom_histogram(aes(y = ..density.., fill = ..count..),
+  #                    color = "black", fill = "grey82", bins = bins) +
+  #     stat_function(fun = dnorm, color = "blue",
+  #                   args = list(mean = 0, sd = sd_resid)) +
+  #     labs(x = r_label, y = "Density")
+  #
+  # } else{
+  #
+  #   # Data is not outside of 4*sd, so xlim is used
+  #   plot <- ggplot(model_values, aes(x = Residual)) +
+  #     geom_histogram(aes(y = ..density.., fill = ..count..),
+  #                    color = "black", fill = "grey82", bins = bins) +
+  #     stat_function(fun = dnorm, color = "blue",
+  #                   args = list(mean = 0, sd = sd_resid)) +
+  #     labs(x = r_label, y = "Density") +
+  #     xlim(c(min_x, max_x))
+  #
+  # }
 
-    # Data is outside of 4*sd, so xlim is not used
     plot <- ggplot(model_values, aes(x = Residual)) +
       geom_histogram(aes(y = ..density.., fill = ..count..),
                      color = "black", fill = "grey82", bins = bins) +
-      stat_function(fun = dnorm, color = "blue",
-                    args = list(mean = 0, sd = sd_resid)) +
+      geom_line(data=d_data, aes(Residual,y),color = "blue") +
       labs(x = r_label, y = "Density")
 
-  } else{
-
-    # Data is not outside of 4*sd, so xlim is used
-    plot <- ggplot(model_values, aes(x = Residual)) +
-      geom_histogram(aes(y = ..density.., fill = ..count..),
-                     color = "black", fill = "grey82", bins = bins) +
-      stat_function(fun = dnorm, color = "blue",
-                    args = list(mean = 0, sd = sd_resid)) +
-      labs(x = r_label, y = "Density") +
-      xlim(c(min_x, max_x))
-
-  }
 
   # Add theme to plot
   if (theme == "bw"){
