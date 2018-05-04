@@ -11,6 +11,7 @@ resid_yvp <- function(model, theme, axis.text.size, title.text.size, title.opt){
     if(model$family[[1]] == "binomial"){
       model_values <- data.frame(Predicted = fitted(model),
                                  Response = helper_glm_actual(model))
+      names(model_values) <- c("Predicted", "Response")
     } else{
       model_values <- data.frame(Predicted = fitted(model),
                                  Response = model.frame(model)[[1]])
@@ -19,6 +20,7 @@ resid_yvp <- function(model, theme, axis.text.size, title.text.size, title.opt){
     if(model@resp$family[[1]] == "binomial"){
       model_values <- data.frame(Predicted = fitted(model),
                                  Response = helper_glm_actual(model))
+      names(model_values) <- c("Predicted", "Response")
     } else{
       model_values <- data.frame(Predicted = fitted(model),
                                  Response = model.frame(model)[[1]])

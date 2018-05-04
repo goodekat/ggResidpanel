@@ -9,7 +9,6 @@ Katie's Tasks:
     - only when their is constant leverage: some models with just categorical variables do not have constant leverage
       -have not 100% confirmed this, but I think this can only happen with a single categorical variable
 - suppress geom_path warning
-- change titles to shorter names
 - include a binomial example in resid_panel
 - update histogram tooltip
 - change upper limit of variables in tooltip

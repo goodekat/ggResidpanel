@@ -65,7 +65,7 @@ The following options can be chosen for the \code{plots} argument.
   \item "all": This creates a panel of all plot types included in the package that
   are available for the model type input into \code{residpanel}. (See note below.)
   \item "R": This creates a panel with a residual plot, a normal quantile plot of
-  the residuals, and a leverage versus residuals plot. This was modeled after the
+  the residuals, a location-scale plot, and a leverage versus residuals plot. This was modeled after the
   plots shown in R if the \code{plot()} base function is applied to an \code{lm}
   model. This option can only be used with an \code{lm} or \code{glm} model.
   \item "SAS": This is the default option. It creates a panel with a residual plot,
@@ -76,14 +76,14 @@ The following options can be chosen for the \code{plots} argument.
   specify \code{plots = c("boxplot", "hist")} or \code{plots = "qq"}. The individual
   plot options are as follows.
   \itemize{
-    \item \code{"boxplot"}: A boxplot of residuals.
-    \item \code{"cookd"}: A plot of Cook's D values versus observation number.
-    \item \code{"hist"}: A histogram of residuals.
-    \item \code{"ls"}: A location scale plot of the residuals.
-    \item \code{"qq"}: A normal quantile plot of residuals.
-    \item \code{"lev"}: A plot of leverage values versus residuals.
-    \item \code{"resid"}: A plot of residuals versus predicted values.
-    \item \code{"yvp":}: A plot of the response variable versus the predicted values.
+    \item \code{"boxplot"}: A boxplot of residuals
+    \item \code{"cookd"}: A plot of Cook's D values versus observation numbers
+    \item \code{"hist"}: A histogram of residuals
+    \item \code{"ls"}: A location scale plot of the residuals
+    \item \code{"qq"}: A normal quantile plot of residuals
+    \item \code{"lev"}: A plot of leverage values versus residuals
+    \item \code{"resid"}: A plot of residuals versus predicted values
+    \item \code{"yvp":}: A plot of observed response values versus predicted values
   }
 }
 Note: \code{"cookd"}, \code{"ls"}, and \code{"lev"} are not available for "lmer"
@@ -96,28 +96,28 @@ is input into \code{resid_panel}. These currently are as follows.
 \itemize{
   \item \code{lm} residual options
   \itemize{
-    \item \code{"pearson"}: The Pearson residuals.
-    \item \code{"response"}: The raw residuals. (Default for "lm".)
-    \item \code{"standardized"}: The standardized raw residuals.
+    \item \code{"pearson"}: The Pearson residuals
+    \item \code{"response"}: The raw residuals (Default for "lm")
+    \item \code{"standardized"}: The standardized raw residuals
   }
   \item \code{glm} residual options
   \itemize{
-    \item \code{"deviance"}: The deviance residuals. (Default for "glm".)
-    \item \code{"pearson"}: The Pearson residuals.
-    \item \code{"response"}: The raw residuals.
-    \item \code{"stand.deviance"}: The standardized deviance residuals.
-    \item \code{"stand.pearson"}: The standardized Pearson residuals.
+    \item \code{"pearson"}: The Pearson residuals
+    \item \code{"deviance"}: The deviance residuals (Default for "glm")
+    \item \code{"response"}: The raw residuals
+    \item \code{"stand.deviance"}: The standardized deviance residuals
+    \item \code{"stand.pearson"}: The standardized Pearson residuals
   }
   \item \code{lmer} residual options
   \itemize{
-    \item \code{"pearson"}: The Pearson residuals. (Default for "lmer".)
-    \item \code{"response"}: The raw residuals.
+    \item \code{"pearson"}: The Pearson residuals (Default for "lmer")
+    \item \code{"response"}: The raw residuals
   }
   \item \code{glmer} residual options
   \itemize{
-    \item \code{"deviance"}: The deviance residuals. (Default for "glmer".)
-    \item \code{"pearson"}: The Pearson residuals.
-    \item \code{"response"}: The raw residuals.
+    \item \code{"pearson"}: The Pearson residuals
+    \item \code{"deviance"}: The deviance residuals (Default for "glmer")
+    \item \code{"response"}: The raw residuals
   }
 }
 Note: The plots of \code{"ls"} and \code{"lev"} only accept standarized residuals.
@@ -131,7 +131,7 @@ influential points. The horizontal line is placed at 4/n where n is the number o
 data points used in the \code{model}.
 
 Histogram (\code{hist}): Plots a historgram of the residuals. The density
-curve overlaid has mean equal to the mean of the residuals and standard deviation
+curve overlaid has mean equal to zero and standard deviation
 equal to the standard deviation of the residuals.
 
 Leverage Plot (\code{lev}): Plots the standardized residuals on the y-axis and the
@@ -185,15 +185,27 @@ resid_panel(lm_model2, theme = "classic", plots = "R")
 
 # Fit a generalized linear regression model using a Poisson family to compare
 # the insect counts between different sprays from the R "InsectSprays" data
-glm_model <- glm(count ~ spray, family = "poisson", data = InsectSprays)
+glm_model1 <- glm(count ~ spray, family = "poisson", data = InsectSprays)
 
 # Plot the residuals using the default panel without titles and with a gray theme
-resid_panel(glm_model, bins = 30, title.opt = FALSE, theme = "gray")
-resid_panel(glm_model, bins = 30, title.opt = FALSE, theme = "grey")
+resid_panel(glm_model1, bins = 30, title.opt = FALSE, theme = "gray")
+resid_panel(glm_model1, bins = 30, title.opt = FALSE, theme = "grey")
 
 # Plot the residuals using the default panel with standarized deviance residuals
 # and use a smaller scaling of the plots
-resid_panel(glm_model, type = "stand.deviance", scale = 0.9)
+resid_panel(glm_model1, type = "stand.deviance", scale = 0.9)
+
+#Generate binomial data
+total <- c(rpois(45,20))+1
+example_data1 <- data.frame(success = rbinom(45, total,.56),
+trt = rep(c("A", "B", "C"), each = 15))
+
+# Fit a generalized lineaer regression model using a binomial family to compare
+# across treatments
+glm_model2 <- glm(cbind(success, total-success) ~ trt, family = "binomial", data = example_data1)
+
+#Plot all residual plots with Pearson residuals
+resid_panel(glm_model2, plot = "all", type = "pearson")
 
 ## --------------------------------------------------------------------------------
 ## Linear Mixed Effects Models
