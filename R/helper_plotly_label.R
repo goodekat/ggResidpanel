@@ -84,9 +84,9 @@ if(class(model)[1]%in%c("lm", "glm")){
   }
 
 
-  #If there are more than 10 variables, limit to the first 9 variables
+  #If there are more than 20 variables, limit to the first 9 variables
   #and the observation number
-  if(ncol(plotly_data)>10){
+  if(ncol(plotly_data)>20){
     plotly_data <- plotly_data[,c(1:9, ncol(plotly_data))]
   }
 
@@ -160,8 +160,8 @@ if(class(model)[1]%in%c("lm", "glm")){
   }
 
 
-  #Limit to 10 variables showing
-  if(ncol(plotly_data)>10){
+  #Limit to 20 variables showing
+  if(ncol(plotly_data)>20){
     plotly_data <- plotly_data[,c(1:9, ncol(plotly_data))]
   }
 
