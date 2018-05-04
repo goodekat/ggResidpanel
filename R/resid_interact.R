@@ -299,7 +299,7 @@ resid_interact <- function(model, plot = NA, type = NA, bins = NA,
 
   # Use plotly to create interactive plot requested
   if(plot == "cookd"){
-    ggplotly(plot_i, tooltip = c("cooksd", "Data"))
+    ggplotly(plot_i, tooltip = c("CooksD", "Data"))
   } else if (plot == "boxplot"){
     ggplotly(plot_i, tooltip = c("Residual", "Data"))
   } else if (plot == "lev"){

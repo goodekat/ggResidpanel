@@ -35,6 +35,7 @@ Ideas for Future Package Versions:
 - write a function to show residual plots from multiple models at the same time
 - create an option for the user to add their own theme
 - modify so works for predictive models
+- Create a panel of residual plots verses the X's
 
 Mystery Errors/Warnings:
 
