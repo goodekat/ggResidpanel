@@ -9,9 +9,9 @@ Overview
 
 The package provides three functions that allow the user to assess diagnostic plots of residuals from a model.
 
-<span style="color:blue">**resid\_panel**</span>: This function creates a panel of residual diagnostic plots given a model. It accepts models of type "lm", "glm", "lmerMod", and "glmerMod". The function allows the user to select a panel of plots from the options in the package ("SAS", "R", "all"") or create their own panel by selecting from the plots available for this function ("boxplot", "cookd", "hist", "ls", "qq", "lev", "resid", "yvp"). Note that "cookd", "ls", and "lev" are not available for "lmer" and "glmer" models. This function also allows users to select a residual type based on the type of model input.
+<span style="color:blue">**resid\_panel**</span>: This function creates a panel of residual diagnostic plots given a model. It allows the user to select a panel of plots from the options in the package or create their own panel by selecting from the plots available for this function (`"boxplot"`, `"hist"`, `"qq"`, `"resid"`).
 
-<span style="color:blue">**resid\_auxpanel**</span>: This function creates a panel of residual diagnostic plots given inputs of residuals and fitted values. This is meant to be used for models fit using methods other than those accepted by `resid_panel`. Users can select the "SAS" panel option or create their own panel from the plots available for this function ("boxplot", "hist", "qq", "resid").
+<span style="color:blue">**resid\_auxpanel**</span>: This function creates a panel of residual diagnostic plots given inputs of residuals and fitted values to use for models not accepted by `resid_panel`. Users can select the "SAS" panel option or create their own panel from the plots available for this function (`"boxplot"`, `"hist"`, `"qq"`, `"resid"`).
 
 <span style="color:blue">**resid\_interact**</span>: This function creates interactive versions of residual diagnostic plots given a model. It accepts models of type "lm", "glm", "lmerMod", and "glmerMod". This function allows the user to select one plot to make interactive from the plots available for this function ("boxplot", "cookd", "hist", "ls", "qq", "lev", "resid", "yvp"). Note that "cookd", "ls", and "lev" are not available for "lmer" and "glmer" models. This function also has the option to choose a residual type.
 
