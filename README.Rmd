@@ -14,22 +14,22 @@ ggResidpanel is an R package for creating panels of diagnostic plots for residua
 
 The package provides three functions that allow the user to assess diagnostic plots of residuals from a model.
 
-<span style="color:blue">**resid_panel**</span>: This function creates a panel of residual diagnostic plots given a model. It allows the user to select a panel of plots from the options in the package or create their own panel by selecting from the plots available for this function  (`"boxplot"`, `"hist"`, `"qq"`, `"resid"`).
+<span style="color:blue">**resid_panel**</span>: This function creates a panel of residual diagnostic plots given a model of type "lm", "glm", "lmerMod", and "glmerMod". It allows the user to select a panel of plots from the options in the package or create their own panel by selecting from the plots available for this function.
 
-<span style="color:blue">**resid_auxpanel**</span>: This function creates a panel of residual diagnostic plots given inputs of residuals and fitted values to use for models not accepted by `resid_panel`. Users can select the "SAS" panel option or create their own panel from the plots available for this function (`"boxplot"`, `"hist"`, `"qq"`, `"resid"`).
+<span style="color:blue">**resid_auxpanel**</span>: This function creates a panel of residual diagnostic plots given inputs of residuals and fitted values to use for models not accepted by `resid_panel`. Users can select the "SAS" panel option or create their own panel from the plots available for this function.
 
-<span style="color:blue">**resid_interact**</span>: This function creates interactive versions of residual diagnostic plots given a model. It accepts models of type "lm", "glm", "lmerMod", and "glmerMod". This function allows the user to select one plot to make interactive from the plots available for this function ("boxplot", "cookd", "hist", "ls", "qq", "lev", "resid", "yvp"). Note that "cookd", "ls", and "lev" are not available for "lmer" and "glmer" models. This function also has the option to choose a residual type.
+<span style="color:blue">**resid_interact**</span>: This function creates interactive versions of residual diagnostic plots given a model. It accepts models of type "lm", "glm", "lmerMod", and "glmerMod". It allows the user to select one plot to make interactive from the plots available for this function.
 
 Below are the descriptions of the plots currently available.
 
-* "boxplot": A boxplot of residuals
-* "cookd": A plot of Cook's D values versus observation numbers
-* "hist": A histogram of residuals (optional number of bins) 
-* "ls": A location-scale plot of residuals
-* "qq": A normal quantile plot of residuals (optional confidence bands)
-* "lev": A plot of leverage values versus residuals
-* "resid": A plot of residuals versus predicted values (optional smoother)
-* "yvp": A plot of observed response values versus predicted values
+* `"boxplot"`: A boxplot of residuals
+* `"cookd"`: A plot of Cook's D values versus observation numbers
+* `"hist"`: A histogram of residuals (optional number of bins) 
+* `"ls"`: A location-scale plot of residuals
+* `"qq"`: A normal quantile plot of residuals (optional confidence bands)
+* `"lev"`: A plot of leverage values versus residuals
+* `"resid"`: A plot of residuals versus predicted values (optional smoother)
+* `"yvp"`: A plot of observed response values versus predicted values
 
 The package allows for the formatting options of `scale`, `theme`, `axis.text.size`, `title.text.size`, `title.opt`.
 
