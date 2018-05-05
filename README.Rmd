@@ -63,17 +63,25 @@ devtools::install_github("goodekat/ggResidpanel")
 library(ggResidpanel)
 
 # Fit a linear model
-model <- lm(Volume ~ Girth, data = trees)
+lm_model <- lm(Volume ~ Girth, data = trees)
 
 # Create the default panel of plots
-resid_panel(model, bins = 20)
+resid_panel(lm_model, bins = 20)
 
 # Create the R panel of plots and change the theme to classic
-resid_panel(model, bins = 20, plots = "R", theme = "classic")
+resid_panel(lm_model, bins = 20, plots = "R", theme = "classic")
 
 # Create a panel with all plots available
-resid_panel(model, plots = "all", bins = 30)
+resid_panel(lm_model, plots = "all", bins = 20)
+
+# Fit a glme model using a Poisson family
+glm_model <- glm(count ~ spray, family = "poisson", data = InsectSprays)
+
+# Specify three plots to use, request no title, change the theme to gray, and 
+# indicate three columns
+resid_panel(glm_model, plots = c("resid", "qq", "hist"), bins = 20, 
+            title.opt = FALSE, theme = "gray", ind.ncol = 3)
 
 # Create an interactive plot
-resid_interact(model, plot = "qq")
+resid_interact(lm_model, plot = "qq")
 ```
