@@ -48,14 +48,14 @@ Currently accepts models of type "lm", "glm", "lmerMod", and "glmerMod".
 Currently, only one plot can be made interactive at a time. The options are as
 follows.
   \itemize{
-    \item \code{"boxplot"}: A boxplot of residuals.
-    \item \code{"cookd"}: A plot of Cook's D values versus observation number.
-    \item \code{"hist"}: A histogram of residuals.
-    \item \code{"ls"}: A location scale plot of the residuals.
-    \item \code{"qq"}: A normal quantile plot of residuals.
-    \item \code{"lev"}: A plot of leverage values versus residuals.
-    \item \code{"resid"}: A plot of residuals versus predicted values.
-    \item \code{"yvp":}: A plot of the response variable versus the predicted values.
+    \item \code{"boxplot"}: A boxplot of residuals
+    \item \code{"cookd"}: A plot of Cook's D values versus observation numbers
+    \item \code{"hist"}: A histogram of residuals
+    \item \code{"ls"}: A location scale plot of the residuals
+    \item \code{"qq"}: A normal quantile plot of residuals
+    \item \code{"lev"}: A plot of leverage values versus residuals
+    \item \code{"resid"}: A plot of residuals versus predicted values
+    \item \code{"yvp":}: A plot of observed response values versus predicted values
   }
 Note: \code{"cookd"}, \code{"ls"}, and \code{"lev"} are not available for "lmer"
 and "glmer" models.
@@ -106,7 +106,7 @@ library(lme4)
 lmer_model <- lmer(weight ~ Time + Diet + Time*Diet + (1|Chick), data = ChickWeight)
 
 # Create an interactive qq-plot without a title
-resid_interact(lmer_model, plot = "qq", title.opt = FALSE)
+resid_interact(lmer_model, plot = "hist", title.opt = FALSE)
 
 ## --------------------------------------------------------------------------------
 ## Generalized Linear Mixed Effects Models

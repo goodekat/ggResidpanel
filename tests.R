@@ -184,7 +184,7 @@ resid_panel(lm_model2, plots="qq")
 resid_panel(glm_model, plots="qq")
 resid_panel(lmer_model, plots="qq")
 resid_panel(glmer_model1, plots="qq")
-resid_panel(glmer_model1, plots="qq")
+resid_panel(glmer_model2, plots="qq")
 
 resid_panel(glmer_model1, plots="qq", qqbands=TRUE)
 
@@ -250,9 +250,11 @@ resid_interact(glmer_model1, plot="cookd")
 
 resid_interact(lm_model1, plot="hist")
 resid_interact(lm_model2, plot="hist")
-resid_interact(glm_model, plot="hist")
+resid_interact(glm_model1, plot="hist")
+resid_interact(glm_model2, plot="hist")
+
 resid_interact(lmer_model, plot="hist")
-resid_interact(glmer_model1, plot="hist")
+resid_interact(glmer_model, plot="hist")
 resid_interact(glmer_model2, plot="hist")
 
 ###leverage#####
@@ -279,7 +281,9 @@ resid_interact(glmer_model1, plot="ls")
 
 resid_interact(lm_model1, plot="resid")
 resid_interact(lm_model2, plot="resid")
-resid_interact(glm_model, plot="resid")
+resid_interact(glm_model1, plot="resid")
+resid_interact(glm_model2, plot="resid")
+
 resid_interact(lmer_model, plot="resid")
 resid_interact(glmer_model1, plot="resid")
 resid_interact(glmer_model2, plot="resid")
@@ -298,7 +302,9 @@ resid_interact(glmer_model2, plot="qq")
 
 resid_interact(lm_model1, plot="yvp")
 resid_interact(lm_model2, plot="yvp")
-resid_interact(glm_model, plot="yvp")
+resid_interact(glm_model1, plot="yvp")
+resid_interact(glm_model2, plot="yvp")
+
 resid_interact(lmer_model, plot="yvp")
 resid_interact(glmer_model1, plot="yvp")
 resid_interact(glmer_model2, plot="yvp")

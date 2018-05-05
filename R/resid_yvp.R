@@ -12,22 +12,28 @@ resid_yvp <- function(model, theme, axis.text.size, title.text.size, title.opt){
       model_values <- data.frame(Predicted = fitted(model),
                                  Response = helper_glm_actual(model))
       names(model_values) <- c("Predicted", "Response")
+      y_label <- "Actual Proportions"
     } else{
       model_values <- data.frame(Predicted = fitted(model),
                                  Response = model.frame(model)[[1]])
+      y_label <- names(model.frame(model)[1])
     }
   } else if (class(model)[1] == "glmerMod"){
     if(model@resp$family[[1]] == "binomial"){
       model_values <- data.frame(Predicted = fitted(model),
                                  Response = helper_glm_actual(model))
       names(model_values) <- c("Predicted", "Response")
+      y_label <- "Actual Proportions"
+
     } else{
       model_values <- data.frame(Predicted = fitted(model),
                                  Response = model.frame(model)[[1]])
+      y_label <- names(model.frame(model)[1])
     }
   } else{
     model_values <- data.frame(Predicted = fitted(model),
                                Response = model.frame(model)[[1]])
+    y_label <- names(model.frame(model)[1])
   }
 
   ## Creation of Labels -------------------------------------------------------------
@@ -37,11 +43,12 @@ resid_yvp <- function(model, theme, axis.text.size, title.text.size, title.opt){
 
   ## Creation of Plot ---------------------------------------------------------------
 
+
   # Create the plot of response variable versus predicted values
   plot <- ggplot(model_values, aes(x = Predicted, y = Response, label = Data)) +
     geom_point() +
     geom_abline(slope = 1, intercept = 0, color = "blue") +
-    labs(x = "Predicted Values", y = names(model.frame(model)[1]))
+    labs(x = "Predicted Values", y = y_label)
 
   # Add theme to plot
   if (theme == "bw"){

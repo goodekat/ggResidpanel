@@ -34,10 +34,10 @@
 #'   specify \code{plots = c("boxplot", "hist")} or \code{plots = "qq"}. The individual
 #'   plot options are as follows.
 #'   \itemize{
-#'     \item \code{"boxplot"}: A boxplot of residuals.
-#'     \item \code{"hist"}: A histogram of residuals.
-#'     \item \code{"qq"}: A normal quantile plot of residuals.
-#'     \item \code{"resid"}: A plot of residuals versus predicted values.
+#'     \item \code{"boxplot"}: A boxplot of residuals
+#'     \item \code{"hist"}: A histogram of residuals
+#'     \item \code{"qq"}: A normal quantile plot of residuals
+#'     \item \code{"resid"}: A plot of residuals versus predicted values
 #'   }
 #' }
 #'
