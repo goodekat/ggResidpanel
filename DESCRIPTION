@@ -1,14 +1,14 @@
 Package: ggResidpanel
 Type: Package
-Title: Creates a panel of residual diagnostic plots using ggplot2.
-Version: 0.1.0
+Title: Creates panels of diagnostic plots to analyze residuals and model assumptions from a variety of viewpoints.
+Version: 1.0.0
 Author: Katherine Goode and Kathleen Rey
 Maintainer: Katherine Goode and Kathleen Rey <kgoode@iastate.edu> <kprey@iastate.edu>
-Description: An R package for creating a panel of diagnostic plots for residuals from a model using ggplot2.
+Description: An R package for creating panels of diagnostic plots for residuals from a model using ggplot2 and plotly.
 License: MIT
 Encoding: UTF-8
 LazyData: true
 Imports: 
   ggplot2,
   cowplot
-RoxygenNote: 5.0.1
+RoxygenNote: 6.0.1

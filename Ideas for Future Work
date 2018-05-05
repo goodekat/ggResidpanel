@@ -4,38 +4,44 @@ Future Work
 --------------
 
 Katie's Tasks:
-- check on qqplot
-- scale-location plot
+- suppress geom_path warning
+- update histogram tooltip
 
 Katherine's Tasks:
-- residual vs. leverage plot
+- update README.md
 
-Order of Tasks:
-1. Make R panel plots
-2. Make additional plot options
-3. Option for choosing types of residuals
-4. Make plots interactive
+Other To Do Before Conference:
+- get new version up and running
 
-Ideas for future updates:
-- adjust the function to be able to take in either a model or residuals and fitted values (or
-  let them specify a specific type of residuals...?)
-- be able to choose SAS versus R default residual panel
-- be able to choose specific plots to show in the panel
-- plots to add:
-    - standardized residual plot
-    - add a smoother to the residual plot
-    - leverage plot (version from R)
-    - Cook's D plot from SAS
-    - influence plots
-    - response versus predicted (with a fitted line)
-    - ??? summary statistc/model fit values panel
-    - make our own version of influential points plot
-- edit examples to make for R correct
-- add options for theme, text size, axis labels, etc...
-- go through and make sure all functions have the same formatting
-- incorporate plotly, so you can identify outliers more easily (could include this as an option,
-  so the user can decide whether they want their plots to be interactive or not)
-- write a function to show residual plots from multiple models at the same time
-- write a function for showing plots from multiple transformations (the user can specify the
-  transformations)
+Ideas for Future Package Versions:
+- maybe add some sort of random forest or other method to examples in resid_auxpanel
+- remove interactivity for density curve in resid_hist
+- remove periods after non-sentances in documentation
 - make a vignette with examples showing how to use the package
+  - examples for each residual type
+- constant leverage factor plot
+- try to add data to interactive qq plot
+- create a development rmd file with updates for each version
+- add alpha values to lev plot
+- Include a link to the residual document in the documentation
+- figure out how to get desired order of plots when individual plots are requested
+- include a SASextended option
+- write a function for computing standardized residuals for lmer and glmer
+- put interactive plots in a grid
+- write a function to show residual plots from multiple models at the same time
+- create an option for the user to add their own theme
+- modify so works for predictive models
+- create a panel of residual plots verses the X's
+- add interactive plot to readme
+
+Mystery Errors/Warnings:
+
+geom_path: Each group consists of only one observation. Do you need to adjust the group aesthetic?
+Warning messages:
+1: In sqrt(0.5 * p * (1 - hh)/hh) : NaNs produced
+2: In sqrt(0.5 * p * (1 - hh)/hh) : NaNs produced
+3: In sqrt(1 * p * (1 - hh)/hh) : NaNs produced
+4: In sqrt(1 * p * (1 - hh)/hh) : NaNs produced
+
+Error in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y,  :
+  polygon edge not found

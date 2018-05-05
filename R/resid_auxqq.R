@@ -1,29 +1,12 @@
 # Q-Q Plot.
 
-# Creates a Q-Q plot on the residuals from a model
-resid_qq <- function(model, type, theme, axis.text.size, title.text.size, title.opt,
-                     qqline, qqbands){
+# Creates a Q-Q plot from the input residuals
+resid_auxqq <- function(resid, theme, axis.text.size, title.text.size, title.opt, qqline, qqbands){
 
   ## Creation of Values to Plot -----------------------------------------------------
 
-  # Compute the residuals and put in a dataframe
-  if(is.na(type)){
-    model_values <- data.frame(Residual = helper_resid(type = NA, model = model))
-  } else{
-    model_values <- data.frame(Residual = helper_resid(type = type, model = model))
-  }
-
-  ## Creation of Labels -------------------------------------------------------------
-
-  # Call function to return appropriate residual label
-  r_label <- helper_label(type, model)
-
-  # Create a title for the plot based on r_label
-  #title <- paste("Q-Q Plot of", r_label)
-
-  # Create labels for plotly
-  Data <- helper_plotly_label(model)
-  model_values$Data <- Data
+  # Create a data frame with the residuals
+  model_values <- data.frame(Residual = resid)
 
   ## Creation of Plot ---------------------------------------------------------------
 
@@ -31,7 +14,7 @@ resid_qq <- function(model, type, theme, axis.text.size, title.text.size, title.
   if(qqbands == TRUE){
 
     # Add bands if requested
-    plot <- ggplot(data = model_values, mapping = aes(sample = Residual, label = Data)) +
+    plot <- ggplot(data = model_values, mapping = aes(sample = Residual)) +
       stat_qq_band() +
       stat_qq_point() +
       labs(x = "Theoretical Quantiles", y = "Sample Quantiles")
@@ -39,7 +22,7 @@ resid_qq <- function(model, type, theme, axis.text.size, title.text.size, title.
   } else{
 
     # Don't add bands
-    plot <- ggplot(data = model_values, mapping = aes(sample = Residual, label = Data)) +
+    plot <- ggplot(data = model_values, mapping = aes(sample = Residual)) +
       stat_qq_point() +
       labs(x = "Theoretical Quantiles", y = "Sample Quantiles")
 
