@@ -7,7 +7,7 @@ always_allow_html: yes
 knitr::opts_chunk$set(echo = TRUE, warning = FALSE, message = FALSE)
 ```
 
-# ggResidpanel
+# ggResidpanel ![](./images/gg_resid_sticker4.png)
 
 ggResidpanel is an R package for creating panels of diagnostic plots for residuals from a model using ggplot2 and interactive versions of the plots using plotly.
 
@@ -32,7 +32,11 @@ Below are the descriptions of the plots currently available.
 * `"resid"`: A plot of residuals versus predicted values (optional smoother)
 * `"yvp"`: A plot of observed response values versus predicted values
 
-Note that not all plots are available for all model types. The package allows for the formatting options of `scale`, `theme`, `axis.text.size`, `title.text.size`, `title.opt`. See the documentation for more details.
+Note that not all plots are available for all model types. 
+
+The package allows for the formatting options of `scale`, `theme`, `axis.text.size`, `title.text.size`, `title.opt`. 
+
+See the documentation for more details.
 
 ## Installation
 
@@ -56,24 +60,36 @@ Install ggResidpanel from the GitHub repository.
 devtools::install_github("goodekat/ggResidpanel")
 ```
 
-## Example
+## Examples
 
 ```{r}
 # Load the library
 library(ggResidpanel)
 
 # Fit a linear model
-model <- lm(Volume ~ Girth, data = trees)
+lm_model <- lm(Volume ~ Girth, data = trees)
 
 # Create the default panel of plots
-resid_panel(model, bins = 20)
+resid_panel(lm_model, bins = 20)
 
 # Create the R panel of plots and change the theme to classic
-resid_panel(model, bins = 20, plots = "R", theme = "classic")
+resid_panel(lm_model, bins = 20, plots = "R", theme = "classic")
 
 # Create a panel with all plots available
-resid_panel(model, plots = "all", bins = 30)
+resid_panel(lm_model, plots = "all", bins = 20)
+```
 
+```{r, fig.height = 4, fig.width = 12}
+# Fit a glme model using a Poisson family
+glm_model <- glm(count ~ spray, family = "poisson", data = InsectSprays)
+
+# Specify three plots to use, request no title, change the theme to gray, and 
+# indicate three columns
+resid_panel(glm_model, plots = c("resid", "qq", "hist"), bins = 20, 
+            title.opt = FALSE, theme = "gray", ind.ncol = 3)
+```
+
+```{r}
 # Create an interactive plot
-resid_interact(model, plot = "qq")
+resid_interact(lm_model, plot = "resid")
 ```
