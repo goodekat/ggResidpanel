@@ -17,22 +17,22 @@ resid_hist <- function(model, type, bins, theme, axis.text.size, title.text.size
     model_values <- data.frame(Residual = helper_resid(type = type, model = model))
   }
 
-  # Steps to make sure any huge outliers are not cut off
-  if (min(model_values$Residual) < -4 * sd(model_values$Residual)){
-    min_x <- NA
-  } else{
-    min_x <- -4*sd(model_values$Residual)
-  }
-  if (max(model_values$Residual) > 4 * sd(model_values$Residual)){
-    max_x <- NA
-  } else{
-    max_x <- 4 * sd(model_values$Residual)
-  }
+  # # Steps to make sure any huge outliers are not cut off
+  # if (min(model_values$Residual) < -4 * sd(model_values$Residual)){
+  #   min_x <- NA
+  # } else{
+  #   min_x <- -4*sd(model_values$Residual)
+  # }
+  # if (max(model_values$Residual) > 4 * sd(model_values$Residual)){
+  #   max_x <- NA
+  # } else{
+  #   max_x <- 4 * sd(model_values$Residual)
+  # }
 
-  Residual <- seq(-4 * sd(model_values$Residual),4 * sd(model_values$Residual),.01)
-  y <- dnorm(Residual, mea=0, sd=sd(model_values$Residual))
+  grid_r <- seq(-4 * sd(model_values$Residual),4 * sd(model_values$Residual),.01)
+  y <- dnorm(grid_r, mea=0, sd=sd(model_values$Residual))
 
-  d_data <- data.frame(Residual, y)
+  d_data <- data.frame(grid_r, y)
   ## Creation of Labels -------------------------------------------------------------
 
   # Call function to return appropriate residual label
@@ -42,19 +42,28 @@ resid_hist <- function(model, type, bins, theme, axis.text.size, title.text.size
   # title <- paste("Histogram of", r_label)
 
   sd_resid <- sd(model_values$Residual)
+
+  #Call data for labels
+
+  Data <- helper_plotly_label(model)
+  model_values <- cbind(model_values, Data)
+  model_values$y <- rep(0, nrow(model_values))
+  model_values$Resid <- model_values$Residual
   ## Creation of Plot ---------------------------------------------------------------
 
-  # Create the histogram of residuals
+  #Create the histogram of residuals
   # if (is.na(min_x) & is.na(max_x)){
-  #
-  #   # Data is outside of 4*sd, so xlim is not used
-  #   plot <- ggplot(model_values, aes(x = Residual)) +
-  #     geom_histogram(aes(y = ..density.., fill = ..count..),
-  #                    color = "black", fill = "grey82", bins = bins) +
-  #     stat_function(fun = dnorm, color = "blue",
-  #                   args = list(mean = 0, sd = sd_resid)) +
-  #     labs(x = r_label, y = "Density")
-  #
+
+    plot <- ggplot(model_values, aes(x = Residual)) +
+      geom_point(aes(Resid, y, group=Data), alpha=0)+
+    labs(x = r_label, y = "Density")+
+      geom_histogram(aes(y = ..density.., fill = ..count..),
+                     color = "black", fill = "grey82", bins = bins) +
+      stat_function(fun = dnorm, color = "blue",
+                    args = list(mean = 0, sd = sd_resid)) +
+      geom_point(data=d_data, aes(grid_r,y),alpha=0)
+
+
   # } else{
   #
   #   # Data is not outside of 4*sd, so xlim is used
@@ -68,11 +77,11 @@ resid_hist <- function(model, type, bins, theme, axis.text.size, title.text.size
   #
   # }
 
-    plot <- ggplot(model_values, aes(x = Residual)) +
-      geom_histogram(aes(y = ..density.., fill = ..count..),
-                     color = "black", fill = "grey82", bins = bins) +
-      geom_line(data=d_data, aes(Residual,y),color = "blue") +
-      labs(x = r_label, y = "Density")
+    # plot <- ggplot(model_values, aes(x = Residual)) +
+    #   geom_histogram(aes(y = ..density.., fill = ..count..),
+    #                  color = "black", fill = "grey82", bins = bins) +
+    #   geom_line(data=d_data, aes(Residual,y),color = "blue") +
+    #   labs(x = r_label, y = "Density")
 
 
   # Add theme to plot

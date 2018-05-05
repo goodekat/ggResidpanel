@@ -317,6 +317,8 @@ resid_interact <- function(model, plot = NA, type = NA, bins = NA,
                                y = "sqrt(|Standardized Pearson Residuals|)"),
                  tooltip = c("Prediction", "Sqrt_Std_Res", "Data"))
     }
+  } else if (plot=="hist"){
+    ggplotly(plot_i, tooltip=c("Residual", "Data", "count"))
   } else{
     ggplotly(plot_i)
   }
