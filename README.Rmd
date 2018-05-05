@@ -79,7 +79,7 @@ resid_panel(lm_model, bins = 20, plots = "R", theme = "classic")
 resid_panel(lm_model, plots = "all", bins = 20)
 ```
 
-```{r, fig.height = 3, fig.width = 12}
+```{r, fig.height = 4, fig.width = 12}
 # Fit a glme model using a Poisson family
 glm_model <- glm(count ~ spray, family = "poisson", data = InsectSprays)
 
@@ -91,5 +91,5 @@ resid_panel(glm_model, plots = c("resid", "qq", "hist"), bins = 20,
 
 ```{r}
 # Create an interactive plot
-resid_interact(lm_model, plot = "qq")
+resid_interact(lm_model, plot = "resid")
 ```
