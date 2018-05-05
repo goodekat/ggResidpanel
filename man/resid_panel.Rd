@@ -189,7 +189,6 @@ glm_model1 <- glm(count ~ spray, family = "poisson", data = InsectSprays)
 
 # Plot the residuals using the default panel without titles and with a gray theme
 resid_panel(glm_model1, bins = 30, title.opt = FALSE, theme = "gray")
-resid_panel(glm_model1, bins = 30, title.opt = FALSE, theme = "grey")
 
 # Plot the residuals using the default panel with standarized deviance residuals
 # and use a smaller scaling of the plots
@@ -228,14 +227,14 @@ resid_panel(lmer_model, plots = c("resid", "qq"), qqbands = TRUE)
 ## --------------------------------------------------------------------------------
 
 # Generate Poisson data
-example_data <- data.frame(y = rpois(54, 3),
+example_data2 <- data.frame(y = rpois(54, 3),
                            trt = rep(c("A", "B"), each = 27),
                            subject = rep(1:18, each = 3))
 
 # Fit a generalized linear mixed effects model with a Poisson family to compare
 # the response between the treatments with a random effect for subject to
 # account for the dependence within a subject
-glmer_model <- glmer(y ~ trt + (1|subject), family = "poisson", data = example_data)
+glmer_model <- glmer(y ~ trt + (1|subject), family = "poisson", data = example_data2)
 
 # Plot the residual plot with the size of the title and axis lables increased
 resid_panel(glmer_model, plots = "resid", title.text.size = 14, axis.text.size = 12)

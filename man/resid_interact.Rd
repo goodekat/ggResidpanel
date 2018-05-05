@@ -41,7 +41,7 @@ Specify TRUE or FALSE. Default is set to TRUE.}
 The interactive residual diagnostic plot specified.
 }
 \description{
-Creates interaction versions of all residual diagnostic plots given a model.
+Creates interactive versions of all residual diagnostic plots given a model.
 Currently accepts models of type "lm", "glm", "lmerMod", and "glmerMod".
 }
 \details{
