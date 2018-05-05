@@ -175,9 +175,9 @@ resid_panel(lm_model1, bins = 30, plots = "all", smoother = TRUE)
 # treatment groups using the R "PlantGrowth" data
 lm_model2 <- lm(weight ~ group, data = PlantGrowth)
 
-# Create a panel of the R diagnostic plots for "lm" models using the classic
-# theme
-resid_panel(lm_model2, theme = "classic", plots = "R")
+# Create a panel of the residual plot, the histogram, and the location-scale plot for
+#"lm" models using the classic theme with three columns
+resid_panel(lm_model2, plots = c("resid", "hist", "ls"), theme = "classic", ind.ncol=3)
 
 ## --------------------------------------------------------------------------------
 ## Generalized Linear Regression Models

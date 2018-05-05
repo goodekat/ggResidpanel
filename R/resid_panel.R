@@ -165,9 +165,9 @@
 #' # treatment groups using the R "PlantGrowth" data
 #' lm_model2 <- lm(weight ~ group, data = PlantGrowth)
 #'
-#' # Create a panel of the R diagnostic plots for "lm" models using the classic
-#' # theme
-#' resid_panel(lm_model2, theme = "classic", plots = "R")
+#' # Create a panel of the residual plot, the histogram, and the location-scale plot for
+#' #"lm" models using the classic theme with three columns
+#' resid_panel(lm_model2, plots = c("resid", "hist", "ls"), theme = "classic", ind.ncol=3)
 #'
 #' ## --------------------------------------------------------------------------------
 #' ## Generalized Linear Regression Models
@@ -324,7 +324,20 @@ resid_panel <- function(model, plots = "SAS", type = NA, bins = NA,
     }
   }
 
+  #Return warning if consant leverage
+  if("all" %in% plots | "R" %in% plots | "lev" %in% plots){
+    leverage_val <- hatvalues(model)
+    zero_range <- function(x, tol = .Machine$double.eps ^ 0.5) {
+      if (length(x) == 1) return(TRUE)
+      x <- range(x) / mean(x)
+      isTRUE(all.equal(x[1], x[2], tolerance = tol))
+    }
 
+    if(zero_range(leverage_val)==TRUE){
+      warning("Note that this model has constant leverage.")
+    }
+
+  }
   ## Creation of plots ---------------------------------------------------------
 
   # Create a boxplot of the residuals if selected in plots otherwise set as NULL
