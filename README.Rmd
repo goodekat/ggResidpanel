@@ -7,7 +7,7 @@ always_allow_html: yes
 knitr::opts_chunk$set(echo = TRUE, warning = FALSE, message = FALSE)
 ```
 
-# ggResidpanel
+# ggResidpanel ![](./images/gg_resid_sticker4.png)
 
 ggResidpanel is an R package for creating panels of diagnostic plots for residuals from a model using ggplot2 and interactive versions of the plots using plotly.
 
@@ -32,7 +32,11 @@ Below are the descriptions of the plots currently available.
 * `"resid"`: A plot of residuals versus predicted values (optional smoother)
 * `"yvp"`: A plot of observed response values versus predicted values
 
-Note that not all plots are available for all model types. The package allows for the formatting options of `scale`, `theme`, `axis.text.size`, `title.text.size`, `title.opt`. See the documentation for more details.
+Note that not all plots are available for all model types. 
+
+The package allows for the formatting options of `scale`, `theme`, `axis.text.size`, `title.text.size`, `title.opt`. 
+
+See the documentation for more details.
 
 ## Installation
 
