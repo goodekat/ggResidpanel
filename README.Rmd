@@ -7,7 +7,7 @@ always_allow_html: yes
 knitr::opts_chunk$set(echo = TRUE, warning = FALSE, message = FALSE)
 ```
 
-# ggResidpanel ![](./images/gg_resid_sticker4.png)
+# ggResidpanel <img align="right" width="120" height="135" src="./images/gg_resid_sticker4.png">
 
 ggResidpanel is an R package for creating panels of diagnostic plots for residuals from a model using ggplot2 and interactive versions of the plots using plotly.
 
