@@ -19,7 +19,7 @@ The package provides three functions that allow the user to assess diagnostic pl
 
 `**resid_auxpanel**`: This function creates a panel of residual diagnostic plots given inputs of residuals and fitted values to use for models not accepted by `resid_panel`. Users can select the "SAS" panel option or create their own panel from the plots available for this function.
 
-`**resid_interact**`: This function creates interactive versions of residual diagnostic plots given a model. It accepts models of type "lm", "glm", "lmerMod", and "glmerMod". It allows the user to select one plot to make interactive from the plots available for this function.
+**`resid_interact`**: This function creates interactive versions of residual diagnostic plots given a model. It accepts models of type "lm", "glm", "lmerMod", and "glmerMod". It allows the user to select one plot to make interactive from the plots available for this function.
 
 Below are the descriptions of the plots currently available.
 
