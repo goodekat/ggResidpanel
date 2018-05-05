@@ -56,7 +56,7 @@ Install ggResidpanel from the GitHub repository.
 devtools::install_github("goodekat/ggResidpanel")
 ```
 
-## Example
+## Examples
 
 ```{r}
 # Load the library
@@ -73,7 +73,9 @@ resid_panel(lm_model, bins = 20, plots = "R", theme = "classic")
 
 # Create a panel with all plots available
 resid_panel(lm_model, plots = "all", bins = 20)
+```
 
+```{r, fig.height = 3, fig.width = 6}
 # Fit a glme model using a Poisson family
 glm_model <- glm(count ~ spray, family = "poisson", data = InsectSprays)
 
@@ -81,7 +83,9 @@ glm_model <- glm(count ~ spray, family = "poisson", data = InsectSprays)
 # indicate three columns
 resid_panel(glm_model, plots = c("resid", "qq", "hist"), bins = 20, 
             title.opt = FALSE, theme = "gray", ind.ncol = 3)
+```
 
+```{r}
 # Create an interactive plot
 resid_interact(lm_model, plot = "qq")
 ```
