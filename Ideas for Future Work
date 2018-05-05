@@ -32,6 +32,7 @@ Ideas for Future Package Versions:
 - create an option for the user to add their own theme
 - modify so works for predictive models
 - create a panel of residual plots verses the X's
+- add interactive plot to readme
 
 Mystery Errors/Warnings:
 
