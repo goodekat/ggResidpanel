@@ -75,7 +75,7 @@ resid_panel(lm_model, bins = 20, plots = "R", theme = "classic")
 resid_panel(lm_model, plots = "all", bins = 20)
 ```
 
-```{r, fig.height = 3, fig.width = 6}
+```{r, fig.height = 3, fig.width = 8}
 # Fit a glme model using a Poisson family
 glm_model <- glm(count ~ spray, family = "poisson", data = InsectSprays)
 
