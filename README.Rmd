@@ -1,9 +1,10 @@
 ---
 output: rmarkdown::github_document
+always_allow_html: yes
 ---
 
 ```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = TRUE)
+knitr::opts_chunk$set(echo = TRUE, warning = FALSE, message = FALSE)
 ```
 
 # ggResidpanel
@@ -31,7 +32,7 @@ Below are the descriptions of the plots currently available.
 * `"resid"`: A plot of residuals versus predicted values (optional smoother)
 * `"yvp"`: A plot of observed response values versus predicted values
 
-The package allows for the formatting options of `scale`, `theme`, `axis.text.size`, `title.text.size`, `title.opt`.
+Note that not all plots are available for all model types. The package allows for the formatting options of `scale`, `theme`, `axis.text.size`, `title.text.size`, `title.opt`. See the documentation for more details.
 
 ## Installation
 
@@ -58,10 +59,21 @@ devtools::install_github("goodekat/ggResidpanel")
 ## Example
 
 ```{r}
+# Load the library
 library(ggResidpanel)
 
+# Fit a linear model
 model <- lm(Volume ~ Girth, data = trees)
 
+# Create the default panel of plots
 resid_panel(model, bins = 20)
 
+# Create the R panel of plots and change the theme to classic
+resid_panel(model, bins = 20, plots = "R", theme = "classic")
+
+# Create a panel with all plots available
+resid_panel(model, plots = "all", bins = 30)
+
+# Create an interactive plot
+resid_interact(model, plot = "qq")
 ```
