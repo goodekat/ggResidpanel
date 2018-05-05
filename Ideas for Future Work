@@ -10,7 +10,6 @@ Katie's Tasks:
       -have not 100% confirmed this, but I think this can only happen with a single categorical variable
 - suppress geom_path warning
 - update histogram tooltip
-- change upper limit of variables in tooltip
 
 Katherine's Tasks:
 - update README.md
