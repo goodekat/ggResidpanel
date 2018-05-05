@@ -319,7 +319,11 @@ resid_interact <- function(model, plot = NA, type = NA, bins = NA,
     }
   } else if (plot=="hist"){
     ggplotly(plot_i, tooltip=c("Residual", "Data", "count"))
-  } else{
+  } else if (plot=="qq"){
+    # Print a warning about how still a working progress
+    warning("The full capabilities of the interactive 'qq' plot are still under construction.")
+    ggplotly(plot_i)
+  } else {
     ggplotly(plot_i)
   }
 

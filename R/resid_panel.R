@@ -324,6 +324,7 @@ resid_panel <- function(model, plots = "SAS", type = NA, bins = NA,
     }
   }
 
+
   ## Creation of plots ---------------------------------------------------------
 
   # Create a boxplot of the residuals if selected in plots otherwise set as NULL
