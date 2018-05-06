@@ -30,6 +30,11 @@ Ideas for Future Package Versions:
 - modify so works for predictive models
 - create a panel of residual plots verses the X's
 - add interactive plot to readme
+- look into broom package
+- create a md file with updates to the package
+- look into testthat and vistest packages for testing (then could put the testthat folder in
+  gitignore)
+- find a dataset to use
 
 Mystery Errors/Warnings:
 
