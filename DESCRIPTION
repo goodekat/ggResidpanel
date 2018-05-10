@@ -15,5 +15,6 @@ Imports:
   MASS,
   qqplotr,
   stringr,
-  plotly
+  plotly,
+  tidyverse
 RoxygenNote: 6.0.1
