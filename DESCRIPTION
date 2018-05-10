@@ -10,5 +10,10 @@ Encoding: UTF-8
 LazyData: true
 Imports: 
   ggplot2,
-  cowplot
+  cowplot,
+  gridExtra,
+  MASS,
+  qqplotr,
+  stringr,
+  plotly
 RoxygenNote: 6.0.1
