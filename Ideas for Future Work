@@ -8,7 +8,7 @@ Katie's Tasks:
 - update histogram tooltip
 
 Katherine's Tasks:
-- nothing for now!
+- figure out how to appropriately load packages
 
 Ideas for Future Package Versions:
 - maybe add some sort of random forest or other method to examples in resid_auxpanel
@@ -35,6 +35,13 @@ Ideas for Future Package Versions:
 - look into testthat and vistest packages for testing (then could put the testthat folder in
   gitignore)
 - find a dataset to use
+- problem with interactive data showing up horizontally
+
+
+Presentations:
+- ISU graphics group fall 2018 (request to present)
+- LunchinatoRs fall 2018 (request to present)
+- Agricultural Meeting in Baltimore (look into)
 
 Mystery Errors/Warnings:
 
