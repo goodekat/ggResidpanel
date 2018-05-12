@@ -13,7 +13,7 @@ Katherine's Tasks:
 Ideas for Future Package Versions:
 - maybe add some sort of random forest or other method to examples in resid_auxpanel
 - remove interactivity for density curve in resid_hist
-- remove periods after non-sentances in documentation
+- remove periods after non-sentences in documentation
 - make a vignette with examples showing how to use the package
   - examples for each residual type
 - constant leverage factor plot
