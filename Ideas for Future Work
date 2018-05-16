@@ -6,6 +6,8 @@ Future Work
 Katie's Tasks:
 - suppress geom_path warning
 - update histogram tooltip
+- try to add suppress error to plotly
+- try to figure out why plotly graphs showing up horizontal
 
 Katherine's Tasks:
 - figure out how to appropriately load packages
