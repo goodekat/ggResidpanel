@@ -38,7 +38,7 @@ Follow these instructions to install ggResidpanel.
 Install the package devtools (if not already installed).
 
 ``` r
-install.packages("tidyverse")
+install.packages("devtools")
 ```
 
 Load the devtools library.
