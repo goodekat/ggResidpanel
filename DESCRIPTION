@@ -5,7 +5,8 @@ Version: 1.0.0
 Author: Katherine Goode and Kathleen Rey
 Maintainer: Katherine Goode and Kathleen Rey <kgoode@iastate.edu> <kprey@iastate.edu>
 Description: An R package for creating panels of diagnostic plots for residuals from a model 
-    using ggplot2 and plotly to analyze residuals and model assumptions from a variety of viewpoints.
+    using ggplot2 and plotly to analyze residuals and model assumptions from a variety of 
+    viewpoints. It also allows for the creation of interactive diagnostic plots.
 License: MIT
 Encoding: UTF-8
 LazyData: true
