@@ -51,7 +51,7 @@ A panel of residual diagnostic plots containing plots specified.
 }
 \description{
 Creates a panel of residual diagnostic plots given a model. Currently accepts models of
-type "lm", "glm", "lmerMod", and "glmerMod". Just trying something out.
+type "lm", "glm", "lmerMod", and "glmerMod".
 }
 \details{
 The first two sections below contain information on the available input options for the
