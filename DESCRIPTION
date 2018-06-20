@@ -1,9 +1,9 @@
 Package: ggResidpanel
 Type: Package
-Title: Create Panels of Diagnostic Plots
+Title: Panels and Interactive Versions of Diagnostic Plots using 'ggplot2'
 Version: 1.0.0
-Author: Katherine Goode and Kathleen Rey
-Maintainer: Katherine Goode and Kathleen Rey <kgoode@iastate.edu> <kprey@iastate.edu>
+Authors@R: c(person("Katherine", "Goode", email = "kgoode@iastate.edu", role = c("aut", "cre")),
+    person("Kathleen", "Rey", email = "kprey@iastate.edu", role = c("aut")))
 Description: An R package for creating panels of diagnostic plots for residuals from a model 
     using ggplot2 and plotly to analyze residuals and model assumptions from a variety of 
     viewpoints. It also allows for the creation of interactive diagnostic plots.
