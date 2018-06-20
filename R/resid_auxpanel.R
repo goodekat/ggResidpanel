@@ -1,48 +1,48 @@
 #' Panel of Diagnostic Residual Plots.
 #'
-#' Creates a panel of residual diagnostic plots given inputs of residuals and fitted values.
+#' Creates a panel of residual diagnostic plots given inputs of residuals and
+#' fitted values.
 #'
 #' @param resid The residuals from the model.
 #' @param pred The fitted values from the model.
-#' @param plots Plots chosen to include in the panel of plots. (See details for options.)
+#' @param plots Plots chosen to include in the panel of plots. (See details for
+#'   options.)
 #' @param bins Number of bins for histogram of the residuals.
-#' @param smoother Indicates whether or not to include a smoother on the residual plot.
-#' Specify TRUE or FALSE. Default is set to FALSE.
-#' @param qqline Indicates whether to include a 1-1 line on the qq-plot. Specify TRUE or
-#' FALSE. Default is set to TRUE.
-#' @param qqbands Indicates whether to include confidence bands on the qq-plot. Specify
-#' TRUE or FALSE. Default is set to FALSE.
+#' @param smoother Indicates whether or not to include a smoother on the
+#'   residual plot. Specify TRUE or FALSE. Default is set to FALSE.
+#' @param qqline Indicates whether to include a 1-1 line on the qq-plot. Specify
+#'   TRUE or FALSE. Default is set to TRUE.
+#' @param qqbands Indicates whether to include confidence bands on the qq-plot.
+#'   Specify TRUE or FALSE. Default is set to FALSE.
 #' @param scale Scales the size of the graphs in a panel. Takes values in (0,1].
-#' @param theme ggplot2 theme to be used. Options are \code{"bw"}, \code{"classic"}, and
-#' \code{"grey"} (or \code{"gray"}). Default is \code{"bw"}.
-#' @param axis.text.size Specifies the size of the text for the axis labels of all plots.
-#' @param title.text.size Specifies the size of the text for the titles of all plots.
+#' @param theme ggplot2 theme to be used. Options are \code{"bw"},
+#'   \code{"classic"}, and \code{"grey"} (or \code{"gray"}). Default is
+#'   \code{"bw"}.
+#' @param axis.text.size Specifies the size of the text for the axis labels of
+#'   all plots.
+#' @param title.text.size Specifies the size of the text for the titles of all
+#'   plots.
 #' @param title.opt Indicates whether or not to include a title on the plots.
-#' Specify TRUE or FALSE. Default is set to TRUE.
-#' @param ind.ncol Sets the number of columns in the panel when more than one individual plot
-#' has been specified. Default is set to 2 columns.
+#'   Specify TRUE or FALSE. Default is set to TRUE.
+#' @param ind.ncol Sets the number of columns in the panel when more than one
+#'   individual plot has been specified. Default is set to 2 columns.
 #'
 #' @export
 #'
-#' @details The following grid options can be chosen for the \code{plots} argument.
-#' \itemize{
-#'   \item "SAS": This is the default option. It creates a panel of a residual plot,
-#'   a normal quantile plot of the residuals, a histogram of the residuals, and a
-#'   boxplot of the residuals. This was modeled after the residpanel option in proc
-#'   mixed from SAS version 9.4.
-#'   \item A vector of individual plots can also be specified. For example, one can
-#'   specify \code{plots = c("boxplot", "hist")} or \code{plots = "qq"}. The individual
-#'   plot options are as follows.
-#'   \itemize{
-#'     \item \code{"boxplot"}: A boxplot of residuals
-#'     \item \code{"hist"}: A histogram of residuals
-#'     \item \code{"qq"}: A normal quantile plot of residuals
-#'     \item \code{"resid"}: A plot of residuals versus predicted values
-#'   }
-#' }
+#' @details The following grid options can be chosen for the \code{plots}
+#'   argument. \itemize{ \item "SAS": This is the default option. It creates a
+#'   panel of a residual plot, a normal quantile plot of the residuals, a
+#'   histogram of the residuals, and a boxplot of the residuals. This was
+#'   modeled after the residpanel option in proc mixed from SAS version 9.4.
+#'   \item A vector of individual plots can also be specified. For example, one
+#'   can specify \code{plots = c("boxplot", "hist")} or \code{plots = "qq"}. The
+#'   individual plot options are as follows. \itemize{ \item \code{"boxplot"}: A
+#'   boxplot of residuals \item \code{"hist"}: A histogram of residuals \item
+#'   \code{"qq"}: A normal quantile plot of residuals \item \code{"resid"}: A
+#'   plot of residuals versus predicted values } }
 #'
-#' Details on the creation of the plots can be found in the details section of the help
-#' file for \code{resid_panel}.
+#'   Details on the creation of the plots can be found in the details section of
+#'   the help file for \code{resid_panel}.
 #'
 #' @return A panel of residual diagnostic plots containing plots specified.
 #'

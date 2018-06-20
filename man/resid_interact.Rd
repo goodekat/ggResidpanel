@@ -9,33 +9,36 @@ resid_interact(model, plot = NA, type = NA, bins = NA, smoother = FALSE,
   title.text.size = 12, title.opt = TRUE)
 }
 \arguments{
-\item{model}{Model fit using either \code{lm}, \code{glm}, \code{lmer}, or \code{glmer}.}
+\item{model}{Model fit using either \code{lm}, \code{glm}, \code{lmer}, or
+\code{glmer}.}
 
-\item{plot}{Specify plot to create an interactive version. (See details for options.)}
+\item{plot}{Specify plot to create an interactive version. (See details for
+options.)}
 
-\item{type}{The user may specify a type of residuals to use. Otherwise, the default
-residual type for each model is used. (See details in the help file for
-\code{resid_panel} for options.)}
+\item{type}{The user may specify a type of residuals to use. Otherwise, the
+default residual type for each model is used. (See details in the help file
+for \code{resid_panel} for options.)}
 
 \item{bins}{Number of bins to use when creating a histogram of the residuals.}
 
-\item{smoother}{Indicates whether or not to include a smoother on the residual plot.
-Specify TRUE or FALSE. Default is set to FALSE.}
+\item{smoother}{Indicates whether or not to include a smoother on the
+residual plot. Specify TRUE or FALSE. Default is set to FALSE.}
 
-\item{qqline}{Indicates whether to include a 1-1 line on the qq-plot. Specify TRUE or
-FALSE. Default is set to TRUE.}
+\item{qqline}{Indicates whether to include a 1-1 line on the qq-plot. Specify
+TRUE or FALSE. Default is set to TRUE.}
 
-\item{theme}{ggplot2 theme to be used. Current options are \code{"bw"}, \code{"classic"},
-and \code{"grey"} (or \code{"gray"}). Default is \code{"bw"}.}
+\item{theme}{ggplot2 theme to be used. Current options are \code{"bw"},
+\code{"classic"}, and \code{"grey"} (or \code{"gray"}). Default is
+\code{"bw"}.}
 
-\item{axis.text.size}{Specifies the size of the text for the axis labels of all plots
-in the panel.}
+\item{axis.text.size}{Specifies the size of the text for the axis labels of
+all plots in the panel.}
 
-\item{title.text.size}{Specifies the size of the text for the titles of all plots in
-the panel.}
+\item{title.text.size}{Specifies the size of the text for the titles of all
+plots in the panel.}
 
-\item{title.opt}{Indicates whether or not to include a title on the plots in the panel.
-Specify TRUE or FALSE. Default is set to TRUE.}
+\item{title.opt}{Indicates whether or not to include a title on the plots in
+the panel. Specify TRUE or FALSE. Default is set to TRUE.}
 }
 \value{
 The interactive residual diagnostic plot specified.
@@ -45,23 +48,19 @@ Creates interactive versions of all residual diagnostic plots given a model.
 Currently accepts models of type "lm", "glm", "lmerMod", and "glmerMod".
 }
 \details{
-Currently, only one plot can be made interactive at a time. The options are as
-follows.
-  \itemize{
-    \item \code{"boxplot"}: A boxplot of residuals
-    \item \code{"cookd"}: A plot of Cook's D values versus observation numbers
-    \item \code{"hist"}: A histogram of residuals
-    \item \code{"ls"}: A location scale plot of the residuals
-    \item \code{"qq"}: A normal quantile plot of residuals
-    \item \code{"lev"}: A plot of leverage values versus residuals
-    \item \code{"resid"}: A plot of residuals versus predicted values
-    \item \code{"yvp":}: A plot of observed response values versus predicted values
-  }
-Note: \code{"cookd"}, \code{"ls"}, and \code{"lev"} are not available for "lmer"
-and "glmer" models.
+Currently, only one plot can be made interactive at a time. The
+  options are as follows. \itemize{ \item \code{"boxplot"}: A boxplot of
+  residuals \item \code{"cookd"}: A plot of Cook's D values versus
+  observation numbers \item \code{"hist"}: A histogram of residuals \item
+  \code{"ls"}: A location scale plot of the residuals \item \code{"qq"}: A
+  normal quantile plot of residuals \item \code{"lev"}: A plot of leverage
+  values versus residuals \item \code{"resid"}: A plot of residuals versus
+  predicted values \item \code{"yvp":}: A plot of observed response values
+  versus predicted values } Note: \code{"cookd"}, \code{"ls"}, and
+  \code{"lev"} are not available for "lmer" and "glmer" models.
 
-Details on the creation of the plots can be found in the details section of the help
-file for \code{resid_panel}.
+  Details on the creation of the plots can be found in the details section of
+  the help file for \code{resid_panel}.
 }
 \examples{
 ## --------------------------------------------------------------------------------
