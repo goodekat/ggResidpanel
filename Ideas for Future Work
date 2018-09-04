@@ -7,43 +7,50 @@ Katie's Tasks:
 - suppress geom_path warnin
   - possible to do with labeling for the interactive plots
 - update histogram tooltip
+  -Check interactive histogram box and what shows
 - Could possibly use the function “suppress_messages” to not have the plotly error showing
-- try to figure out why plotly graphs showing up horizontal
+  - suppress messaage about using github version of plotly
+  - try suppressPacakgeStartupMessage()
+- try to figure out why plotly graphs showing up horizontaly
 - remove interactivity for density curve in resid_hist
 - try to add data to interactive qq plot
+- Work on residual vignette
+- constant leverage factor plot
+  - create separate r function called by the helper
+- modify so works for predictive models (Research at least)
+
 
 Katherine's Tasks:
-- figure out how to appropriately load packages
-
-Ideas for Future Package Versions:
+- updates for lmertest object
 - maybe add some sort of random forest or other method to examples in resid_auxpanel
-- remove periods after non-sentences in documentation
-- make a vignette with examples showing how to use the package
-  - examples for each residual type
-- constant leverage factor plot
 - create a development rmd file with updates for each version
 - add alpha values to lev plot
-- Include a link to the residual document in the documentation
+  -figure out what alpha is
+  -add example of interpreting
 - figure out how to get desired order of plots when individual plots are requested
-- include a SASextended option
-- write a function for computing standardized residuals for lmer and glmer
-- put interactive plots in a grid
-- write a function to show residual plots from multiple models at the same time
-- create an option for the user to add their own theme
-- modify so works for predictive models
-- create a panel of residual plots verses the X's
-- add interactive plot to readme
+- add interactive plot to readme (see plotly readme)
 - look into broom package
-- create a md file with updates to the package
+- Include a resid vs. index plot (he likes to look at this plot often)
+
+Ideas for Future Package Versions:
+- write a function to show residual plots from multiple models at the same time
+- create a panel of residual plots verses the X's
+- create an option for the user to add their own theme
+- remove periods after non-sentences in documentation
+- Improve the R plots — don’t just copy what the default in R gives — make it better
+- make a vignette with examples showing how to use the package
+  - examples for each residual type
+  - maybe look for great lakes data
 - look into testthat and vistest packages for testing (then could put the testthat folder in
   gitignore)
-- find a dataset to use
-- Include a resid vs. index plot (he likes to look at this plot often)
-- Change the default to our four diagnostic plots that we think are the most useful and leave the   SAS option as one of the available options to choose from (since the boxplot is really not that   helpful)
-- Improve the R plots — don’t just copy what the default in R gives — make it better
+- Include a link to the residual document in the documentation
+- maybe instead pick our own default, and not worry about SASextended (but leave SAS as option)
+    -Possible plots: residual plot, qq plot, cook's d or histogram instead, resid vs. index
+- write a function for computing standardized residuals for lmer and glmer (Katie)
+- put interactive plots in a grid
 - Suggested not changing the version to 1.0.0 until the package is ready for CRAN (or wide usage)
 - Could look into more helpful diagnostic plots that exist
-- add in an option for lmerTest model
+- Add in minimum package versions?? (under imports)
 
 Presentations:
 - ISU graphics group fall 2018 (request to present)
