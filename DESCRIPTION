@@ -2,7 +2,7 @@ Package: ggResidpanel
 Type: Package
 Title: Panels and Interactive Versions of Diagnostic Plots using 'ggplot2'
 Version: 1.0.0
-Authors@R: c(person("Katherine", "Goode", email = "kgoode@iastate.edu", role = c("aut", "cre")),
+Authors@R: c(person("Katherine", "Goode", email = "kgoode@iastate.edu", role = c("aut")),
     person("Kathleen", "Rey", email = "kprey@iastate.edu", role = c("aut")))
 Description: An R package for creating panels of diagnostic plots for residuals from a model 
     using ggplot2 and plotly to analyze residuals and model assumptions from a variety of 
@@ -10,7 +10,7 @@ Description: An R package for creating panels of diagnostic plots for residuals 
 License: MIT
 Encoding: UTF-8
 LazyData: true
-Imports: 
+Imports:
   cowplot,
   ggplot2,
   gridExtra,
@@ -19,3 +19,7 @@ Imports:
   qqplotr,
   stringr
 RoxygenNote: 6.0.1
+Suggests: knitr,
+    rmarkdown,
+    testthat
+VignetteBuilder: knitr
