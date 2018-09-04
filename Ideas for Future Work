@@ -4,7 +4,8 @@ Future Work
 --------------
 
 Katie's Tasks:
-- suppress geom_path warning
+- suppress geom_path warnin
+  - possible to do with labeling for the interactive plots
 - update histogram tooltip
 - Could possibly use the function “suppress_messages” to not have the plotly error showing
 - try to figure out why plotly graphs showing up horizontal
