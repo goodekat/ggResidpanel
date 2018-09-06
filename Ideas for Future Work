@@ -12,8 +12,6 @@ Katie's Tasks:
 - Could possibly use the function “suppress_messages” to not have the plotly error showing (**DONE**)
   - SOLUTION: suppressMessages(ggplotly(g))
 - try to figure out why plotly graphs showing up horizontaly
-- remove interactivity for density curve in resid_hist
-  -made first attempt
 - try to add data to interactive qq plot
 - Work on residual vignette
 - constant leverage factor plot
