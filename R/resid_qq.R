@@ -23,7 +23,7 @@ resid_qq <- function(model, type, theme, axis.text.size, title.text.size, title.
 
   # Create labels for plotly
   Data <- helper_plotly_label(model)
-  model_values$Data <- Data
+  model_values <- cbind(model_values, Data)
 
   ## Creation of Plot ---------------------------------------------------------------
 

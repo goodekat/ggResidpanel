@@ -300,32 +300,32 @@ resid_interact <- function(model, plot = NA, type = NA, bins = NA,
 
   # Use plotly to create interactive plot requested
   if(plot == "cookd"){
-    ggplotly(plot_i, tooltip = c("CooksD", "Data"))
+    suppressMessages(ggplotly(plot_i, tooltip = c("CooksD", "Data")))
   } else if (plot == "boxplot"){
-    ggplotly(plot_i, tooltip = c("Residual", "Data"))
+    suppressMessages(ggplotly(plot_i, tooltip = c("Residual", "Data")))
   } else if (plot == "lev"){
-    ggplotly(plot_i, tooltip = c("Leverage", "Std_Res", "Data"))
+    suppressMessages(ggplotly(plot_i, tooltip = c("Leverage", "Std_Res", "Data")))
   }else if (plot == "ls"){
     if (class(model)[1] == "lm"){
-      ggplotly(plot_i + labs(x = "Predicted Values", y = "sqrt(|Standardized Residuals|)"),
-               tooltip=c("Prediction", "Sqrt_Std_Res", "Data"))
+      suppressMessages(ggplotly(plot_i + labs(x = "Predicted Values", y = "sqrt(|Standardized Residuals|)"),
+               tooltip=c("Prediction", "Sqrt_Std_Res", "Data")))
       } else if(is.na(type) | type == "deviance" | type == "stand.deviance"){
-        ggplotly(plot_i + labs(x = "Predicted Values",
+        suppressMessages(ggplotly(plot_i + labs(x = "Predicted Values",
                                y = "sqrt(|Standardized Deviance Residuals|)"),
-                 tooltip = c("Prediction", "Sqrt_Std_Res", "Data"))
+                 tooltip = c("Prediction", "Sqrt_Std_Res", "Data")))
       } else if(type == "pearson" | type == "stand.pearson"){
-        ggplotly(plot_i + labs(x = "Predicted Values",
+        suppressMessages(ggplotly(plot_i + labs(x = "Predicted Values",
                                y = "sqrt(|Standardized Pearson Residuals|)"),
-                 tooltip = c("Prediction", "Sqrt_Std_Res", "Data"))
+                 tooltip = c("Prediction", "Sqrt_Std_Res", "Data")))
     }
   } else if (plot=="hist"){
-    ggplotly(plot_i, tooltip=c("Residual", "Data", "count"))
+    suppressMessages(ggplotly(plot_i, tooltip=c("Data", "count")))
   } else if (plot=="qq"){
     # Print a warning about how still a working progress
     warning("The full capabilities of the interactive 'qq' plot are still under construction.")
-    ggplotly(plot_i)
+    suppressMessages(ggplotly(plot_i))
   } else {
-    ggplotly(plot_i)
+    suppressMessages(ggplotly(plot_i))
   }
 
 }
