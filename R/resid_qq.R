@@ -22,8 +22,9 @@ resid_qq <- function(model, type, theme, axis.text.size, title.text.size, title.
   #title <- paste("Q-Q Plot of", r_label)
 
   # Create labels for plotly
-  Data <- helper_plotly_label(model)
-  model_values <- cbind(model_values, Data)
+  data_add <- helper_plotly_label(model)
+  model_values <- cbind(model_values, data_add)
+  names(model_values)[which(names(model_values)=="data_add")] <- "Data"
 
   ## Creation of Plot ---------------------------------------------------------------
 
@@ -40,7 +41,7 @@ resid_qq <- function(model, type, theme, axis.text.size, title.text.size, title.
 
     # Don't add bands
     plot <- ggplot(data = model_values, mapping = aes(sample = Residual, label = Data)) +
-      stat_qq_point() +
+      stat_qq_point()+
       labs(x = "Theoretical Quantiles", y = "Sample Quantiles")
 
   }
