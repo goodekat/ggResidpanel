@@ -27,12 +27,21 @@ resid_qq <- function(model, type, theme, axis.text.size, title.text.size, title.
   names(model_values)[which(names(model_values)=="data_add")] <- "Data"
 
   ## Creation of Plot ---------------------------------------------------------------
+  model_values <- model_values[order(model_values$Residual),]
+  plot <- ggplot(data = model_values, mapping = aes(sample = Residual, label = Data)) +
+    stat_qq_point()+
+    labs(x = "Theoretical Quantiles", y = "Sample Quantiles")
 
+  plot_data <- ggplot_build(plot)
+  model_values$Theoretical <- plot_data[[1]][[1]]$theoretical
+
+  #Residual for using for qq: 'Residual' is for label
+  model_values$Residual_Plot <- model_values$Residual
   # Create the qq plot
   if(qqbands == TRUE){
 
     # Add bands if requested
-    plot <- ggplot(data = model_values, mapping = aes(sample = Residual, label = Data)) +
+    plot <- ggplot(data = model_values, mapping = aes(sample = Residual_Plot, label = Data)) +
       stat_qq_band() +
       stat_qq_point() +
       labs(x = "Theoretical Quantiles", y = "Sample Quantiles")
@@ -40,8 +49,9 @@ resid_qq <- function(model, type, theme, axis.text.size, title.text.size, title.
   } else{
 
     # Don't add bands
-    plot <- ggplot(data = model_values, mapping = aes(sample = Residual, label = Data)) +
+    plot <- ggplot(data = model_values, mapping = aes(sample = Residual_Plot, label = Data)) +
       stat_qq_point()+
+      geom_point(aes(Theoretical, Residual))+
       labs(x = "Theoretical Quantiles", y = "Sample Quantiles")
 
   }

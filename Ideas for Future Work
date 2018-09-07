@@ -12,7 +12,8 @@ Katie's Tasks:
 - Could possibly use the function “suppress_messages” to not have the plotly error showing (**DONE**)
   - SOLUTION: suppressMessages(ggplotly(g))
 - try to figure out why plotly graphs showing up horizontaly
-- try to add data to interactive qq plot
+- try to add data to interactive qq plot (**DONE**)
+  -Used 'ggplot_build' to extract data set that plotting and used this in geom_point to get labels to work
 - Work on residual vignette
 - constant leverage factor plot
   - create separate r function called by the helper

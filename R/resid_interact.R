@@ -322,8 +322,8 @@ resid_interact <- function(model, plot = NA, type = NA, bins = NA,
     suppressMessages(ggplotly(plot_i, tooltip=c("Data", "count")))
   } else if (plot=="qq"){
     # Print a warning about how still a working progress
-    warning("The full capabilities of the interactive 'qq' plot are still under construction.")
-    suppressMessages(ggplotly(plot_i))
+    #warning("The full capabilities of the interactive 'qq' plot are still under construction.")
+    suppressMessages(ggplotly(plot_i, tooltip=c("Data", "Residual", "Theoretical")))
   } else {
     suppressMessages(ggplotly(plot_i))
   }
