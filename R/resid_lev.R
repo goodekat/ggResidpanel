@@ -5,6 +5,18 @@ resid_lev <- function(model, type, theme, axis.text.size, title.text.size, title
 
   ## Creation of Values to Plot -----------------------------------------------------
 
+  Leveraage = hatvalues(model)
+
+  if(length(unique(as.numeric(as.character(Leveraage))))==1){
+
+    resid_constlev(model = model,
+             type = type,
+             theme = theme,
+             axis.text.size = axis.text.size,
+             title.text.size = title.text.size,
+             title.opt = title.opt)
+  }else{
+
   # Create a data frame with the leverage values and standardized residuals based
   # on the type of model
   if(class(model)[1] == "lm"){
@@ -101,5 +113,5 @@ resid_lev <- function(model, type, theme, axis.text.size, title.text.size, title
   } else if (title.opt == FALSE){
     plot + theme(axis.title = element_text(size = axis.text.size))
   }
-
+  }
 }
