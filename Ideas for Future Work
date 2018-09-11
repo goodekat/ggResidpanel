@@ -15,8 +15,9 @@ Katie's Tasks:
 - try to add data to interactive qq plot (**DONE**)
   -Used 'ggplot_build' to extract data set that plotting and used this in geom_point to get labels to work
 - Work on residual vignette
-- constant leverage factor plot
-  - create separate r function called by the helper
+- constant leverage factor plot (**DONE**)
+  - may need a few updates
+  - right now called from resid_lev if leverage is constant
 - modify so works for predictive models (Research at least)
 
 
