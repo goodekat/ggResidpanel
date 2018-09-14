@@ -4,7 +4,7 @@
 \alias{resid_panel}
 \title{Panel of Diagnostic Residual Plots.}
 \usage{
-resid_panel(model, plots = "SAS", type = NA, bins = NA,
+resid_panel(model, plots = "default", type = NA, bins = NA,
   smoother = FALSE, qqline = TRUE, qqbands = FALSE, scale = 1,
   theme = "bw", axis.text.size = 10, title.text.size = 12,
   title.opt = TRUE, ind.ncol = 2)

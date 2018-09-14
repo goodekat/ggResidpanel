@@ -80,7 +80,7 @@
 #'                bins = 30, scale = 0.9)
 
 
-resid_auxpanel <- function(residuals, predicted, plots = "SAS", bins = NA,
+resid_auxpanel <- function(residuals, predicted, plots = "default", bins = NA,
                            smoother = FALSE, qqline = TRUE, qqbands = FALSE,
                            scale = 1, theme = "bw", axis.text.size = 10,
                            title.text.size = 12, title.opt = TRUE, ind.ncol = 2){
@@ -140,7 +140,7 @@ resid_auxpanel <- function(residuals, predicted, plots = "SAS", bins = NA,
   }
 
   # Create a histogram of the residuals if selected in plots otherwise set as NULL
-  if("hist" %in% plots | "SAS" %in% plots | "all" %in% plots){
+  if("hist" %in% plots | "default" %in% plots | "SAS" %in% plots | "all" %in% plots){
     hist <- resid_auxhist(residuals,
                           bins = bins,
                           theme = theme,
@@ -152,7 +152,7 @@ resid_auxpanel <- function(residuals, predicted, plots = "SAS", bins = NA,
   }
 
   # Create an index plot of the residuals if selected in plots otherwise set as NULL
-  if("index" %in% plots | "all" %in% plots){
+  if("index" %in% plots | "default" %in% plots | "all" %in% plots){
     index <- resid_auxindex(residuals,
                            theme = theme,
                            axis.text.size = axis.text.size,
@@ -164,7 +164,7 @@ resid_auxpanel <- function(residuals, predicted, plots = "SAS", bins = NA,
 
 
   # Create a q-q plot of the residuals if selected in plots otherwise set as NULL
-  if("qq" %in% plots | "SAS" %in% plots | "all" %in% plots){
+  if("qq" %in% plots | "default" %in% plots | "SAS" %in% plots | "all" %in% plots){
     qq <- resid_auxqq(residuals,
                       theme = theme,
                       axis.text.size = axis.text.size,
@@ -177,7 +177,7 @@ resid_auxpanel <- function(residuals, predicted, plots = "SAS", bins = NA,
   }
 
   # Create a residual plot if selected in plots otherwise set as NULL
-  if("resid" %in% plots | "SAS" %in% plots | "all" %in% plots){
+  if("resid" %in% plots | "default" %in% plots | "SAS" %in% plots | "all" %in% plots){
     resid <- resid_auxplot(residuals,
                            predicted,
                            smoother = smoother,
@@ -193,7 +193,7 @@ resid_auxpanel <- function(residuals, predicted, plots = "SAS", bins = NA,
 
   # If individual plots have been specified, set plots equal to "individual"
   # Return an error if none of the correct plot options have been specified
-  if("SAS" %in% plots | "all" %in% plots){
+  if("default" %in% plots | "SAS" %in% plots | "all" %in% plots){
     plots <- plots
   } else if("boxplot" %in% plots | "hist" %in% plots | "index" %in% plots |
             "qq" %in% plots | "resid" %in% plots){
@@ -204,9 +204,14 @@ resid_auxpanel <- function(residuals, predicted, plots = "SAS", bins = NA,
   }
 
   # Create a grid of plots based on the plots specified
-  if(plots == "SAS"){
+  if (plots == "default"){
 
-    # Create grid of SAS plots in resid panel
+    # Create grid of default plots
+    plot_grid(resid, qq, index, hist, scale = scale)
+
+  } else if (plots == "SAS"){
+
+    # Create grid of SAS plots
     plot_grid(resid, hist, qq, boxplot, scale = scale)
 
   } else if (plots == "all"){

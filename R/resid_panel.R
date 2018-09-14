@@ -242,7 +242,7 @@
 #' # Plot the residual plot using the Pearson residuals
 #' resid_panel(glmer_model, plots = "resid", type = "pearson")
 
-resid_panel <- function(model, plots = "SAS", type = NA, bins = NA,
+resid_panel <- function(model, plots = "default", type = NA, bins = NA,
                         smoother = FALSE, qqline = TRUE, qqbands = FALSE,
                         scale = 1, theme = "bw", axis.text.size = 10,
                         title.text.size = 12, title.opt = TRUE,
@@ -326,7 +326,7 @@ resid_panel <- function(model, plots = "SAS", type = NA, bins = NA,
 
   # Return a warning about choosing the number of bins if a histogram is included
   # and the number of bins has not been specified
-  if("SAS" %in% plots | "all" %in% plots | "hist" %in% plots){
+  if("default" %in% plots | "SAS" %in% plots | "all" %in% plots | "hist" %in% plots){
     if(is.na(bins)){
       bins = 30
       warning("By default, bins = 30 in the histogram of residuals. If necessary,
@@ -381,7 +381,7 @@ resid_panel <- function(model, plots = "SAS", type = NA, bins = NA,
   }
 
   # Create a histogram of the residuals if selected in plots otherwise set as NULL
-  if("hist" %in% plots | "SAS" %in% plots | "all" %in% plots){
+  if("hist" %in% plots | "default" %in% plots | "SAS" %in% plots | "all" %in% plots){
     hist <- resid_hist(model = model,
                        type = type,
                        bins = bins,
@@ -394,7 +394,7 @@ resid_panel <- function(model, plots = "SAS", type = NA, bins = NA,
   }
 
   # Create an index plot of the residuals if selected in plots otherwise set as NULL
-  if("index" %in% plots | "all" %in% plots){
+  if("index" %in% plots | "default" %in% plots | "all" %in% plots){
     index <- resid_index(model = model,
                          type = type,
                          theme = theme,
@@ -425,7 +425,7 @@ resid_panel <- function(model, plots = "SAS", type = NA, bins = NA,
   }
 
   # Create a q-q plot of the residuals if selected in plots otherwise set as NULL
-  if("qq" %in% plots | "SAS" %in% plots | "R" %in% plots | "all" %in% plots){
+  if("qq" %in% plots | "default" %in% plots | "SAS" %in% plots | "R" %in% plots | "all" %in% plots){
     qq <- resid_qq(model = model,
                    type = type,
                    theme = theme,
@@ -458,7 +458,7 @@ resid_panel <- function(model, plots = "SAS", type = NA, bins = NA,
   }
 
   # Create a residual plot if selected in plots otherwise set as NULL
-  if("resid" %in% plots | "SAS" %in% plots | "R" %in% plots | "all" %in% plots){
+  if("resid" %in% plots | "default" %in% plots | "SAS" %in% plots | "R" %in% plots | "all" %in% plots){
     resid <- resid_plot(model = model,
                             type = type,
                             smoother = smoother,
@@ -486,7 +486,7 @@ resid_panel <- function(model, plots = "SAS", type = NA, bins = NA,
 
   # If individual plots have been specified, set plots equal to "individual"
   # Return an error if none of the correct plot options have been specified
-  if("SAS" %in% plots | "R" %in% plots | "all" %in% plots){
+  if("default" %in% plots | "SAS" %in% plots | "R" %in% plots | "all" %in% plots){
     plots <- plots
   } else if("boxplot" %in% plots | "cookd" %in% plots | "index" %in% plots |
             "hist" %in% plots | "ls" %in% plots | "qq" %in% plots |
@@ -499,9 +499,14 @@ resid_panel <- function(model, plots = "SAS", type = NA, bins = NA,
   }
 
   # Create a grid of plots based on the plots specified
-  if(plots == "SAS"){
+  if (plots == "default"){
 
-    # Create grid of SAS plots in resid panel
+    # Create grid of the default plots
+    plot_grid(resid, qq, index, hist, scale = scale)
+
+  } else if (plots == "SAS"){
+
+    # Create grid of SAS plots
     plot_grid(resid, hist, qq, boxplot, scale = scale)
 
   } else if (plots == "R") {
