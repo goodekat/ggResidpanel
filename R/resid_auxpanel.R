@@ -30,16 +30,25 @@
 #' @export
 #'
 #' @details The following grid options can be chosen for the \code{plots}
-#'   argument. \itemize{ \item "SAS": This is the default option. It creates a
+#'   argument.
+#'   \itemize{
+#'   \item "all": This creates a panel of all plot types included in the package
+#'   that are available for \code{resid_auxpanel}. (See plot descriptions under
+#'   individual options.)
+#'   \item "SAS": This is the default option. It creates a
 #'   panel of a residual plot, a normal quantile plot of the residuals, a
 #'   histogram of the residuals, and a boxplot of the residuals. This was
 #'   modeled after the residpanel option in proc mixed from SAS version 9.4.
 #'   \item A vector of individual plots can also be specified. For example, one
 #'   can specify \code{plots = c("boxplot", "hist")} or \code{plots = "qq"}. The
-#'   individual plot options are as follows. \itemize{ \item \code{"boxplot"}: A
-#'   boxplot of residuals \item \code{"hist"}: A histogram of residuals \item
-#'   \code{"qq"}: A normal quantile plot of residuals \item \code{"resid"}: A
-#'   plot of residuals versus predicted values } }
+#'   individual plot options are as follows.
+#'   \itemize{
+#'   \item \code{"boxplot"}: A boxplot of residuals
+#'   \item \code{"hist"}: A histogram of residuals
+#'   \item \code{"index"}: A plot of residuals versus observation number
+#'   \item \code{"qq"}: A normal quantile plot of residuals
+#'   \item \code{"resid"}: A plot of residuals versus predicted values
+#'   } }
 #'
 #'   Details on the creation of the plots can be found in the details section of
 #'   the help file for \code{resid_panel}.
@@ -120,7 +129,7 @@ resid_auxpanel <- function(residuals, predicted, plots = "SAS", bins = NA,
   ## Creation of plots ---------------------------------------------------------
 
   # Create a boxplot of the residuals if selected in plots otherwise set as NULL
-  if("boxplot" %in% plots | "SAS" %in% plots){
+  if("boxplot" %in% plots | "SAS" %in% plots | "all" %in% plots){
     boxplot <- resid_auxboxplot(residuals,
                                 theme = theme,
                                 axis.text.size = axis.text.size,
@@ -131,7 +140,7 @@ resid_auxpanel <- function(residuals, predicted, plots = "SAS", bins = NA,
   }
 
   # Create a histogram of the residuals if selected in plots otherwise set as NULL
-  if("hist" %in% plots | "SAS" %in% plots){
+  if("hist" %in% plots | "SAS" %in% plots | "all" %in% plots){
     hist <- resid_auxhist(residuals,
                           bins = bins,
                           theme = theme,
@@ -142,8 +151,20 @@ resid_auxpanel <- function(residuals, predicted, plots = "SAS", bins = NA,
     hist <- NULL
   }
 
+  # Create an index plot of the residuals if selected in plots otherwise set as NULL
+  if("index" %in% plots | "all" %in% plots){
+    index <- resid_auxindex(residuals,
+                           theme = theme,
+                           axis.text.size = axis.text.size,
+                           title.text.size = title.text.size,
+                           title.opt = title.opt)
+  } else{
+    index <- NULL
+  }
+
+
   # Create a q-q plot of the residuals if selected in plots otherwise set as NULL
-  if("qq" %in% plots | "SAS" %in% plots){
+  if("qq" %in% plots | "SAS" %in% plots | "all" %in% plots){
     qq <- resid_auxqq(residuals,
                       theme = theme,
                       axis.text.size = axis.text.size,
@@ -156,7 +177,7 @@ resid_auxpanel <- function(residuals, predicted, plots = "SAS", bins = NA,
   }
 
   # Create a residual plot if selected in plots otherwise set as NULL
-  if("resid" %in% plots | "SAS" %in% plots){
+  if("resid" %in% plots | "SAS" %in% plots | "all" %in% plots){
     resid <- resid_auxplot(residuals,
                            predicted,
                            smoother = smoother,
@@ -172,10 +193,10 @@ resid_auxpanel <- function(residuals, predicted, plots = "SAS", bins = NA,
 
   # If individual plots have been specified, set plots equal to "individual"
   # Return an error if none of the correct plot options have been specified
-  if("SAS" %in% plots){
+  if("SAS" %in% plots | "all" %in% plots){
     plots <- plots
-  } else if("boxplot" %in% plots | "hist" %in% plots | "qq" %in% plots |
-            "resid" %in% plots){
+  } else if("boxplot" %in% plots | "hist" %in% plots | "index" %in% plots |
+            "qq" %in% plots | "resid" %in% plots){
     plots <- "individual"
   } else{
     stop("Invalid plots option entered")
@@ -187,11 +208,19 @@ resid_auxpanel <- function(residuals, predicted, plots = "SAS", bins = NA,
     # Create grid of SAS plots in resid panel
     plot_grid(resid, hist, qq, boxplot, scale = scale)
 
+  } else if (plots == "all"){
+
+    # Create grid of all plots
+    plot_grid(resid, hist, qq, boxplot, index, scale = scale)
+
   } else if (plots == "individual") {
 
     # Turn the specified plots into a list
-    individual_plots <- list(resid = resid, hist = hist,
-                             qq = qq, boxplot = boxplot)
+    individual_plots <- list(resid = resid,
+                             hist = hist,
+                             index = index,
+                             qq = qq,
+                             boxplot = boxplot)
 
     # Remove the plots which are null
     individual_plots <- individual_plots[-which(sapply(individual_plots, is.null))]

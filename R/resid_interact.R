@@ -30,15 +30,21 @@
 #' @importFrom plotly ggplotly
 #'
 #' @details Currently, only one plot can be made interactive at a time. The
-#'   options are as follows. \itemize{ \item \code{"boxplot"}: A boxplot of
-#'   residuals \item \code{"cookd"}: A plot of Cook's D values versus
-#'   observation numbers \item \code{"hist"}: A histogram of residuals \item
-#'   \code{"ls"}: A location scale plot of the residuals \item \code{"qq"}: A
-#'   normal quantile plot of residuals \item \code{"lev"}: A plot of leverage
-#'   values versus residuals \item \code{"resid"}: A plot of residuals versus
-#'   predicted values \item \code{"yvp":}: A plot of observed response values
-#'   versus predicted values } Note: \code{"cookd"}, \code{"ls"}, and
-#'   \code{"lev"} are not available for "lmer" and "glmer" models.
+#'   options are as follows.
+#'   \itemize{
+#'   \item \code{"boxplot"}: A boxplot of residuals
+#'   \item \code{"cookd"}: A plot of Cook's D values versus observation numbers
+#'   \item \code{"hist"}: A histogram of residuals
+#'   \item \code{"index"}: A plot of residuals versus observation numbers
+#'   \item \code{"ls"}: A location scale plot of the residuals
+#'   \item \code{"qq"}: A normal quantile plot of residuals
+#'   \item \code{"lev"}: A plot of leverage values versus residuals
+#'   \item \code{"resid"}: A plot of residuals versus predicted values
+#'   \item \code{"yvp":}: A plot of observed response values versus predicted values
+#'   }
+#'
+#'   Note: \code{"cookd"}, \code{"ls"}, and \code{"lev"} are not available for "
+#'   lmer" and "glmer" models.
 #'
 #'   Details on the creation of the plots can be found in the details section of
 #'   the help file for \code{resid_panel}.
@@ -122,7 +128,7 @@ resid_interact <- function(model, plot = NA, type = NA, bins = NA,
          currently are lm, glm, lmer, and glmer.")
 
   # Return an error if the plot type is not entered correctly
-  if(is.na(plot) | !(plot %in% c("boxplot", "cookd", "hist", "ls", "qq",
+  if(is.na(plot) | !(plot %in% c("boxplot", "cookd", "hist", "index", "ls", "qq",
                                    "lev", "resid", "yvp"))){
     stop("Invalid plot option entered. See the resid_interact help file for
          available options.")
@@ -241,6 +247,16 @@ resid_interact <- function(model, plot = NA, type = NA, bins = NA,
                          axis.text.size = axis.text.size,
                          title.text.size = title.text.size,
                          title.opt = title.opt)
+
+  } else if(plot == "index"){
+
+    # Histogram
+    plot_i <- resid_index(model = model,
+                          type = type,
+                          theme = theme,
+                          axis.text.size = axis.text.size,
+                          title.text.size = title.text.size,
+                          title.opt = title.opt)
 
   } else if(plot == "ls"){
 

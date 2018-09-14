@@ -55,16 +55,25 @@ fitted values.
 }
 \details{
 The following grid options can be chosen for the \code{plots}
-  argument. \itemize{ \item "SAS": This is the default option. It creates a
+  argument.
+  \itemize{
+  \item "all": This creates a panel of all plot types included in the package
+  that are available for \code{resid_auxpanel}. (See plot descriptions under
+  individual options.)
+  \item "SAS": This is the default option. It creates a
   panel of a residual plot, a normal quantile plot of the residuals, a
   histogram of the residuals, and a boxplot of the residuals. This was
   modeled after the residpanel option in proc mixed from SAS version 9.4.
   \item A vector of individual plots can also be specified. For example, one
   can specify \code{plots = c("boxplot", "hist")} or \code{plots = "qq"}. The
-  individual plot options are as follows. \itemize{ \item \code{"boxplot"}: A
-  boxplot of residuals \item \code{"hist"}: A histogram of residuals \item
-  \code{"qq"}: A normal quantile plot of residuals \item \code{"resid"}: A
-  plot of residuals versus predicted values } }
+  individual plot options are as follows.
+  \itemize{
+  \item \code{"boxplot"}: A boxplot of residuals
+  \item \code{"hist"}: A histogram of residuals
+  \item \code{"index"}: A plot of residuals versus observation number
+  \item \code{"qq"}: A normal quantile plot of residuals
+  \item \code{"resid"}: A plot of residuals versus predicted values
+  } }
 
   Details on the creation of the plots can be found in the details section of
   the help file for \code{resid_panel}.

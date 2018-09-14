@@ -63,27 +63,35 @@ creation of the plots.
 
 \strong{Options for} \code{plots}
 
-The following options can be chosen for the \code{plots} argument. \itemize{
+The following options can be chosen for the \code{plots} argument.
+\itemize{
 \item "all": This creates a panel of all plot types included in the package
 that are available for the model type input into \code{residpanel}. (See note
-below.) \item "R": This creates a panel with a residual plot, a normal
+below.)
+\item "R": This creates a panel with a residual plot, a normal
 quantile plot of the residuals, a location-scale plot, and a leverage versus
 residuals plot. This was modeled after the plots shown in R if the
 \code{plot()} base function is applied to an \code{lm} model. This option can
-only be used with an \code{lm} or \code{glm} model. \item "SAS": This is the
-default option. It creates a panel with a residual plot, a normal quantile
-plot of the residuals, a histogram of the residuals, and a boxplot of the
-residuals. This was modeled after the residpanel option in proc mixed from
-SAS version 9.4. \item A vector of individual plots can also be specified.
+only be used with an \code{lm} or \code{glm} model.
+\item "SAS": This is the default option. It creates a panel with a residual plot,
+a normal quantile plot of the residuals, a histogram of the residuals, and a boxplot
+of the residuals. This was modeled after the residpanel option in proc mixed from
+SAS version 9.4.
+\item A vector of individual plots can also be specified.
 For example, one can specify \code{plots = c("boxplot", "hist")} or
-\code{plots = "qq"}. The individual plot options are as follows. \itemize{
-\item \code{"boxplot"}: A boxplot of residuals \item \code{"cookd"}: A plot
-of Cook's D values versus observation numbers \item \code{"hist"}: A
-histogram of residuals \item \code{"ls"}: A location scale plot of the
-residuals \item \code{"qq"}: A normal quantile plot of residuals \item
-\code{"lev"}: A plot of leverage values versus residuals \item
-\code{"resid"}: A plot of residuals versus predicted values \item
-\code{"yvp":}: A plot of observed response values versus predicted values } }
+\code{plots = "qq"}. The individual plot options are as follows.
+\itemize{
+\item \code{"boxplot"}: A boxplot of residuals
+\item \code{"cookd"}: A plot of Cook's D values versus observation numbers
+\item \code{"hist"}: A histogram of residuals
+\item \code{"index"}: A plot of residuals versus observation numbers
+\item \code{"ls"}: A location scale plot of the residuals
+\item \code{"qq"}: A normal quantile plot of residuals
+\item \code{"lev"}: A plot of leverage values versus residuals
+\item \code{"resid"}: A plot of residuals versus predicted values
+\item \code{"yvp":}: A plot of observed response values versus predicted values
+} }
+
 Note: \code{"cookd"}, \code{"ls"}, and \code{"lev"} are not available for
 "lmer" and "glmer" models.
 
@@ -91,23 +99,36 @@ Note: \code{"cookd"}, \code{"ls"}, and \code{"lev"} are not available for
 
 Several residual types are available to be requested based on the model type
 that is input into \code{resid_panel}. These currently are as follows.
-\itemize{ \item \code{lm} residual options \itemize{ \item \code{"pearson"}:
-The Pearson residuals \item \code{"response"}: The raw residuals (Default for
-"lm") \item \code{"standardized"}: The standardized raw residuals } \item
-\code{glm} residual options \itemize{ \item \code{"pearson"}: The Pearson
-residuals \item \code{"deviance"}: The deviance residuals (Default for "glm")
-\item \code{"response"}: The raw residuals \item \code{"stand.deviance"}: The
-standardized deviance residuals \item \code{"stand.pearson"}: The
-standardized Pearson residuals } \item \code{lmer} residual options \itemize{
-\item \code{"pearson"}: The Pearson residuals (Default for "lmer") \item
-\code{"response"}: The raw residuals } \item \code{glmer} residual options
-\itemize{ \item \code{"pearson"}: The Pearson residuals \item
-\code{"deviance"}: The deviance residuals (Default for "glmer") \item
-\code{"response"}: The raw residuals } } Note: The plots of \code{"ls"} and
-\code{"lev"} only accept standarized residuals.
+\itemize{
+\item \code{lm} residual options
+\itemize{
+\item \code{"pearson"}:The Pearson residuals
+\item \code{"response"}: The raw residuals (Default for "lm")
+\item \code{"standardized"}: The standardized raw residuals
+}
+\item \code{glm} residual options
+\itemize{
+\item \code{"pearson"}: The Pearson residuals
+\item \code{"deviance"}: The deviance residuals (Default for "glm")
+\item \code{"response"}: The raw residuals
+\item \code{"stand.deviance"}: The standardized deviance residuals
+\item \code{"stand.pearson"}: The standardized Pearson residuals
+}
+\item \code{lmer} residual options
+\itemize{
+\item \code{"pearson"}: The Pearson residuals (Default for "lmer")
+\item \code{"response"}: The raw residuals
+}
+\item \code{glmer} residual options
+\itemize{
+\item \code{"pearson"}: The Pearson residuals
+\item \code{"deviance"}: The deviance residuals (Default for "glmer")
+\item \code{"response"}: The raw residuals
+} }
+
+Note: The plots of \code{"ls"} and \code{"lev"} only accept standarized residuals.
 
 \strong{Details on the Creation of Plots}
-
 
 \describe{
 \item{Boxplot (\code{boxplot})}{Boxplot of the residuals.}
@@ -119,6 +140,9 @@ the number of data points used in the \code{model}.}
 \item{Histogram (\code{hist})}{Plots a historgram of the residuals. The density
 curve overlaid has mean equal to zero and standard deviation equal to the
 standard deviation of the residuals.}
+
+\item{Index Plot (\code{index})}{Plots the residuals on the y-axis and the observation
+number associated with the residual on the x-axis.}
 
 \item{Leverage Plot (\code{lev})}{Plots the standardized residuals on the y-axis
 and the leverage values on the x-axis. A lowess curve is overlaid, and Cook's
