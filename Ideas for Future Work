@@ -33,6 +33,8 @@ Katherine's Tasks:
 - Completed:
   - include a resid vs. index plot
   - figure out how to get desired order of plots when individual plots are requested
+  - maybe instead pick our own default, and not worry about SASextended (but leave SAS as option)
+    -possible plots: residual plot, qq plot, cook's d or histogram instead, resid vs. index
 
 Ideas for Future Package Versions:
 - write a function to show residual plots from multiple models at the same time
@@ -46,8 +48,6 @@ Ideas for Future Package Versions:
 - look into testthat and vistest packages for testing (then could put the testthat folder in
   gitignore)
 - Include a link to the residual document in the documentation
-- maybe instead pick our own default, and not worry about SASextended (but leave SAS as option)
-    -Possible plots: residual plot, qq plot, cook's d or histogram instead, resid vs. index
 - write a function for computing standardized residuals for lmer and glmer (Katie)
 - put interactive plots in a grid
 - Suggested not changing the version to 1.0.0 until the package is ready for CRAN (or wide usage)
