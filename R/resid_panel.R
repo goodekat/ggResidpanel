@@ -348,6 +348,7 @@ resid_panel <- function(model, plots = "SAS", type = NA, bins = NA,
     }
 
   }
+
   ## Creation of plots ---------------------------------------------------------
 
   # Create a boxplot of the residuals if selected in plots otherwise set as NULL
@@ -490,6 +491,7 @@ resid_panel <- function(model, plots = "SAS", type = NA, bins = NA,
   } else if("boxplot" %in% plots | "cookd" %in% plots | "index" %in% plots |
             "hist" %in% plots | "ls" %in% plots | "qq" %in% plots |
             "lev" %in% plots | "resid" %in% plots | "yvp" %in% plots){
+    chosen <- plots
     plots <- "individual"
   } else{
     stop("Invalid plots option entered. See the resid_panel help file for
@@ -530,8 +532,8 @@ resid_panel <- function(model, plots = "SAS", type = NA, bins = NA,
                              resid = resid,
                              yvp = yvp)
 
-    # Remove the plots which are null
-    individual_plots <- individual_plots[-which(sapply(individual_plots, is.null))]
+    # Select the chosen plots
+    individual_plots <- individual_plots[chosen]
 
     # Turn the list of plots into a grob
     my_grobs = lapply(individual_plots, ggplotGrob)

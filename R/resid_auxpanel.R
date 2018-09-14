@@ -197,6 +197,7 @@ resid_auxpanel <- function(residuals, predicted, plots = "SAS", bins = NA,
     plots <- plots
   } else if("boxplot" %in% plots | "hist" %in% plots | "index" %in% plots |
             "qq" %in% plots | "resid" %in% plots){
+    chosen <- plots
     plots <- "individual"
   } else{
     stop("Invalid plots option entered")
@@ -222,8 +223,8 @@ resid_auxpanel <- function(residuals, predicted, plots = "SAS", bins = NA,
                              qq = qq,
                              boxplot = boxplot)
 
-    # Remove the plots which are null
-    individual_plots <- individual_plots[-which(sapply(individual_plots, is.null))]
+    # Select the chosen plots
+    individual_plots <- individual_plots[chosen]
 
     # Turn the list of plots into a grob
     my_grobs = lapply(individual_plots, ggplotGrob)
