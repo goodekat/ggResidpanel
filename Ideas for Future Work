@@ -22,7 +22,6 @@ Katie's Tasks:
 
 
 Katherine's Tasks:
-- figure out how to get desired order of plots when individual plots are requested
 - updates for lmertest object
 - maybe add some sort of random forest or other method to examples in resid_auxpanel
 - create a development rmd file with updates for each version
@@ -32,7 +31,8 @@ Katherine's Tasks:
 - add interactive plot to readme (see plotly readme)
 - look into broom package
 - Completed:
-  - Include a resid vs. index plot
+  - include a resid vs. index plot
+  - figure out how to get desired order of plots when individual plots are requested
 
 Ideas for Future Package Versions:
 - write a function to show residual plots from multiple models at the same time
