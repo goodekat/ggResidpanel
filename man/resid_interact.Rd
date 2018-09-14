@@ -4,7 +4,7 @@
 \alias{resid_interact}
 \title{Interaction Versions of Residual Diagnostics Plots.}
 \usage{
-resid_interact(model, plot = NA, type = NA, bins = NA,
+resid_interact(model, plot = "resid", type = NA, bins = NA,
   smoother = FALSE, qqline = TRUE, theme = "bw",
   axis.text.size = 10, title.text.size = 12, title.opt = TRUE)
 }

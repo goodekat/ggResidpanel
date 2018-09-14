@@ -113,7 +113,7 @@
 #' # Create an interactive residual plot with the Pearson residuals
 #' resid_interact(glmer_model, plot = "resid", type = "pearson")
 
-resid_interact <- function(model, plot = NA, type = NA, bins = NA,
+resid_interact <- function(model, plot = "resid", type = NA, bins = NA,
                            smoother = FALSE, qqline = TRUE, theme = "bw",
                            axis.text.size = 10, title.text.size = 12,
                            title.opt = TRUE){
@@ -202,7 +202,7 @@ resid_interact <- function(model, plot = NA, type = NA, bins = NA,
   }
 
   # Return a warning about choosing number of bins if a histogram is included
-  if("SAS" %in% plot | "all" %in% plot | "hist" %in% plot){
+  if("hist" %in% plot){
     if(is.na(bins)){
       bins = 30
       warning("By default, bins = 30 in the histogram of residuals. If necessary, specify
