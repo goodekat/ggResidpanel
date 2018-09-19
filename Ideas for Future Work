@@ -22,19 +22,23 @@ Katie's Tasks:
 
 
 Katherine's Tasks:
-- updates for lmertest object
 - add interactive plot to readme (see plotly readme)
-- maybe add some sort of random forest or other method to examples in resid_auxpanel
 - create a development rmd file with updates for each version
 - add alpha values to lev plot
   -figure out what alpha is
   -add example of interpreting
-- look into broom package
-- Completed:
+- COMPLETED:
   - include a resid vs. index plot
   - figure out how to get desired order of plots when individual plots are requested
-  - maybe instead pick our own default, and not worry about SASextended (but leave SAS as option)
+  - maybe instead pick our own default (don't worry about SASextended but leave SAS as option)
     -possible plots: residual plot, qq plot, cook's d or histogram instead, resid vs. index
+  - look into broom package
+   - may be helpful
+   - in particular, the augment function might be helpful
+   - however, it may be best to just stick with what we have
+   - intro: https://cran.r-project.org/web/packages/broom/vignettes/broom.html
+- add some sort of random forest or other method to examples in resid_auxpanel
+- updates for lmertest object
 
 Ideas for Future Package Versions:
 - write a function to show residual plots from multiple models at the same time
