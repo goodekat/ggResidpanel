@@ -99,7 +99,7 @@ if(class(model)[1]%in%c("lm", "glm")){
   Data <- paste(Data)
   Data <- paste("\n",Data)
 
-}else if (class(model)[1]%in%c("lmerMod", "glmerMod")) {
+}else if (class(model)[1]%in%c("lmerMod", "lmerModLmerTest", "glmerMod")) {
   names_data <- names(model@frame)
   plotly_data <- data.frame(as.matrix(model@frame))
 

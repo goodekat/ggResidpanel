@@ -9,8 +9,8 @@ resid_interact(model, plot = "resid", type = NA, bins = NA,
   axis.text.size = 10, title.text.size = 12, title.opt = TRUE)
 }
 \arguments{
-\item{model}{Model fit using either \code{lm}, \code{glm}, \code{lmer}, or
-\code{glmer}.}
+\item{model}{Model fit using either \code{lm}, \code{glm}, \code{lmer},
+\code{lmerTest}, or \code{glmer}.}
 
 \item{plot}{Specify plot to create an interactive version. (See details for
 options.)}
@@ -45,7 +45,7 @@ The interactive residual diagnostic plot specified.
 }
 \description{
 Creates interactive versions of all residual diagnostic plots given a model.
-Currently accepts models of type "lm", "glm", "lmerMod", and "glmerMod".
+Currently accepts models of type "lm", "glm", "lmerMod", "lmerModLmerTest", and "glmerMod".
 }
 \details{
 Currently, only one plot can be made interactive at a time. The
@@ -63,7 +63,7 @@ Currently, only one plot can be made interactive at a time. The
   }
 
   Note: \code{"cookd"}, \code{"ls"}, and \code{"lev"} are not available for "
-  lmer" and "glmer" models.
+  lmer", "lmerTest", and "glmer" models.
 
   Details on the creation of the plots can be found in the details section of
   the help file for \code{resid_panel}.

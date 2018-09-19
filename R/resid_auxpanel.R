@@ -83,7 +83,7 @@ resid_auxpanel <- function(residuals, predicted, plots = "default", bins = NA,
   ## Errors and Warnings -------------------------------------------------------
 
   # Return an error if a model is input into the function
-  if (class(residuals)[1] %in% c("lm", "glm", "lmerMod", "glmerMod")){
+  if (class(residuals)[1] %in% c("lm", "glm", "lmerMod", "lmerModLmerTest", "glmerMod")){
     stop("'resid_auxpanel' recieves the residuals and fitted values. Please use
          'resid_panel' to input a model.")
   }

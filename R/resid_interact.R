@@ -1,10 +1,10 @@
 #' Interaction Versions of Residual Diagnostics Plots.
 #'
 #' Creates interactive versions of all residual diagnostic plots given a model.
-#' Currently accepts models of type "lm", "glm", "lmerMod", and "glmerMod".
+#' Currently accepts models of type "lm", "glm", "lmerMod", "lmerModLmerTest", and "glmerMod".
 #'
-#' @param model Model fit using either \code{lm}, \code{glm}, \code{lmer}, or
-#'   \code{glmer}.
+#' @param model Model fit using either \code{lm}, \code{glm}, \code{lmer},
+#'   \code{lmerTest}, or \code{glmer}.
 #' @param plot Specify plot to create an interactive version. (See details for
 #'   options.)
 #' @param type The user may specify a type of residuals to use. Otherwise, the
@@ -44,7 +44,7 @@
 #'   }
 #'
 #'   Note: \code{"cookd"}, \code{"ls"}, and \code{"lev"} are not available for "
-#'   lmer" and "glmer" models.
+#'   lmer", "lmerTest", and "glmer" models.
 #'
 #'   Details on the creation of the plots can be found in the details section of
 #'   the help file for \code{resid_panel}.
@@ -123,9 +123,9 @@ resid_interact <- function(model, plot = "resid", type = NA, bins = NA,
 
 
   # Return an error if an acceptable model type is not entered in the function
-  if(!(class(model)[1] %in% c("lm", "glm", "lmerMod", "glmerMod")))
+  if(!(class(model)[1] %in% c("lm", "glm", "lmerMod", "lmerModLmerTest", "glmerMod")))
     stop("resid_interact requires a model to be input. Accepted models
-         currently are lm, glm, lmer, and glmer.")
+         currently are lm, glm, lmer, lmerTest, and glmer.")
 
   # Return an error if the plot type is not entered correctly
   if(is.na(plot) | !(plot %in% c("boxplot", "cookd", "hist", "index", "ls", "qq",
@@ -153,6 +153,11 @@ resid_interact <- function(model, plot = "resid", type = NA, bins = NA,
         stop("The requested residual type is not available. Please select from the following
              options for a 'lmer' model: response or pearson.")
       }
+    } else if(class(model)[1] == "lmerModLmerTest"){
+      if(!(type %in% c("response", "pearson"))){
+        stop("The requested residual type is not available. Please select from the following
+             options for a 'lmerTest' model: response or pearson.")
+      }
     } else if(class(model)[1] == "glmerMod"){
       if(!(type %in% c("response", "pearson", "deviance"))){
         stop("The requested residual type is not available. Please select from the following
@@ -163,17 +168,17 @@ resid_interact <- function(model, plot = "resid", type = NA, bins = NA,
 
   # Return an error if the requested plot involves standardizing residuals for an 'lmer' or
   # 'glmer' model
-  if(class(model)[1] %in% c("lmerMod", "glmerMod")){
+  if(class(model)[1] %in% c("lmerMod", "lmerModLmerTest", "glmerMod")){
     if("ls" %in% plot |"lev" %in% plot){
       stop("The requested plot or panel uses standardized residuals, which are not
-           currently available for 'lmer' or 'glmer' models.")
+           currently available for 'lmer', 'lmerTest', or 'glmer' models.")
     }
   }
 
   # Return an error if Cook's D plot is requested for an 'lmer' or 'glmer' model
-  if(class(model)[1] %in% c("lmerMod", "glmerMod")){
+  if(class(model)[1] %in% c("lmerMod", "lmerModLmerTest", "glmerMod")){
     if("cookd" %in% plot){
-      stop("The Cook's D plot is unavailable for 'lmer' and 'glmer' models.")
+      stop("The Cook's D plot is unavailable for 'lmer', 'lmerTest', and 'glmer' models.")
     }
   }
 

@@ -1,10 +1,10 @@
 #' Panel of Diagnostic Residual Plots.
 #'
 #' Creates a panel of residual diagnostic plots given a model. Currently accepts
-#' models of type "lm", "glm", "lmerMod", and "glmerMod".
+#' models of type "lm", "glm", "lmerMod", "lmerModLmerTest", and "glmerMod".
 #'
-#' @param model Model fit using either \code{lm}, \code{glm}, \code{lmer}, or
-#'   \code{glmer}.
+#' @param model Model fit using either \code{lm}, \code{glm}, \code{lmer},
+#'   \code{lmerTest}, or \code{glmer}.
 #' @param plots Plots chosen to include in the panel of plots. Default is set to
 #'   "SAS". (See details for options.)
 #' @param type The user may specify a type of residuals to use. Otherwise, the
@@ -80,7 +80,7 @@
 #' } }
 #'
 #' Note: \code{"cookd"}, \code{"ls"}, and \code{"lev"} are not available for
-#' "lmer" and "glmer" models.
+#' "lmer", "lmerTest", and "glmer" models.
 #'
 #' \strong{Options for} \code{type}
 #'
@@ -101,9 +101,9 @@
 #' \item \code{"stand.deviance"}: The standardized deviance residuals
 #' \item \code{"stand.pearson"}: The standardized Pearson residuals
 #' }
-#' \item \code{lmer} residual options
+#' \item \code{lmer} and \code{lmerTest} residual options
 #' \itemize{
-#' \item \code{"pearson"}: The Pearson residuals (Default for "lmer")
+#' \item \code{"pearson"}: The Pearson residuals (Default for "lmer" and "lmerTest")
 #' \item \code{"response"}: The raw residuals
 #' }
 #' \item \code{glmer} residual options
@@ -251,11 +251,11 @@ resid_panel <- function(model, plots = "default", type = NA, bins = NA,
   ## Errors and Warnings -------------------------------------------------------
 
   # Return an error if an acceptable model type is not entered in the function
-  if(!(class(model)[1] %in% c("lm", "glm", "lmerMod", "glmerMod")))
+  if(!(class(model)[1] %in% c("lm", "glm", "lmerMod", "glmerMod", "lmerModLmerTest")))
     stop("The updated version of resid_panel requires a model to be input to the functions.
-         Accepted models currently are 'lm', 'glm', 'lmer', and 'glmer'. If using residuals
-         from a different model type, use the new function resid_auxpanel to create a panel
-         using vectors of the residuals and fitted values.")
+         Accepted models currently are 'lm', 'glm', 'lmer', 'glmer', and 'lmerTest'. If
+         using residuals from a different model type, use the new function resid_auxpanel
+         to create a panel using vectors of the residuals and fitted values.")
 
   # Return an error if the requested residual type is not available for the model type
   type <- tolower(type)
@@ -276,6 +276,11 @@ resid_panel <- function(model, plots = "default", type = NA, bins = NA,
         stop("The requested residual type is not available for an 'lmer' model. Please select
              from the following options for an 'lmer' model: response or pearson.")
       }
+    } else if(class(model)[1] == "lmerModLmerTest"){
+      if(!(type %in% c("response", "pearson"))){
+        stop("The requested residual type is not available for an 'lmerTest' model. Please select
+             from the following options for an 'lmerTest' model: response or pearson.")
+      }
     } else if(class(model)[1] == "glmerMod"){
       if(!(type %in% c("response", "pearson", "deviance"))){
         stop("The requested residual type is not available for a 'glmer' model. Please select
@@ -286,17 +291,17 @@ resid_panel <- function(model, plots = "default", type = NA, bins = NA,
 
   # Return an error if the requested plots involve standardizing residuals for an 'lmer' or
   # a 'glmer' model
-  if(class(model)[1] %in% c("lmerMod", "glmerMod")){
+  if(class(model)[1] %in% c("lmerMod", "lmerModLmerTest", "glmerMod")){
     if("ls" %in% plots |"lev" %in% plots | "R" %in% plots){
       stop("The requested plot or panel uses standardized residuals, which are not
-           currently available for 'lmer' or 'glmer' models.")
+           currently available for 'lmer', 'lmerTest', or 'glmer' models.")
     }
   }
 
   # Return an error if Cook's D plot is requested for an 'lmer' or 'glmer' model
-  if(class(model)[1] %in% c("lmerMod", "glmerMod")){
+  if(class(model)[1] %in% c("lmerMod", "lmerModLmerTest", "glmerMod")){
     if("cookd" %in% plots){
-      stop("The Cook's D plot is unavailable for 'lmer' and 'glmer' models.")
+      stop("The Cook's D plot is unavailable for 'lmer', 'lmerTest', and 'glmer' models.")
     }
   }
 
@@ -370,7 +375,7 @@ resid_panel <- function(model, plots = "default", type = NA, bins = NA,
                          axis.text.size = axis.text.size,
                          title.text.size = title.text.size,
                          title.opt = title.opt)
-  } else if("all" %in% plots & !(class(model)[1] %in% c("lmerMod", "glmerMod"))){
+  } else if("all" %in% plots & !(class(model)[1] %in% c("lmerMod", "lmerModLmerTest", "glmerMod"))){
     cookd <- resid_cookd(model = model,
                          theme = theme,
                          axis.text.size = axis.text.size,
@@ -413,7 +418,7 @@ resid_panel <- function(model, plots = "default", type = NA, bins = NA,
                    axis.text.size = axis.text.size,
                    title.text.size = title.text.size,
                    title.opt = title.opt)
-  } else if("all" %in% plots & !(class(model)[1] %in% c("lmerMod", "glmerMod"))){
+  } else if("all" %in% plots & !(class(model)[1] %in% c("lmerMod", "lmerModLmerTest", "glmerMod"))){
     ls <- resid_ls(model = model,
                    type = type,
                    theme = theme,
@@ -446,7 +451,7 @@ resid_panel <- function(model, plots = "default", type = NA, bins = NA,
                           axis.text.size = axis.text.size,
                           title.text.size = title.text.size,
                           title.opt = title.opt)
-  } else if("all" %in% plots & !(class(model)[1] %in% c("lmerMod", "glmerMod"))){
+  } else if("all" %in% plots & !(class(model)[1] %in% c("lmerMod", "lmerModLmerTest", "glmerMod"))){
     lev <- resid_lev(model = model,
                           type = type,
                           theme = theme,
