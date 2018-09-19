@@ -29,6 +29,7 @@ Katherine's Tasks:
   -add example of interpreting
 - COMPLETED:
   - include a resid vs. index plot
+    - ask Katie about the tooltip
   - figure out how to get desired order of plots when individual plots are requested
   - maybe instead pick our own default (don't worry about SASextended but leave SAS as option)
     -possible plots: residual plot, qq plot, cook's d or histogram instead, resid vs. index
