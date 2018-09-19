@@ -63,22 +63,17 @@
 #' # Plot the residuals using the default panel
 #' resid_auxpanel(resid(lm_model1), fitted(lm_model1), bins = 30)
 #'
-#' # Fit a linear model to compare the weights of plants bewteen different
-#' # treatment groups using the R "PlantGrowth" data
-#' lm_model2 <- lm(weight ~ group, data = PlantGrowth)
+#' # Fit a random forest model to the mtcars data to predict the mpg
+#' rf_model <- randomForest::randomForest(x = mtcars[,2:11], y = mtcars[,1])
 #'
-#' # Create a grid of the residual plot and qq-plot
-#' resid_auxpanel(resid(lm_model2), fitted(lm_model2), plots = c("resid", "qq"))
+#' # Obtain the predictions from the model on the observed data
+#' rf_pred <- predict(rf_model, mtcars[,2:11])
 #'
-#' # Fit a generalized linear regression model using a Poisson family to compare
-#' # the insect counts between different sprays from the R "InsectSprays" data
-#' glm_model <- glm(count ~ spray, family = "poisson", data = InsectSprays)
+#' # Obtain the residuals from the model
+#' rf_resid <- mtcars[,1] - rf_pred
 #'
-#' # Create the SAS panel of plots without titles, with a grey theme, and with a
-#' # smaller scaling of the plots
-#' resid_auxpanel(resid(glm_model), fitted(glm_model), title.opt = F, theme = "grey",
-#'                bins = 30, scale = 0.9)
-
+#' # Create a panel with the residual and index plot
+#' resid_auxpanel(rf_resid, rf_pred, plots = c("resid", "index"), theme = "classic")
 
 resid_auxpanel <- function(residuals, predicted, plots = "default", bins = NA,
                            smoother = FALSE, qqline = TRUE, qqbands = FALSE,
