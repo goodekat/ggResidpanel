@@ -21,23 +21,11 @@ Katherine's Tasks:
 - add alpha values to lev plot
   -figure out what alpha is
   -add example of interpreting
-- COMPLETED:
-  - include a resid vs. index plot
-    - ask Katie about the tooltip
-  - figure out how to get desired order of plots when individual plots are requested
-  - maybe instead pick our own default (don't worry about SASextended but leave SAS as option)
-    -possible plots: residual plot, qq plot, cook's d or histogram instead, resid vs. index
-  - look into broom package
-   - may be helpful
-   - in particular, the augment function might be helpful
-   - however, it may be best to just stick with what we have
-   - intro: https://cran.r-project.org/web/packages/broom/vignettes/broom.html
-- add some sort of random forest or other method to examples in resid_auxpanel
-- updates for lmertest object
 
 Ideas for Future Package Versions:
 - write a function to show residual plots from multiple models at the same time
-- create a panel of residual plots verses the X's
+- create a panel of residual plots verses the X's and y versus X's
+  - include example with time predictor
 - create an option for the user to add their own theme
 - remove periods after non-sentences in documentation
 - Improve the R plots — don’t just copy what the default in R gives — make it better
