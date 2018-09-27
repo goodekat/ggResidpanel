@@ -10,6 +10,7 @@ Katie's Tasks:
 - Work on residual vignette
 - constant leverage factor plot
   - Perform more error checking with more than categorical variable
+  - add to test file and add lmertest to test functionality on lmer objects
 - modify so works for predictive models (Research at least)
   -receive predictive model in resid_panel
 - remove obs from data for interactive plots for the index plot
