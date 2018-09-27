@@ -4,21 +4,15 @@ Future Work
 --------------
 
 Katie's Tasks:
-- suppress geom_path warnin
-  - so far, cannot recreate this error
 - update histogram tooltip
-  -Check interactive histogram box and what shows
-  -Talk with Katherine to see what we want removed
-- Could possibly use the function “suppress_messages” to not have the plotly error showing (**DONE**)
-  - SOLUTION: suppressMessages(ggplotly(g))
+  -shows count as count and density as count: try to change name of density to density
 - try to figure out why plotly graphs showing up horizontaly
-- try to add data to interactive qq plot (**DONE**)
-  -Used 'ggplot_build' to extract data set that plotting and used this in geom_point to get labels to work
 - Work on residual vignette
-- constant leverage factor plot (**DONE**)
-  - may need a few updates
-  - right now called from resid_lev if leverage is constant
+- constant leverage factor plot
+  - Perform more error checking with more than categorical variable
 - modify so works for predictive models (Research at least)
+  -receive predictive model in resid_panel
+- remove obs from data for interactive plots for the index plot
 
 
 Katherine's Tasks:

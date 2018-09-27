@@ -5,9 +5,9 @@ resid_lev <- function(model, type, theme, axis.text.size, title.text.size, title
 
   ## Creation of Values to Plot -----------------------------------------------------
 
-  Leveraage = hatvalues(model)
+  Leverage = hatvalues(model)
 
-  if(length(unique(as.numeric(as.character(Leveraage))))==1){
+  if(length(unique(as.numeric(as.character(Leverage))))==1){
 
     resid_constlev(model = model,
              type = type,

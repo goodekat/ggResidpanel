@@ -34,7 +34,7 @@
 #' @importFrom ggplot2 ggplot aes geom_point geom_abline labs theme_bw theme
 #'   geom_histogram stat_function xlim geom_boxplot expand_limits geom_smooth
 #'   element_text ggplotGrob geom_vline theme_classic geom_hline geom_segment
-#'   geom_line scale_x_continuous scale_y_continuous theme_grey ggplot_build
+#'   geom_line scale_x_continuous scale_y_continuous theme_grey ggplot_build xlab ylab
 #' @importFrom cowplot plot_grid
 #' @importFrom gridExtra grid.arrange tableGrob ttheme_minimal
 #' @importFrom MASS stdres
