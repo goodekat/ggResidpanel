@@ -14,6 +14,8 @@ Katie's Tasks:
 - modify so works for predictive models (Research at least)
   -receive predictive model in resid_panel
 - remove obs from data for interactive plots for the index plot
+- write a function to show residual plots from multiple models at the same time
+  - not a function in ggresidpanel yet
 
 
 Katherine's Tasks:
@@ -22,6 +24,8 @@ Katherine's Tasks:
 - add alpha values to lev plot
   -figure out what alpha is
   -add example of interpreting
+- create a panel of residual plots verses the X's and y versus X's
+  - include example with time predictor
 
 Ideas for Future Package Versions:
 - write a function to show residual plots from multiple models at the same time
