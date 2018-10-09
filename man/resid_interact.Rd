@@ -4,9 +4,9 @@
 \alias{resid_interact}
 \title{Interaction Versions of Residual Diagnostics Plots.}
 \usage{
-resid_interact(model, plot = NA, type = NA, bins = NA, smoother = FALSE,
-  qqline = TRUE, theme = "bw", axis.text.size = 10,
-  title.text.size = 12, title.opt = TRUE)
+resid_interact(model, plot = NA, type = NA, bins = NA,
+  smoother = FALSE, qqline = TRUE, theme = "bw",
+  axis.text.size = 10, title.text.size = 12, title.opt = TRUE)
 }
 \arguments{
 \item{model}{Model fit using either \code{lm}, \code{glm}, \code{lmer}, or
