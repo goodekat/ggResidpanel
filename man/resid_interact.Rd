@@ -4,13 +4,13 @@
 \alias{resid_interact}
 \title{Interaction Versions of Residual Diagnostics Plots.}
 \usage{
-resid_interact(model, plot = NA, type = NA, bins = NA,
+resid_interact(model, plot = "resid", type = NA, bins = NA,
   smoother = FALSE, qqline = TRUE, theme = "bw",
   axis.text.size = 10, title.text.size = 12, title.opt = TRUE)
 }
 \arguments{
-\item{model}{Model fit using either \code{lm}, \code{glm}, \code{lmer}, or
-\code{glmer}.}
+\item{model}{Model fit using either \code{lm}, \code{glm}, \code{lmer},
+\code{lmerTest}, or \code{glmer}.}
 
 \item{plot}{Specify plot to create an interactive version. (See details for
 options.)}
@@ -45,19 +45,25 @@ The interactive residual diagnostic plot specified.
 }
 \description{
 Creates interactive versions of all residual diagnostic plots given a model.
-Currently accepts models of type "lm", "glm", "lmerMod", and "glmerMod".
+Currently accepts models of type "lm", "glm", "lmerMod", "lmerModLmerTest", and "glmerMod".
 }
 \details{
 Currently, only one plot can be made interactive at a time. The
-  options are as follows. \itemize{ \item \code{"boxplot"}: A boxplot of
-  residuals \item \code{"cookd"}: A plot of Cook's D values versus
-  observation numbers \item \code{"hist"}: A histogram of residuals \item
-  \code{"ls"}: A location scale plot of the residuals \item \code{"qq"}: A
-  normal quantile plot of residuals \item \code{"lev"}: A plot of leverage
-  values versus residuals \item \code{"resid"}: A plot of residuals versus
-  predicted values \item \code{"yvp":}: A plot of observed response values
-  versus predicted values } Note: \code{"cookd"}, \code{"ls"}, and
-  \code{"lev"} are not available for "lmer" and "glmer" models.
+  options are as follows.
+  \itemize{
+  \item \code{"boxplot"}: A boxplot of residuals
+  \item \code{"cookd"}: A plot of Cook's D values versus observation numbers
+  \item \code{"hist"}: A histogram of residuals
+  \item \code{"index"}: A plot of residuals versus observation numbers
+  \item \code{"ls"}: A location scale plot of the residuals
+  \item \code{"qq"}: A normal quantile plot of residuals
+  \item \code{"lev"}: A plot of leverage values versus residuals
+  \item \code{"resid"}: A plot of residuals versus predicted values
+  \item \code{"yvp":}: A plot of observed response values versus predicted values
+  }
+
+  Note: \code{"cookd"}, \code{"ls"}, and \code{"lev"} are not available for "
+  lmer", "lmerTest", and "glmer" models.
 
   Details on the creation of the plots can be found in the details section of
   the help file for \code{resid_panel}.

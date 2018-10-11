@@ -30,16 +30,25 @@
 #' @export
 #'
 #' @details The following grid options can be chosen for the \code{plots}
-#'   argument. \itemize{ \item "SAS": This is the default option. It creates a
+#'   argument.
+#'   \itemize{
+#'   \item "all": This creates a panel of all plot types included in the package
+#'   that are available for \code{resid_auxpanel}. (See plot descriptions under
+#'   individual options.)
+#'   \item "SAS": This is the default option. It creates a
 #'   panel of a residual plot, a normal quantile plot of the residuals, a
 #'   histogram of the residuals, and a boxplot of the residuals. This was
 #'   modeled after the residpanel option in proc mixed from SAS version 9.4.
 #'   \item A vector of individual plots can also be specified. For example, one
 #'   can specify \code{plots = c("boxplot", "hist")} or \code{plots = "qq"}. The
-#'   individual plot options are as follows. \itemize{ \item \code{"boxplot"}: A
-#'   boxplot of residuals \item \code{"hist"}: A histogram of residuals \item
-#'   \code{"qq"}: A normal quantile plot of residuals \item \code{"resid"}: A
-#'   plot of residuals versus predicted values } }
+#'   individual plot options are as follows.
+#'   \itemize{
+#'   \item \code{"boxplot"}: A boxplot of residuals
+#'   \item \code{"hist"}: A histogram of residuals
+#'   \item \code{"index"}: A plot of residuals versus observation number
+#'   \item \code{"qq"}: A normal quantile plot of residuals
+#'   \item \code{"resid"}: A plot of residuals versus predicted values
+#'   } }
 #'
 #'   Details on the creation of the plots can be found in the details section of
 #'   the help file for \code{resid_panel}.
@@ -54,24 +63,19 @@
 #' # Plot the residuals using the default panel
 #' resid_auxpanel(resid(lm_model1), fitted(lm_model1), bins = 30)
 #'
-#' # Fit a linear model to compare the weights of plants bewteen different
-#' # treatment groups using the R "PlantGrowth" data
-#' lm_model2 <- lm(weight ~ group, data = PlantGrowth)
+#' # Fit a random forest model to the mtcars data to predict the mpg
+#' rf_model <- randomForest::randomForest(x = mtcars[,2:11], y = mtcars[,1])
 #'
-#' # Create a grid of the residual plot and qq-plot
-#' resid_auxpanel(resid(lm_model2), fitted(lm_model2), plots = c("resid", "qq"))
+#' # Obtain the predictions from the model on the observed data
+#' rf_pred <- predict(rf_model, mtcars[,2:11])
 #'
-#' # Fit a generalized linear regression model using a Poisson family to compare
-#' # the insect counts between different sprays from the R "InsectSprays" data
-#' glm_model <- glm(count ~ spray, family = "poisson", data = InsectSprays)
+#' # Obtain the residuals from the model
+#' rf_resid <- mtcars[,1] - rf_pred
 #'
-#' # Create the SAS panel of plots without titles, with a grey theme, and with a
-#' # smaller scaling of the plots
-#' resid_auxpanel(resid(glm_model), fitted(glm_model), title.opt = F, theme = "grey",
-#'                bins = 30, scale = 0.9)
+#' # Create a panel with the residual and index plot
+#' resid_auxpanel(rf_resid, rf_pred, plots = c("resid", "index"), theme = "classic")
 
-
-resid_auxpanel <- function(residuals, predicted, plots = "SAS", bins = NA,
+resid_auxpanel <- function(residuals, predicted, plots = "default", bins = NA,
                            smoother = FALSE, qqline = TRUE, qqbands = FALSE,
                            scale = 1, theme = "bw", axis.text.size = 10,
                            title.text.size = 12, title.opt = TRUE, ind.ncol = 2){
@@ -79,7 +83,7 @@ resid_auxpanel <- function(residuals, predicted, plots = "SAS", bins = NA,
   ## Errors and Warnings -------------------------------------------------------
 
   # Return an error if a model is input into the function
-  if (class(residuals)[1] %in% c("lm", "glm", "lmerMod", "glmerMod")){
+  if (class(residuals)[1] %in% c("lm", "glm", "lmerMod", "lmerModLmerTest", "glmerMod")){
     stop("'resid_auxpanel' recieves the residuals and fitted values. Please use
          'resid_panel' to input a model.")
   }
@@ -120,7 +124,7 @@ resid_auxpanel <- function(residuals, predicted, plots = "SAS", bins = NA,
   ## Creation of plots ---------------------------------------------------------
 
   # Create a boxplot of the residuals if selected in plots otherwise set as NULL
-  if("boxplot" %in% plots | "SAS" %in% plots){
+  if("boxplot" %in% plots | "SAS" %in% plots | "all" %in% plots){
     boxplot <- resid_auxboxplot(residuals,
                                 theme = theme,
                                 axis.text.size = axis.text.size,
@@ -131,7 +135,7 @@ resid_auxpanel <- function(residuals, predicted, plots = "SAS", bins = NA,
   }
 
   # Create a histogram of the residuals if selected in plots otherwise set as NULL
-  if("hist" %in% plots | "SAS" %in% plots){
+  if("hist" %in% plots | "default" %in% plots | "SAS" %in% plots | "all" %in% plots){
     hist <- resid_auxhist(residuals,
                           bins = bins,
                           theme = theme,
@@ -142,8 +146,20 @@ resid_auxpanel <- function(residuals, predicted, plots = "SAS", bins = NA,
     hist <- NULL
   }
 
+  # Create an index plot of the residuals if selected in plots otherwise set as NULL
+  if("index" %in% plots | "default" %in% plots | "all" %in% plots){
+    index <- resid_auxindex(residuals,
+                           theme = theme,
+                           axis.text.size = axis.text.size,
+                           title.text.size = title.text.size,
+                           title.opt = title.opt)
+  } else{
+    index <- NULL
+  }
+
+
   # Create a q-q plot of the residuals if selected in plots otherwise set as NULL
-  if("qq" %in% plots | "SAS" %in% plots){
+  if("qq" %in% plots | "default" %in% plots | "SAS" %in% plots | "all" %in% plots){
     qq <- resid_auxqq(residuals,
                       theme = theme,
                       axis.text.size = axis.text.size,
@@ -156,7 +172,7 @@ resid_auxpanel <- function(residuals, predicted, plots = "SAS", bins = NA,
   }
 
   # Create a residual plot if selected in plots otherwise set as NULL
-  if("resid" %in% plots | "SAS" %in% plots){
+  if("resid" %in% plots | "default" %in% plots | "SAS" %in% plots | "all" %in% plots){
     resid <- resid_auxplot(residuals,
                            predicted,
                            smoother = smoother,
@@ -172,29 +188,43 @@ resid_auxpanel <- function(residuals, predicted, plots = "SAS", bins = NA,
 
   # If individual plots have been specified, set plots equal to "individual"
   # Return an error if none of the correct plot options have been specified
-  if("SAS" %in% plots){
+  if("default" %in% plots | "SAS" %in% plots | "all" %in% plots){
     plots <- plots
-  } else if("boxplot" %in% plots | "hist" %in% plots | "qq" %in% plots |
-            "resid" %in% plots){
+  } else if("boxplot" %in% plots | "hist" %in% plots | "index" %in% plots |
+            "qq" %in% plots | "resid" %in% plots){
+    chosen <- plots
     plots <- "individual"
   } else{
     stop("Invalid plots option entered")
   }
 
   # Create a grid of plots based on the plots specified
-  if(plots == "SAS"){
+  if (plots == "default"){
 
-    # Create grid of SAS plots in resid panel
+    # Create grid of default plots
+    plot_grid(resid, qq, index, hist, scale = scale)
+
+  } else if (plots == "SAS"){
+
+    # Create grid of SAS plots
     plot_grid(resid, hist, qq, boxplot, scale = scale)
+
+  } else if (plots == "all"){
+
+    # Create grid of all plots
+    plot_grid(resid, hist, qq, boxplot, index, scale = scale)
 
   } else if (plots == "individual") {
 
     # Turn the specified plots into a list
-    individual_plots <- list(resid = resid, hist = hist,
-                             qq = qq, boxplot = boxplot)
+    individual_plots <- list(resid = resid,
+                             hist = hist,
+                             index = index,
+                             qq = qq,
+                             boxplot = boxplot)
 
-    # Remove the plots which are null
-    individual_plots <- individual_plots[-which(sapply(individual_plots, is.null))]
+    # Select the chosen plots
+    individual_plots <- individual_plots[chosen]
 
     # Turn the list of plots into a grob
     my_grobs = lapply(individual_plots, ggplotGrob)

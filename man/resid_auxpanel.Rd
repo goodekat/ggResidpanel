@@ -4,7 +4,7 @@
 \alias{resid_auxpanel}
 \title{Panel of Diagnostic Residual Plots.}
 \usage{
-resid_auxpanel(residuals, predicted, plots = "SAS", bins = NA,
+resid_auxpanel(residuals, predicted, plots = "default", bins = NA,
   smoother = FALSE, qqline = TRUE, qqbands = FALSE, scale = 1,
   theme = "bw", axis.text.size = 10, title.text.size = 12,
   title.opt = TRUE, ind.ncol = 2)
@@ -55,16 +55,25 @@ fitted values.
 }
 \details{
 The following grid options can be chosen for the \code{plots}
-  argument. \itemize{ \item "SAS": This is the default option. It creates a
+  argument.
+  \itemize{
+  \item "all": This creates a panel of all plot types included in the package
+  that are available for \code{resid_auxpanel}. (See plot descriptions under
+  individual options.)
+  \item "SAS": This is the default option. It creates a
   panel of a residual plot, a normal quantile plot of the residuals, a
   histogram of the residuals, and a boxplot of the residuals. This was
   modeled after the residpanel option in proc mixed from SAS version 9.4.
   \item A vector of individual plots can also be specified. For example, one
   can specify \code{plots = c("boxplot", "hist")} or \code{plots = "qq"}. The
-  individual plot options are as follows. \itemize{ \item \code{"boxplot"}: A
-  boxplot of residuals \item \code{"hist"}: A histogram of residuals \item
-  \code{"qq"}: A normal quantile plot of residuals \item \code{"resid"}: A
-  plot of residuals versus predicted values } }
+  individual plot options are as follows.
+  \itemize{
+  \item \code{"boxplot"}: A boxplot of residuals
+  \item \code{"hist"}: A histogram of residuals
+  \item \code{"index"}: A plot of residuals versus observation number
+  \item \code{"qq"}: A normal quantile plot of residuals
+  \item \code{"resid"}: A plot of residuals versus predicted values
+  } }
 
   Details on the creation of the plots can be found in the details section of
   the help file for \code{resid_panel}.
@@ -77,19 +86,15 @@ lm_model1 <- lm(Volume ~ Girth, data = trees)
 # Plot the residuals using the default panel
 resid_auxpanel(resid(lm_model1), fitted(lm_model1), bins = 30)
 
-# Fit a linear model to compare the weights of plants bewteen different
-# treatment groups using the R "PlantGrowth" data
-lm_model2 <- lm(weight ~ group, data = PlantGrowth)
+# Fit a random forest model to the mtcars data to predict the mpg
+rf_model <- randomForest::randomForest(x = mtcars[,2:11], y = mtcars[,1])
 
-# Create a grid of the residual plot and qq-plot
-resid_auxpanel(resid(lm_model2), fitted(lm_model2), plots = c("resid", "qq"))
+# Obtain the predictions from the model on the observed data
+rf_pred <- predict(rf_model, mtcars[,2:11])
 
-# Fit a generalized linear regression model using a Poisson family to compare
-# the insect counts between different sprays from the R "InsectSprays" data
-glm_model <- glm(count ~ spray, family = "poisson", data = InsectSprays)
+# Obtain the residuals from the model
+rf_resid <- mtcars[,1] - rf_pred
 
-# Create the SAS panel of plots without titles, with a grey theme, and with a
-# smaller scaling of the plots
-resid_auxpanel(resid(glm_model), fitted(glm_model), title.opt = F, theme = "grey",
-               bins = 30, scale = 0.9)
+# Create a panel with the residual and index plot
+resid_auxpanel(rf_resid, rf_pred, plots = c("resid", "index"), theme = "classic")
 }

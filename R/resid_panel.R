@@ -1,10 +1,10 @@
 #' Panel of Diagnostic Residual Plots.
 #'
 #' Creates a panel of residual diagnostic plots given a model. Currently accepts
-#' models of type "lm", "glm", "lmerMod", and "glmerMod".
+#' models of type "lm", "glm", "lmerMod", "lmerModLmerTest", and "glmerMod".
 #'
-#' @param model Model fit using either \code{lm}, \code{glm}, \code{lmer}, or
-#'   \code{glmer}.
+#' @param model Model fit using either \code{lm}, \code{glm}, \code{lmer},
+#'   \code{lmerTest}, or \code{glmer}.
 #' @param plots Plots chosen to include in the panel of plots. Default is set to
 #'   "SAS". (See details for options.)
 #' @param type The user may specify a type of residuals to use. Otherwise, the
@@ -34,7 +34,7 @@
 #' @importFrom ggplot2 ggplot aes geom_point geom_abline labs theme_bw theme
 #'   geom_histogram stat_function xlim geom_boxplot expand_limits geom_smooth
 #'   element_text ggplotGrob geom_vline theme_classic geom_hline geom_segment
-#'   geom_line scale_x_continuous scale_y_continuous theme_grey
+#'   geom_line scale_x_continuous scale_y_continuous theme_grey ggplot_build xlab ylab
 #' @importFrom cowplot plot_grid
 #' @importFrom gridExtra grid.arrange tableGrob ttheme_minimal
 #' @importFrom MASS stdres
@@ -50,51 +50,72 @@
 #'
 #' \strong{Options for} \code{plots}
 #'
-#' The following options can be chosen for the \code{plots} argument. \itemize{
+#' The following options can be chosen for the \code{plots} argument.
+#' \itemize{
 #' \item "all": This creates a panel of all plot types included in the package
 #' that are available for the model type input into \code{residpanel}. (See note
-#' below.) \item "R": This creates a panel with a residual plot, a normal
+#' below.)
+#' \item "R": This creates a panel with a residual plot, a normal
 #' quantile plot of the residuals, a location-scale plot, and a leverage versus
 #' residuals plot. This was modeled after the plots shown in R if the
 #' \code{plot()} base function is applied to an \code{lm} model. This option can
-#' only be used with an \code{lm} or \code{glm} model. \item "SAS": This is the
-#' default option. It creates a panel with a residual plot, a normal quantile
-#' plot of the residuals, a histogram of the residuals, and a boxplot of the
-#' residuals. This was modeled after the residpanel option in proc mixed from
-#' SAS version 9.4. \item A vector of individual plots can also be specified.
+#' only be used with an \code{lm} or \code{glm} model.
+#' \item "SAS": This is the default option. It creates a panel with a residual plot,
+#' a normal quantile plot of the residuals, a histogram of the residuals, and a boxplot
+#' of the residuals. This was modeled after the residpanel option in proc mixed from
+#' SAS version 9.4.
+#' \item A vector of individual plots can also be specified.
 #' For example, one can specify \code{plots = c("boxplot", "hist")} or
-#' \code{plots = "qq"}. The individual plot options are as follows. \itemize{
-#' \item \code{"boxplot"}: A boxplot of residuals \item \code{"cookd"}: A plot
-#' of Cook's D values versus observation numbers \item \code{"hist"}: A
-#' histogram of residuals \item \code{"ls"}: A location scale plot of the
-#' residuals \item \code{"qq"}: A normal quantile plot of residuals \item
-#' \code{"lev"}: A plot of leverage values versus residuals \item
-#' \code{"resid"}: A plot of residuals versus predicted values \item
-#' \code{"yvp":}: A plot of observed response values versus predicted values } }
+#' \code{plots = "qq"}. The individual plot options are as follows.
+#' \itemize{
+#' \item \code{"boxplot"}: A boxplot of residuals
+#' \item \code{"cookd"}: A plot of Cook's D values versus observation numbers
+#' \item \code{"hist"}: A histogram of residuals
+#' \item \code{"index"}: A plot of residuals versus observation numbers
+#' \item \code{"ls"}: A location scale plot of the residuals
+#' \item \code{"qq"}: A normal quantile plot of residuals
+#' \item \code{"lev"}: A plot of leverage values versus residuals
+#' \item \code{"resid"}: A plot of residuals versus predicted values
+#' \item \code{"yvp":}: A plot of observed response values versus predicted values
+#' } }
+#'
 #' Note: \code{"cookd"}, \code{"ls"}, and \code{"lev"} are not available for
-#' "lmer" and "glmer" models.
+#' "lmer", "lmerTest", and "glmer" models.
 #'
 #' \strong{Options for} \code{type}
 #'
 #' Several residual types are available to be requested based on the model type
 #' that is input into \code{resid_panel}. These currently are as follows.
-#' \itemize{ \item \code{lm} residual options \itemize{ \item \code{"pearson"}:
-#' The Pearson residuals \item \code{"response"}: The raw residuals (Default for
-#' "lm") \item \code{"standardized"}: The standardized raw residuals } \item
-#' \code{glm} residual options \itemize{ \item \code{"pearson"}: The Pearson
-#' residuals \item \code{"deviance"}: The deviance residuals (Default for "glm")
-#' \item \code{"response"}: The raw residuals \item \code{"stand.deviance"}: The
-#' standardized deviance residuals \item \code{"stand.pearson"}: The
-#' standardized Pearson residuals } \item \code{lmer} residual options \itemize{
-#' \item \code{"pearson"}: The Pearson residuals (Default for "lmer") \item
-#' \code{"response"}: The raw residuals } \item \code{glmer} residual options
-#' \itemize{ \item \code{"pearson"}: The Pearson residuals \item
-#' \code{"deviance"}: The deviance residuals (Default for "glmer") \item
-#' \code{"response"}: The raw residuals } } Note: The plots of \code{"ls"} and
-#' \code{"lev"} only accept standarized residuals.
+#' \itemize{
+#' \item \code{lm} residual options
+#' \itemize{
+#' \item \code{"pearson"}:The Pearson residuals
+#' \item \code{"response"}: The raw residuals (Default for "lm")
+#' \item \code{"standardized"}: The standardized raw residuals
+#' }
+#' \item \code{glm} residual options
+#' \itemize{
+#' \item \code{"pearson"}: The Pearson residuals
+#' \item \code{"deviance"}: The deviance residuals (Default for "glm")
+#' \item \code{"response"}: The raw residuals
+#' \item \code{"stand.deviance"}: The standardized deviance residuals
+#' \item \code{"stand.pearson"}: The standardized Pearson residuals
+#' }
+#' \item \code{lmer} and \code{lmerTest} residual options
+#' \itemize{
+#' \item \code{"pearson"}: The Pearson residuals (Default for "lmer" and "lmerTest")
+#' \item \code{"response"}: The raw residuals
+#' }
+#' \item \code{glmer} residual options
+#' \itemize{
+#' \item \code{"pearson"}: The Pearson residuals
+#' \item \code{"deviance"}: The deviance residuals (Default for "glmer")
+#' \item \code{"response"}: The raw residuals
+#' } }
+#'
+#' Note: The plots of \code{"ls"} and \code{"lev"} only accept standarized residuals.
 #'
 #' \strong{Details on the Creation of Plots}
-#'
 #'
 #' \describe{
 #' \item{Boxplot (\code{boxplot})}{Boxplot of the residuals.}
@@ -106,6 +127,9 @@
 #' \item{Histogram (\code{hist})}{Plots a historgram of the residuals. The density
 #' curve overlaid has mean equal to zero and standard deviation equal to the
 #' standard deviation of the residuals.}
+#'
+#' \item{Index Plot (\code{index})}{Plots the residuals on the y-axis and the observation
+#' number associated with the residual on the x-axis.}
 #'
 #' \item{Leverage Plot (\code{lev})}{Plots the standardized residuals on the y-axis
 #' and the leverage values on the x-axis. A lowess curve is overlaid, and Cook's
@@ -218,7 +242,7 @@
 #' # Plot the residual plot using the Pearson residuals
 #' resid_panel(glmer_model, plots = "resid", type = "pearson")
 
-resid_panel <- function(model, plots = "SAS", type = NA, bins = NA,
+resid_panel <- function(model, plots = "default", type = NA, bins = NA,
                         smoother = FALSE, qqline = TRUE, qqbands = FALSE,
                         scale = 1, theme = "bw", axis.text.size = 10,
                         title.text.size = 12, title.opt = TRUE,
@@ -227,11 +251,11 @@ resid_panel <- function(model, plots = "SAS", type = NA, bins = NA,
   ## Errors and Warnings -------------------------------------------------------
 
   # Return an error if an acceptable model type is not entered in the function
-  if(!(class(model)[1] %in% c("lm", "glm", "lmerMod", "glmerMod")))
+  if(!(class(model)[1] %in% c("lm", "glm", "lmerMod", "glmerMod", "lmerModLmerTest")))
     stop("The updated version of resid_panel requires a model to be input to the functions.
-         Accepted models currently are 'lm', 'glm', 'lmer', and 'glmer'. If using residuals
-         from a different model type, use the new function resid_auxpanel to create a panel
-         using vectors of the residuals and fitted values.")
+         Accepted models currently are 'lm', 'glm', 'lmer', 'glmer', and 'lmerTest'. If
+         using residuals from a different model type, use the new function resid_auxpanel
+         to create a panel using vectors of the residuals and fitted values.")
 
   # Return an error if the requested residual type is not available for the model type
   type <- tolower(type)
@@ -252,6 +276,11 @@ resid_panel <- function(model, plots = "SAS", type = NA, bins = NA,
         stop("The requested residual type is not available for an 'lmer' model. Please select
              from the following options for an 'lmer' model: response or pearson.")
       }
+    } else if(class(model)[1] == "lmerModLmerTest"){
+      if(!(type %in% c("response", "pearson"))){
+        stop("The requested residual type is not available for an 'lmerTest' model. Please select
+             from the following options for an 'lmerTest' model: response or pearson.")
+      }
     } else if(class(model)[1] == "glmerMod"){
       if(!(type %in% c("response", "pearson", "deviance"))){
         stop("The requested residual type is not available for a 'glmer' model. Please select
@@ -262,17 +291,17 @@ resid_panel <- function(model, plots = "SAS", type = NA, bins = NA,
 
   # Return an error if the requested plots involve standardizing residuals for an 'lmer' or
   # a 'glmer' model
-  if(class(model)[1] %in% c("lmerMod", "glmerMod")){
+  if(class(model)[1] %in% c("lmerMod", "lmerModLmerTest", "glmerMod")){
     if("ls" %in% plots |"lev" %in% plots | "R" %in% plots){
       stop("The requested plot or panel uses standardized residuals, which are not
-           currently available for 'lmer' or 'glmer' models.")
+           currently available for 'lmer', 'lmerTest', or 'glmer' models.")
     }
   }
 
   # Return an error if Cook's D plot is requested for an 'lmer' or 'glmer' model
-  if(class(model)[1] %in% c("lmerMod", "glmerMod")){
+  if(class(model)[1] %in% c("lmerMod", "lmerModLmerTest", "glmerMod")){
     if("cookd" %in% plots){
-      stop("The Cook's D plot is unavailable for 'lmer' and 'glmer' models.")
+      stop("The Cook's D plot is unavailable for 'lmer', 'lmerTest', and 'glmer' models.")
     }
   }
 
@@ -302,7 +331,7 @@ resid_panel <- function(model, plots = "SAS", type = NA, bins = NA,
 
   # Return a warning about choosing the number of bins if a histogram is included
   # and the number of bins has not been specified
-  if("SAS" %in% plots | "all" %in% plots | "hist" %in% plots){
+  if("default" %in% plots | "SAS" %in% plots | "all" %in% plots | "hist" %in% plots){
     if(is.na(bins)){
       bins = 30
       warning("By default, bins = 30 in the histogram of residuals. If necessary,
@@ -310,7 +339,7 @@ resid_panel <- function(model, plots = "SAS", type = NA, bins = NA,
     }
   }
 
-  #Return warning if consant leverage
+  # Return warning if consant leverage
   if("all" %in% plots | "R" %in% plots | "lev" %in% plots){
     leverage_val <- hatvalues(model)
     zero_range <- function(x, tol = .Machine$double.eps ^ 0.5) {
@@ -324,6 +353,7 @@ resid_panel <- function(model, plots = "SAS", type = NA, bins = NA,
     }
 
   }
+
   ## Creation of plots ---------------------------------------------------------
 
   # Create a boxplot of the residuals if selected in plots otherwise set as NULL
@@ -345,7 +375,7 @@ resid_panel <- function(model, plots = "SAS", type = NA, bins = NA,
                          axis.text.size = axis.text.size,
                          title.text.size = title.text.size,
                          title.opt = title.opt)
-  } else if("all" %in% plots & !(class(model)[1] %in% c("lmerMod", "glmerMod"))){
+  } else if("all" %in% plots & !(class(model)[1] %in% c("lmerMod", "lmerModLmerTest", "glmerMod"))){
     cookd <- resid_cookd(model = model,
                          theme = theme,
                          axis.text.size = axis.text.size,
@@ -356,7 +386,7 @@ resid_panel <- function(model, plots = "SAS", type = NA, bins = NA,
   }
 
   # Create a histogram of the residuals if selected in plots otherwise set as NULL
-  if("hist" %in% plots | "SAS" %in% plots | "all" %in% plots){
+  if("hist" %in% plots | "default" %in% plots | "SAS" %in% plots | "all" %in% plots){
     hist <- resid_hist(model = model,
                        type = type,
                        bins = bins,
@@ -368,6 +398,18 @@ resid_panel <- function(model, plots = "SAS", type = NA, bins = NA,
     hist <- NULL
   }
 
+  # Create an index plot of the residuals if selected in plots otherwise set as NULL
+  if("index" %in% plots | "default" %in% plots | "all" %in% plots){
+    index <- resid_index(model = model,
+                         type = type,
+                         theme = theme,
+                         axis.text.size = axis.text.size,
+                         title.text.size = title.text.size,
+                         title.opt = title.opt)
+  } else{
+    index <- NULL
+  }
+
   # Create a location-scale plot if selected in plots otherwise set as NULL
   if("ls" %in% plots | "R" %in% plots){
     ls <- resid_ls(model = model,
@@ -376,7 +418,7 @@ resid_panel <- function(model, plots = "SAS", type = NA, bins = NA,
                    axis.text.size = axis.text.size,
                    title.text.size = title.text.size,
                    title.opt = title.opt)
-  } else if("all" %in% plots & !(class(model)[1] %in% c("lmerMod", "glmerMod"))){
+  } else if("all" %in% plots & !(class(model)[1] %in% c("lmerMod", "lmerModLmerTest", "glmerMod"))){
     ls <- resid_ls(model = model,
                    type = type,
                    theme = theme,
@@ -388,7 +430,7 @@ resid_panel <- function(model, plots = "SAS", type = NA, bins = NA,
   }
 
   # Create a q-q plot of the residuals if selected in plots otherwise set as NULL
-  if("qq" %in% plots | "SAS" %in% plots | "R" %in% plots | "all" %in% plots){
+  if("qq" %in% plots | "default" %in% plots | "SAS" %in% plots | "R" %in% plots | "all" %in% plots){
     qq <- resid_qq(model = model,
                    type = type,
                    theme = theme,
@@ -409,7 +451,7 @@ resid_panel <- function(model, plots = "SAS", type = NA, bins = NA,
                           axis.text.size = axis.text.size,
                           title.text.size = title.text.size,
                           title.opt = title.opt)
-  } else if("all" %in% plots & !(class(model)[1] %in% c("lmerMod", "glmerMod"))){
+  } else if("all" %in% plots & !(class(model)[1] %in% c("lmerMod", "lmerModLmerTest", "glmerMod"))){
     lev <- resid_lev(model = model,
                           type = type,
                           theme = theme,
@@ -421,7 +463,7 @@ resid_panel <- function(model, plots = "SAS", type = NA, bins = NA,
   }
 
   # Create a residual plot if selected in plots otherwise set as NULL
-  if("resid" %in% plots | "SAS" %in% plots | "R" %in% plots | "all" %in% plots){
+  if("resid" %in% plots | "default" %in% plots | "SAS" %in% plots | "R" %in% plots | "all" %in% plots){
     resid <- resid_plot(model = model,
                             type = type,
                             smoother = smoother,
@@ -449,11 +491,12 @@ resid_panel <- function(model, plots = "SAS", type = NA, bins = NA,
 
   # If individual plots have been specified, set plots equal to "individual"
   # Return an error if none of the correct plot options have been specified
-  if("SAS" %in% plots | "R" %in% plots | "all" %in% plots){
+  if("default" %in% plots | "SAS" %in% plots | "R" %in% plots | "all" %in% plots){
     plots <- plots
-  } else if("boxplot" %in% plots | "cookd" %in% plots | "hist" %in% plots |
-            "ls" %in% plots | "qq" %in% plots | "lev" %in% plots |
-            "resid" %in% plots | "yvp" %in% plots){
+  } else if("boxplot" %in% plots | "cookd" %in% plots | "index" %in% plots |
+            "hist" %in% plots | "ls" %in% plots | "qq" %in% plots |
+            "lev" %in% plots | "resid" %in% plots | "yvp" %in% plots){
+    chosen <- plots
     plots <- "individual"
   } else{
     stop("Invalid plots option entered. See the resid_panel help file for
@@ -461,9 +504,14 @@ resid_panel <- function(model, plots = "SAS", type = NA, bins = NA,
   }
 
   # Create a grid of plots based on the plots specified
-  if(plots == "SAS"){
+  if (plots == "default"){
 
-    # Create grid of SAS plots in resid panel
+    # Create grid of the default plots
+    plot_grid(resid, qq, index, hist, scale = scale)
+
+  } else if (plots == "SAS"){
+
+    # Create grid of SAS plots
     plot_grid(resid, hist, qq, boxplot, scale = scale)
 
   } else if (plots == "R") {
@@ -475,10 +523,10 @@ resid_panel <- function(model, plots = "SAS", type = NA, bins = NA,
 
     # Create grid of all plots
     if(class(model)[1] == "lm" | class(model)[1] == "glm"){
-      plot_grid(resid, hist, qq, boxplot, cookd, ls, lev, yvp,
+      plot_grid(resid, hist, qq, boxplot, cookd, ls, lev, yvp, index,
                 scale = scale)
     } else{
-      plot_grid(resid, hist, qq, boxplot, yvp, scale = scale)
+      plot_grid(resid, hist, qq, boxplot, yvp, index, scale = scale)
     }
 
   } else if (plots == "individual") {
@@ -487,14 +535,15 @@ resid_panel <- function(model, plots = "SAS", type = NA, bins = NA,
     individual_plots <- list(boxplot = boxplot,
                              cookd = cookd,
                              hist = hist,
+                             index = index,
                              ls = ls,
                              qq = qq,
                              lev = lev,
                              resid = resid,
                              yvp = yvp)
 
-    # Remove the plots which are null
-    individual_plots <- individual_plots[-which(sapply(individual_plots, is.null))]
+    # Select the chosen plots
+    individual_plots <- individual_plots[chosen]
 
     # Turn the list of plots into a grob
     my_grobs = lapply(individual_plots, ggplotGrob)

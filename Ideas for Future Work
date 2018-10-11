@@ -4,37 +4,33 @@ Future Work
 --------------
 
 Katie's Tasks:
-- suppress geom_path warnin
-  - possible to do with labeling for the interactive plots
 - update histogram tooltip
-  -Check interactive histogram box and what shows
-- Could possibly use the function “suppress_messages” to not have the plotly error showing
-  - suppress messaage about using github version of plotly
-  - try suppressPacakgeStartupMessage()
+  -shows count as count and density as count: try to change name of density to density
 - try to figure out why plotly graphs showing up horizontaly
-- remove interactivity for density curve in resid_hist
-- try to add data to interactive qq plot
 - Work on residual vignette
 - constant leverage factor plot
-  - create separate r function called by the helper
+  - Perform more error checking with more than categorical variable
+  - add to test file and add lmertest to test functionality on lmer objects
 - modify so works for predictive models (Research at least)
+  -receive predictive model in resid_panel
+- remove obs from data for interactive plots for the index plot
+- write a function to show residual plots from multiple models at the same time
+  - not a function in ggresidpanel yet
 
 
 Katherine's Tasks:
-- updates for lmertest object
-- maybe add some sort of random forest or other method to examples in resid_auxpanel
+- add interactive plot to readme (see plotly readme)
 - create a development rmd file with updates for each version
 - add alpha values to lev plot
   -figure out what alpha is
   -add example of interpreting
-- figure out how to get desired order of plots when individual plots are requested
-- add interactive plot to readme (see plotly readme)
-- look into broom package
-- Include a resid vs. index plot (he likes to look at this plot often)
+- create a panel of residual plots verses the X's and y versus X's
+  - include example with time predictor
 
 Ideas for Future Package Versions:
 - write a function to show residual plots from multiple models at the same time
-- create a panel of residual plots verses the X's
+- create a panel of residual plots verses the X's and y versus X's
+  - include example with time predictor
 - create an option for the user to add their own theme
 - remove periods after non-sentences in documentation
 - Improve the R plots — don’t just copy what the default in R gives — make it better
@@ -44,8 +40,6 @@ Ideas for Future Package Versions:
 - look into testthat and vistest packages for testing (then could put the testthat folder in
   gitignore)
 - Include a link to the residual document in the documentation
-- maybe instead pick our own default, and not worry about SASextended (but leave SAS as option)
-    -Possible plots: residual plot, qq plot, cook's d or histogram instead, resid vs. index
 - write a function for computing standardized residuals for lmer and glmer (Katie)
 - put interactive plots in a grid
 - Suggested not changing the version to 1.0.0 until the package is ready for CRAN (or wide usage)

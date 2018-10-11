@@ -41,6 +41,16 @@ helper_resid <- function(type = NA, model){
       return(resid(model, type = "response"))
     }
 
+  # lmerTest residuals
+  } else if (class(model)[1] == "lmerModLmerTest"){
+
+    # Default: Pearson residuals (condtional on BLUPs)
+    if(is.na(type) | type == "pearson"){
+      return(resid(model, type = "response") / summary(model)$sigma)
+    }else if (type == "response"){
+      return(resid(model, type = "response"))
+    }
+
   # glmer residuals
   } else if (class(model)[1] == "glmerMod"){
 

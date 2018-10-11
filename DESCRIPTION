@@ -1,7 +1,7 @@
 Package: ggResidpanel
 Type: Package
 Title: Panels and Interactive Versions of Diagnostic Plots using 'ggplot2'
-Version: 0.1.0.9000
+Version: 0.1.1.9000
 Authors@R: c(person("Katherine", "Goode", email = "kgoode@iastate.edu", role = c("aut", "cre")),
     person("Kathleen", "Rey", email = "kprey@iastate.edu", role = c("aut")))
 Description: An R package for creating panels of diagnostic plots for residuals from a model 

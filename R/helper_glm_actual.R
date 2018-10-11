@@ -63,7 +63,7 @@ helper_glm_actual <- function(model){
     }
 
     return(plotly_data[1]/plotly_data[2])
-  }else if (class(model)[1]%in%c("lmerMod", "glmerMod")) {
+  }else if (class(model)[1]%in%c("lmerMod", "lmerModLmerTest", "glmerMod")) {
     names_data <- names(model@frame)
     plotly_data <- data.frame(as.matrix(model@frame))
 

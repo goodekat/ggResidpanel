@@ -36,7 +36,8 @@ library(lme4)
 
 lmer_model <- lmer(weight ~ Time + Diet + Time*Diet + (1|Chick), data = ChickWeight)
 ##Mixed generalized linear model (binomial)
-
+library(lmerTest)
+lmer_model2 <- lmer(weight ~ Time + Diet + Time*Diet + (1|Chick), data = ChickWeight)
 
 #Response is count of telephones with random effect for region: WorldPhones
 example_data1 <- data.frame(y = rpois(54, 3),
@@ -71,7 +72,7 @@ m6 <- lm(y~X1+X2+X3+X4+X5+X6+X7+X8+X9+X10+X11+X12+X13+X14+X15,data=data)
 
 ###########################################################################
 
-######SAS PANEL##########################
+######Default PANEL##########################
 
 
 
@@ -86,6 +87,8 @@ resid_panel(lm_model1)
 resid_panel(lm_model2)
 resid_panel(glm_model)
 resid_panel(lmer_model)
+resid_panel(lmer_model2)
+
 resid_panel(glmer_model1)
 resid_panel(glmer_model2)
 

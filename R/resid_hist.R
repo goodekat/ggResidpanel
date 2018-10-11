@@ -53,6 +53,7 @@ resid_hist <- function(model, type, bins, theme, axis.text.size, title.text.size
 
   #Create the histogram of residuals
   # if (is.na(min_x) & is.na(max_x)){
+  model_values$Residual_Density <- model_values$Residual
 
     plot <- ggplot(model_values, aes(x = Residual)) +
       geom_point(aes(Resid, y, group=Data), alpha=0)+

@@ -21,11 +21,13 @@ helper_label <- function(type = NA, model){
       return("Residuals")
     } else if (class(model)[1] == "lmerMod"){
       return("Pearson Residuals")
+    } else if (class(model)[1] == "lmerModLmerTest"){
+      return("Pearson Residuals")
     } else if (class(model)[1] == "glm"){
       return("Deviance Residuals")
-    }else if (class(model)[1] == "glmerMod"){
+    } else if (class(model)[1] == "glmerMod"){
       return("Deviance Residuals")
-    }else{
+    } else{
       return("Residuals")
     }
   }
