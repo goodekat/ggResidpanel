@@ -107,7 +107,7 @@
 #' # Create an interactive residual plot with the Pearson residuals
 #' resid_interact(glmer_model, plot = "resid", type = "pearson")
 
-resid_interact <- function(model, plot = NA, type = NA, bins = NA,
+resid_interact <- function(model, plot = "resid", type = NA, bins = NA,
                            smoother = FALSE, qqline = TRUE, theme = "bw",
                            axis.text.size = 10, title.text.size = 12,
                            title.opt = TRUE){
