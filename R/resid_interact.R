@@ -205,7 +205,7 @@ resid_interact <- function(model, plots = "default", type = NA, bins = NA,
   }
 
   # Return a warning about choosing number of bins if a histogram is included
-  if("hist" %in% plot){
+  if("hist" %in% plots){
     if(is.na(bins)){
       bins = 30
       warning("By default, bins = 30 in the histogram of residuals. If necessary, specify
@@ -234,7 +234,7 @@ resid_interact <- function(model, plots = "default", type = NA, bins = NA,
   }
 
   # Cook's D plot
-  if(plot == "cookd"){
+  if("cookd" %in% plots){
     cookd <- resid_cookd(model = model,
                           theme = theme,
                           axis.text.size = axis.text.size,
@@ -359,7 +359,7 @@ resid_interact <- function(model, plots = "default", type = NA, bins = NA,
   }
 
   # Response vs Predicted plot
-  if(plot == "yvp" | "all" %in% plots){
+  if("yvp" %in% plots | "all" %in% plots){
     yvp <- resid_yvp(model = model,
                             theme = theme,
                             axis.text.size = axis.text.size,
