@@ -7,7 +7,7 @@
 resid_interact(model, plots = "default", type = NA, bins = NA,
   smoother = FALSE, qqline = TRUE, theme = "bw",
   axis.text.size = 10, title.text.size = 12, title.opt = TRUE,
-  ncol = 2)
+  ncol = NA)
 }
 \arguments{
 \item{model}{Model fit using either \code{lm}, \code{glm}, \code{lmer},

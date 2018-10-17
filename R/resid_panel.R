@@ -246,7 +246,7 @@ resid_panel <- function(model, plots = "default", type = NA, bins = NA,
                         smoother = FALSE, qqline = TRUE, qqbands = FALSE,
                         scale = 1, theme = "bw", axis.text.size = 10,
                         title.text.size = 12, title.opt = TRUE,
-                        ind.ncol = 2){
+                        ncol = NA){
 
   ## Errors and Warnings -------------------------------------------------------
 
@@ -415,20 +415,32 @@ resid_panel <- function(model, plots = "default", type = NA, bins = NA,
   # Create a grid of plots based on the plots specified
   if (plots == "default"){
 
+    # Specify the number of columns in the panel
+    ncol <- ifelse(is.na(ncol), 2, ncol)
+
     # Create grid of the default plots
-    plot_grid(resid, qq, index, hist, scale = scale)
+    plot_grid(resid, qq, index, hist, scale = scale, ncol = ncol)
 
   } else if (plots == "SAS"){
+
+    # Specify the number of columns in the panel
+    ncol <- ifelse(is.na(ncol), 2, ncol)
 
     # Create grid of SAS plots
     plot_grid(resid, hist, qq, boxplot, scale = scale)
 
   } else if (plots == "R") {
 
+    # Specify the number of columns in the panel
+    ncol <- ifelse(is.na(ncol), 2, ncol)
+
     # Create grid of R plots
     plot_grid(resid, qq, ls, lev, scale = scale)
 
   } else if (plots == "all") {
+
+    # Specify the number of columns in the panel
+    ncol <- ifelse(is.na(ncol), 3, ncol)
 
     # Create grid of all plots
     if(class(model)[1] == "lm" | class(model)[1] == "glm"){
@@ -457,11 +469,12 @@ resid_panel <- function(model, plots = "default", type = NA, bins = NA,
     # Turn the list of plots into a grob
     my_grobs = lapply(individual_plots, ggplotGrob)
 
-    # Specify number of columns for grid of plots based on number of plots specified
-    ifelse(length(individual_plots) == 1, grid_col <- 1, grid_col <- ind.ncol)
+    # Specify the number of columns in the panel
+    ncol <- ifelse(length(individual_plots) == 1, 1, ncol)
+    ncol <- ifelse(is.na(ncol), 2, ncol)
 
     # Create grid of individual plots specified
-    grid.arrange(grobs = my_grobs, ncol = grid_col, scale = scale)
+    grid.arrange(grobs = my_grobs, ncol = ncol, scale = scale)
 
   }
 

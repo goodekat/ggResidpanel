@@ -116,7 +116,7 @@
 resid_interact <- function(model, plots = "default", type = NA, bins = NA,
                            smoother = FALSE, qqline = TRUE, theme = "bw",
                            axis.text.size = 10, title.text.size = 12,
-                           title.opt = TRUE, ncol = 2){
+                           title.opt = TRUE, ncol = NA){
 
   ## Errors and Warnings -------------------------------------------------------
 
@@ -201,6 +201,27 @@ resid_interact <- function(model, plots = "default", type = NA, bins = NA,
     index <- NULL
   }
 
+  # Leverage plot
+  if("lev" %in% plots | "R" %in% plots){
+    lev <- resid_lev(model = model,
+                     type = type,
+                     theme = theme,
+                     axis.text.size = axis.text.size,
+                     title.text.size = title.text.size,
+                     title.opt = title.opt)
+    lev <- ggplotly(lev, tooltip = c("Leverage", "Std_Res", "Data"))
+  } else if("all" %in% plots & !(class(model)[1] %in% c("lmerMod", "lmerModLmerTest", "glmerMod"))){
+    lev <- resid_lev(model = model,
+                     type = type,
+                     theme = theme,
+                     axis.text.size = axis.text.size,
+                     title.text.size = title.text.size,
+                     title.opt = title.opt)
+    lev <- ggplotly(lev, tooltip = c("Leverage", "Std_Res", "Data"))
+  } else{
+    lev <- NULL
+  }
+
   # Location-Scale plot
   if("ls" %in% plots | "R" %in% plots){
     ls <- resid_ls(model = model,
@@ -259,27 +280,6 @@ resid_interact <- function(model, plots = "default", type = NA, bins = NA,
     qq <- NULL
   }
 
-  # Leverage plot
-  if("lev" %in% plots | "R" %in% plots){
-    lev <- resid_lev(model = model,
-                     type = type,
-                     theme = theme,
-                     axis.text.size = axis.text.size,
-                     title.text.size = title.text.size,
-                     title.opt = title.opt)
-    lev <- ggplotly(lev, tooltip = c("Leverage", "Std_Res", "Data"))
-  } else if("all" %in% plots & !(class(model)[1] %in% c("lmerMod", "lmerModLmerTest", "glmerMod"))){
-    lev <- resid_lev(model = model,
-                     type = type,
-                     theme = theme,
-                     axis.text.size = axis.text.size,
-                     title.text.size = title.text.size,
-                     title.opt = title.opt)
-    lev <- ggplotly(lev, tooltip = c("Leverage", "Std_Res", "Data"))
-  } else{
-    lev <- NULL
-  }
-
   # Residual plot
   if("resid" %in% plots | "default" %in% plots | "SAS" %in% plots | "R" %in% plots | "all" %in% plots){
     resid <- resid_plot(model = model,
@@ -327,26 +327,43 @@ resid_interact <- function(model, plots = "default", type = NA, bins = NA,
   # Create a grid of plots based on the plots specified
   if (plots == "default"){
 
+    # Determine the number of rows in the panel
+    ncol = ifelse(is.na(ncol), 2, ncol)
+    nrow <- ceiling(4 / ncol)
+
     # Create grid of the default plots
-    subplot(resid, qq, index, hist, nrows = 2)
+    subplot(resid, qq, index, hist, nrows = nrow)
 
   } else if (plots == "SAS"){
 
+    # Determine the number of rows in the panel
+    ncol = ifelse(is.na(ncol), 2, ncol)
+    nrow <- ceiling(4 / ncol)
+
     # Create grid of SAS plots
-    subplot(resid, hist, qq, boxplot, nrows = 2)
+    subplot(resid, hist, qq, boxplot, nrows = nrow)
 
   } else if (plots == "R") {
 
+    # Determine the number of rows in the panel
+    ncol = ifelse(is.na(ncol), 2, ncol)
+    nrow <- ceiling(4 / ncol)
+
     # Create grid of R plots
-    subplot(resid, qq, ls, lev, nrows = 2)
+    subplot(resid, qq, ls, lev, nrows = nrow)
 
   } else if (plots == "all") {
 
+    # Determine the number of rows in the panel
+    ncol = ifelse(is.na(ncol), 3, ncol)
+
     # Create grid of all plots
     if(class(model)[1] == "lm" | class(model)[1] == "glm"){
-      subplot(resid, hist, qq, boxplot, cookd, ls, lev, yvp, index, nrows = 3)
+      nrow <- ceiling(9 / ncol)
+      subplot(resid, hist, qq, boxplot, cookd, ls, lev, yvp, index, nrows = nrow)
     } else{
-      subplot(resid, hist, qq, boxplot, yvp, index, nrows = 2)
+      nrow <- ceiling(6 / ncol)
+      subplot(resid, hist, qq, boxplot, yvp, index, nrows = nrow)
     }
 
   } else if (plots == "individual") {
@@ -365,12 +382,12 @@ resid_interact <- function(model, plots = "default", type = NA, bins = NA,
     # Select the chosen plots
     individual_plots <- individual_plots[chosen]
 
-    # Specify number of columns for grid of plots based on number of plots specified
-    ifelse(length(individual_plots) == 1, grid_col <- 1, grid_col <- ind.ncol)
-    grid_row <- ceiling(length(individual_plots) / grid_col)
+    # Determine the number of rows in the panel
+    ncol = ifelse(length(individual_plots) == 1, 1, ncol)
+    nrow <- ceiling(length(individual_plots) / ncol)
 
     # Create grid of individual plots specified
-    subplot(individual_plots, nrows = grid_row)
+    subplot(individual_plots, nrows = nrow)
 
   }
 
