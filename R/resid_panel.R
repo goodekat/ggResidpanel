@@ -6,7 +6,7 @@
 #' @param model Model fit using either \code{lm}, \code{glm}, \code{lmer},
 #'   \code{lmerTest}, or \code{glmer}.
 #' @param plots Plots chosen to include in the panel of plots. Default is set to
-#'   "SAS". (See details for options.)
+#'   "default". (See details for options.)
 #' @param type The user may specify a type of residuals to use. Otherwise, the
 #'   default residual type for each model is used. (See details for options.)
 #' @param bins Number of bins to use when creating a histogram of the residuals.
@@ -250,109 +250,18 @@ resid_panel <- function(model, plots = "default", type = NA, bins = NA,
 
   ## Errors and Warnings -------------------------------------------------------
 
-  # Return an error if an acceptable model type is not entered in the function
-  if(!(class(model)[1] %in% c("lm", "glm", "lmerMod", "glmerMod", "lmerModLmerTest")))
-    stop("The updated version of resid_panel requires a model to be input to the functions.
-         Accepted models currently are 'lm', 'glm', 'lmer', 'glmer', and 'lmerTest'. If
-         using residuals from a different model type, use the new function resid_auxpanel
-         to create a panel using vectors of the residuals and fitted values.")
+  # Checks that return an error
+  check_modeltype(model = model)
+  check_residualtype(model = model, type = type)
+  check_standardized(model = model, plots = plots)
+  check_cooksd(model = model, plots = plots)
 
-  # Return an error if the requested residual type is not available for the model type
-  type <- tolower(type)
-  if(!is.na(type)){
-    if(class(model)[1] == "lm"){
-      if(!(type %in% c("response", "pearson", "standardized"))){
-        stop("The requested residual type is not available for an 'lm' model. Please select
-             from the following options for an 'lm' model: response, pearson, or standardized.")
-      }
-    } else if(class(model)[1] == "glm"){
-      if(!(type %in% c("response", "pearson", "deviance", "stand.pearson", "stand.deviance"))){
-        stop("The requested residual type is not available for a 'glm' model. Please select
-             from the following options for a 'glm' model: response, pearson, deviance,
-             stand.deviance, or stand.pearson.")
-      }
-    } else if(class(model)[1] == "lmerMod"){
-      if(!(type %in% c("response", "pearson"))){
-        stop("The requested residual type is not available for an 'lmer' model. Please select
-             from the following options for an 'lmer' model: response or pearson.")
-      }
-    } else if(class(model)[1] == "lmerModLmerTest"){
-      if(!(type %in% c("response", "pearson"))){
-        stop("The requested residual type is not available for an 'lmerTest' model. Please select
-             from the following options for an 'lmerTest' model: response or pearson.")
-      }
-    } else if(class(model)[1] == "glmerMod"){
-      if(!(type %in% c("response", "pearson", "deviance"))){
-        stop("The requested residual type is not available for a 'glmer' model. Please select
-             from the following options for a 'glmer' model: response, pearson, or deviance.")
-      }
-    }
-  }
-
-  # Return an error if the requested plots involve standardizing residuals for an 'lmer' or
-  # a 'glmer' model
-  if(class(model)[1] %in% c("lmerMod", "lmerModLmerTest", "glmerMod")){
-    if("ls" %in% plots |"lev" %in% plots | "R" %in% plots){
-      stop("The requested plot or panel uses standardized residuals, which are not
-           currently available for 'lmer', 'lmerTest', or 'glmer' models.")
-    }
-  }
-
-  # Return an error if Cook's D plot is requested for an 'lmer' or 'glmer' model
-  if(class(model)[1] %in% c("lmerMod", "lmerModLmerTest", "glmerMod")){
-    if("cookd" %in% plots){
-      stop("The Cook's D plot is unavailable for 'lmer', 'lmerTest', and 'glmer' models.")
-    }
-  }
-
-  # Return a warning if the smoother option is not specified correctly
-  if(smoother == TRUE | smoother == FALSE){
-  } else{
-    smoother <- FALSE
-    warning("The smoother option for residual plot not was specified correctly.
-            The default option will be used. Accepted options are TRUE or FALSE.")
-  }
-
-  # Return a warning if the theme is not specified correctly
-  if(theme == "bw" | theme == "classic" | theme == "grey" | theme == "gray"){
-  } else{
-    theme <- "bw"
-    warning("The theme option was not specified correctly. The default theme
-            will be used. Accepted themes are 'bw', 'classic', and 'grey' (or 'gray').")
-  }
-
-  # Return a warning if the title option is not specified correctly
-  if(title.opt == TRUE | title.opt == FALSE){
-  } else{
-    title.opt <- TRUE
-    warning("The title option was not specified correctly. The default title
-            option will be used. Accepted options are TRUE or FALSE.")
-  }
-
-  # Return a warning about choosing the number of bins if a histogram is included
-  # and the number of bins has not been specified
-  if("default" %in% plots | "SAS" %in% plots | "all" %in% plots | "hist" %in% plots){
-    if(is.na(bins)){
-      bins = 30
-      warning("By default, bins = 30 in the histogram of residuals. If necessary,
-              specify an appropriate number of bins.")
-    }
-  }
-
-  # Return warning if consant leverage
-  if("all" %in% plots | "R" %in% plots | "lev" %in% plots){
-    leverage_val <- hatvalues(model)
-    zero_range <- function(x, tol = .Machine$double.eps ^ 0.5) {
-      if (length(x) == 1) return(TRUE)
-      x <- range(x) / mean(x)
-      isTRUE(all.equal(x[1], x[2], tolerance = tol))
-    }
-
-    if(zero_range(leverage_val)==TRUE){
-      warning("Note that this model has constant leverage.")
-    }
-
-  }
+  # Checks that return a warning
+  smoother <- check_smoother(smoother = smoother)
+  theme <- check_theme(theme = theme)
+  title.opt <- check_title(title.opt = title.opt)
+  bins <- check_bins(plots = plots, bins = bins)
+  check_leverage(model = model, plots = plots)
 
   ## Creation of plots ---------------------------------------------------------
 
@@ -410,6 +319,25 @@ resid_panel <- function(model, plots = "default", type = NA, bins = NA,
     index <- NULL
   }
 
+  # Create a residual-leverage plot if selected in plots otherwise set as NULL
+  if("lev" %in% plots | "R" %in% plots){
+    lev <- resid_lev(model = model,
+                     type = type,
+                     theme = theme,
+                     axis.text.size = axis.text.size,
+                     title.text.size = title.text.size,
+                     title.opt = title.opt)
+  } else if("all" %in% plots & !(class(model)[1] %in% c("lmerMod", "lmerModLmerTest", "glmerMod"))){
+    lev <- resid_lev(model = model,
+                     type = type,
+                     theme = theme,
+                     axis.text.size = axis.text.size,
+                     title.text.size = title.text.size,
+                     title.opt = title.opt)
+  } else{
+    lev <- NULL
+  }
+
   # Create a location-scale plot if selected in plots otherwise set as NULL
   if("ls" %in% plots | "R" %in% plots){
     ls <- resid_ls(model = model,
@@ -441,25 +369,6 @@ resid_panel <- function(model, plots = "default", type = NA, bins = NA,
                    qqbands = qqbands)
   } else{
     qq <- NULL
-  }
-
-  # Create a residual-leverage plot if selected in plots otherwise set as NULL
-  if("lev" %in% plots | "R" %in% plots){
-    lev <- resid_lev(model = model,
-                          type = type,
-                          theme = theme,
-                          axis.text.size = axis.text.size,
-                          title.text.size = title.text.size,
-                          title.opt = title.opt)
-  } else if("all" %in% plots & !(class(model)[1] %in% c("lmerMod", "lmerModLmerTest", "glmerMod"))){
-    lev <- resid_lev(model = model,
-                          type = type,
-                          theme = theme,
-                          axis.text.size = axis.text.size,
-                          title.text.size = title.text.size,
-                          title.opt = title.opt)
-  } else{
-    lev <- NULL
   }
 
   # Create a residual plot if selected in plots otherwise set as NULL

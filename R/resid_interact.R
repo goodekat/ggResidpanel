@@ -5,8 +5,8 @@
 #'
 #' @param model Model fit using either \code{lm}, \code{glm}, \code{lmer},
 #'   \code{lmerTest}, or \code{glmer}.
-#' @param plot Specify plot to create an interactive version. (See details for
-#'   options.)
+#' @param plots Plots chosen to include in the panel of plots. Default is set to
+#'   "default". (See details for options.)
 #' @param type The user may specify a type of residuals to use. Otherwise, the
 #'   default residual type for each model is used. (See details in the help file
 #'   for \code{resid_panel} for options.)
@@ -116,102 +116,22 @@
 resid_interact <- function(model, plots = "default", type = NA, bins = NA,
                            smoother = FALSE, qqline = TRUE, theme = "bw",
                            axis.text.size = 10, title.text.size = 12,
-                           title.opt = TRUE, ind.ncol = 2){
+                           title.opt = TRUE, ncol = 2){
 
   ## Errors and Warnings -------------------------------------------------------
 
-  # Return an error if an acceptable model type is not entered in the function
-  if(!(class(model)[1] %in% c("lm", "glm", "lmerMod", "lmerModLmerTest", "glmerMod")))
-    stop("resid_interact requires a model to be input. Accepted models
-         currently are lm, glm, lmer, lmerTest, and glmer.")
+  # Checks that return an error
+  check_modeltype(model = model)
+  check_residualtype(model = model, type = type)
+  check_standardized(model = model, plots = plots)
+  check_cooksd(model = model, plots = plots)
 
-  # Return an error if the plot type is not entered correctly
-  # if(is.na(plot) | !(plot %in% c("boxplot", "cookd", "hist", "index", "ls", "qq",
-  #                                  "lev", "resid", "yvp", "try"))){
-  #   stop("Invalid plot option entered. See the resid_interact help file for
-  #        available options.")
-  # }
-
-  # Return an error if the requested residual type is not available for the model type
-  type <- tolower(type)
-  if(!is.na(type)){
-    if(class(model)[1] == "lm"){
-      if(!(type %in% c("response", "pearson", "standardized"))){
-        stop("The requested residual type is not available. Please select from the following
-             options for a 'lm' model: response, pearson, or standardized.")
-      }
-    } else if(class(model)[1] == "glm"){
-      if(!(type %in% c("response", "pearson", "deviance", "stand.pearson", "stand.deviance"))){
-        stop("The requested residual type is not available. Please select from the following
-             options for a 'glm' model: response, pearson, deviance, stand.deviance, or
-             stand.pearson.")
-      }
-    } else if(class(model)[1] == "lmerMod"){
-      if(!(type %in% c("response", "pearson"))){
-        stop("The requested residual type is not available. Please select from the following
-             options for a 'lmer' model: response or pearson.")
-      }
-    } else if(class(model)[1] == "lmerModLmerTest"){
-      if(!(type %in% c("response", "pearson"))){
-        stop("The requested residual type is not available. Please select from the following
-             options for a 'lmerTest' model: response or pearson.")
-      }
-    } else if(class(model)[1] == "glmerMod"){
-      if(!(type %in% c("response", "pearson", "deviance"))){
-        stop("The requested residual type is not available. Please select from the following
-             options for a 'glmer' model: response, pearson, or deviance.")
-      }
-    }
-  }
-
-  # Return an error if the requested plot involves standardizing residuals for an 'lmer' or
-  # 'glmer' model
-  if(class(model)[1] %in% c("lmerMod", "lmerModLmerTest", "glmerMod")){
-    if("ls" %in% plot |"lev" %in% plot){
-      stop("The requested plot or panel uses standardized residuals, which are not
-           currently available for 'lmer', 'lmerTest', or 'glmer' models.")
-    }
-  }
-
-  # Return an error if Cook's D plot is requested for an 'lmer' or 'glmer' model
-  if(class(model)[1] %in% c("lmerMod", "lmerModLmerTest", "glmerMod")){
-    if("cookd" %in% plot){
-      stop("The Cook's D plot is unavailable for 'lmer', 'lmerTest', and 'glmer' models.")
-    }
-  }
-
-  # Return a warning if the smoother option is not specified correctly
-  if(smoother == TRUE | smoother == FALSE){
-  } else{
-    smoother <- FALSE
-    warning("The smoother option for residual plot not was specified correctly.
-            The default option will be used. Accepted options are TRUE or FALSE.")
-  }
-
-  # Return a warning if the theme is not specified correctly
-  if(theme == "bw" | theme == "classic" | theme == "grey" | theme == "gray"){
-  } else{
-    theme <- "bw"
-    warning("The theme option was not specified correctly. The default theme
-            will be used. Accepted themes are 'bw', 'classic', and 'grey' (or 'gray').")
-  }
-
-  # Return a warning if the title option is not specified correctly
-  if(title.opt == TRUE | title.opt == FALSE){
-  } else{
-    title.opt <- TRUE
-    warning("The title option was not specified correctly. The default title
-            option will be used. Accepted options are TRUE or FALSE.")
-  }
-
-  # Return a warning about choosing number of bins if a histogram is included
-  if("hist" %in% plots){
-    if(is.na(bins)){
-      bins = 30
-      warning("By default, bins = 30 in the histogram of residuals. If necessary, specify
-              an appropriate number of bins.")
-    }
-  }
+  # Checks that return a warning
+  smoother <- check_smoother(smoother = smoother)
+  theme <- check_theme(theme = theme)
+  title.opt <- check_title(title.opt = title.opt)
+  bins <- check_bins(plots = plots, bins = bins)
+  check_leverage(model = model, plots = plots)
 
   # Print a warning about not using the dev version of ggplot2 with ggplotly
   warning("Some of the interactive plots do not function with the dev version of
@@ -225,12 +145,14 @@ resid_interact <- function(model, plots = "default", type = NA, bins = NA,
   # Boxplot
   if("boxplot" %in% plots | "SAS" %in% plots | "all" %in% plots){
     boxplot <- resid_boxplot(model = model,
-                            type = type,
-                            theme = theme,
-                            axis.text.size = axis.text.size,
-                            title.text.size = title.text.size,
-                            title.opt = title.opt)
+                             type = type,
+                             theme = theme,
+                             axis.text.size = axis.text.size,
+                             title.text.size = title.text.size,
+                             title.opt = title.opt)
     boxplot <- ggplotly(boxplot, tooltip = c("Residual", "Data"))
+  } else{
+    boxplot <- NULL
   }
 
   # Cook's D plot
@@ -248,6 +170,8 @@ resid_interact <- function(model, plots = "default", type = NA, bins = NA,
                          title.text.size = title.text.size,
                          title.opt = title.opt)
     cookd <- ggplotly(cookd, tooltip = c("CooksD", "Data"))
+  } else{
+    cookd <- NULL
   }
 
   # Histogram
@@ -260,6 +184,8 @@ resid_interact <- function(model, plots = "default", type = NA, bins = NA,
                          title.text.size = title.text.size,
                          title.opt = title.opt)
     hist <- ggplotly(hist, tooltip = c("Data", "count"))
+  } else{
+    hist <- NULL
   }
 
   # Index
@@ -271,6 +197,8 @@ resid_interact <- function(model, plots = "default", type = NA, bins = NA,
                           title.text.size = title.text.size,
                           title.opt = title.opt)
     index <- ggplotly(index)
+  } else{
+    index <- NULL
   }
 
   # Location-Scale plot
@@ -312,6 +240,8 @@ resid_interact <- function(model, plots = "default", type = NA, bins = NA,
                                y = "sqrt(|Standardized Pearson Residuals|)"),
                      tooltip = c("Prediction", "Sqrt_Std_Res", "Data"))
     }
+  } else{
+    ls <- NULL
   }
 
   # QQ plot
@@ -324,7 +254,9 @@ resid_interact <- function(model, plots = "default", type = NA, bins = NA,
                        title.opt = title.opt,
                        qqline = qqline,
                        qqbands = FALSE)
-    qq <- ggplotly(qq, tooltip=c("Data", "Residual", "Theoretical"))
+    qq <- ggplotly(qq, tooltip = c("Data", "Residual", "Theoretical"))
+  } else{
+    qq <- NULL
   }
 
   # Leverage plot
@@ -344,6 +276,8 @@ resid_interact <- function(model, plots = "default", type = NA, bins = NA,
                      title.text.size = title.text.size,
                      title.opt = title.opt)
     lev <- ggplotly(lev, tooltip = c("Leverage", "Std_Res", "Data"))
+  } else{
+    lev <- NULL
   }
 
   # Residual plot
@@ -356,6 +290,8 @@ resid_interact <- function(model, plots = "default", type = NA, bins = NA,
                          title.text.size = title.text.size,
                          title.opt = title.opt)
     resid <- ggplotly(resid)
+  } else{
+    resid <- NULL
   }
 
   # Response vs Predicted plot
@@ -366,6 +302,8 @@ resid_interact <- function(model, plots = "default", type = NA, bins = NA,
                             title.text.size = title.text.size,
                             title.opt = title.opt)
     yvp <- ggplotly(yvp)
+  } else{
+    yvp <- NULL
   }
 
   ## Creation of interactive plot -------------------------------------------------

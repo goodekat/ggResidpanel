@@ -7,11 +7,14 @@
 resid_interact(model, plots = "default", type = NA, bins = NA,
   smoother = FALSE, qqline = TRUE, theme = "bw",
   axis.text.size = 10, title.text.size = 12, title.opt = TRUE,
-  ind.ncol = 2)
+  ncol = 2)
 }
 \arguments{
 \item{model}{Model fit using either \code{lm}, \code{glm}, \code{lmer},
 \code{lmerTest}, or \code{glmer}.}
+
+\item{plots}{Plots chosen to include in the panel of plots. Default is set to
+"default". (See details for options.)}
 
 \item{type}{The user may specify a type of residuals to use. Otherwise, the
 default residual type for each model is used. (See details in the help file
@@ -37,9 +40,6 @@ plots in the panel.}
 
 \item{title.opt}{Indicates whether or not to include a title on the plots in
 the panel. Specify TRUE or FALSE. Default is set to TRUE.}
-
-\item{plot}{Specify plot to create an interactive version. (See details for
-options.)}
 }
 \value{
 The interactive residual diagnostic plot specified.

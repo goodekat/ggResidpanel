@@ -14,7 +14,7 @@ resid_panel(model, plots = "default", type = NA, bins = NA,
 \code{lmerTest}, or \code{glmer}.}
 
 \item{plots}{Plots chosen to include in the panel of plots. Default is set to
-"SAS". (See details for options.)}
+"default". (See details for options.)}
 
 \item{type}{The user may specify a type of residuals to use. Otherwise, the
 default residual type for each model is used. (See details for options.)}
