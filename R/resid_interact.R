@@ -27,7 +27,7 @@
 #'
 #' @export
 #'
-#' @importFrom plotly ggplotly
+#' @importFrom plotly ggplotly subplot
 #'
 #' @details Currently, only one plot can be made interactive at a time. The
 #'   options are as follows.
@@ -113,14 +113,12 @@
 #' # Create an interactive residual plot with the Pearson residuals
 #' resid_interact(glmer_model, plot = "resid", type = "pearson")
 
-resid_interact <- function(model, plot = "resid", type = NA, bins = NA,
+resid_interact <- function(model, plots = "default", type = NA, bins = NA,
                            smoother = FALSE, qqline = TRUE, theme = "bw",
                            axis.text.size = 10, title.text.size = 12,
-                           title.opt = TRUE){
+                           title.opt = TRUE, ind.ncol = 2){
 
   ## Errors and Warnings -------------------------------------------------------
-
-
 
   # Return an error if an acceptable model type is not entered in the function
   if(!(class(model)[1] %in% c("lm", "glm", "lmerMod", "lmerModLmerTest", "glmerMod")))
@@ -128,11 +126,11 @@ resid_interact <- function(model, plot = "resid", type = NA, bins = NA,
          currently are lm, glm, lmer, lmerTest, and glmer.")
 
   # Return an error if the plot type is not entered correctly
-  if(is.na(plot) | !(plot %in% c("boxplot", "cookd", "hist", "index", "ls", "qq",
-                                   "lev", "resid", "yvp"))){
-    stop("Invalid plot option entered. See the resid_interact help file for
-         available options.")
-  }
+  # if(is.na(plot) | !(plot %in% c("boxplot", "cookd", "hist", "index", "ls", "qq",
+  #                                  "lev", "resid", "yvp", "try"))){
+  #   stop("Invalid plot option entered. See the resid_interact help file for
+  #        available options.")
+  # }
 
   # Return an error if the requested residual type is not available for the model type
   type <- tolower(type)
@@ -222,61 +220,103 @@ resid_interact <- function(model, plot = "resid", type = NA, bins = NA,
 
   ## Creation of plot ---------------------------------------------------------
 
-  # Create the requested plot
-  if(plot == "boxplot"){
+  # Create the requested interactive plots
 
-    # Boxplot
-    plot_i <- resid_boxplot(model = model,
+  # Boxplot
+  if("boxplot" %in% plots | "SAS" %in% plots | "all" %in% plots){
+    boxplot <- resid_boxplot(model = model,
                             type = type,
                             theme = theme,
                             axis.text.size = axis.text.size,
                             title.text.size = title.text.size,
                             title.opt = title.opt)
+    boxplot <- ggplotly(boxplot, tooltip = c("Residual", "Data"))
+  }
 
-  } else if(plot == "cookd"){
-
-    # Cook's D plot
-    plot_i <- resid_cookd(model = model,
+  # Cook's D plot
+  if(plot == "cookd"){
+    cookd <- resid_cookd(model = model,
                           theme = theme,
                           axis.text.size = axis.text.size,
                           title.text.size = title.text.size,
                           title.opt = title.opt)
+    cookd <- ggplotly(cookd, tooltip = c("CooksD", "Data"))
+  } else if("all" %in% plots & !(class(model)[1] %in% c("lmerMod", "lmerModLmerTest", "glmerMod"))){
+    cookd <- resid_cookd(model = model,
+                         theme = theme,
+                         axis.text.size = axis.text.size,
+                         title.text.size = title.text.size,
+                         title.opt = title.opt)
+    cookd <- ggplotly(cookd, tooltip = c("CooksD", "Data"))
+  }
 
-  } else if(plot == "hist"){
-
-    # Histogram
-    plot_i <- resid_hist(model = model,
+  # Histogram
+  if("hist" %in% plots | "default" %in% plots | "SAS" %in% plots | "all" %in% plots){
+    hist <- resid_hist(model = model,
                          type = type,
                          bins = bins,
                          theme = theme,
                          axis.text.size = axis.text.size,
                          title.text.size = title.text.size,
                          title.opt = title.opt)
+    hist <- ggplotly(hist, tooltip = c("Data", "count"))
+  }
 
-  } else if(plot == "index"){
-
-    # Histogram
-    plot_i <- resid_index(model = model,
+  # Index
+  if("index" %in% plots | "default" %in% plots | "all" %in% plots){
+    index <- resid_index(model = model,
                           type = type,
                           theme = theme,
                           axis.text.size = axis.text.size,
                           title.text.size = title.text.size,
                           title.opt = title.opt)
+    index <- ggplotly(index)
+  }
 
-  } else if(plot == "ls"){
+  # Location-Scale plot
+  if("ls" %in% plots | "R" %in% plots){
+    ls <- resid_ls(model = model,
+                   type = type,
+                   theme = theme,
+                   axis.text.size = axis.text.size,
+                   title.text.size = title.text.size,
+                   title.opt = title.opt)
+    if (class(model)[1] == "lm"){
+      ls <- ggplotly(ls + labs(x = "Predicted Values", y = "sqrt(|Standardized Residuals|)"),
+                                tooltip=c("Prediction", "Sqrt_Std_Res", "Data"))
+    } else if(is.na(type) | type == "deviance" | type == "stand.deviance"){
+      ls <- ggplotly(ls + labs(x = "Predicted Values",
+                                          y = "sqrt(|Standardized Deviance Residuals|)"),
+                                tooltip = c("Prediction", "Sqrt_Std_Res", "Data"))
+    } else if(type == "pearson" | type == "stand.pearson"){
+      ls <- ggplotly(ls + labs(x = "Predicted Values",
+                                          y = "sqrt(|Standardized Pearson Residuals|)"),
+                                tooltip = c("Prediction", "Sqrt_Std_Res", "Data"))
+    }
+  } else if("all" %in% plots & !(class(model)[1] %in% c("lmerMod", "lmerModLmerTest", "glmerMod"))){
+    ls <- resid_ls(model = model,
+                   type = type,
+                   theme = theme,
+                   axis.text.size = axis.text.size,
+                   title.text.size = title.text.size,
+                   title.opt = title.opt)
+    if (class(model)[1] == "lm"){
+      ls <- ggplotly(ls + labs(x = "Predicted Values", y = "sqrt(|Standardized Residuals|)"),
+                     tooltip=c("Prediction", "Sqrt_Std_Res", "Data"))
+    } else if(is.na(type) | type == "deviance" | type == "stand.deviance"){
+      ls <- ggplotly(ls + labs(x = "Predicted Values",
+                               y = "sqrt(|Standardized Deviance Residuals|)"),
+                     tooltip = c("Prediction", "Sqrt_Std_Res", "Data"))
+    } else if(type == "pearson" | type == "stand.pearson"){
+      ls <- ggplotly(ls + labs(x = "Predicted Values",
+                               y = "sqrt(|Standardized Pearson Residuals|)"),
+                     tooltip = c("Prediction", "Sqrt_Std_Res", "Data"))
+    }
+  }
 
-    # Location-Scale plot
-    plot_i <- resid_ls(model = model,
-                       type = type,
-                       theme = theme,
-                       axis.text.size = axis.text.size,
-                       title.text.size = title.text.size,
-                       title.opt = title.opt)
-
-  } else if(plot == "qq"){
-
-    # QQ plot
-    plot_i <- resid_qq(model = model,
+  # QQ plot
+  if("qq" %in% plots | "default" %in% plots | "SAS" %in% plots | "R" %in% plots | "all" %in% plots){
+    qq <- resid_qq(model = model,
                        type = type,
                        theme = theme,
                        axis.text.size = axis.text.size,
@@ -284,69 +324,116 @@ resid_interact <- function(model, plot = "resid", type = NA, bins = NA,
                        title.opt = title.opt,
                        qqline = qqline,
                        qqbands = FALSE)
+    qq <- ggplotly(qq, tooltip=c("Data", "Residual", "Theoretical"))
+  }
 
-  } else if(plot == "lev"){
+  # Leverage plot
+  if("lev" %in% plots | "R" %in% plots){
+    lev <- resid_lev(model = model,
+                     type = type,
+                     theme = theme,
+                     axis.text.size = axis.text.size,
+                     title.text.size = title.text.size,
+                     title.opt = title.opt)
+    lev <- ggplotly(lev, tooltip = c("Leverage", "Std_Res", "Data"))
+  } else if("all" %in% plots & !(class(model)[1] %in% c("lmerMod", "lmerModLmerTest", "glmerMod"))){
+    lev <- resid_lev(model = model,
+                     type = type,
+                     theme = theme,
+                     axis.text.size = axis.text.size,
+                     title.text.size = title.text.size,
+                     title.opt = title.opt)
+    lev <- ggplotly(lev, tooltip = c("Leverage", "Std_Res", "Data"))
+  }
 
-    # Leverage plot
-    plot_i <- resid_lev(model = model,
-                        type = type,
-                        theme = theme,
-                        axis.text.size = axis.text.size,
-                        title.text.size = title.text.size,
-                        title.opt = title.opt)
-
-  } else if(plot == "resid"){
-
-    # Residual plot
-    plot_i <- resid_plot(model = model,
+  # Residual plot
+  if("resid" %in% plots | "default" %in% plots | "SAS" %in% plots | "R" %in% plots | "all" %in% plots){
+    resid <- resid_plot(model = model,
                          type = type,
                          smoother = smoother,
                          theme = theme,
                          axis.text.size = axis.text.size,
                          title.text.size = title.text.size,
                          title.opt = title.opt)
+    resid <- ggplotly(resid)
+  }
 
-  } else if(plot == "yvp"){
-
-    # Response vs Predicted plot
-    plot_i <- resid_yvp(model = model,
+  # Response vs Predicted plot
+  if(plot == "yvp" | "all" %in% plots){
+    yvp <- resid_yvp(model = model,
                             theme = theme,
                             axis.text.size = axis.text.size,
                             title.text.size = title.text.size,
                             title.opt = title.opt)
-
+    yvp <- ggplotly(yvp)
   }
 
   ## Creation of interactive plot -------------------------------------------------
 
   # Use plotly to create interactive plot requested
-  if(plot == "cookd"){
-    suppressMessages(ggplotly(plot_i, tooltip = c("CooksD", "Data")))
-  } else if (plot == "boxplot"){
-    suppressMessages(ggplotly(plot_i, tooltip = c("Residual", "Data")))
-  } else if (plot == "lev"){
-    suppressMessages(ggplotly(plot_i, tooltip = c("Leverage", "Std_Res", "Data")))
-  }else if (plot == "ls"){
-    if (class(model)[1] == "lm"){
-      suppressMessages(ggplotly(plot_i + labs(x = "Predicted Values", y = "sqrt(|Standardized Residuals|)"),
-               tooltip=c("Prediction", "Sqrt_Std_Res", "Data")))
-      } else if(is.na(type) | type == "deviance" | type == "stand.deviance"){
-        suppressMessages(ggplotly(plot_i + labs(x = "Predicted Values",
-                               y = "sqrt(|Standardized Deviance Residuals|)"),
-                 tooltip = c("Prediction", "Sqrt_Std_Res", "Data")))
-      } else if(type == "pearson" | type == "stand.pearson"){
-        suppressMessages(ggplotly(plot_i + labs(x = "Predicted Values",
-                               y = "sqrt(|Standardized Pearson Residuals|)"),
-                 tooltip = c("Prediction", "Sqrt_Std_Res", "Data")))
+
+  # If individual plots have been specified, set plots equal to "individual"
+  # Return an error if none of the correct plot options have been specified
+  if("default" %in% plots | "SAS" %in% plots | "R" %in% plots | "all" %in% plots){
+    plots <- plots
+  } else if("boxplot" %in% plots | "cookd" %in% plots | "index" %in% plots |
+            "hist" %in% plots | "ls" %in% plots | "qq" %in% plots |
+            "lev" %in% plots | "resid" %in% plots | "yvp" %in% plots){
+    chosen <- plots
+    plots <- "individual"
+  } else{
+    stop("Invalid plots option entered. See the resid_interact help file for
+         available options.")
+  }
+
+  # Create a grid of plots based on the plots specified
+  if (plots == "default"){
+
+    # Create grid of the default plots
+    subplot(resid, qq, index, hist, nrows = 2)
+
+  } else if (plots == "SAS"){
+
+    # Create grid of SAS plots
+    subplot(resid, hist, qq, boxplot, nrows = 2)
+
+  } else if (plots == "R") {
+
+    # Create grid of R plots
+    subplot(resid, qq, ls, lev, nrows = 2)
+
+  } else if (plots == "all") {
+
+    # Create grid of all plots
+    if(class(model)[1] == "lm" | class(model)[1] == "glm"){
+      subplot(resid, hist, qq, boxplot, cookd, ls, lev, yvp, index, nrows = 3)
+    } else{
+      subplot(resid, hist, qq, boxplot, yvp, index, nrows = 2)
     }
-  } else if (plot=="hist"){
-    suppressMessages(ggplotly(plot_i, tooltip=c("Data", "count")))
-  } else if (plot=="qq"){
-    # Print a warning about how still a working progress
-    #warning("The full capabilities of the interactive 'qq' plot are still under construction.")
-    suppressMessages(ggplotly(plot_i, tooltip=c("Data", "Residual", "Theoretical")))
-  } else {
-    suppressMessages(ggplotly(plot_i))
+
+  } else if (plots == "individual") {
+
+    # Turn the specified plots into a list
+    individual_plots <- list(boxplot = boxplot,
+                             cookd = cookd,
+                             hist = hist,
+                             index = index,
+                             ls = ls,
+                             qq = qq,
+                             lev = lev,
+                             resid = resid,
+                             yvp = yvp)
+
+    # Select the chosen plots
+    individual_plots <- individual_plots[chosen]
+
+    # Specify number of columns for grid of plots based on number of plots specified
+    ifelse(length(individual_plots) == 1, grid_col <- 1, grid_col <- ind.ncol)
+    grid_row <- ceiling(length(individual_plots) / grid_col)
+
+    # Create grid of individual plots specified
+    subplot(individual_plots, nrows = grid_row)
+
   }
 
 }
