@@ -1,3 +1,4 @@
+# Check functions to use in plot functions that return errors or warnings to users.
 
 ## CHECKS THAT RETURN ERRORS ---------------------------------------------------------------
 

@@ -17,10 +17,9 @@ Katie's Tasks:
 - write a function to show residual plots from multiple models at the same time
   - not a function in ggresidpanel yet
 
-
 Katherine's Tasks:
-- figure out the axis labels with the interactive panel
 - finish the column and row selection
+- figure out the axis labels with the interactive panel
 - update documentation (I've noticed some typos and need to update for changes)
 - add interactive plot to readme (see plotly readme)
 - create a development rmd file with updates for each version

@@ -7,7 +7,7 @@
 resid_panel(model, plots = "default", type = NA, bins = NA,
   smoother = FALSE, qqline = TRUE, qqbands = FALSE, scale = 1,
   theme = "bw", axis.text.size = 10, title.text.size = 12,
-  title.opt = TRUE, ncol = NA)
+  title.opt = TRUE, ncol = NA, nrow = NA)
 }
 \arguments{
 \item{model}{Model fit using either \code{lm}, \code{glm}, \code{lmer},

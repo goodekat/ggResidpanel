@@ -246,7 +246,7 @@ resid_panel <- function(model, plots = "default", type = NA, bins = NA,
                         smoother = FALSE, qqline = TRUE, qqbands = FALSE,
                         scale = 1, theme = "bw", axis.text.size = 10,
                         title.text.size = 12, title.opt = TRUE,
-                        ncol = NA){
+                        ncol = NA, nrow = NA){
 
   ## Errors and Warnings -------------------------------------------------------
 
@@ -284,7 +284,8 @@ resid_panel <- function(model, plots = "default", type = NA, bins = NA,
                          axis.text.size = axis.text.size,
                          title.text.size = title.text.size,
                          title.opt = title.opt)
-  } else if("all" %in% plots & !(class(model)[1] %in% c("lmerMod", "lmerModLmerTest", "glmerMod"))){
+  } else if("all" %in% plots &
+            !(class(model)[1] %in% c("lmerMod", "lmerModLmerTest", "glmerMod"))){
     cookd <- resid_cookd(model = model,
                          theme = theme,
                          axis.text.size = axis.text.size,
@@ -327,7 +328,8 @@ resid_panel <- function(model, plots = "default", type = NA, bins = NA,
                      axis.text.size = axis.text.size,
                      title.text.size = title.text.size,
                      title.opt = title.opt)
-  } else if("all" %in% plots & !(class(model)[1] %in% c("lmerMod", "lmerModLmerTest", "glmerMod"))){
+  } else if("all" %in% plots &
+            !(class(model)[1] %in% c("lmerMod", "lmerModLmerTest", "glmerMod"))){
     lev <- resid_lev(model = model,
                      type = type,
                      theme = theme,
@@ -346,7 +348,8 @@ resid_panel <- function(model, plots = "default", type = NA, bins = NA,
                    axis.text.size = axis.text.size,
                    title.text.size = title.text.size,
                    title.opt = title.opt)
-  } else if("all" %in% plots & !(class(model)[1] %in% c("lmerMod", "lmerModLmerTest", "glmerMod"))){
+  } else if("all" %in% plots &
+            !(class(model)[1] %in% c("lmerMod", "lmerModLmerTest", "glmerMod"))){
     ls <- resid_ls(model = model,
                    type = type,
                    theme = theme,
@@ -415,39 +418,50 @@ resid_panel <- function(model, plots = "default", type = NA, bins = NA,
   # Create a grid of plots based on the plots specified
   if (plots == "default"){
 
-    # Specify the number of columns in the panel
-    ncol <- ifelse(is.na(ncol), 2, ncol)
+    # Specify the number of rows and columns in the panel
+    dim <- specify_dim(ncol = ncol, nrow = nrow, default.ncol = 2, default.nrow = 2, nplots = 4)
 
     # Create grid of the default plots
-    plot_grid(resid, qq, index, hist, scale = scale, ncol = ncol)
+    plot_grid(resid, qq, index, hist,
+              scale = scale, ncol = dim$ncol, nrow = dim$nrow)
 
   } else if (plots == "SAS"){
 
-    # Specify the number of columns in the panel
-    ncol <- ifelse(is.na(ncol), 2, ncol)
+    # Specify the number of rows and columns in the panel
+    dim <- specify_dim(ncol = ncol, nrow = nrow, default.ncol = 2, default.nrow = 2, nplots = 4)
 
     # Create grid of SAS plots
-    plot_grid(resid, hist, qq, boxplot, scale = scale)
+    plot_grid(resid, hist, qq, boxplot,
+              scale = scale, ncol = dim$ncol, nrow = dim$nrow)
 
   } else if (plots == "R") {
 
-    # Specify the number of columns in the panel
-    ncol <- ifelse(is.na(ncol), 2, ncol)
+    # Specify the number of rows and columns in the panel
+    dim <- specify_dim(ncol = ncol, nrow = nrow, default.ncol = 2, default.nrow = 2, nplots = 4)
 
     # Create grid of R plots
-    plot_grid(resid, qq, ls, lev, scale = scale)
+    plot_grid(resid, qq, ls, lev,
+              scale = scale, ncol = dim$ncol, nrow = dim$nrow)
 
   } else if (plots == "all") {
 
-    # Specify the number of columns in the panel
-    ncol <- ifelse(is.na(ncol), 3, ncol)
-
     # Create grid of all plots
     if(class(model)[1] == "lm" | class(model)[1] == "glm"){
+
+      # Specify the number of rows and columns in the panel
+      dim <- specify_dim(ncol = ncol, nrow = nrow, default.ncol = 3, default.nrow = 3, nplots = 9)
+
+      # Create the grid
       plot_grid(resid, hist, qq, boxplot, cookd, ls, lev, yvp, index,
-                scale = scale)
+                scale = scale, ncol = dim$ncol, nrow = dim$nrow)
     } else{
-      plot_grid(resid, hist, qq, boxplot, yvp, index, scale = scale)
+
+      # Specify the number of rows and columns in the panel
+      dim <- specify_dim(ncol = ncol, nrow = nrow, default.ncol = 3, default.nrow = 2, nplots = 6)
+
+      # Create the grid
+      plot_grid(resid, hist, qq, boxplot, yvp, index,
+                scale = scale, ncol = dim$ncol, nrow = dim$nrow)
     }
 
   } else if (plots == "individual") {
@@ -469,12 +483,13 @@ resid_panel <- function(model, plots = "default", type = NA, bins = NA,
     # Turn the list of plots into a grob
     my_grobs = lapply(individual_plots, ggplotGrob)
 
-    # Specify the number of columns in the panel
-    ncol <- ifelse(length(individual_plots) == 1, 1, ncol)
-    ncol <- ifelse(is.na(ncol), 2, ncol)
+    # Specify the number of rows and columns in the panel
+    dim <- specify_dim(ncol = ncol, nrow = nrow, default.ncol = 2, default.nrow = 2,
+                       nplots = length(individual_plots))
 
     # Create grid of individual plots specified
-    grid.arrange(grobs = my_grobs, ncol = ncol, scale = scale)
+    grid.arrange(grobs = my_grobs,
+                 scale = scale, ncol = dim$ncol, nrow = dim$nrow)
 
   }
 
