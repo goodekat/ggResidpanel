@@ -18,7 +18,6 @@ Katie's Tasks:
   - not a function in ggresidpanel yet
 
 Katherine's Tasks:
-- figure out how to deal with the titles for the interactive panel
 - update documentation
   - I've noticed some typos
   - update for changes
@@ -35,6 +34,7 @@ Katherine's Tasks:
   - finish the column and row selection (ask Katie if we should go back to nrow only due
     to plotly and does she prefer two plots stacked or side by side)
   - figure out the axis labels with the interactive panel
+  - figure out how to deal with the titles for the interactive panel
 
 Ideas for Future Package Versions:
 - write a function to show residual plots from multiple models at the same time
