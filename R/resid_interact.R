@@ -116,7 +116,7 @@
 resid_interact <- function(model, plots = "default", type = NA, bins = NA,
                            smoother = FALSE, qqline = TRUE, theme = "bw",
                            axis.text.size = 10, title.text.size = 12,
-                           title.opt = TRUE, ncol = NA){
+                           title.opt = FALSE, nrow = NULL, scale = 0.93){
 
   ## Errors and Warnings -------------------------------------------------------
 
@@ -328,42 +328,51 @@ resid_interact <- function(model, plots = "default", type = NA, bins = NA,
   if (plots == "default"){
 
     # Determine the number of rows in the panel
-    ncol = ifelse(is.na(ncol), 2, ncol)
-    nrow <- ceiling(4 / ncol)
+    if (is.null(nrow)) nrow = 2
 
     # Create grid of the default plots
-    subplot(resid, qq, index, hist, nrows = nrow)
+    subplot(resid, qq, index, hist,
+            nrows = nrow, titleX = TRUE, titleY = TRUE, margin = 1 - scale)
 
   } else if (plots == "SAS"){
 
     # Determine the number of rows in the panel
-    ncol = ifelse(is.na(ncol), 2, ncol)
-    nrow <- ceiling(4 / ncol)
+    if (is.null(nrow)) nrow = 2
 
     # Create grid of SAS plots
-    subplot(resid, hist, qq, boxplot, nrows = nrow)
+    subplot(resid, hist, qq, boxplot,
+            nrows = nrow, titleX = TRUE, titleY = TRUE, margin = 1 - scale)
 
   } else if (plots == "R") {
 
     # Determine the number of rows in the panel
-    ncol = ifelse(is.na(ncol), 2, ncol)
-    nrow <- ceiling(4 / ncol)
+    if (is.null(nrow)) nrow = 2
 
     # Create grid of R plots
-    subplot(resid, qq, ls, lev, nrows = nrow)
+    subplot(resid, qq, ls, lev,
+            nrows = nrow, titleX = TRUE, titleY = TRUE, margin = 1 - scale)
 
   } else if (plots == "all") {
 
-    # Determine the number of rows in the panel
-    ncol = ifelse(is.na(ncol), 3, ncol)
-
     # Create grid of all plots
     if(class(model)[1] == "lm" | class(model)[1] == "glm"){
-      nrow <- ceiling(9 / ncol)
-      subplot(resid, hist, qq, boxplot, cookd, ls, lev, yvp, index, nrows = nrow)
+
+      # Determine the number of rows in the panel
+      if (is.null(nrow)) nrow = 3
+
+      # Create the panel
+      subplot(resid, hist, qq, boxplot, cookd, ls, lev, yvp, index,
+              nrows = nrow, titleX = TRUE, titleY = TRUE, margin = 1 - scale)
+
     } else{
-      nrow <- ceiling(6 / ncol)
-      subplot(resid, hist, qq, boxplot, yvp, index, nrows = nrow)
+
+      # Determine the number of rows in the panel
+      if (is.null(nrow)) nrow = 2
+
+      # Create the panel
+      subplot(resid, hist, qq, boxplot, yvp, index,
+              nrows = nrow, titleX = TRUE, titleY = TRUE, margin = 1 - scale)
+
     }
 
   } else if (plots == "individual") {
@@ -383,11 +392,15 @@ resid_interact <- function(model, plots = "default", type = NA, bins = NA,
     individual_plots <- individual_plots[chosen]
 
     # Determine the number of rows in the panel
-    ncol = ifelse(length(individual_plots) == 1, 1, ncol)
-    nrow <- ceiling(length(individual_plots) / ncol)
+    if (is.null(nrow) & length(individual_plots) %in% 1:3){
+      nrow = 1
+    } else if (is.null(nrow) & length(individual_plots) > 3){
+      nrow = 2
+    }
 
     # Create grid of individual plots specified
-    subplot(individual_plots, nrows = nrow)
+    subplot(individual_plots,
+            nrows = nrow, titleX = TRUE, titleY = TRUE, margin = 1 - scale)
 
   }
 

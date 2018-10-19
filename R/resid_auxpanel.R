@@ -78,7 +78,8 @@
 resid_auxpanel <- function(residuals, predicted, plots = "default", bins = NA,
                            smoother = FALSE, qqline = TRUE, qqbands = FALSE,
                            scale = 1, theme = "bw", axis.text.size = 10,
-                           title.text.size = 12, title.opt = TRUE, ind.ncol = 2){
+                           title.text.size = 12, title.opt = TRUE,
+                           ncol = NULL, nrow = NULL){
 
   ## Errors and Warnings -------------------------------------------------------
 
@@ -175,17 +176,20 @@ resid_auxpanel <- function(residuals, predicted, plots = "default", bins = NA,
   if (plots == "default"){
 
     # Create grid of default plots
-    plot_grid(resid, qq, index, hist, scale = scale)
+    plot_grid(resid, qq, index, hist,
+              scale = scale, ncol = ncol, nrow = nrow)
 
   } else if (plots == "SAS"){
 
     # Create grid of SAS plots
-    plot_grid(resid, hist, qq, boxplot, scale = scale)
+    plot_grid(resid, hist, qq, boxplot,
+              scale = scale, ncol = ncol, nrow = nrow)
 
   } else if (plots == "all"){
 
     # Create grid of all plots
-    plot_grid(resid, hist, qq, boxplot, index, scale = scale)
+    plot_grid(resid, qq, hist, index, boxplot,
+              scale = scale, ncol = ncol, nrow = nrow)
 
   } else if (plots == "individual") {
 
@@ -202,11 +206,9 @@ resid_auxpanel <- function(residuals, predicted, plots = "default", bins = NA,
     # Turn the list of plots into a grob
     my_grobs = lapply(individual_plots, ggplotGrob)
 
-    # Specify number of columns for grid of plots based on number of plots specified
-    ifelse(length(individual_plots) == 1, grid_col <- 1, grid_col <- ind.ncol)
-
     # Create grid of individual plots specified
-    grid.arrange(grobs = my_grobs, ncol = grid_col, scale = scale)
+    grid.arrange(grobs = my_grobs,
+                 scale = scale, ncol = ncol, nrow = nrow)
 
   }
 

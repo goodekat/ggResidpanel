@@ -7,7 +7,7 @@
 resid_auxpanel(residuals, predicted, plots = "default", bins = NA,
   smoother = FALSE, qqline = TRUE, qqbands = FALSE, scale = 1,
   theme = "bw", axis.text.size = 10, title.text.size = 12,
-  title.opt = TRUE, ind.ncol = 2)
+  title.opt = TRUE, ncol = NULL, nrow = NULL)
 }
 \arguments{
 \item{plots}{Plots chosen to include in the panel of plots. (See details for
@@ -39,12 +39,12 @@ plots.}
 \item{title.opt}{Indicates whether or not to include a title on the plots.
 Specify TRUE or FALSE. Default is set to TRUE.}
 
-\item{ind.ncol}{Sets the number of columns in the panel when more than one
-individual plot has been specified. Default is set to 2 columns.}
-
 \item{resid}{The residuals from the model.}
 
 \item{pred}{The fitted values from the model.}
+
+\item{ind.ncol}{Sets the number of columns in the panel when more than one
+individual plot has been specified. Default is set to 2 columns.}
 }
 \value{
 A panel of residual diagnostic plots containing plots specified.
