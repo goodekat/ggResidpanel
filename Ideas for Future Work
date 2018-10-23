@@ -51,6 +51,7 @@ Ideas for Future Package Versions:
 - write a function for computing standardized residuals for lmer and glmer (Katie)
 - could look into more helpful diagnostic plots that exist
 - add in minimum package versions?? (under imports)
+- add an option for including additional predictor variables
 
 Presentations:
 - ISU graphics group fall 2018 (request to present)
