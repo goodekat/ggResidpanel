@@ -2,6 +2,12 @@
 
 ## The start of a function for create a panel of plots with the response vs predictors
 
+# To do:
+#  - add code for lmer models
+#  - add options
+#  - add a title (?)
+#  - add documentation
+
 predictor_panel <- function(model, type = NA, smoother = FALSE,
                             scale = 1, theme = "bw", axis.text.size = 10,
                             title.text.size = 12, title.opt = TRUE,
