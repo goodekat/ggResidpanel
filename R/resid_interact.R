@@ -150,9 +150,13 @@ resid_interact <- function(model, plots = "default", type = NA, bins = NA,
                              axis.text.size = axis.text.size,
                              title.text.size = title.text.size,
                              title.opt = title.opt)
-    if(title.opt == TRUE) title = helper_plotly_title(boxplot)
-    boxplot <- ggplotly(boxplot, tooltip = c("Residual", "Data")) %>%
-      layout(annotations = title, title = FALSE)
+    if(title.opt == TRUE) {
+      title = helper_plotly_title(boxplot)
+      boxplot <- ggplotly(boxplot, tooltip = c("Residual", "Data")) %>%
+        layout(annotations = title, title = FALSE)
+    } else{
+      boxplot <- ggplotly(boxplot, tooltip = c("Residual", "Data"))
+    }
   } else{
     boxplot <- NULL
   }
@@ -164,18 +168,26 @@ resid_interact <- function(model, plots = "default", type = NA, bins = NA,
                           axis.text.size = axis.text.size,
                           title.text.size = title.text.size,
                           title.opt = title.opt)
-    if(title.opt == TRUE) title = helper_plotly_title(cookd)
-    cookd <- ggplotly(cookd, tooltip = c("CooksD", "Data")) %>%
-      layout(annotations = title, title = FALSE)
+    if(title.opt == TRUE){
+      title = helper_plotly_title(cookd)
+      cookd <- ggplotly(cookd, tooltip = c("CooksD", "Data")) %>%
+        layout(annotations = title, title = FALSE)
+    } else{
+      cookd <- ggplotly(cookd, tooltip = c("CooksD", "Data"))
+    }
   } else if("all" %in% plots & !(class(model)[1] %in% c("lmerMod", "lmerModLmerTest", "glmerMod"))){
     cookd <- resid_cookd(model = model,
                          theme = theme,
                          axis.text.size = axis.text.size,
                          title.text.size = title.text.size,
                          title.opt = title.opt)
-    if(title.opt == TRUE) title = helper_plotly_title(cookd)
-    cookd <- ggplotly(cookd, tooltip = c("CooksD", "Data")) %>%
-      layout(annotations = title, title = FALSE)
+    if(title.opt == TRUE){
+      title = helper_plotly_title(cookd)
+      cookd <- ggplotly(cookd, tooltip = c("CooksD", "Data")) %>%
+        layout(annotations = title, title = FALSE)
+    } else{
+      cookd <- ggplotly(cookd, tooltip = c("CooksD", "Data"))
+    }
   } else{
     cookd <- NULL
   }
@@ -189,9 +201,13 @@ resid_interact <- function(model, plots = "default", type = NA, bins = NA,
                          axis.text.size = axis.text.size,
                          title.text.size = title.text.size,
                          title.opt = title.opt)
-    if(title.opt == TRUE) title = helper_plotly_title(hist)
-    hist <- ggplotly(hist, tooltip = c("Data", "count")) %>%
-      layout(annotations = title, title = FALSE)
+    if(title.opt == TRUE){
+      title = helper_plotly_title(hist)
+      hist <- ggplotly(hist, tooltip = c("Data", "count")) %>%
+        layout(annotations = title, title = FALSE)
+    } else{
+      hist <- ggplotly(hist, tooltip = c("Data", "count"))
+    }
   } else{
     hist <- NULL
   }
@@ -204,9 +220,13 @@ resid_interact <- function(model, plots = "default", type = NA, bins = NA,
                           axis.text.size = axis.text.size,
                           title.text.size = title.text.size,
                           title.opt = title.opt)
-    if(title.opt == TRUE) title = helper_plotly_title(index)
-    index <- ggplotly(index) %>%
-      layout(annotations = title, title = FALSE)
+    if(title.opt == TRUE){
+      title = helper_plotly_title(index)
+      index <- ggplotly(index) %>%
+        layout(annotations = title, title = FALSE)
+    } else{
+      index <- ggplotly(index)
+    }
   } else{
     index <- NULL
   }
@@ -219,9 +239,13 @@ resid_interact <- function(model, plots = "default", type = NA, bins = NA,
                      axis.text.size = axis.text.size,
                      title.text.size = title.text.size,
                      title.opt = title.opt)
-    if(title.opt == TRUE) title = helper_plotly_title(lev)
-    lev <- ggplotly(lev, tooltip = c("Leverage", "Std_Res", "Data")) %>%
-      layout(annotations = title, title = FALSE)
+    if(title.opt == TRUE){
+      title = helper_plotly_title(lev)
+      lev <- ggplotly(lev, tooltip = c("Leverage", "Std_Res", "Data")) %>%
+        layout(annotations = title, title = FALSE)
+    } else{
+      lev <- ggplotly(lev, tooltip = c("Leverage", "Std_Res", "Data"))
+    }
   } else if("all" %in% plots & !(class(model)[1] %in% c("lmerMod", "lmerModLmerTest", "glmerMod"))){
     lev <- resid_lev(model = model,
                      type = type,
@@ -229,9 +253,13 @@ resid_interact <- function(model, plots = "default", type = NA, bins = NA,
                      axis.text.size = axis.text.size,
                      title.text.size = title.text.size,
                      title.opt = title.opt)
-    if(title.opt == TRUE) title = helper_plotly_title(lev)
-    lev <- ggplotly(lev, tooltip = c("Leverage", "Std_Res", "Data")) %>%
-      layout(annotations = title, title = FALSE)
+    if(title.opt == TRUE){
+      title = helper_plotly_title(lev)
+      lev <- ggplotly(lev, tooltip = c("Leverage", "Std_Res", "Data")) %>%
+        layout(annotations = title, title = FALSE)
+    } else{
+      lev <- ggplotly(lev, tooltip = c("Leverage", "Std_Res", "Data"))
+    }
   } else{
     lev <- NULL
   }
@@ -244,21 +272,36 @@ resid_interact <- function(model, plots = "default", type = NA, bins = NA,
                    axis.text.size = axis.text.size,
                    title.text.size = title.text.size,
                    title.opt = title.opt)
-    if(title.opt == TRUE) title = helper_plotly_title(ls)
-    if (class(model)[1] == "lm"){
-      ls <- ggplotly(ls + labs(x = "Predicted Values", y = "sqrt(|Standardized Residuals|)"),
-                                tooltip=c("Prediction", "Sqrt_Std_Res", "Data")) %>%
-        layout(annotations = title, title = FALSE)
-    } else if(is.na(type) | type == "deviance" | type == "stand.deviance"){
-      ls <- ggplotly(ls + labs(x = "Predicted Values",
-                                          y = "sqrt(|Standardized Deviance Residuals|)"),
-                                tooltip = c("Prediction", "Sqrt_Std_Res", "Data")) %>%
-        layout(annotations = title, title = FALSE)
-    } else if(type == "pearson" | type == "stand.pearson"){
-      ls <- ggplotly(ls + labs(x = "Predicted Values",
-                                          y = "sqrt(|Standardized Pearson Residuals|)"),
-                                tooltip = c("Prediction", "Sqrt_Std_Res", "Data")) %>%
-        layout(annotations = title, title = FALSE)
+    if(title.opt == TRUE){
+      title = helper_plotly_title(ls)
+      if (class(model)[1] == "lm"){
+        ls <- ggplotly(ls + labs(x = "Predicted Values", y = "sqrt(|Standardized Residuals|)"),
+                       tooltip=c("Prediction", "Sqrt_Std_Res", "Data")) %>%
+          layout(annotations = title, title = FALSE)
+      } else if(is.na(type) | type == "deviance" | type == "stand.deviance"){
+        ls <- ggplotly(ls + labs(x = "Predicted Values",
+                                 y = "sqrt(|Standardized Deviance Residuals|)"),
+                       tooltip = c("Prediction", "Sqrt_Std_Res", "Data")) %>%
+          layout(annotations = title, title = FALSE)
+      } else if(type == "pearson" | type == "stand.pearson"){
+        ls <- ggplotly(ls + labs(x = "Predicted Values",
+                                 y = "sqrt(|Standardized Pearson Residuals|)"),
+                       tooltip = c("Prediction", "Sqrt_Std_Res", "Data")) %>%
+          layout(annotations = title, title = FALSE)
+      }
+    } else {
+      if (class(model)[1] == "lm"){
+        ls <- ggplotly(ls + labs(x = "Predicted Values", y = "sqrt(|Standardized Residuals|)"),
+                       tooltip=c("Prediction", "Sqrt_Std_Res", "Data"))
+      } else if(is.na(type) | type == "deviance" | type == "stand.deviance"){
+        ls <- ggplotly(ls + labs(x = "Predicted Values",
+                                 y = "sqrt(|Standardized Deviance Residuals|)"),
+                       tooltip = c("Prediction", "Sqrt_Std_Res", "Data"))
+      } else if(type == "pearson" | type == "stand.pearson"){
+        ls <- ggplotly(ls + labs(x = "Predicted Values",
+                                 y = "sqrt(|Standardized Pearson Residuals|)"),
+                       tooltip = c("Prediction", "Sqrt_Std_Res", "Data"))
+      }
     }
   } else if("all" %in% plots & !(class(model)[1] %in% c("lmerMod", "lmerModLmerTest", "glmerMod"))){
     ls <- resid_ls(model = model,
@@ -267,21 +310,36 @@ resid_interact <- function(model, plots = "default", type = NA, bins = NA,
                    axis.text.size = axis.text.size,
                    title.text.size = title.text.size,
                    title.opt = title.opt)
-    if(title.opt == TRUE) title = helper_plotly_title(ls)
-    if (class(model)[1] == "lm"){
-      ls <- ggplotly(ls + labs(x = "Predicted Values", y = "sqrt(|Standardized Residuals|)"),
-                     tooltip=c("Prediction", "Sqrt_Std_Res", "Data")) %>%
-        layout(annotations = title, title = FALSE)
-    } else if(is.na(type) | type == "deviance" | type == "stand.deviance"){
-      ls <- ggplotly(ls + labs(x = "Predicted Values",
-                               y = "sqrt(|Standardized Deviance Residuals|)"),
-                     tooltip = c("Prediction", "Sqrt_Std_Res", "Data")) %>%
-        layout(annotations = title, title = FALSE)
-    } else if(type == "pearson" | type == "stand.pearson"){
-      ls <- ggplotly(ls + labs(x = "Predicted Values",
-                               y = "sqrt(|Standardized Pearson Residuals|)"),
-                     tooltip = c("Prediction", "Sqrt_Std_Res", "Data")) %>%
-        layout(annotations = title, title = FALSE)
+    if(title.opt == TRUE){
+      title = helper_plotly_title(ls)
+      if (class(model)[1] == "lm"){
+        ls <- ggplotly(ls + labs(x = "Predicted Values", y = "sqrt(|Standardized Residuals|)"),
+                       tooltip=c("Prediction", "Sqrt_Std_Res", "Data")) %>%
+          layout(annotations = title, title = FALSE)
+      } else if(is.na(type) | type == "deviance" | type == "stand.deviance"){
+        ls <- ggplotly(ls + labs(x = "Predicted Values",
+                                 y = "sqrt(|Standardized Deviance Residuals|)"),
+                       tooltip = c("Prediction", "Sqrt_Std_Res", "Data")) %>%
+          layout(annotations = title, title = FALSE)
+      } else if(type == "pearson" | type == "stand.pearson"){
+        ls <- ggplotly(ls + labs(x = "Predicted Values",
+                                 y = "sqrt(|Standardized Pearson Residuals|)"),
+                       tooltip = c("Prediction", "Sqrt_Std_Res", "Data")) %>%
+          layout(annotations = title, title = FALSE)
+      }
+    } else{
+      if (class(model)[1] == "lm"){
+        ls <- ggplotly(ls + labs(x = "Predicted Values", y = "sqrt(|Standardized Residuals|)"),
+                       tooltip=c("Prediction", "Sqrt_Std_Res", "Data"))
+      } else if(is.na(type) | type == "deviance" | type == "stand.deviance"){
+        ls <- ggplotly(ls + labs(x = "Predicted Values",
+                                 y = "sqrt(|Standardized Deviance Residuals|)"),
+                       tooltip = c("Prediction", "Sqrt_Std_Res", "Data"))
+      } else if(type == "pearson" | type == "stand.pearson"){
+        ls <- ggplotly(ls + labs(x = "Predicted Values",
+                                 y = "sqrt(|Standardized Pearson Residuals|)"),
+                       tooltip = c("Prediction", "Sqrt_Std_Res", "Data"))
+      }
     }
   } else{
     ls <- NULL
@@ -297,9 +355,13 @@ resid_interact <- function(model, plots = "default", type = NA, bins = NA,
                        title.opt = title.opt,
                        qqline = qqline,
                        qqbands = FALSE)
-    if(title.opt == TRUE) title = helper_plotly_title(qq)
-    qq <- ggplotly(qq, tooltip = c("Data", "Residual", "Theoretical")) %>%
-      layout(annotations = title, title = FALSE)
+    if(title.opt == TRUE){
+      title = helper_plotly_title(qq)
+      qq <- ggplotly(qq, tooltip = c("Data", "Residual", "Theoretical")) %>%
+        layout(annotations = title, title = FALSE)
+    } else {
+      qq <- ggplotly(qq, tooltip = c("Data", "Residual", "Theoretical"))
+    }
   } else{
     qq <- NULL
   }
@@ -313,9 +375,13 @@ resid_interact <- function(model, plots = "default", type = NA, bins = NA,
                          axis.text.size = axis.text.size,
                          title.text.size = title.text.size,
                          title.opt = title.opt)
-    if(title.opt == TRUE) title = helper_plotly_title(resid)
-    resid <- ggplotly(resid) %>%
-      layout(annotations = title, title = FALSE)
+    if(title.opt == TRUE){
+      title = helper_plotly_title(resid)
+      resid <- ggplotly(resid) %>%
+        layout(annotations = title, title = FALSE)
+    } else {
+      resid <- ggplotly(resid)
+    }
   } else{
     resid <- NULL
   }
@@ -327,9 +393,13 @@ resid_interact <- function(model, plots = "default", type = NA, bins = NA,
                             axis.text.size = axis.text.size,
                             title.text.size = title.text.size,
                             title.opt = title.opt)
-    if(title.opt == TRUE) title = helper_plotly_title(yvp)
-    yvp <- ggplotly(yvp) %>%
-      layout(annotations = title, title = FALSE)
+    if(title.opt == TRUE){
+      title = helper_plotly_title(yvp)
+      yvp <- ggplotly(yvp) %>%
+        layout(annotations = title, title = FALSE)
+    } else {
+      yvp <- ggplotly(yvp)
+    }
   } else{
     yvp <- NULL
   }
