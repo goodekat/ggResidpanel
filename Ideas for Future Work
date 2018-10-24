@@ -39,16 +39,13 @@ Katherine's Tasks:
   - create a panel of residual plots verses the X's and y versus X's
 
 Ideas for Future Package Versions:
-- write a function to show residual plots from multiple models at the same time
-- create a panel of residual plots verses the X's and y versus X's
-  - include example with time predictor
 - create an option for the user to add their own theme
 - improve the R plots — don’t just copy what the default in R gives — make it better
 - make a vignette with examples showing how to use the package
   - examples for each residual type
   - maybe look for great lakes data
-- look into testthat and vistest packages for testing (then could put the testthat folder in
-  gitignore)
+- look into testthat and vistest packages for testing
+  - could put the testthat folder in gitignore
 - include a link to the residual document in the documentation
 - write a function for computing standardized residuals for lmer and glmer (Katie)
 - could look into more helpful diagnostic plots that exist
