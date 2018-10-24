@@ -13,6 +13,7 @@ LazyData: true
 Imports:
   cowplot,
   ggplot2,
+  grid,
   gridExtra,
   MASS,
   plotly,

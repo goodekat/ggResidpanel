@@ -1,7 +1,8 @@
 # Residual Plot.
 
 # Creates a residual plot with residuals versus predicted values from a model
-resid_plot <- function(model, type, smoother, theme, axis.text.size, title.text.size, title.opt){
+resid_plot <- function(model, type, smoother, theme, axis.text.size,
+                       title.text.size, title.opt){
 
   ## Creation of Values to Plot -----------------------------------------------------
 

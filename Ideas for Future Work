@@ -18,23 +18,25 @@ Katie's Tasks:
   - not a function in ggresidpanel yet
 
 Katherine's Tasks:
+- figure out issue with scale with grid.arrange (or figure out how to use plot_grid instead)
+- fix the smoother option for factor variables (and change smoother method ?)
 - update documentation
   - I've noticed some typos
   - update for changes
   - remove periods after non-sentences in documentation
+  - add documentation for predictor panel
 - add interactive plot to readme (see plotly readme)
 - create a development rmd file with updates for each version
 - add alpha values to lev plot
-  -figure out what alpha is
-  -add example of interpreting
-- create a panel of residual plots verses the X's and y versus X's
-  - include example with time predictor
+  - figure out what alpha is
+  - add example of interpreting
 - COMPLETED:
   - create an interactive panel
   - finish the column and row selection (ask Katie if we should go back to nrow only due
     to plotly and does she prefer two plots stacked or side by side)
   - figure out the axis labels with the interactive panel
   - figure out how to deal with the titles for the interactive panel
+  - create a panel of residual plots verses the X's and y versus X's
 
 Ideas for Future Package Versions:
 - write a function to show residual plots from multiple models at the same time
@@ -54,7 +56,6 @@ Ideas for Future Package Versions:
 - add an option for including additional predictor variables
 
 Presentations:
-- ISU graphics group fall 2018 (request to present)
 - LunchinatoRs fall 2018 (request to present)
 - Agricultural Meeting in Baltimore (look into)
 
