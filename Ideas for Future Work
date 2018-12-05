@@ -18,6 +18,7 @@ Katie's Tasks:
   - not a function in ggresidpanel yet
 
 Katherine's Tasks:
+- ask Katie about the plotly issue - I'm wondering if it is fixed now?
 - figure out issue with scale with grid.arrange (or figure out how to use plot_grid instead)
 - fix the smoother option for factor variables (and change smoother method ?)
 - update documentation

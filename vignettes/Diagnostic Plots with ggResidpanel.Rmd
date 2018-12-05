@@ -1,7 +1,7 @@
 ---
 title: "Diagnostic Plots with ggResidpanel"
 author: "Katherine Goode and Kathleen Rey"
-date: "2018/04/07"
+date: "`r format(Sys.time(), '%B %d, %Y')`"
 output:
   html_document:
     df_print: paged
@@ -11,52 +11,47 @@ output:
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
-# Introduction to ggResidpanel
+![](../images/gg_resid_sticker4.png){width=25%}
 
-The ggResidpanel package was designed to allow users to easily view multiple diagnostic plots at a time in the ggplot2 framework. The package was motivated by the residual panel plots SAS procedures provide...
+### Introduction to ggResidpanel
 
-# Installing ggResidpanel
+ggResidpanel provides a way to easily create and view model diagnostic plots in R using ggplot2 graphics. The goal in creating the package was to allow a model to be passed to a function that returns a panel of diagnostic plots that can be viewed simultaneously. The panel allows the user to easily scan plots of interest to check for violations of model assumptions or lack of fit. The idea to portray the plots in a grid was motivated by the residual panel plots provided by SAS procedures. In addition to being able to view the plots in a panel, ggResidpanel includes the ability to select which plots to include in the panel, to adjust plot options, and to change the plot format. Furthermore, the package provides both static and interactive panels of plots and the ability to view diagnostic plots from multiple models in the same panel
 
-In order to install...
+The package contains the following five functions.
 
-# How to Use ggResidpanel
+- `resid_panel`: Creates a panel of diagnostic plots of the residuals from the model
+- `resid_interact`: Creates an interactive panel of diagnostic plots of the residuals form a model
+- `resid_predpanel`: Creates a panel of diagnostic plots of the predictor variables
+- `resid_`: Creates a panel of diagnostic plots from multiple models
+- `resid_auxpanel`: Creates a panel of diagnostic plots for model types not included in the package
 
-The main function inside of ggResidpanel is `resid_panel`...
+These functions are described in further detail in the next section.
 
-# Examples with ggResidpanel
+### How to Use ggResidpanel
+
+The package is currently only available on GitHub. The intention is to add the package to CRAN in the near future. For now, the following code can be used to install ggResidpanel.
+
+```{r eval = FALSE}
+# Install the devtools package if not already installed
+install.packages("devtools")
+
+# Download and install ggResidpanel from GitHub
+devtools::install_github("goodekat/ggResidpanel")
+```
+
+To use the package in R, load the library into your R session with the following code.
 
 ```{r}
 # Load the library
 library(ggResidpanel)
-
-# First six rows of the mtcars data
-head(mtcars)
-
-# Fit a model to predict mpg
-mpg_model <- lm(mpg ~ wt + hp, data = mtcars)
 ```
 
-## SAS Panel Option
+#### resid_panel
 
-```{r}
-resid_panel(mpg_model, bins = 25)
-```
+#### resid_interact
 
-## R Panel Option
+#### resid_predpanel
 
-```{r}
-resid_panel(mpg_model, bins = 25, plots = "R")
-```
+#### resid_
 
-## All Plots Panel Option
-
-```{r}
-resid_panel(mpg_model, bins = 25, plots = "all")
-```
-
-## Individual Plots Panel Option
-
-```{r}
-resid_panel(mpg_model, plots = "residplot")
-resid_panel(mpg_model, plots = c("residplot", "hist"), bins = 25)
-```
+#### resid_auxpanel
