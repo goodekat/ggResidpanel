@@ -51,10 +51,6 @@ Ideas for Future Package Versions:
 - add in minimum package versions?? (under imports)
 - add an option for including additional predictor variables
 
-Presentations:
-- LunchinatoRs fall 2018 (request to present)
-- Agricultural Meeting in Baltimore (look into)
-
 Mystery Errors/Warnings:
 
 geom_path: Each group consists of only one observation. Do you need to adjust the group aesthetic?
