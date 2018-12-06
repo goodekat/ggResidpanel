@@ -1,7 +1,7 @@
 # Q-Q Plot.
 
 # Creates a Q-Q plot from the input residuals
-resid_auxqq <- function(resid, theme, axis.text.size, title.text.size, title.opt, qqline, qqbands){
+plot_auxqq <- function(resid, theme, axis.text.size, title.text.size, title.opt, qqline, qqbands){
 
   ## Creation of Values to Plot -----------------------------------------------------
 

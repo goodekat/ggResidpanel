@@ -1,26 +1,42 @@
 # Residual Plot.
 
-# Creates a residual plot with the input residuals and predicted values
-resid_auxplot <- function(resid, pred, smoother, theme, axis.text.size, title.text.size,
-                          title.opt){
+# Creates a residual plot with residuals versus predicted values from a model
+plot_resid <- function(model, type, smoother, theme, axis.text.size,
+                       title.text.size, title.opt){
 
   ## Creation of Values to Plot -----------------------------------------------------
 
   # Create a data frame with the residuals
-  model_values <- data.frame(Residual = resid, Prediction = pred)
+  if(is.na(type)){
+    model_values <- data.frame(Residual = helper_resid(type = NA, model = model),
+                               Prediction = fitted(model))
+  }else{
+    model_values <- data.frame(Residual = helper_resid(type = type, model = model),
+                               Prediction = fitted(model))
+  }
 
   # Compute the values for the lowess curve
   model_values$Lowess.x <- lowess(x = model_values$Prediction, y = model_values$Residual)$x
   model_values$Lowess.y <- lowess(x = model_values$Prediction, y = model_values$Residual)$y
 
+  ## Creation of Labels -------------------------------------------------------------
+
+  # Call function to return appropriate residual label
+  r_label <- helper_label(type, model)
+
+  # Create a title for the plot based on r_label
+  #title <- paste(r_label, "Plot")
+
+  # Create labels for plotly
+  Data <- helper_plotly_label(model)
+
   ## Creation of Plot ---------------------------------------------------------------
 
   # Create the residual plot
-  plot <- ggplot(data = model_values, aes(x = Prediction, y = Residual)) +
+  plot <- ggplot(data = model_values, aes(x = Prediction, y = Residual, label = Data)) +
     geom_point() +
     geom_abline(slope = 0, intercept = 0, color = "blue") +
-    labs(x = "Predicted Values", y = "Residuals")
-
+    labs(x = "Predicted Values", y = r_label)
 
   # If smoother is set to true, add it to the plot
   if (smoother == TRUE){

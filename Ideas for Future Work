@@ -20,11 +20,6 @@ Katie's Tasks:
 - change smoother to loess in ls plot
 
 Katherine's Tasks:
-- finish removing bin warnings
-- change names of functions
-- figure out issue with scale with grid.arrange (or figure out how to use plot_grid instead)
-- fix the smoother option for factor variables (and change smoother method ?)
-   - check on this and get rid of warnings?
 - update documentation
   - I've noticed some typos
   - update for changes
@@ -35,14 +30,19 @@ Katherine's Tasks:
 - add alpha values to lev plot
   - figure out what alpha is
   - add example of interpreting
-- change back to only nrow option
+- completed:
+  - question for Katie: smoother looks weird with the constant leverage plot
+  - switched all panels to use plot_grid from cowplot (this fixed the scale issue since
+    grid.arrange does not have a scale option)
+  - add warnings to resid_xpanel
+  - get rid of smoother warnings with resid_xpanel (specified method in geom_smooth)
+
 
 Ideas for Future Package Versions:
 - create an option for the user to add their own theme
 - improve the R plots — don’t just copy what the default in R gives — make it better
 - make a vignette with examples showing how to use the package
   - examples for each residual type
-  - maybe look for great lakes data
 - look into testthat and vistest packages for testing
   - could put the testthat folder in gitignore
 - include a link to the residual document in the documentation

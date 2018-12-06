@@ -20,7 +20,8 @@ resid_interact(model, plots = "default", type = NA, bins = 30,
 default residual type for each model is used. (See details in the help file
 for \code{resid_panel} for options.)}
 
-\item{bins}{Number of bins to use when creating a histogram of the residuals.}
+\item{bins}{Number of bins to use when creating a histogram of the residuals.
+Default is set to 30.}
 
 \item{smoother}{Indicates whether or not to include a smoother on the
 residual plot. Specify TRUE or FALSE. Default is set to FALSE.}
@@ -40,6 +41,8 @@ plots in the panel.}
 
 \item{title.opt}{Indicates whether or not to include a title on the plots in
 the panel. Specify TRUE or FALSE. Default is set to TRUE.}
+
+\item{nrow}{Sets the number of rows in the panel.}
 }
 \value{
 The interactive residual diagnostic plot specified.

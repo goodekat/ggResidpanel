@@ -1,15 +1,26 @@
-#' @export predictor_panel
+#'
+#' @param nrow Sets the number of rows in the panel.
+#'
+#' @export resid_xpanel
 #'
 #' @importFrom grid textGrob gpar
-
-## The start of a function for create a panel of plots with the response vs predictors
-
-predictor_panel <- function(model, yvar = "residual", type = NA,
-                            smoother = FALSE, scale = 1, theme = "bw",
-                            axis.text.size = 10, title.text.size = 12,
-                            title.opt = TRUE, ncol = NULL, nrow = NULL){
+#'
+resid_xpanel <- function(model, yvar = "residual", type = NA,
+                         smoother = FALSE, scale = 1, theme = "bw",
+                         axis.text.size = 10, title.text.size = 12,
+                         title.opt = TRUE, nrow = NULL){
 
   ## Errors and Warnings -------------------------------------------------------
+
+  # Checks that return an error
+  check_modeltype(model = model)
+  check_residualtype(model = model, type = type)
+  check_standardized(model = model, plots = plots)
+
+  # Checks that return a warning
+  smoother <- check_smoother(smoother = smoother)
+  theme <- check_theme(theme = theme)
+  title.opt <- check_title(title.opt = title.opt)
 
   ## Creation of Plots and Grid ------------------------------------------------
 
@@ -48,22 +59,29 @@ predictor_panel <- function(model, yvar = "residual", type = NA,
                             theme = theme,
                             axis.text.size = axis.text.size)
 
-  # Changes the plots into grobs
-  predictor_grobs <- lapply(predictor_plots, ggplotGrob)
+  # Create the panel of the predictor plots
+  predictor_panel <- plot_grid(plotlist = predictor_plots, scale = scale, nrow = nrow)
 
-  # Create a title if requested
+  # Add a title if requested and return the panel
   if(title.opt == TRUE){
-    yname <- ifelse(yvar == "residual", "Residuals", "Response Variable")
-    title <- textGrob(paste("Plots of", yname, "vs Predictor Variables"),
-                      gp = gpar(fontsize = title.text.size, fontface = "bold"))
-  } else {
-    title <- NULL
-  }
 
-  # Plot the grobs in a grid
-  grid.arrange(grobs = predictor_grobs,
-               scale = scale, nrow = nrow, ncol = ncol,
-               top = title)
+    # Create the title
+    yname <- ifelse(yvar == "residual", "Residuals", "Response Variable")
+    title <- ggdraw() +
+      draw_label(paste("Plots of", yname, "vs Predictor Variables"),
+                 fontface = 'bold',
+                 size = title.text.size)
+
+    # Create and return a panel with the title and the plots
+    plot_grid(title, predictor_panel, nrow = 2, rel_heights = c(0.1, 1))
+
+
+  } else {
+
+    # Create and return a panel with only the plots
+    predictor_panel
+
+  }
 
 }
 
@@ -100,7 +118,7 @@ create_predictor_plots <- function(x_column_number, y_column_number,
 
   # Add a smoother to the plots if requested
   if(smoother == TRUE){
-    plot <- plot + geom_smooth(se = FALSE, color = "red", size = 0.5)
+    plot <- plot + geom_smooth(method = "loess", se = FALSE, color = "red", size = 0.5)
   }
 
   # Add theme to plot

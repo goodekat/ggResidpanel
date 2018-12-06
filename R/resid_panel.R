@@ -10,6 +10,7 @@
 #' @param type The user may specify a type of residuals to use. Otherwise, the
 #'   default residual type for each model is used. (See details for options.)
 #' @param bins Number of bins to use when creating a histogram of the residuals.
+#'   Default is set to 30.
 #' @param smoother Indicates whether or not to include a smoother on the
 #'   residual plot. Specify TRUE or FALSE. Default is set to FALSE.
 #' @param qqline Indicates whether to include a 1-1 line on the qq-plot. Specify
@@ -26,17 +27,15 @@
 #' @param theme ggplot2 theme to be used. Current options are \code{"bw"},
 #'   \code{"classic"}, and \code{"grey"} (or \code{"gray"}). Default is
 #'   \code{"bw"}.
-#' @param ind.ncol When a vector of individual plots has been requested, this
-#'   specifies the number of columns in the panel. Default is set to 2 columns.
+#' @param nrow Sets the number of rows in the panel.
 #'
-#' @export
+#' @export resid_panel
 #'
 #' @importFrom ggplot2 ggplot aes geom_point geom_abline labs theme_bw theme
 #'   geom_histogram stat_function xlim geom_boxplot expand_limits geom_smooth
 #'   element_text ggplotGrob geom_vline theme_classic geom_hline geom_segment
 #'   geom_line scale_x_continuous scale_y_continuous theme_grey ggplot_build xlab ylab
-#' @importFrom cowplot plot_grid
-#' @importFrom gridExtra grid.arrange tableGrob ttheme_minimal
+#' @importFrom cowplot plot_grid ggdraw draw_label
 #' @importFrom MASS stdres
 #' @importFrom qqplotr stat_qq_point stat_qq_line stat_qq_band
 #' @importFrom stringr str_sub
@@ -176,8 +175,8 @@
 #' lm_model2 <- lm(weight ~ group, data = PlantGrowth)
 #'
 #' # Create a panel of the residual plot, the histogram, and the location-scale plot for
-#' #"lm" models using the classic theme with three columns
-#' resid_panel(lm_model2, plots = c("resid", "hist", "ls"), theme = "classic", ind.ncol=3)
+#' #"lm" models using the classic theme
+#' resid_panel(lm_model2, plots = c("resid", "hist", "ls"), theme = "classic")
 #'
 #' ## --------------------------------------------------------------------------------
 #' ## Generalized Linear Regression Models
@@ -245,8 +244,7 @@
 resid_panel <- function(model, plots = "default", type = NA, bins = 30,
                         smoother = FALSE, qqline = TRUE, qqbands = FALSE,
                         scale = 1, theme = "bw", axis.text.size = 10,
-                        title.text.size = 12, title.opt = TRUE,
-                        ncol = NULL, nrow = NULL){
+                        title.text.size = 12, title.opt = TRUE, nrow = NULL){
 
   ## Errors and Warnings -------------------------------------------------------
 
@@ -266,122 +264,122 @@ resid_panel <- function(model, plots = "default", type = NA, bins = 30,
 
   # Create a boxplot of the residuals if selected in plots otherwise set as NULL
   if("boxplot" %in% plots | "SAS" %in% plots | "all" %in% plots){
-    boxplot <- resid_boxplot(type = type,
-                             model = model,
-                             theme = theme,
-                             axis.text.size = axis.text.size,
-                             title.text.size = title.text.size,
-                             title.opt = title.opt)
+    boxplot <- plot_boxplot(type = type,
+                            model = model,
+                            theme = theme,
+                            axis.text.size = axis.text.size,
+                            title.text.size = title.text.size,
+                            title.opt = title.opt)
   } else{
     boxplot <- NULL
   }
 
   # Create a Cook's D plot if selected in plots otherwise set as NULL
   if("cookd" %in% plots){
-    cookd <- resid_cookd(model = model,
-                         theme = theme,
-                         axis.text.size = axis.text.size,
-                         title.text.size = title.text.size,
-                         title.opt = title.opt)
+    cookd <- plot_cookd(model = model,
+                        theme = theme,
+                        axis.text.size = axis.text.size,
+                        title.text.size = title.text.size,
+                        title.opt = title.opt)
   } else if("all" %in% plots &
             !(class(model)[1] %in% c("lmerMod", "lmerModLmerTest", "glmerMod"))){
-    cookd <- resid_cookd(model = model,
-                         theme = theme,
-                         axis.text.size = axis.text.size,
-                         title.text.size = title.text.size,
-                         title.opt = title.opt)
+    cookd <- plot_cookd(model = model,
+                        theme = theme,
+                        axis.text.size = axis.text.size,
+                        title.text.size = title.text.size,
+                        title.opt = title.opt)
   } else{
     cookd <- NULL
   }
 
   # Create a histogram of the residuals if selected in plots otherwise set as NULL
   if("hist" %in% plots | "default" %in% plots | "SAS" %in% plots | "all" %in% plots){
-    hist <- resid_hist(model = model,
-                       type = type,
-                       bins = bins,
-                       theme = theme,
-                       axis.text.size = axis.text.size,
-                       title.text.size = title.text.size,
-                       title.opt = title.opt)
+    hist <- plot_hist(model = model,
+                      type = type,
+                      bins = bins,
+                      theme = theme,
+                      axis.text.size = axis.text.size,
+                      title.text.size = title.text.size,
+                      title.opt = title.opt)
   } else{
     hist <- NULL
   }
 
   # Create an index plot of the residuals if selected in plots otherwise set as NULL
   if("index" %in% plots | "default" %in% plots | "all" %in% plots){
-    index <- resid_index(model = model,
-                         type = type,
-                         theme = theme,
-                         axis.text.size = axis.text.size,
-                         title.text.size = title.text.size,
-                         title.opt = title.opt)
+    index <- plot_index(model = model,
+                        type = type,
+                        theme = theme,
+                        axis.text.size = axis.text.size,
+                        title.text.size = title.text.size,
+                        title.opt = title.opt)
   } else{
     index <- NULL
   }
 
   # Create a residual-leverage plot if selected in plots otherwise set as NULL
   if("lev" %in% plots | "R" %in% plots){
-    lev <- resid_lev(model = model,
-                     type = type,
-                     theme = theme,
-                     axis.text.size = axis.text.size,
-                     title.text.size = title.text.size,
-                     title.opt = title.opt)
+    lev <- plot_lev(model = model,
+                    type = type,
+                    theme = theme,
+                    axis.text.size = axis.text.size,
+                    title.text.size = title.text.size,
+                    title.opt = title.opt)
   } else if("all" %in% plots &
             !(class(model)[1] %in% c("lmerMod", "lmerModLmerTest", "glmerMod"))){
-    lev <- resid_lev(model = model,
-                     type = type,
-                     theme = theme,
-                     axis.text.size = axis.text.size,
-                     title.text.size = title.text.size,
-                     title.opt = title.opt)
+    lev <- plot_lev(model = model,
+                    type = type,
+                    theme = theme,
+                    axis.text.size = axis.text.size,
+                    title.text.size = title.text.size,
+                    title.opt = title.opt)
   } else{
     lev <- NULL
   }
 
   # Create a location-scale plot if selected in plots otherwise set as NULL
   if("ls" %in% plots | "R" %in% plots){
-    ls <- resid_ls(model = model,
-                   type = type,
-                   theme = theme,
-                   axis.text.size = axis.text.size,
-                   title.text.size = title.text.size,
-                   title.opt = title.opt)
+    ls <- plot_ls(model = model,
+                  type = type,
+                  theme = theme,
+                  axis.text.size = axis.text.size,
+                  title.text.size = title.text.size,
+                  title.opt = title.opt)
   } else if("all" %in% plots &
             !(class(model)[1] %in% c("lmerMod", "lmerModLmerTest", "glmerMod"))){
-    ls <- resid_ls(model = model,
-                   type = type,
-                   theme = theme,
-                   axis.text.size = axis.text.size,
-                   title.text.size = title.text.size,
-                   title.opt = title.opt)
+    ls <- plot_ls(model = model,
+                  type = type,
+                  theme = theme,
+                  axis.text.size = axis.text.size,
+                  title.text.size = title.text.size,
+                  title.opt = title.opt)
   } else{
     ls <- NULL
   }
 
   # Create a q-q plot of the residuals if selected in plots otherwise set as NULL
   if("qq" %in% plots | "default" %in% plots | "SAS" %in% plots | "R" %in% plots | "all" %in% plots){
-    qq <- resid_qq(model = model,
-                   type = type,
-                   theme = theme,
-                   axis.text.size = axis.text.size,
-                   title.text.size = title.text.size,
-                   title.opt = title.opt,
-                   qqline = qqline,
-                   qqbands = qqbands)
+    qq <- plot_qq(model = model,
+                  type = type,
+                  theme = theme,
+                  axis.text.size = axis.text.size,
+                  title.text.size = title.text.size,
+                  title.opt = title.opt,
+                  qqline = qqline,
+                  qqbands = qqbands)
   } else{
     qq <- NULL
   }
 
   # Create a residual plot if selected in plots otherwise set as NULL
   if("resid" %in% plots | "default" %in% plots | "SAS" %in% plots | "R" %in% plots | "all" %in% plots){
-    resid <- resid_plot(model = model,
-                            type = type,
-                            smoother = smoother,
-                            theme = theme,
-                            axis.text.size = axis.text.size,
-                            title.text.size = title.text.size,
-                            title.opt = title.opt)
+    resid <- plot_resid(model = model,
+                        type = type,
+                        smoother = smoother,
+                        theme = theme,
+                        axis.text.size = axis.text.size,
+                        title.text.size = title.text.size,
+                        title.opt = title.opt)
   } else{
     resid <- NULL
   }
@@ -389,11 +387,11 @@ resid_panel <- function(model, plots = "default", type = NA, bins = 30,
   # Create a plot of the response variable vs the predicted values if selected
   # in plots otherwise set as NULL
   if("yvp" %in% plots | "all" %in% plots){
-    yvp <- resid_yvp(model = model,
-                             theme = theme,
-                             axis.text.size = axis.text.size,
-                             title.text.size = title.text.size,
-                             title.opt = title.opt)
+    yvp <- plot_yvp(model = model,
+                    theme = theme,
+                    axis.text.size = axis.text.size,
+                    title.text.size = title.text.size,
+                    title.opt = title.opt)
   } else{
     yvp <- NULL
   }
@@ -419,19 +417,19 @@ resid_panel <- function(model, plots = "default", type = NA, bins = 30,
 
     # Create grid of the default plots
     plot_grid(resid, qq, index, hist,
-              scale = scale, ncol = ncol, nrow = nrow)
+              scale = scale, nrow = nrow)
 
   } else if (plots == "SAS"){
 
     # Create grid of SAS plots
     plot_grid(resid, hist, qq, boxplot,
-              scale = scale, ncol = ncol, nrow = nrow)
+              scale = scale, nrow = nrow)
 
   } else if (plots == "R") {
 
     # Create grid of R plots
     plot_grid(resid, qq, ls, lev,
-              scale = scale, ncol = ncol, nrow = nrow)
+              scale = scale, nrow = nrow)
 
   } else if (plots == "all") {
 
@@ -440,12 +438,12 @@ resid_panel <- function(model, plots = "default", type = NA, bins = 30,
 
       # Create the grid
       plot_grid(resid, hist, qq, boxplot, cookd, ls, lev, yvp, index,
-                scale = scale, ncol = ncol, nrow = nrow)
+                scale = scale, nrow = nrow)
     } else{
 
       # Create the grid
       plot_grid(resid, hist, qq, boxplot, yvp, index,
-                scale = scale, ncol = ncol, nrow = nrow)
+                scale = scale, nrow = nrow)
     }
 
   } else if (plots == "individual") {
@@ -464,12 +462,8 @@ resid_panel <- function(model, plots = "default", type = NA, bins = 30,
     # Select the chosen plots
     individual_plots <- individual_plots[chosen]
 
-    # Turn the list of plots into a grob
-    my_grobs = lapply(individual_plots, ggplotGrob)
-
     # Create grid of individual plots specified
-    grid.arrange(grobs = my_grobs,
-                 scale = scale, ncol = ncol, nrow = nrow)
+    plot_grid(plotlist = individual_plots, scale = scale, nrow = nrow)
 
   }
 

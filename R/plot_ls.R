@@ -2,7 +2,7 @@
 
 # Creates a location-scale plot with the square root of the standardized residuals
 # versus predicted values from a model
-resid_ls <- function(model, type, theme, axis.text.size, title.text.size, title.opt){
+plot_ls <- function(model, type, theme, axis.text.size, title.text.size, title.opt){
 
   ## Creation of Values to Plot -----------------------------------------------------
 

@@ -7,7 +7,7 @@
 resid_panel(model, plots = "default", type = NA, bins = 30,
   smoother = FALSE, qqline = TRUE, qqbands = FALSE, scale = 1,
   theme = "bw", axis.text.size = 10, title.text.size = 12,
-  title.opt = TRUE, ncol = NULL, nrow = NULL)
+  title.opt = TRUE, nrow = NULL)
 }
 \arguments{
 \item{model}{Model fit using either \code{lm}, \code{glm}, \code{lmer},
@@ -19,7 +19,8 @@ resid_panel(model, plots = "default", type = NA, bins = 30,
 \item{type}{The user may specify a type of residuals to use. Otherwise, the
 default residual type for each model is used. (See details for options.)}
 
-\item{bins}{Number of bins to use when creating a histogram of the residuals.}
+\item{bins}{Number of bins to use when creating a histogram of the residuals.
+Default is set to 30.}
 
 \item{smoother}{Indicates whether or not to include a smoother on the
 residual plot. Specify TRUE or FALSE. Default is set to FALSE.}
@@ -45,8 +46,7 @@ plots in the panel.}
 \item{title.opt}{Indicates whether or not to include a title on the plots in
 the panel. Specify TRUE or FALSE. Default is set to TRUE.}
 
-\item{ind.ncol}{When a vector of individual plots has been requested, this
-specifies the number of columns in the panel. Default is set to 2 columns.}
+\item{nrow}{Sets the number of rows in the panel.}
 }
 \value{
 A panel of residual diagnostic plots containing plots specified.
@@ -187,8 +187,8 @@ resid_panel(lm_model1, bins = 30, plots = "all", smoother = TRUE)
 lm_model2 <- lm(weight ~ group, data = PlantGrowth)
 
 # Create a panel of the residual plot, the histogram, and the location-scale plot for
-#"lm" models using the classic theme with three columns
-resid_panel(lm_model2, plots = c("resid", "hist", "ls"), theme = "classic", ind.ncol=3)
+#"lm" models using the classic theme
+resid_panel(lm_model2, plots = c("resid", "hist", "ls"), theme = "classic")
 
 ## --------------------------------------------------------------------------------
 ## Generalized Linear Regression Models

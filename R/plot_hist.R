@@ -1,7 +1,7 @@
 # Histogram of Residuals.
 
 # Creates a histogram of the residuals from a model
-resid_hist <- function(model, type, bins, theme, axis.text.size, title.text.size, title.opt){
+plot_hist <- function(model, type, bins, theme, axis.text.size, title.text.size, title.opt){
 
   ## Creation of Values to Plot -----------------------------------------------------
 
@@ -33,6 +33,7 @@ resid_hist <- function(model, type, bins, theme, axis.text.size, title.text.size
   y <- dnorm(grid_r, mea=0, sd=sd(model_values$Residual))
 
   d_data <- data.frame(grid_r, y)
+
   ## Creation of Labels -------------------------------------------------------------
 
   # Call function to return appropriate residual label
@@ -49,6 +50,7 @@ resid_hist <- function(model, type, bins, theme, axis.text.size, title.text.size
   model_values <- cbind(model_values, Data)
   model_values$y <- rep(0, nrow(model_values))
   model_values$Resid <- model_values$Residual
+
   ## Creation of Plot ---------------------------------------------------------------
 
   #Create the histogram of residuals

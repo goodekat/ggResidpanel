@@ -1,7 +1,7 @@
 # Cook's D Plot.
 
 # Creates a plot with the Cook's D values versus the observation number
-resid_cookd <- function(model, theme, axis.text.size, title.text.size, title.opt){
+plot_cookd <- function(model, theme, axis.text.size, title.text.size, title.opt){
 
   ## Creation of Values to Plot -----------------------------------------------------
 

@@ -1,7 +1,7 @@
 # Histogram of Residuals.
 
 # Creates a histogram of the input residuals
-resid_auxhist <- function(resid, bins, theme, axis.text.size, title.text.size, title.opt){
+plot_auxhist <- function(resid, bins, theme, axis.text.size, title.text.size, title.opt){
 
   ## Creation of Values to Plot -----------------------------------------------------
 

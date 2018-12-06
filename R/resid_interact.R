@@ -11,6 +11,7 @@
 #'   default residual type for each model is used. (See details in the help file
 #'   for \code{resid_panel} for options.)
 #' @param bins Number of bins to use when creating a histogram of the residuals.
+#'   Default is set to 30.
 #' @param smoother Indicates whether or not to include a smoother on the
 #'   residual plot. Specify TRUE or FALSE. Default is set to FALSE.
 #' @param qqline Indicates whether to include a 1-1 line on the qq-plot. Specify
@@ -24,6 +25,7 @@
 #'   plots in the panel.
 #' @param title.opt Indicates whether or not to include a title on the plots in
 #'   the panel. Specify TRUE or FALSE. Default is set to TRUE.
+#' @param nrow Sets the number of rows in the panel.
 #'
 #' @export
 #'
@@ -138,12 +140,12 @@ resid_interact <- function(model, plots = "default", type = NA, bins = 30,
 
   # Boxplot
   if("boxplot" %in% plots | "SAS" %in% plots | "all" %in% plots){
-    boxplot <- resid_boxplot(model = model,
-                             type = type,
-                             theme = theme,
-                             axis.text.size = axis.text.size,
-                             title.text.size = title.text.size,
-                             title.opt = title.opt)
+    boxplot <- plot_boxplot(model = model,
+                            type = type,
+                            theme = theme,
+                            axis.text.size = axis.text.size,
+                            title.text.size = title.text.size,
+                            title.opt = title.opt)
     if(title.opt == TRUE) {
       title = helper_plotly_title(boxplot)
       boxplot <- ggplotly(boxplot, tooltip = c("Residual", "Data")) %>%
@@ -157,11 +159,11 @@ resid_interact <- function(model, plots = "default", type = NA, bins = 30,
 
   # Cook's D plot
   if("cookd" %in% plots){
-    cookd <- resid_cookd(model = model,
-                          theme = theme,
-                          axis.text.size = axis.text.size,
-                          title.text.size = title.text.size,
-                          title.opt = title.opt)
+    cookd <- plot_cookd(model = model,
+                        theme = theme,
+                        axis.text.size = axis.text.size,
+                        title.text.size = title.text.size,
+                        title.opt = title.opt)
     if(title.opt == TRUE){
       title = helper_plotly_title(cookd)
       cookd <- ggplotly(cookd, tooltip = c("CooksD", "Data")) %>%
@@ -170,11 +172,11 @@ resid_interact <- function(model, plots = "default", type = NA, bins = 30,
       cookd <- ggplotly(cookd, tooltip = c("CooksD", "Data"))
     }
   } else if("all" %in% plots & !(class(model)[1] %in% c("lmerMod", "lmerModLmerTest", "glmerMod"))){
-    cookd <- resid_cookd(model = model,
-                         theme = theme,
-                         axis.text.size = axis.text.size,
-                         title.text.size = title.text.size,
-                         title.opt = title.opt)
+    cookd <- plot_cookd(model = model,
+                        theme = theme,
+                        axis.text.size = axis.text.size,
+                        title.text.size = title.text.size,
+                        title.opt = title.opt)
     if(title.opt == TRUE){
       title = helper_plotly_title(cookd)
       cookd <- ggplotly(cookd, tooltip = c("CooksD", "Data")) %>%
@@ -188,13 +190,13 @@ resid_interact <- function(model, plots = "default", type = NA, bins = 30,
 
   # Histogram
   if("hist" %in% plots | "default" %in% plots | "SAS" %in% plots | "all" %in% plots){
-    hist <- resid_hist(model = model,
-                         type = type,
-                         bins = bins,
-                         theme = theme,
-                         axis.text.size = axis.text.size,
-                         title.text.size = title.text.size,
-                         title.opt = title.opt)
+    hist <- plot_hist(model = model,
+                      type = type,
+                      bins = bins,
+                      theme = theme,
+                      axis.text.size = axis.text.size,
+                      title.text.size = title.text.size,
+                      title.opt = title.opt)
     if(title.opt == TRUE){
       title = helper_plotly_title(hist)
       hist <- ggplotly(hist, tooltip = c("Data", "count")) %>%
@@ -208,12 +210,12 @@ resid_interact <- function(model, plots = "default", type = NA, bins = 30,
 
   # Index
   if("index" %in% plots | "default" %in% plots | "all" %in% plots){
-    index <- resid_index(model = model,
-                          type = type,
-                          theme = theme,
-                          axis.text.size = axis.text.size,
-                          title.text.size = title.text.size,
-                          title.opt = title.opt)
+    index <- plot_index(model = model,
+                        type = type,
+                        theme = theme,
+                        axis.text.size = axis.text.size,
+                        title.text.size = title.text.size,
+                        title.opt = title.opt)
     if(title.opt == TRUE){
       title = helper_plotly_title(index)
       index <- ggplotly(index) %>%
@@ -227,12 +229,12 @@ resid_interact <- function(model, plots = "default", type = NA, bins = 30,
 
   # Leverage plot
   if("lev" %in% plots | "R" %in% plots){
-    lev <- resid_lev(model = model,
-                     type = type,
-                     theme = theme,
-                     axis.text.size = axis.text.size,
-                     title.text.size = title.text.size,
-                     title.opt = title.opt)
+    lev <- plot_lev(model = model,
+                    type = type,
+                    theme = theme,
+                    axis.text.size = axis.text.size,
+                    title.text.size = title.text.size,
+                    title.opt = title.opt)
     if(title.opt == TRUE){
       title = helper_plotly_title(lev)
       lev <- ggplotly(lev, tooltip = c("Leverage", "Std_Res", "Data")) %>%
@@ -241,12 +243,12 @@ resid_interact <- function(model, plots = "default", type = NA, bins = 30,
       lev <- ggplotly(lev, tooltip = c("Leverage", "Std_Res", "Data"))
     }
   } else if("all" %in% plots & !(class(model)[1] %in% c("lmerMod", "lmerModLmerTest", "glmerMod"))){
-    lev <- resid_lev(model = model,
-                     type = type,
-                     theme = theme,
-                     axis.text.size = axis.text.size,
-                     title.text.size = title.text.size,
-                     title.opt = title.opt)
+    lev <- plot_lev(model = model,
+                    type = type,
+                    theme = theme,
+                    axis.text.size = axis.text.size,
+                    title.text.size = title.text.size,
+                    title.opt = title.opt)
     if(title.opt == TRUE){
       title = helper_plotly_title(lev)
       lev <- ggplotly(lev, tooltip = c("Leverage", "Std_Res", "Data")) %>%
@@ -260,12 +262,12 @@ resid_interact <- function(model, plots = "default", type = NA, bins = 30,
 
   # Location-Scale plot
   if("ls" %in% plots | "R" %in% plots){
-    ls <- resid_ls(model = model,
-                   type = type,
-                   theme = theme,
-                   axis.text.size = axis.text.size,
-                   title.text.size = title.text.size,
-                   title.opt = title.opt)
+    ls <- plot_ls(model = model,
+                  type = type,
+                  theme = theme,
+                  axis.text.size = axis.text.size,
+                  title.text.size = title.text.size,
+                  title.opt = title.opt)
     if(title.opt == TRUE){
       title = helper_plotly_title(ls)
       if (class(model)[1] == "lm"){
@@ -298,12 +300,12 @@ resid_interact <- function(model, plots = "default", type = NA, bins = 30,
       }
     }
   } else if("all" %in% plots & !(class(model)[1] %in% c("lmerMod", "lmerModLmerTest", "glmerMod"))){
-    ls <- resid_ls(model = model,
-                   type = type,
-                   theme = theme,
-                   axis.text.size = axis.text.size,
-                   title.text.size = title.text.size,
-                   title.opt = title.opt)
+    ls <- plot_ls(model = model,
+                  type = type,
+                  theme = theme,
+                  axis.text.size = axis.text.size,
+                  title.text.size = title.text.size,
+                  title.opt = title.opt)
     if(title.opt == TRUE){
       title = helper_plotly_title(ls)
       if (class(model)[1] == "lm"){
@@ -341,14 +343,14 @@ resid_interact <- function(model, plots = "default", type = NA, bins = 30,
 
   # QQ plot
   if("qq" %in% plots | "default" %in% plots | "SAS" %in% plots | "R" %in% plots | "all" %in% plots){
-    qq <- resid_qq(model = model,
-                       type = type,
-                       theme = theme,
-                       axis.text.size = axis.text.size,
-                       title.text.size = title.text.size,
-                       title.opt = title.opt,
-                       qqline = qqline,
-                       qqbands = FALSE)
+    qq <- plot_qq(model = model,
+                  type = type,
+                  theme = theme,
+                  axis.text.size = axis.text.size,
+                  title.text.size = title.text.size,
+                  title.opt = title.opt,
+                  qqline = qqline,
+                  qqbands = FALSE)
     if(title.opt == TRUE){
       title = helper_plotly_title(qq)
       qq <- ggplotly(qq, tooltip = c("Data", "Residual", "Theoretical")) %>%
@@ -362,13 +364,13 @@ resid_interact <- function(model, plots = "default", type = NA, bins = 30,
 
   # Residual plot
   if("resid" %in% plots | "default" %in% plots | "SAS" %in% plots | "R" %in% plots | "all" %in% plots){
-    resid <- resid_plot(model = model,
-                         type = type,
-                         smoother = smoother,
-                         theme = theme,
-                         axis.text.size = axis.text.size,
-                         title.text.size = title.text.size,
-                         title.opt = title.opt)
+    resid <- plot_resid(model = model,
+                        type = type,
+                        smoother = smoother,
+                        theme = theme,
+                        axis.text.size = axis.text.size,
+                        title.text.size = title.text.size,
+                        title.opt = title.opt)
     if(title.opt == TRUE){
       title = helper_plotly_title(resid)
       resid <- ggplotly(resid) %>%
@@ -382,11 +384,11 @@ resid_interact <- function(model, plots = "default", type = NA, bins = 30,
 
   # Response vs Predicted plot
   if("yvp" %in% plots | "all" %in% plots){
-    yvp <- resid_yvp(model = model,
-                            theme = theme,
-                            axis.text.size = axis.text.size,
-                            title.text.size = title.text.size,
-                            title.opt = title.opt)
+    yvp <- plot_yvp(model = model,
+                    theme = theme,
+                    axis.text.size = axis.text.size,
+                    title.text.size = title.text.size,
+                    title.opt = title.opt)
     if(title.opt == TRUE){
       title = helper_plotly_title(yvp)
       yvp <- ggplotly(yvp) %>%

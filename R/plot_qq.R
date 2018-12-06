@@ -1,7 +1,7 @@
 # Q-Q Plot.
 
 # Creates a Q-Q plot on the residuals from a model
-resid_qq <- function(model, type, theme, axis.text.size, title.text.size, title.opt,
+plot_qq <- function(model, type, theme, axis.text.size, title.text.size, title.opt,
                      qqline, qqbands){
 
   ## Creation of Values to Plot -----------------------------------------------------

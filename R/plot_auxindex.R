@@ -1,7 +1,7 @@
 # Residual vs Index Plot.
 
 # Creates a residual plot with the input residuals and predicted values
-resid_auxindex <- function(resid, theme, axis.text.size, title.text.size, title.opt){
+plot_auxindex <- function(resid, theme, axis.text.size, title.text.size, title.opt){
 
   ## Creation of Values to Plot -----------------------------------------------------
 

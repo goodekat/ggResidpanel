@@ -1,7 +1,7 @@
 # Residual-Leverage plot.
 
 # Creates a plot of the residuals versus leverage from a model
-resid_lev <- function(model, type, theme, axis.text.size, title.text.size, title.opt){
+plot_lev <- function(model, type, theme, axis.text.size, title.text.size, title.opt){
 
   ## Creation of Values to Plot -----------------------------------------------------
 
@@ -9,13 +9,14 @@ resid_lev <- function(model, type, theme, axis.text.size, title.text.size, title
 
   if(length(unique(as.numeric(as.character(Leverage))))==1){
 
-    resid_constlev(model = model,
-             type = type,
-             theme = theme,
-             axis.text.size = axis.text.size,
-             title.text.size = title.text.size,
-             title.opt = title.opt)
-  }else{
+    plot_constlev(model = model,
+                  type = type,
+                  theme = theme,
+                  axis.text.size = axis.text.size,
+                  title.text.size = title.text.size,
+                  title.opt = title.opt)
+
+  } else{
 
   # Create a data frame with the leverage values and standardized residuals based
   # on the type of model

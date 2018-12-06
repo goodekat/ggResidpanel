@@ -1,7 +1,7 @@
 # Response versus predicted plot.
 
 # Creates a plot of the response variable versus the predicted values
-resid_yvp <- function(model, theme, axis.text.size, title.text.size, title.opt){
+plot_yvp <- function(model, theme, axis.text.size, title.text.size, title.opt){
 
   ## Creation of Values to Plot -----------------------------------------------------
 

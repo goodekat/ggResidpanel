@@ -1,35 +1,38 @@
-# Residual vs Index Plot.
+# Boxplot of Residuals.
 
-# Creates a residual vs index plot from a model
-resid_index <- function(model, type, theme, axis.text.size, title.text.size, title.opt){
+# Function for creating a boxplot of the residuals
+plot_boxplot <- function(model, type, theme, axis.text.size, title.text.size, title.opt){
 
   ## Creation of Values to Plot -----------------------------------------------------
 
   # Create a data frame with the residuals
   if(is.na(type)){
     model_values <- data.frame(Residual = helper_resid(type = NA, model = model))
-  }else{
+  } else{
     model_values <- data.frame(Residual = helper_resid(type = type, model = model))
   }
 
-  # Create a variable for the observation number
-  model_values$Observation <- 1:length(model_values$Residual)
+  # Add an observation variable
+  model_values$Observation <- 1:nrow(model_values)
 
   ## Creation of Labels -------------------------------------------------------------
 
   # Call function to return appropriate residual label
-  r_label <- helper_label(type, model)
+  r_label <- helper_label(type = type, model = model)
+
+  # Create a title for the plot based on r_label
+  #title <- paste("Boxplot of", r_label)
 
   # Create labels for plotly
   Data <- helper_plotly_label(model)
 
   ## Creation of Plot ---------------------------------------------------------------
 
-  # Create the residual plot
-  plot <- ggplot(data = model_values, aes(x = Observation, y = Residual, label = Data)) +
-    geom_point() +
-    geom_abline(slope = 0, intercept = 0, color = "blue") +
-    labs(x = "Observation Number", y = r_label)
+  # Create the boxplot of residuals
+  plot <- ggplot(model_values, aes(x = " ", y = Residual, label = Data)) +
+    geom_boxplot(width = .5) +
+    geom_point(alpha = 0) +
+    labs(x = " ", y = r_label)
 
   # Add theme to plot
   if (theme == "bw"){
@@ -42,11 +45,11 @@ resid_index <- function(model, type, theme, axis.text.size, title.text.size, tit
 
   # Set text size of title and axis lables, determine whether to include a title,
   # and return plot
-  if(title.opt == TRUE){
+  if (title.opt == TRUE){
     plot +
-      labs(title = "Index Plot") +
+      labs(title = "Boxplot") +
       theme(plot.title = element_text(size = title.text.size, face = "bold"),
-            axis.title = element_text(size = axis.text.size))
+                 axis.title = element_text(size = axis.text.size))
   } else if (title.opt == FALSE){
     plot + theme(axis.title = element_text(size = axis.text.size))
   }

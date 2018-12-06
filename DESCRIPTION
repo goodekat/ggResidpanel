@@ -14,7 +14,6 @@ Imports:
   cowplot,
   ggplot2,
   grid,
-  gridExtra,
   MASS,
   plotly,
   qqplotr,

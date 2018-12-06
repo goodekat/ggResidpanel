@@ -1,7 +1,7 @@
 # Residual-Leverage plot.
 
 # Creates a plot of the residuals versus leverage from a model
-resid_constlev <- function(model, type, theme, axis.text.size, title.text.size, title.opt){
+plot_constlev <- function(model, type, theme, axis.text.size, title.text.size, title.opt){
 
   ## Creation of Values to Plot -----------------------------------------------------
 
