@@ -1,21 +1,26 @@
-#' Interaction Versions of Residual Diagnostics Plots.
+#' Panel of Interactive Versions of Diagnostic Residual Plots.
 #'
-#' Creates interactive versions of all residual diagnostic plots given a model.
-#' Currently accepts models of type "lm", "glm", "lmerMod", "lmerModLmerTest", and "glmerMod".
+#' Creates a panel of interactive residual diagnostic plots given a model. Currently
+#' accepts models of type "lm", "glm", "lmerMod", "lmerModLmerTest", and "glmerMod".
 #'
 #' @param model Model fit using either \code{lm}, \code{glm}, \code{lmer},
 #'   \code{lmerTest}, or \code{glmer}.
-#' @param plots Plots chosen to include in the panel of plots. Default is set to
-#'   "default". (See details for options.)
-#' @param type The user may specify a type of residuals to use. Otherwise, the
-#'   default residual type for each model is used. (See details in the help file
-#'   for \code{resid_panel} for options.)
+#' @param plots Plots chosen to include in the panel of plots. The default panel
+#'   includes a residual plot, a normal quantile plot, an index plot,
+#'   and a histogram of the residuals. (See details in the help file
+#'   for \code{resid_panel} for the options available.)
+#' @param type Type of residuals to use in the plot. If not specified, the
+#'   default residual type for each model type is used. (See details in the help file
+#'   for \code{resid_panel} for the options available.)
 #' @param bins Number of bins to use when creating a histogram of the residuals.
 #'   Default is set to 30.
 #' @param smoother Indicates whether or not to include a smoother on the
 #'   residual plot. Specify TRUE or FALSE. Default is set to FALSE.
 #' @param qqline Indicates whether to include a 1-1 line on the qq-plot. Specify
-#'   TRUE or FALSE. Default is set to TRUE.
+#'   TRUE or FALSE. Default is set to TRUE. (The option of \code{qqbands} has not
+#'   been implemented in plotly, so it is not available as an option with
+#'   \code{resid_interact}.)
+#' @param scale Scales the size of the graphs in the panel. Takes values in (0,1].
 #' @param theme ggplot2 theme to be used. Current options are \code{"bw"},
 #'   \code{"classic"}, and \code{"grey"} (or \code{"gray"}). Default is
 #'   \code{"bw"}.
@@ -27,31 +32,14 @@
 #'   the panel. Specify TRUE or FALSE. Default is set to TRUE.
 #' @param nrow Sets the number of rows in the panel.
 #'
-#' @export
+#' @export resid_interact
 #'
 #' @importFrom plotly ggplotly subplot %>% layout
 #'
-#' @details Currently, only one plot can be made interactive at a time. The
-#'   options are as follows.
-#'   \itemize{
-#'   \item \code{"boxplot"}: A boxplot of residuals
-#'   \item \code{"cookd"}: A plot of Cook's D values versus observation numbers
-#'   \item \code{"hist"}: A histogram of residuals
-#'   \item \code{"index"}: A plot of residuals versus observation numbers
-#'   \item \code{"ls"}: A location scale plot of the residuals
-#'   \item \code{"qq"}: A normal quantile plot of residuals
-#'   \item \code{"lev"}: A plot of leverage values versus residuals
-#'   \item \code{"resid"}: A plot of residuals versus predicted values
-#'   \item \code{"yvp":}: A plot of observed response values versus predicted values
-#'   }
-#'
-#'   Note: \code{"cookd"}, \code{"ls"}, and \code{"lev"} are not available for "
-#'   lmer", "lmerTest", and "glmer" models.
-#'
-#'   Details on the creation of the plots can be found in the details section of
+#' @details Details on the creation of the plots can be found in the details section of
 #'   the help file for \code{resid_panel}.
 #'
-#' @return The interactive residual diagnostic plot specified.
+#' @return A panel of interactive residual diagnostic plots containing plots specified.
 #'
 #' @examples
 #' ## --------------------------------------------------------------------------------
@@ -62,15 +50,16 @@
 #' # girth of a tree using the R "trees" data
 #' lm_model1 <- lm(Volume ~ Girth, data = trees)
 #'
-#' # Create an interactive Cook's D plot
-#' resid_interact(lm_model1, plot = "cookd")
+#' # Create the default interactive panel of diagnostic plots
+#' resid_interact(lm_model1)
 #'
 #' # Fit a linear model to compare the weights of plants bewteen different
 #' # treatment groups using the R "PlantGrowth" data
 #' lm_model2 <- lm(weight ~ group, data = PlantGrowth)
 #'
-#' # Create an interactive location-scale plot with them classic theme
-#' resid_interact(lm_model2, plot = "ls", theme = "classic")
+#' # Create an interactive panel of the residual plot, the histogram, and the
+#' # location-scale plot for "lm" models using the classic theme
+#' resid_panel(lm_model2, plots = c("resid", "hist", "ls"), theme = "classic")
 #'
 #' ## --------------------------------------------------------------------------------
 #' ## Generalized Linear Regression Models
@@ -80,8 +69,9 @@
 #' # the insect counts between different sprays from the R "InsectSprays" data
 #' glm_model <- glm(count ~ spray, family = "poisson", data = InsectSprays)
 #'
-#' # Create an interactive residual plot with a smoother
-#' resid_interact(glm_model, plot = "resid", smoother = TRUE)
+#' # Plot the residuals using the default panel without titles with a gray theme
+#' # and add a smoother to the residual plot
+#' resid_interact(glm_model, bins = 30, title.opt = FALSE, theme = "gray", smoother = TRUE)
 #'
 #' ## --------------------------------------------------------------------------------
 #' ## Linear Mixed Effects Models
@@ -95,8 +85,8 @@
 #' # multiple measurements over time
 #' lmer_model <- lmer(weight ~ Time + Diet + Time*Diet + (1|Chick), data = ChickWeight)
 #'
-#' # Create an interactive qq-plot without a title
-#' resid_interact(lmer_model, plot = "hist", title.opt = FALSE)
+#' # Create a panel of the residual plot
+#' resid_interact(lmer_model, plots = c("resid", "qq"))
 #'
 #' ## --------------------------------------------------------------------------------
 #' ## Generalized Linear Mixed Effects Models
@@ -116,9 +106,9 @@
 #' resid_interact(glmer_model, plot = "resid", type = "pearson")
 
 resid_interact <- function(model, plots = "default", type = NA, bins = 30,
-                           smoother = FALSE, qqline = TRUE, theme = "bw",
-                           axis.text.size = 10, title.text.size = 12,
-                           title.opt = TRUE, nrow = NULL, scale = 0.9){
+                           smoother = FALSE, qqline = TRUE, scale = 0.9,
+                           theme = "bw", axis.text.size = 10, title.text.size = 12,
+                           title.opt = TRUE, nrow = NULL){
 
   ## Errors and Warnings -------------------------------------------------------
 

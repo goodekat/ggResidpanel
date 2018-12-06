@@ -13,11 +13,13 @@ resid_panel(model, plots = "default", type = NA, bins = 30,
 \item{model}{Model fit using either \code{lm}, \code{glm}, \code{lmer},
 \code{lmerTest}, or \code{glmer}.}
 
-\item{plots}{Plots chosen to include in the panel of plots. Default is set to
-"default". (See details for options.)}
+\item{plots}{Plots chosen to include in the panel of plots. The default panel
+includes a residual plot, a normal quantile plot, an index plot,
+and a histogram of the residuals. (See details for the options available.)}
 
-\item{type}{The user may specify a type of residuals to use. Otherwise, the
-default residual type for each model is used. (See details for options.)}
+\item{type}{Type of residuals to use in the plot. If not specified, the
+default residual type for each model type is used. (See details for the
+options available.)}
 
 \item{bins}{Number of bins to use when creating a histogram of the residuals.
 Default is set to 30.}
@@ -31,7 +33,7 @@ TRUE or FALSE. Default is set to TRUE.}
 \item{qqbands}{Indicates whether to include confidence bands on the qq-plot.
 Specify TRUE or FALSE. Default is set to FALSE.}
 
-\item{scale}{Scales the size of the graphs in a panel. Takes values in (0,1].}
+\item{scale}{Scales the size of the graphs in the panel. Takes values in (0,1].}
 
 \item{theme}{ggplot2 theme to be used. Current options are \code{"bw"},
 \code{"classic"}, and \code{"grey"} (or \code{"gray"}). Default is
@@ -58,25 +60,25 @@ models of type "lm", "glm", "lmerMod", "lmerModLmerTest", and "glmerMod".
 \details{
 The first two sections below contain information on the available input
 options for the \code{plots} and \code{type} arguments in \code{resid_panel}.
-The third section contains information on the details relating to the
-creation of the plots.
+The third section contains details relating to the creation of the plots.
 
-\strong{Options for} \code{plots}
+\strong{Options for Plots}
 
 The following options can be chosen for the \code{plots} argument.
 \itemize{
 \item "all": This creates a panel of all plot types included in the package
 that are available for the model type input into \code{residpanel}. (See note
 below.)
+\item "default": This creates a panel with a residual plot, a normal quantile plot
+of the residuals, an index plot of the residuals, and a histogram of the residuals.
 \item "R": This creates a panel with a residual plot, a normal
 quantile plot of the residuals, a location-scale plot, and a leverage versus
 residuals plot. This was modeled after the plots shown in R if the
 \code{plot()} base function is applied to an \code{lm} model. This option can
 only be used with an \code{lm} or \code{glm} model.
-\item "SAS": This is the default option. It creates a panel with a residual plot,
-a normal quantile plot of the residuals, a histogram of the residuals, and a boxplot
-of the residuals. This was modeled after the residpanel option in proc mixed from
-SAS version 9.4.
+\item "SAS": This creates a panel with a residual plot, a normal quantile plot of
+the residuals, a histogram of the residuals, and a boxplot of the residuals.
+This was modeled after the residpanel option in proc mixed from SAS version 9.4.
 \item A vector of individual plots can also be specified.
 For example, one can specify \code{plots = c("boxplot", "hist")} or
 \code{plots = "qq"}. The individual plot options are as follows.
@@ -95,7 +97,7 @@ For example, one can specify \code{plots = c("boxplot", "hist")} or
 Note: \code{"cookd"}, \code{"ls"}, and \code{"lev"} are not available for
 "lmer", "lmerTest", and "glmer" models.
 
-\strong{Options for} \code{type}
+\strong{Options for Type}
 
 Several residual types are available to be requested based on the model type
 that is input into \code{resid_panel}. These currently are as follows.

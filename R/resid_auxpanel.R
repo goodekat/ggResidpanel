@@ -26,7 +26,7 @@
 #'   Specify TRUE or FALSE. Default is set to TRUE.
 #' @param nrow Sets the number of rows in the panel.
 #'
-#' @export
+#' @export resid_auxpanel
 #'
 #' @details The following grid options can be chosen for the \code{plots}
 #'   argument.
