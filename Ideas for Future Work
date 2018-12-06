@@ -16,6 +16,7 @@ Katie's Tasks:
 - remove obs from data for interactive plots for the index plot
 - write a function to show residual plots from multiple models at the same time
   - not a function in ggresidpanel yet
+  - resid_compare
 
 Katherine's Tasks:
 - ask Katie about the plotly issue - I'm wondering if it is fixed now?
