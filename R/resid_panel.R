@@ -242,7 +242,7 @@
 #' # Plot the residual plot using the Pearson residuals
 #' resid_panel(glmer_model, plots = "resid", type = "pearson")
 
-resid_panel <- function(model, plots = "default", type = NA, bins = NA,
+resid_panel <- function(model, plots = "default", type = NA, bins = 30,
                         smoother = FALSE, qqline = TRUE, qqbands = FALSE,
                         scale = 1, theme = "bw", axis.text.size = 10,
                         title.text.size = 12, title.opt = TRUE,
@@ -260,7 +260,6 @@ resid_panel <- function(model, plots = "default", type = NA, bins = NA,
   smoother <- check_smoother(smoother = smoother)
   theme <- check_theme(theme = theme)
   title.opt <- check_title(title.opt = title.opt)
-  bins <- check_bins(plots = plots, bins = bins)
   check_leverage(model = model, plots = plots)
 
   ## Creation of plots ---------------------------------------------------------

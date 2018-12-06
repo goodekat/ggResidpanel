@@ -75,7 +75,7 @@
 #' # Create a panel with the residual and index plot
 #' resid_auxpanel(rf_resid, rf_pred, plots = c("resid", "index"), theme = "classic")
 
-resid_auxpanel <- function(residuals, predicted, plots = "default", bins = NA,
+resid_auxpanel <- function(residuals, predicted, plots = "default", bins = 30,
                            smoother = FALSE, qqline = TRUE, qqbands = FALSE,
                            scale = 1, theme = "bw", axis.text.size = 10,
                            title.text.size = 12, title.opt = TRUE,
@@ -93,7 +93,6 @@ resid_auxpanel <- function(residuals, predicted, plots = "default", bins = NA,
   smoother <- check_smoother(smoother = smoother)
   theme <- check_theme(theme = theme)
   title.opt <- check_title(title.opt = title.opt)
-  bins <- check_bins(plots = plots, bins = bins)
 
   ## Creation of plots ---------------------------------------------------------
 

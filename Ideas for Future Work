@@ -17,11 +17,14 @@ Katie's Tasks:
 - write a function to show residual plots from multiple models at the same time
   - not a function in ggresidpanel yet
   - resid_compare
+- change smoother to loess in ls plot
 
 Katherine's Tasks:
-- ask Katie about the plotly issue - I'm wondering if it is fixed now?
+- finish removing bin warnings
+- change names of functions
 - figure out issue with scale with grid.arrange (or figure out how to use plot_grid instead)
 - fix the smoother option for factor variables (and change smoother method ?)
+   - check on this and get rid of warnings?
 - update documentation
   - I've noticed some typos
   - update for changes
@@ -32,13 +35,7 @@ Katherine's Tasks:
 - add alpha values to lev plot
   - figure out what alpha is
   - add example of interpreting
-- COMPLETED:
-  - create an interactive panel
-  - finish the column and row selection (ask Katie if we should go back to nrow only due
-    to plotly and does she prefer two plots stacked or side by side)
-  - figure out the axis labels with the interactive panel
-  - figure out how to deal with the titles for the interactive panel
-  - create a panel of residual plots verses the X's and y versus X's
+- change back to only nrow option
 
 Ideas for Future Package Versions:
 - create an option for the user to add their own theme

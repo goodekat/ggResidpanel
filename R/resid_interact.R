@@ -113,7 +113,7 @@
 #' # Create an interactive residual plot with the Pearson residuals
 #' resid_interact(glmer_model, plot = "resid", type = "pearson")
 
-resid_interact <- function(model, plots = "default", type = NA, bins = NA,
+resid_interact <- function(model, plots = "default", type = NA, bins = 30,
                            smoother = FALSE, qqline = TRUE, theme = "bw",
                            axis.text.size = 10, title.text.size = 12,
                            title.opt = TRUE, nrow = NULL, scale = 0.9){
@@ -130,13 +130,7 @@ resid_interact <- function(model, plots = "default", type = NA, bins = NA,
   smoother <- check_smoother(smoother = smoother)
   theme <- check_theme(theme = theme)
   title.opt <- check_title(title.opt = title.opt)
-  bins <- check_bins(plots = plots, bins = bins)
   check_leverage(model = model, plots = plots)
-
-  # Print a warning about not using the dev version of ggplot2 with ggplotly
-  warning("Some of the interactive plots do not function with the dev version of
-          ggplot from github. To achieve full functionallity, please install ggplot2
-          from CRAN.")
 
   ## Creation of plot ---------------------------------------------------------
 
