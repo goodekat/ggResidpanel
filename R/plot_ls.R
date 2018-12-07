@@ -25,9 +25,9 @@ plot_ls <- function(model, type, theme, axis.text.size, title.text.size, title.o
     }
   }
 
-  # Compute the values for the lowess curve
-  model_values$Lowess.x <- lowess(x = model_values$Prediction, y = model_values$Sqrt_Std_Res)$x
-  model_values$Lowess.y <- lowess(x = model_values$Prediction, y = model_values$Sqrt_Std_Res)$y
+  # Compute the values for the lowess curve: old version used lowess, new version using loess
+  # model_values$Lowess.x <- lowess(x = model_values$Prediction, y = model_values$Sqrt_Std_Res)$x
+  # model_values$Lowess.y <- lowess(x = model_values$Prediction, y = model_values$Sqrt_Std_Res)$y
 
   ## Creation of Labels -------------------------------------------------------------
 
@@ -44,7 +44,7 @@ plot_ls <- function(model, type, theme, axis.text.size, title.text.size, title.o
       geom_point() +
       labs(x = "Predicted Values", y = expression(sqrt(abs(" Standardized Residuals ")))) +
       expand_limits(y = 0) +
-      geom_line(aes(Lowess.x, Lowess.y), colour = "red", size = 0.5)
+      geom_smooth(method = "loess", se = FALSE, colour = "red", size = 0.5)
 
   } else if (class(model)[1] == "glm"){
 
@@ -55,7 +55,7 @@ plot_ls <- function(model, type, theme, axis.text.size, title.text.size, title.o
         labs(x = "Predicted Values",
              y = expression(sqrt(abs(" Standardized Deviance Residuals ")))) +
         expand_limits(y = 0) +
-        geom_line(aes(Lowess.x, Lowess.y), colour = "red", size = 0.5)
+        geom_smooth(method = "loess", se = FALSE, colour = "red", size = 0.5)
 
     # Location-scale plot for glm model with Pearson residuals
     } else if(type == "pearson" | type == "stand.pearson"){
@@ -64,7 +64,8 @@ plot_ls <- function(model, type, theme, axis.text.size, title.text.size, title.o
         labs(x = "Predicted Values",
              y = expression(sqrt(abs(" Standardized Pearson Residuals ")))) +
         expand_limits(y = 0) +
-        geom_line(aes(Lowess.x, Lowess.y), colour = "red", size = 0.5)
+        geom_smooth(method = "loess", se = FALSE, colour = "red", size = 0.5)
+
     }
 
   }

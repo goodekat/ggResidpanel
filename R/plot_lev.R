@@ -33,9 +33,9 @@ plot_lev <- function(model, type, theme, axis.text.size, title.text.size, title.
     }
   }
 
-  # Compute the values for the lowess curve
-  model_values$Lowess.x <- lowess(x = model_values$Leverage, y = model_values$Std_Res)$x
-  model_values$Lowess.y <- lowess(x = model_values$Leverage, y = model_values$Std_Res)$y
+  # Compute the values for the lowess curve: old version used lowess, new version uses loess
+  # model_values$Lowess.x <- lowess(x = model_values$Leverage, y = model_values$Std_Res)$x
+  # model_values$Lowess.y <- lowess(x = model_values$Leverage, y = model_values$Std_Res)$y
 
   # Compute the hat matrix values
   hii <- (infl <- influence(model, do.coef = FALSE))$hat
@@ -85,7 +85,7 @@ plot_lev <- function(model, type, theme, axis.text.size, title.text.size, title.
     geom_point(aes(group = Data)) +
     labs(x = "Leverage", y = r_label) +
     expand_limits(x = 0) +
-    geom_line(aes(Lowess.x, Lowess.y),color = "red", size = 0.5) +
+    geom_smooth(method = "loess",se = FALSE, color = "red", size = 0.5) +
     geom_hline(yintercept = 0, linetype = "dashed") +
     geom_vline(xintercept = 0, linetype = "dashed") +
     scale_x_continuous(limits = c(0, max(model_values$Leverage, na.rm = TRUE))) +

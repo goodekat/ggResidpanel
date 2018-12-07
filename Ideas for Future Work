@@ -20,7 +20,8 @@ Katie's Tasks:
 - write a function to show residual plots from multiple models at the same time
   - not a function in ggresidpanel yet
   - resid_compare
-- change smoother to loess in ls plot
+- change smoother to loess in ls plot (DONE)
+    - also changed from lowess to loess in the leverage plot
 
 Katherine's Tasks:
 - fix resid_xpanel with the response is binary
