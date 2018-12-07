@@ -15,7 +15,8 @@ Katie's Tasks:
   - add to test file and add lmertest to test functionality on lmer objects
 - modify so works for predictive models (Research at least)(NOT FOR CRAN)
   -receive predictive model in resid_panel
-- remove obs from data for interactive plots for the index plot
+- remove obs from data for interactive plots for the index plot (DONE)
+    - fixed by using tooltip
 - write a function to show residual plots from multiple models at the same time
   - not a function in ggresidpanel yet
   - resid_compare

@@ -208,10 +208,10 @@ resid_interact <- function(model, plots = "default", type = NA, bins = 30,
                         title.opt = title.opt)
     if(title.opt == TRUE){
       title = helper_plotly_title(index)
-      index <- ggplotly(index) %>%
+      index <- ggplotly(index, tooltip = c("Residual", "Data")) %>%
         layout(annotations = title, title = FALSE)
     } else{
-      index <- ggplotly(index)
+      index <- ggplotly(index,tooltip = c("Residual", "Data"))
     }
   } else{
     index <- NULL
