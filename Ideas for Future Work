@@ -4,8 +4,9 @@ Future Work
 --------------
 
 Katie's Tasks:
-- update histogram tooltip
-  -shows count as count and density as count: try to change name of density to density
+- update histogram tooltip (DONE)
+    -shows count as count and density as count: try to change name of density to density
+    - fixed by requested 'density' and 'fill' in the tooltip
 - try to figure out why plotly graphs showing up horizontally
 - Work on residual vignette
   - include a link to the residual document in the documentation
