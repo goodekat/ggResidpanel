@@ -42,6 +42,7 @@ Katherine's Tasks:
     - update for changes
     - add documentation for predictor panel
   - fix resid_xpanel with the response is binary
+    - I kind of have this fixed. Can I use your helper_glm_actual function for this?
     - should I switch to a boxplot for the factor variables with the response variable?
 
 Ideas for Future Package Versions:
