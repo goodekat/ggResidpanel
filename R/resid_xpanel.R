@@ -103,9 +103,10 @@ resid_xpanel <- function(model, yvar = "residual", type = NA,
   } else if (class(model)[1] == "glm"){
     if (model$family[[1]] == "binomial"){
       success = model$model[,1][,1]
-      total = model$model[,1][,2]
+      failure = model$model[,1][,2]
+      total = success + failure
       model_data <- data.frame(Residual = residuals,
-                               prop = success / total,
+                               proportion = success / total,
                                model$model[-1])
     } else {
       model_data <- data.frame(Residual = residuals, model$model)
@@ -115,9 +116,10 @@ resid_xpanel <- function(model, yvar = "residual", type = NA,
   } else if (class(model)[1] == "glmerMod"){
     if (model@resp$family[[1]] == "binomial") {
       success = model@frame[,1][,1]
-      total = model@frame[,1][,2]
+      failure = model@frame[,1][,2]
+      total = success + failure
       model_data <- data.frame(Residual = residuals,
-                               prop = success / total,
+                               proportion = success / total,
                                model@frame[-1])
     } else {
       model_data <- cbind(Residual = residuals, model@frame)
