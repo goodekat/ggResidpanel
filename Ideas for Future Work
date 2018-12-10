@@ -22,9 +22,9 @@ Katie's Tasks:
   - resid_compare
 - change smoother to loess in ls plot (DONE)
     - also changed from lowess to loess in the leverage plot
+- fix helper_glm_actual to use columns instead of names and resid_interact for binomial
 
 Katherine's Tasks:
-- fix resid_xpanel with the response is binary
 - add an interactive plot example to readme (see plotly readme)
 - add alpha values to lev plot
   - figure out what alpha is
@@ -33,7 +33,7 @@ Katherine's Tasks:
 - make a vignette with examples showing how to use the package
   - examples for each residual type
 - completed:
-  - question for Katie: smoother looks weird with the constant leverage plot
+  - questions for Katie: smoother looks weird with the constant leverage plot?
   - switched all panels to use plot_grid from cowplot (this fixed the scale issue since
     grid.arrange does not have a scale option)
   - add warnings to resid_xpanel
@@ -42,6 +42,9 @@ Katherine's Tasks:
     - I've noticed some typos
     - update for changes
     - add documentation for predictor panel
+  - fix resid_xpanel with the response is binary
+    - I kind of have this fixed.
+    - I tried to use your function, but I think there are some cases when it does not work.
 
 Ideas for Future Package Versions:
 - write a function for computing standardized residuals for lmer and glmer (Katie)
