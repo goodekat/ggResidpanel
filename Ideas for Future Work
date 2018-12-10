@@ -22,6 +22,7 @@ Katie's Tasks:
   - resid_compare
 - change smoother to loess in ls plot (DONE)
     - also changed from lowess to loess in the leverage plot
+- fix helper_glm_actual to use columns instead of names and resid_interact for binomial
 
 Katherine's Tasks:
 - add an interactive plot example to readme (see plotly readme)
