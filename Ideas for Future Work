@@ -4,9 +4,6 @@ Future Work
 --------------
 
 Katie's Tasks:
-- update histogram tooltip (DONE)
-    -shows count as count and density as count: try to change name of density to density
-    - fixed by requested 'density' and 'fill' in the tooltip
 - try to figure out why plotly graphs showing up horizontally
 - Work on residual vignette
   - include a link to the residual document in the documentation
@@ -15,14 +12,9 @@ Katie's Tasks:
   - add to test file and add lmertest to test functionality on lmer objects
 - modify so works for predictive models (Research at least)(NOT FOR CRAN)
   -receive predictive model in resid_panel
-- remove obs from data for interactive plots for the index plot (DONE)
-    - fixed by using tooltip
-- write a function to show residual plots from multiple models at the same time
-  - not a function in ggresidpanel yet
+- write a function to show residual plots from multiple models at the same time (In Progress)
   - resid_compare
-- change smoother to loess in ls plot (DONE)
-    - also changed from lowess to loess in the leverage plot
-- fix helper_glm_actual (DONE) to use columns instead of names and resid_interact for binomial
+- fix resid_interact for binomial case to be more general
 
 Katherine's Tasks:
 - add an interactive plot example to readme (see plotly readme)
