@@ -19,10 +19,11 @@ Katie's Tasks:
 - fix resid_interact for binomial case to be more general
 
 Katherine's Tasks:
-- add an interactive plot example to readme (see plotly readme)
+- updated readme including an interactive plot (see plotly readme)
 - create a development rmd file with updates for each version
 - make a vignette with examples showing how to use the package
   - examples for each residual type
+  - example for interpreting
 
 - completed:
   - add alpha values to lev plot
