@@ -44,16 +44,24 @@ plot_lev <- function(model, type, theme, axis.text.size, title.text.size, title.
 
     # Create a sequence of hat values
     usr <- par("usr")
-    hh <- seq.int(min(r.hat[1L], r.hat[2L]/100), usr[2L], length.out = 101)
+    hh <- seq.int(min(r.hat[1], r.hat[2]/100), usr[2], length.out = 100)
+
+    # Create the limits for the plot
+    xlimits <- c(0, max(model_values$Leverage, na.rm = TRUE))
+    ylimits <- extendrange(range(model_values$Std_Res, na.rm = TRUE), f = 0.1)
 
     # Compute standardized residual locations based on a Cook's D value
     # and the sequence of leverage values
-    cooksd_contours <- purrr::map_df(c(0.5, 1), function(cooksd) {
-      data.frame(cooksd,
-                 hh,
-                 pos = sqrt(cooksd * p * (1 - hh) / hh),
-                 neg = - sqrt(cooksd * p * (1 - hh) / hh))
-    })
+    cooksd_contours <- data.frame(case = rep(c("pos_0.5", "neg_0.5", "pos_1", "neg_1"), each = length(hh)),
+                                  hh = rep(hh, 4),
+                                  stdres = c(sqrt(0.5 * p * (1 - hh) / hh),
+                                             -sqrt(0.5 * p * (1 - hh) / hh),
+                                             sqrt(1 * p * (1 - hh) / hh),
+                                             -sqrt(1 * p * (1 - hh) / hh)))
+
+    cooksd_contours <- subset(cooksd_contours, cooksd_contours$hh <= xlimits[2] &
+                                cooksd_contours$stdres <= ylimits[2] &
+                                cooksd_contours$stdres >= ylimits[1])
 
     ## Creation of Labels -------------------------------------------------------------
 
@@ -82,19 +90,36 @@ plot_lev <- function(model, type, theme, axis.text.size, title.text.size, title.
       geom_smooth(method = "loess",se = FALSE, color = "red", size = 0.5) +
       geom_hline(yintercept = 0, linetype = "dashed") +
       geom_vline(xintercept = 0, linetype = "dashed") +
-      geom_line(data = cooksd_contours, aes(x = hh, y = pos, group = cooksd), color = "red", linetype = "dashed", na.rm = TRUE) +
-      geom_line(data = cooksd_contours, aes(x = hh, y = neg, group = cooksd), color = "red", linetype = "dashed", na.rm = TRUE) +
-      scale_x_continuous(limits = c(0, max(model_values$Leverage, na.rm = TRUE))) +
-      scale_y_continuous(limits = extendrange(range(model_values$Std_Res, na.rm = TRUE), f = 0.1)) +
-      geom_text(aes(x = max(model_values$Leverage, na.rm = TRUE),
-                    y = 1.05 * sqrt(0.5 * p * (1 - max(model_values$Leverage, na.rm = TRUE)) /
-                               max(model_values$Leverage, na.rm = TRUE))), label = "0.5", color = "red", size = 3) +
-      geom_text(aes(x = max(model_values$Leverage, na.rm = TRUE),
-                    y = 1.05 * sqrt(1 * p * (1 - max(model_values$Leverage, na.rm = TRUE)) /
-                               max(model_values$Leverage, na.rm = TRUE))), label = "1", color = "red", size = 3) +
-      geom_text(aes(x = 2.5 * min(model_values$Leverage, na.rm = TRUE),
-                    y = 1.2 * min(model_values$Std_Res, na.rm = TRUE)),
+      geom_line(data = cooksd_contours, aes(x = hh, y = stdres, group = case), color = "red", linetype = "dashed", na.rm = TRUE) +
+      scale_x_continuous(limits = xlimits) +
+      scale_y_continuous(limits = ylimits) +
+      geom_text(aes(x = 2.25 * min(model_values$Leverage, na.rm = TRUE),
+                    y = 1.1 * min(model_values$Std_Res, na.rm = TRUE)),
                 label = "- - - Cook's distance contours", color = "red", size = 3)
+
+
+    # Add Cook's D contour line labels if within the range of graph limits
+    xlable <- max(model_values$Leverage, na.rm = TRUE)
+    ylable_pos_0.5 <- 1.05 * sqrt(0.5 * p * (1 - max(model_values$Leverage, na.rm = TRUE)) /
+                                 max(model_values$Leverage, na.rm = TRUE))
+    ylable_neg_0.5 <- 1.05 * -sqrt(0.5 * p * (1 - max(model_values$Leverage, na.rm = TRUE)) /
+                                max(model_values$Leverage, na.rm = TRUE))
+    ylable_pos_1 <- 1.05 * sqrt(1 * p * (1 - max(model_values$Leverage, na.rm = TRUE)) /
+                              max(model_values$Leverage, na.rm = TRUE))
+    ylable_neg_1 <- 1.05 * -sqrt(1 * p * (1 - max(model_values$Leverage, na.rm = TRUE)) /
+                              max(model_values$Leverage, na.rm = TRUE))
+    if (ylable_pos_0.5 <= ylimits[2]){
+      plot <- plot + geom_text(aes(x = xlable, y = ylable_pos_0.5), label = "0.5", color = "red", size = 3)
+    }
+    if (ylable_neg_0.5 >= ylimits[1]){
+      plot <- plot + geom_text(aes(x = xlable, y = ylable_neg_0.5), label = "0.5", color = "red", size = 3)
+    }
+    if (ylable_pos_1 <= ylimits[2]){
+      plot <- plot + geom_text(aes(x = xlable, y = ylable_pos_1), label = "1", color = "red", size = 3)
+    }
+    if (ylable_neg_1 >= ylimits[1]){
+      plot <- plot + geom_text(aes(x = xlable, y = ylable_neg_1), label = "1", color = "red", size = 3)
+    }
 
     # Add theme to plot
     if (theme == "bw"){

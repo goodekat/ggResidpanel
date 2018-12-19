@@ -19,16 +19,22 @@ Katie's Tasks:
 - fix resid_interact for binomial case to be more general
 
 Katherine's Tasks:
-- subset the contour lines to within the limits of the leverage plot
-  - create limits outside of the plot
-- updated documentation for leverage plot
-- update default in auxpanel
 - add an interactive plot example to readme (see plotly readme)
 - create a development rmd file with updates for each version
 - make a vignette with examples showing how to use the package
   - examples for each residual type
+
 - completed:
   - add alpha values to lev plot
+  - create limits outside of the plot and subset the contour lines to within the limits
+    of the leverage plot
+  - updated documentation for leverage plot
+  - update default in auxpanel
+- questions:
+  - I get some warnings about the loess curve with the following code:
+  - m2 <- lm(mpg ~ cyl, data = mtcars)
+  - resid_panel(m2, plots = "lev")
+  - What do we want to do about this?
 
 Ideas for Future Package Versions:
 - write a function for computing standardized residuals for lmer and glmer (Katie)
@@ -40,13 +46,6 @@ Ideas for Future Package Versions:
   - maybe add an option in each of the functions for an interactive version
 
 Mystery Errors/Warnings:
-
-geom_path: Each group consists of only one observation. Do you need to adjust the group aesthetic?
-Warning messages:
-1: In sqrt(0.5 * p * (1 - hh)/hh) : NaNs produced
-2: In sqrt(0.5 * p * (1 - hh)/hh) : NaNs produced
-3: In sqrt(1 * p * (1 - hh)/hh) : NaNs produced
-4: In sqrt(1 * p * (1 - hh)/hh) : NaNs produced
 
 Error in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y,  :
   polygon edge not found

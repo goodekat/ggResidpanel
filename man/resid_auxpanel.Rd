@@ -10,8 +10,9 @@ resid_auxpanel(residuals, predicted, plots = "default", bins = 30,
   title.opt = TRUE, nrow = NULL)
 }
 \arguments{
-\item{plots}{Plots chosen to include in the panel of plots. (See details for
-options.)}
+\item{plots}{Plots chosen to include in the panel of plots. The default panel
+includes a residual plot, a normal quantile plot, an index plot,
+and a histogram of the residuals. (See details for the options available.)}
 
 \item{bins}{Number of bins for histogram of the residuals. Default is set to 30.}
 
@@ -59,9 +60,10 @@ The following grid options can be chosen for the \code{plots}
   \item "all": This creates a panel of all plot types included in the package
   that are available for \code{resid_auxpanel}. (See plot descriptions under
   individual options.)
-  \item "SAS": This is the default option. It creates a
-  panel of a residual plot, a normal quantile plot of the residuals, a
-  histogram of the residuals, and a boxplot of the residuals. This was
+  \item "default": This creates a panel with a residual plot, a normal quantile plot
+  of the residuals, an index plot of the residuals, and a histogram of the residuals.
+  \item "SAS": This creates a panel of a residual plot, a normal quantile plot of the
+  residuals, a histogram of the residuals, and a boxplot of the residuals. This was
   modeled after the residpanel option in proc mixed from SAS version 9.4.
   \item A vector of individual plots can also be specified. For example, one
   can specify \code{plots = c("boxplot", "hist")} or \code{plots = "qq"}. The

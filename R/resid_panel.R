@@ -37,11 +37,11 @@
 #'   geom_histogram stat_function xlim geom_boxplot expand_limits geom_smooth
 #'   element_text ggplotGrob geom_vline theme_classic geom_hline geom_segment
 #'   geom_line scale_x_continuous scale_y_continuous theme_grey ggplot_build xlab ylab
+#'   geom_text
 #' @importFrom cowplot plot_grid ggdraw draw_label
 #' @importFrom MASS stdres
 #' @importFrom qqplotr stat_qq_point stat_qq_line stat_qq_band
 #' @importFrom stringr str_sub
-#' @importFrom purrr map_df
 #'
 #' @details
 #'
@@ -59,10 +59,10 @@
 #' \item "default": This creates a panel with a residual plot, a normal quantile plot
 #' of the residuals, an index plot of the residuals, and a histogram of the residuals.
 #' \item "R": This creates a panel with a residual plot, a normal
-#' quantile plot of the residuals, a location-scale plot, and a leverage versus
-#' residuals plot. This was modeled after the plots shown in R if the
-#' \code{plot()} base function is applied to an \code{lm} model. This option can
-#' only be used with an \code{lm} or \code{glm} model.
+#' quantile plot of the residuals, a location-scale plot, and a residuals versus leverage
+#' plot. This was modeled after the plots shown in R if the \code{plot()} base function
+#' is applied to an \code{lm} model. This option can only be used with an \code{lm} or
+#' \code{glm} model.
 #' \item "SAS": This creates a panel with a residual plot, a normal quantile plot of
 #' the residuals, a histogram of the residuals, and a boxplot of the residuals.
 #' This was modeled after the residpanel option in proc mixed from SAS version 9.4.
@@ -76,7 +76,7 @@
 #' \item \code{"index"}: A plot of residuals versus observation numbers
 #' \item \code{"ls"}: A location scale plot of the residuals
 #' \item \code{"qq"}: A normal quantile plot of residuals
-#' \item \code{"lev"}: A plot of leverage values versus residuals
+#' \item \code{"lev"}: A plot of standardized residuals versus leverage values
 #' \item \code{"resid"}: A plot of residuals versus predicted values
 #' \item \code{"yvp":}: A plot of observed response values versus predicted values
 #' } }
@@ -133,14 +133,15 @@
 #' \item{Index Plot (\code{index})}{Plots the residuals on the y-axis and the observation
 #' number associated with the residual on the x-axis.}
 #'
-#' \item{Leverage Plot (\code{lev})}{Plots the standardized residuals on the y-axis
-#' and the leverage values on the x-axis. A lowess curve is overlaid, and Cook's
-#' D contours are included for \eqn{\alpha = 0.5} and \eqn{\alpha = 1}.}
+#' \item{Residuals vs Leverage Plot (\code{lev})}{Plots the standardized residuals on the
+#' y-axis and the leverage values on the x-axis with a loess curve is overlaid. Cook's
+#' D contour lines (which are a function of leverage and standardized residuals) are plotted
+#' as the red dashed lines for Cook's D values of 0.5 and 1.}
 #'
 #' \item{Location-Scale Plot (\code{ls})}{Plots the square root of the absolute value
 #' of the standardized residuals on the y-axis and the predicted values on the
 #' x-axis. The predicted values are plotted on the original scale for \code{glm}
-#' and \code{glmer} models. A lowess curve is overlaid.}
+#' and \code{glmer} models. A loess curve is overlaid.}
 #'
 #' \item{QQ Plot (\code{qq})}{Makes use of the \code{R} package \code{qqplotr} for
 #' creating a normal quantile plot of the residuals.}

@@ -5,8 +5,9 @@
 #'
 #' @param resid The residuals from the model.
 #' @param pred The fitted values from the model.
-#' @param plots Plots chosen to include in the panel of plots. (See details for
-#'   options.)
+#' @param plots Plots chosen to include in the panel of plots. The default panel
+#'   includes a residual plot, a normal quantile plot, an index plot,
+#'   and a histogram of the residuals. (See details for the options available.)
 #' @param bins Number of bins for histogram of the residuals. Default is set to 30.
 #' @param smoother Indicates whether or not to include a smoother on the
 #'   residual plot. Specify TRUE or FALSE. Default is set to FALSE.
@@ -34,9 +35,10 @@
 #'   \item "all": This creates a panel of all plot types included in the package
 #'   that are available for \code{resid_auxpanel}. (See plot descriptions under
 #'   individual options.)
-#'   \item "SAS": This is the default option. It creates a
-#'   panel of a residual plot, a normal quantile plot of the residuals, a
-#'   histogram of the residuals, and a boxplot of the residuals. This was
+#'   \item "default": This creates a panel with a residual plot, a normal quantile plot
+#'   of the residuals, an index plot of the residuals, and a histogram of the residuals.
+#'   \item "SAS": This creates a panel of a residual plot, a normal quantile plot of the
+#'   residuals, a histogram of the residuals, and a boxplot of the residuals. This was
 #'   modeled after the residpanel option in proc mixed from SAS version 9.4.
 #'   \item A vector of individual plots can also be specified. For example, one
 #'   can specify \code{plots = c("boxplot", "hist")} or \code{plots = "qq"}. The
