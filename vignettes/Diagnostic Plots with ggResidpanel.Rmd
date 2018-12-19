@@ -15,14 +15,14 @@ knitr::opts_chunk$set(echo = TRUE)
 
 ### Introduction to ggResidpanel
 
-ggResidpanel provides a way to easily create and view model diagnostic plots in R using ggplot2 graphics. The goal in creating the package was to allow a model to be passed to a function that returns a panel of diagnostic plots that can be viewed simultaneously. The panel allows the user to easily scan plots of interest to check for violations of model assumptions or lack of fit. The idea to portray the plots in a grid was motivated by the residual panel plots provided by SAS procedures. In addition to being able to view the plots in a panel, ggResidpanel includes the ability to select which plots to include in the panel, to adjust plot options, and to change the plot format. Furthermore, the package provides both static and interactive panels of plots and the ability to view diagnostic plots from multiple models in the same panel
+ggResidpanel provides a way to easily create and view diagnostic plots from models in R using ggplot2 graphics. The goal in creating the package was to allow a model to be passed to a function that returns a panel of diagnostic plots that can be viewed simultaneously. The panel allows the user to easily scan plots of interest to check for violations of model assumptions or lack of fit. The idea to portray the plots in a grid was motivated by the residual panel plots provided by SAS (version 9.4) procedures. In addition to being able to view the plots in a panel, ggResidpanel includes the ability to select which plots to include in the panel, to adjust plot options, and to change the plot format. Furthermore, the package provides both static and interactive panels of plots and the ability to view diagnostic plots from multiple models in the same panel
 
 The package contains the following five functions.
 
 - `resid_panel`: Creates a panel of diagnostic plots of the residuals from the model
 - `resid_interact`: Creates an interactive panel of diagnostic plots of the residuals form a model
-- `resid_predpanel`: Creates a panel of diagnostic plots of the predictor variables
-- `resid_`: Creates a panel of diagnostic plots from multiple models
+- `resid_xpanel`: Creates a panel of diagnostic plots of the predictor variables
+- `resid_compare`: Creates a panel of diagnostic plots from multiple models
 - `resid_auxpanel`: Creates a panel of diagnostic plots for model types not included in the package
 
 These functions are described in further detail in the next section.
@@ -50,8 +50,8 @@ library(ggResidpanel)
 
 #### resid_interact
 
-#### resid_predpanel
+#### resid_xpanel
 
-#### resid_
+#### resid_compare
 
 #### resid_auxpanel
