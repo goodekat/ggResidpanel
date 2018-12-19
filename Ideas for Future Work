@@ -19,13 +19,16 @@ Katie's Tasks:
 - fix resid_interact for binomial case to be more general
 
 Katherine's Tasks:
-- updated default in auxpanel
-- add alpha values to lev plot
-  - add example of interpreting
+- subset the contour lines to within the limits of the leverage plot
+  - create limits outside of the plot
+- updated documentation for leverage plot
+- update default in auxpanel
 - add an interactive plot example to readme (see plotly readme)
 - create a development rmd file with updates for each version
 - make a vignette with examples showing how to use the package
   - examples for each residual type
+- completed:
+  - add alpha values to lev plot
 
 Ideas for Future Package Versions:
 - write a function for computing standardized residuals for lmer and glmer (Katie)

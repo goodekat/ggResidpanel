@@ -41,6 +41,7 @@
 #' @importFrom MASS stdres
 #' @importFrom qqplotr stat_qq_point stat_qq_line stat_qq_band
 #' @importFrom stringr str_sub
+#' @importFrom purrr map_df
 #'
 #' @details
 #'

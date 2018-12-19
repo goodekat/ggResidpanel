@@ -17,7 +17,8 @@ Imports:
   MASS,
   plotly,
   qqplotr,
-  stringr
+  stringr,
+  purrr
 RoxygenNote: 6.1.0
 Suggests: knitr,
     rmarkdown,
