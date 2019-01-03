@@ -19,7 +19,6 @@ Katie's Tasks:
 - fix resid_interact for binomial case to be more general
 
 Katherine's Tasks:
-- create a development rmd file with updates for each version
 - make a vignette with examples showing how to use the package
   - examples for each residual type
   - example for interpreting
@@ -30,7 +29,8 @@ Katherine's Tasks:
     of the leverage plot
   - updated documentation for leverage plot
   - update default in auxpanel
-  - updated readme including an interactive plot (see plotly readme)
+  - updated readme including an interactive plot
+  - create a development rmd file with updates for each version
 - questions:
   - I get some warnings about the loess curve with the following code:
   - m2 <- lm(mpg ~ cyl, data = mtcars)
