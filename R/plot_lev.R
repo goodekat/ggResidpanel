@@ -134,7 +134,7 @@ plot_lev <- function(model, type, theme, axis.text.size, title.text.size, title.
     # and return plot
     if(title.opt == TRUE){
       plot +
-        labs(title = "Residual vs Leverage Plot") +
+        labs(title = "Residual vs Leverage") +
         theme(plot.title = element_text(size = title.text.size, face = "bold"),
               axis.title = element_text(size = axis.text.size))
     } else if (title.opt == FALSE){

@@ -147,14 +147,14 @@ standard deviation of the residuals.}
 number associated with the residual on the x-axis.}
 
 \item{Residuals vs Leverage Plot (\code{lev})}{Plots the standardized residuals on the
-y-axis and the leverage values on the x-axis with a lowess curve is overlaid. Cook's
+y-axis and the leverage values on the x-axis with a loess curve is overlaid. Cook's
 D contour lines (which are a function of leverage and standardized residuals) are plotted
 as the red dashed lines for Cook's D values of 0.5 and 1.}
 
 \item{Location-Scale Plot (\code{ls})}{Plots the square root of the absolute value
 of the standardized residuals on the y-axis and the predicted values on the
 x-axis. The predicted values are plotted on the original scale for \code{glm}
-and \code{glmer} models. A lowess curve is overlaid.}
+and \code{glmer} models. A loess curve is overlaid.}
 
 \item{QQ Plot (\code{qq})}{Makes use of the \code{R} package \code{qqplotr} for
 creating a normal quantile plot of the residuals.}
