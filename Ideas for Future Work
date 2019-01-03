@@ -19,7 +19,6 @@ Katie's Tasks:
 - fix resid_interact for binomial case to be more general
 
 Katherine's Tasks:
-- updated readme including an interactive plot (see plotly readme)
 - create a development rmd file with updates for each version
 - make a vignette with examples showing how to use the package
   - examples for each residual type
@@ -31,11 +30,13 @@ Katherine's Tasks:
     of the leverage plot
   - updated documentation for leverage plot
   - update default in auxpanel
+  - updated readme including an interactive plot (see plotly readme)
 - questions:
   - I get some warnings about the loess curve with the following code:
   - m2 <- lm(mpg ~ cyl, data = mtcars)
   - resid_panel(m2, plots = "lev")
   - What do we want to do about this?
+  - Can you switch the order of the plots in resid_compare?
 
 Ideas for Future Package Versions:
 - write a function for computing standardized residuals for lmer and glmer (Katie)
