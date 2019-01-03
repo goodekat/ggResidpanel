@@ -9,7 +9,7 @@ knitr::opts_chunk$set(echo = TRUE, warning = FALSE, message = FALSE)
 
 # ggResidpanel <img align="right" width="120" height="135" src="./images/gg_resid_sticker4.png">
 
-ggResidpanel is an R package for creating panels of diagnostic plots for residuals from a model using ggplot2 and interactive versions of the plots using plotly.
+ggResidpanel is an R package for creating panels of diagnostic plots for a model using ggplot2 and interactive versions of the plots using plotly.
 
 ## Installation
 
@@ -30,7 +30,7 @@ library(ggResidpanel)
 
 ## Overview and Examples
 
-The package provides five functions that allow the user to assess diagnostic plots of residuals from a model. Each of these functions is described below with examples to show the type of image that is output from the function. The functions have mupltiple input options such as the formatting options of `scale`, `theme`, `axis.text.size`, `title.text.size`, and `title.opt`. See the documentation or vignettes for more details about how to use the functions.
+The package provides five functions that allow the user to assess diagnostic plots from a model. Each of these functions is described below with examples to show the type of image that is output from the function. The functions have multiple input options such as the formatting options of `scale`, `theme`, `axis.text.size`, `title.text.size`, and `title.opt`. See the documentation or vignettes for more details about how to use the functions.
 
 **`resid_panel`**: This function creates a panel of residual diagnostic plots given a model of type "lm", "glm", "lmerMod", "lmerModLmerTest", and "glmerMod". It allows the user to select a panel of plots from the options in the package or create their own panel by selecting from the plots available for this function.
 
@@ -48,7 +48,7 @@ resid_panel(lm_model, bins = 20, plots = "R", theme = "classic")
 resid_panel(lm_model, plots = "all", bins = 20)
 ```
 
-**`resid_interact`**: This function creates interactive versions of residual diagnostic plot panels given a model. It accepts models of type "lm", "glm", "lmerMod", "lmerModLmerTest", and "glmerMod". Similar to `resid_panel`, it allows the user to select a panel of plots from the options in the package or create their own panel by selecting from the plots available for this function.
+**`resid_interact`**: This function creates interactive versions of residual diagnostic plot panels given a model. It accepts models of type "lm", "glm", "lmerMod", "lmerModLmerTest", and "glmerMod". Similar to `resid_panel`, it allows the user to select a panel of plots from the options in the package or to create their own panel by selecting from the plots available for this function.
 
 ```{r, eval = FALSE}
 # Create an interactive panel of the default diagnostic plots
@@ -67,11 +67,13 @@ resid_xpanel(lm_model)
 resid_xpanel(lm_model, yvar = "response")
 ```
 
-**`resid_compare`**: This function creates a panel of residual diagnostic plots given a list of models. This allows the user to compare the diganostic plots from multiple models. It curently accepts models of type "lm", "glm", "lmerMod", "lmerModLmerTest", and "glmerMod".
+**`resid_compare`**: This function creates a panel of residual diagnostic plots given a list of models. This allows the user to compare the diagnostic plots from multiple models. It currently accepts models of type "lm", "glm", "lmerMod", "lmerModLmerTest", and "glmerMod".
 
 ```{r}
+# Fit the model with a log transformation on the response variable
 lm_model_log <- lm(log(Volume) ~ Girth + Height, data = trees)
 
+# Plot the residual and normal quantile plots for the two models
 resid_compare(list(lm_model, lm_model_log), plots = c("resid", "qq"))
 ```
 
