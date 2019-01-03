@@ -14,8 +14,6 @@ Minor:
 
 ### 0.1.1.9000 and earlier
 
-General: 
-
 - first versions of ggResidpanel (the progression was not documented)
-- introduces the functions of resid_panel, resid_interact, and resid_auxpanel
+- introduced the functions of resid_panel, resid_interact, and resid_auxpanel
 - allowed options in the functions for formatting options
