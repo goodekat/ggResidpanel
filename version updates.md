@@ -18,4 +18,4 @@ General:
 
 - first versions of ggResidpanel (the progression was not documented)
 - introduces the functions of resid_panel, resid_interact, and resid_auxpanel
-- allowed options in the functions for formating options
+- allowed options in the functions for formatting options
