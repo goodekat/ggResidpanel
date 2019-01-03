@@ -1,5 +1,6 @@
 ---
 output: rmarkdown::github_document
+always_allow_html: yes
 ---
 
 ```{r setup, include = FALSE}
@@ -49,10 +50,12 @@ resid_panel(lm_model, plots = "all", bins = 20)
 
 **`resid_interact`**: This function creates interactive versions of residual diagnostic plot panels given a model. It accepts models of type "lm", "glm", "lmerMod", "lmerModLmerTest", and "glmerMod". Similar to `resid_panel`, it allows the user to select a panel of plots from the options in the package or create their own panel by selecting from the plots available for this function.
 
-```{r eval = FALSE}
+```{r, eval = FALSE}
 # Create an interactive panel of the default diagnostic plots
 resid_interact(lm_model)
 ```
+
+![](./images/interact.gif)
 
 **`resid_xpanel`**: This function creates a panel of plots of the residuals or response variable versus the predictor (x) variables in the model. It accepts models of type "lm", "glm", "lmerMod", "lmerModLmerTest", and "glmerMod".
 

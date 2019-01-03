@@ -60,6 +60,8 @@ resid_panel(lm_model, plots = "all", bins = 20)
 resid_interact(lm_model)
 ```
 
+![](./images/interact.gif)
+
 **`resid_xpanel`**: This function creates a panel of plots of the residuals or response variable versus the predictor (x) variables in the model. It accepts models of type "lm", "glm", "lmerMod", "lmerModLmerTest", and "glmerMod".
 
 ``` r
