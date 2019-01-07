@@ -31,6 +31,7 @@ Katherine's Tasks:
   - update default in auxpanel
   - updated readme including an interactive plot
   - create a development rmd file with updates for each version
+  - updated package number in development version
 - questions:
   - I get some warnings about the loess curve with the following code:
   - m2 <- lm(mpg ~ cyl, data = mtcars)
