@@ -22,6 +22,7 @@ Katherine's Tasks:
 - make a vignette with examples showing how to use the package
   - examples for each residual type
   - example for interpreting
+- add a smoother option to the index plot (and then add to documentation and vignette)
 
 - completed:
   - add alpha values to lev plot
