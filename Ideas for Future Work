@@ -41,6 +41,7 @@ Katherine's Tasks:
   - Should I add references to the vignette to tell where we obtained some of our calculations and thresholds from?
   - How should the plots in the "all" option be ordered?
   - It looks like the residual plot is still using the lowess curve. Is this right?
+  - I discovered that the Cook's D plot includes tooltips at the y=0 location for each of the datapoints. Is this suppose to happen?
 
 Ideas for Future Package Versions:
 - write a function for computing standardized residuals for lmer and glmer (Katie)
