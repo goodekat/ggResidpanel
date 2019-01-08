@@ -135,11 +135,16 @@ resid_panel(tree_model, plots = "hist", bins = 20)
 
 The option of `plots = "index"` creates a plot of the residuals versus the observation numbers. A solid blue horizontal line through 0 is included for reference.
 
+`residual_panel` includes a `smoother` indicator option. If set to `TRUE`, a loess smoother will included on the index plot. If set to `FALSE`, it will not be included. By default, `smoother = FALSE`. (This option also affects the `resid` plot.)
+
 This can be used to look for patterns in the residuals in regards to the manner in which the data used to fit the model have been ordered. Often the data are ordered in a meaningful way such as time of observation. This plot can help to check if there is any relationship between the residuals and the order of the data. If a trend is found in this plot, it may suggest that a variable has been excluded from the model that would help to explain the variation in the response variable.
 
 ```{r}
 # Creates an index plot of the residuals
 resid_panel(tree_model, plots = "index")
+
+# Creates the index plot with a smoother added
+resid_panel(tree_model, plots = "index", smoother = TRUE)
 ```
 
 #### Residuals vs. Leverage Plot {#lev}
@@ -193,7 +198,7 @@ The option of `plots = "resid"` creates a plot of the residuals versus the predi
 
 `residual_panel` includes a `smoother` indicator option. If set to `TRUE`, a loess smoother will included on the residual plot. If set to `FALSE`, it will not be included. By default, `smoother = FALSE`.
 
-The residual plot can be used to check for homogeneity (constant variance) of the residuals and possible violations of the linear assumption. The assumption of homogeneity is met if the residuals are have approximately the same range throughout the entire range of the predicted values. The assumption of linearity may be violated if there is some trend in the residuals so that the residuals are not evenly distributed below and above 0 throughout the range of the predicted values.
+The residual plot can be used to check for homogeneity (constant variance) of the residuals and possible violations of the linear assumption. The assumption of homogeneity is met if the residuals are have approximately the same range throughout the entire range of the predicted values. The assumption of linearity may be violated if there is some trend in the residuals so that the residuals are not evenly distributed below and above 0 throughout the range of the predicted values. (This option also affects the `index` plot.)
 
 ```{r}
 # Creates a residual plot

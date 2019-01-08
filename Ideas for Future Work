@@ -19,7 +19,6 @@ Katie's Tasks:
 - fix resid_interact for binomial case to be more general
 
 Katherine's Tasks:
-- add a smoother option to the index plot (and then add to documentation and vignette)
 - make a vignette with examples showing how to use the package
 
 - completed:
@@ -31,6 +30,8 @@ Katherine's Tasks:
   - updated readme including an interactive plot
   - create a development rmd file with updates for each version
   - updated package number in development version
+  - added a smoother option to the index plot (and updated documentation)
+
 - questions:
   - I get some warnings about the loess curve with the following code:
   - m2 <- lm(mpg ~ cyl, data = mtcars)
@@ -39,6 +40,7 @@ Katherine's Tasks:
   - Can you switch the order of the plots in resid_compare?
   - Should I add references to the vignette to tell where we obtained some of our calculations and thresholds from?
   - How should the plots in the "all" option be ordered?
+  - It looks like the residual plot is still using the lowess curve. Is this right?
 
 Ideas for Future Package Versions:
 - write a function for computing standardized residuals for lmer and glmer (Katie)
