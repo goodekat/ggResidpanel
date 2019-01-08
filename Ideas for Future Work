@@ -42,6 +42,7 @@ Katherine's Tasks:
   - How should the plots in the "all" option be ordered?
   - It looks like the residual plot is still using the lowess curve. Is this right?
   - I discovered that the Cook's D plot includes tooltips at the y=0 location for each of the datapoints. Is this suppose to happen?
+  - Can the density curve be "moved behind" the bars in the interactive plot? (Right now, the plot is not interactive where the density crosses the bars.)
 
 Ideas for Future Package Versions:
 - write a function for computing standardized residuals for lmer and glmer (Katie)
