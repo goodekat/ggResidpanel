@@ -19,10 +19,8 @@ Katie's Tasks:
 - fix resid_interact for binomial case to be more general
 
 Katherine's Tasks:
-- make a vignette with examples showing how to use the package
-  - examples for each residual type
-  - example for interpreting
 - add a smoother option to the index plot (and then add to documentation and vignette)
+- make a vignette with examples showing how to use the package
 
 - completed:
   - add alpha values to lev plot
