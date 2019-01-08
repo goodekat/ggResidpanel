@@ -39,6 +39,7 @@ Katherine's Tasks:
   - What do we want to do about this?
   - Can you switch the order of the plots in resid_compare?
   - Should I add references to the vignette to tell where we obtained some of our calculations and thresholds from?
+  - How should the plots in the "all" option be ordered?
 
 Ideas for Future Package Versions:
 - write a function for computing standardized residuals for lmer and glmer (Katie)
