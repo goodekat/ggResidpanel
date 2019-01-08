@@ -17,7 +17,7 @@ and a histogram of the residuals. (See details for the options available.)}
 \item{bins}{Number of bins for histogram of the residuals. Default is set to 30.}
 
 \item{smoother}{Indicates whether or not to include a smoother on the
-residual plot. Specify TRUE or FALSE. Default is set to FALSE.}
+residual plot and/or index plot. Specify TRUE or FALSE. Default is set to FALSE.}
 
 \item{qqline}{Indicates whether to include a 1-1 line on the qq-plot. Specify
 TRUE or FALSE. Default is set to TRUE.}

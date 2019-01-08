@@ -13,7 +13,7 @@
 #'   default residual type for each model type is used. (See details for the
 #'   options available.)
 #' @param smoother Indicates whether or not to include a smoother on the
-#'   residual plot. Specify TRUE or FALSE. Default is set to FALSE.
+#'   plots. Specify TRUE or FALSE. Default is set to FALSE.
 #' @param scale Scales the size of the graphs in the panel. Takes values in (0,1].
 #' @param theme ggplot2 theme to be used. Current options are \code{"bw"},
 #'   \code{"classic"}, and \code{"grey"} (or \code{"gray"}). Default is

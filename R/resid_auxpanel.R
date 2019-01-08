@@ -10,7 +10,7 @@
 #'   and a histogram of the residuals. (See details for the options available.)
 #' @param bins Number of bins for histogram of the residuals. Default is set to 30.
 #' @param smoother Indicates whether or not to include a smoother on the
-#'   residual plot. Specify TRUE or FALSE. Default is set to FALSE.
+#'   residual plot and/or index plot. Specify TRUE or FALSE. Default is set to FALSE.
 #' @param qqline Indicates whether to include a 1-1 line on the qq-plot. Specify
 #'   TRUE or FALSE. Default is set to TRUE.
 #' @param qqbands Indicates whether to include confidence bands on the qq-plot.
@@ -123,6 +123,7 @@ resid_auxpanel <- function(residuals, predicted, plots = "default", bins = 30,
   if("index" %in% plots | "default" %in% plots | "all" %in% plots){
     index <- plot_auxindex(residuals,
                            theme = theme,
+                           smoother = smoother,
                            axis.text.size = axis.text.size,
                            title.text.size = title.text.size,
                            title.opt = title.opt)

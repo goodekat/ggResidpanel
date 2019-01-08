@@ -20,7 +20,7 @@ default residual type for each model type is used. (See details for the
 options available.)}
 
 \item{smoother}{Indicates whether or not to include a smoother on the
-residual plot. Specify TRUE or FALSE. Default is set to FALSE.}
+plots. Specify TRUE or FALSE. Default is set to FALSE.}
 
 \item{scale}{Scales the size of the graphs in the panel. Takes values in (0,1].}
 

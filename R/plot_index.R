@@ -1,7 +1,7 @@
 # Residual vs Index Plot.
 
 # Creates a residual vs index plot from a model
-plot_index <- function(model, type, theme, axis.text.size, title.text.size, title.opt){
+plot_index <- function(model, type, smoother, theme, axis.text.size, title.text.size, title.opt){
 
   ## Creation of Values to Plot -----------------------------------------------------
 
@@ -30,6 +30,12 @@ plot_index <- function(model, type, theme, axis.text.size, title.text.size, titl
     geom_point() +
     geom_abline(slope = 0, intercept = 0, color = "blue") +
     labs(x = "Observation Number", y = r_label)
+
+  # If smoother is set to true, add it to the plot
+  if (smoother == TRUE){
+    plot <- plot +
+      geom_smooth(method = "loess", se = FALSE, color = "red", size = 0.5)
+  }
 
   # Add theme to plot
   if (theme == "bw"){
