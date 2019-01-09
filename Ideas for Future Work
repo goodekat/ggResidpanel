@@ -45,6 +45,8 @@ Katherine's Tasks:
   - Can the density curve be "moved behind" the bars in the interactive plot? (Right now, the plot is not interactive where the density crosses the bars.)
   - How do we want to handle the tooltip information for the smoothers?
   - The tooltip for the smoother on the residual plot seems like it contains too much information...
+  - The residuals vs leverage interactive plot does the x,y positions last instead of first.
+  - The interactive yvp plot shows the response twice (once as response and once by the name of the resopnse variable).
 
 Ideas for Future Package Versions:
 - write a function for computing standardized residuals for lmer and glmer (Katie)
