@@ -53,7 +53,6 @@ Ideas for Future Package Versions:
 - write a function for computing standardized residuals for lmer and glmer (Katie)
 - look into testthat and vistest packages for testing
 - create an option for the user to add their own theme
-- improve the R plots — don’t just copy what the default in R gives — make it better
 - add in minimum package versions?? (under imports)
 - add interactive versions of the auxpanel, xpanel, and compare plots
   - maybe add an option in each of the functions for an interactive version
