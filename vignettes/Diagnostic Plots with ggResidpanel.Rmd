@@ -237,7 +237,7 @@ resid_panel(tree_model, plots = c("resid", "resid"))
 
 ## Package Specified Panels {#prespecified}
 
-ggResidpanel includes prespecified panel options that the authors of the package thought users would find helpful. These can be used by including the option of `plots = "[specified panel name]"` in `resid_panel`. The four package included panel option are as follows.
+ggResidpanel includes prespecified panel options for `resid_panel` that the authors of the package thought users would find helpful. These can be used by including the option of `plots = "specified panel name"` in `resid_panel`. The four package included panel option are as follows.
 
 - [`all`](#all)
 - [`default`](#default)
@@ -269,7 +269,7 @@ resid_panel(tree_model, plots = "default")
 
 #### Base R Inspired Panel of Plots {#R}
 
-The option of `plots = "R"` is designed to mimic the diagnostic plots created by applying the base R function `plot` to an "lm" or "glm" model. As a result, it can only be used with an lm or glm model. It creates a panel with a residual plot, a normal quantile plot of the residuals, a location-scale plot, and a residuals versus leverage plot.
+The option of `plots = "R"` is designed to mimic the diagnostic plots created by applying the base R function `plot` to an "lm" or "glm" model. As a result, it can only be used with an "lm" or "glm" model. It creates a panel with a residual plot, a normal quantile plot of the residuals, a location-scale plot, and a residuals versus leverage plot.
 
 ```{r}
 # Creates the R panel of plots with the smoother option for the residual plot set to TRUE
@@ -290,7 +290,7 @@ The option of `plots = "SAS"` creates a panel with a residual plot, a normal qua
 resid_panel(tree_model, plots = "SAS")
 ```
 
-## Residual Types
+## Residual Types {#type}
 
 The option of `type` in `resid_panel` adjusts the type of residuals to use in the plot. Several residual types are available to be requested based on the model type that is input into `resid_panel`. These are listed below. If a `type` is not specified, the default residual type for each model type is used. If a type other than raw residuals are used, the axis label for the axis that the residuals are plotted on will be specify the type of residual used. For example, if the raw residuals are used, the axis label will be "Residuals", but if Pearson residuals are used, the axis label will be "Pearson Residuals".
 
@@ -326,11 +326,11 @@ See the vignette on residuals to see the formulas used to compute the different 
 Note that the plots of `ls` and `lev` only accept standardized residuals.
 
 ```{r}
-# Example requesting Pearson residuals with a panel of plots from an lm model
+# Example requesting standardized residuals with a panel of plots from an lm model
 resid_panel(tree_model, type = "standardized")
 ```
 
-## Formatting Options
+## Formatting Options {#format}
 
 All of the functions in ggResidpanel have the following options for adjusting the format of the panel.
 
@@ -448,7 +448,7 @@ resid_interact(tree_model, plots = "boxplot")
 
 #### Cook’s Distance Plot {#interact_cookd}
 
-The option `plots = "cookd"` creates an interactive Cook's distance plot. When the cursor is hovered over a point, a tooltip is displayed. It first lists Cook's D value for that point, and then it lists the observed data values and observation number.
+The option `plots = "cookd"` creates an interactive Cook's distance plot. When the cursor is hovered over a point, a tooltip is displayed. It first lists Cook's D value for that point, and then it lists the observed data values and observation number. This plot is only available for “lm” and “glm” models.
 
 ```{r}
 # Creates an interactive Cook's D plot
@@ -485,7 +485,7 @@ resid_interact(tree_model, plots = "index", smoother = TRUE)
 
 #### Residuals vs. Leverage Plot {#interact_lev}
 
-The option `plots = "lev"` creates an interactive residual versus leverage plot. The cursor can be hovered over a data point to see a tooltip that contains the leverage, the standardized residual, the observed variable values, and the observation number of the data points. It is also possible to hover over the smoother line and the Cook's D contour lines to see the leverage and standardized residual values at that location on the line.
+The option `plots = "lev"` creates an interactive residual versus leverage plot. The cursor can be hovered over a data point to see a tooltip that contains the leverage, the standardized residual, the observed variable values, and the observation number of the data points. It is also possible to hover over the smoother line and the Cook's D contour lines to see the leverage and standardized residual values at that location on the line. This plot is only available for “lm” and “glm” models.
 
 ```{r}
 # Creates an interactive residual vs. leverage plot
@@ -494,7 +494,7 @@ resid_interact(tree_model, plots = "lev")
 
 #### Location-Scale Plot {#interact_ls}
 
-The option `plots = "ls"` creates an interactive location-scale plot. The cursor can be hovered over a point to see a tooltip that contains the prediction, the square root of the absolute value of the standardized residual, the observed values of the variables in the model, and the observation number of the point. It is also possible to hover over the loess smoother to view the prediction and square root of the absolute value of the standardized residual at that location on the line.
+The option `plots = "ls"` creates an interactive location-scale plot. The cursor can be hovered over a point to see a tooltip that contains the prediction, the square root of the absolute value of the standardized residual, the observed values of the variables in the model, and the observation number of the point. It is also possible to hover over the loess smoother to view the prediction and square root of the absolute value of the standardized residual at that location on the line. This plot is only available for “lm” and “glm” models.
 
 ```{r}
 # Creates an interactive location-scale plot
@@ -540,27 +540,83 @@ resid_interact(tree_model, plots = "yvp")
 
 ## User Specified Panels {#interact_vector}
 
+`resid_interact` allows for user specified panels. Just as with `resid_panel`, this can be done by including a vector of plot names of the form of `plots = c("name of plot 1", "name of plot 2", ...))`. Again, any of the individual plots listed in the previous section that are available for the model type can be included in the vector. Some examples of user specified panels are included below.
+
+```{r}
+# Creates a panel with a user specified vector of two plot names
+resid_interact(tree_model, plots = c("resid", "qq"))
+
+# Creates a panel from a vector of four plot names
+resid_interact(tree_model, plots = c("hist", "ls", "cookd", "lev"))
+```
+
 ## Package Specified Panels {#interact_pre}
+
+`resid_interact` offers the same four prespecified panels as `resid_panel`:
+
+- [`all`](#interact_all)
+- [`default`](#interact_default)
+- [`R`](#interact_R)
+- [`SAS`](#interact_SAS)
+
+These can be used by including the option of `plots = "specified panel name"`. As with `resid_panel`, the options of `all`, `default`, and `SAS` can be used for all model types, but the option of `R` can only be used for models of type “lm” or “glm”. The details of these panels and examples of the code are included below.
+
+#### Panel of All Plots {#interact_all}
+
+The option of `plots = "all"` creates an interactive version of the [panel of all](#all) plots included in the package that are available for the model type input into `resid_interact`.
+
+```{r}
+# Creates an interactive panel of all plots available for an "lm" model
+resid_interact(tree_model, plots = "all")
+```
+
+#### Default Panel {#interact_default}
+
+The option of `plots = "default"` creates an interactive version of the [default panel](#default) of plots. That is, this is the panel that is created if no `plots` option is specified in `resid_interact`.
+
+```{r}
+# Creates an interactive default panel with the option explicitly specified
+resid_interact(tree_model, plots = "default")
+```
+
+#### Base R Inspired Panel of Plots {#interact_R}
+
+The option of `plots = "R"` creates an interactive version of the [R panel](#R) of plots. This option can only be used with an "lm" or "glm" model.
+
+```{r}
+# Creates an interactive version of the R panel of plots with the smoother option for the residual plot set to TRUE
+resid_interact(tree_model, plots = "R", smoother = TRUE)
+```
+
+#### SAS Inspired Panel of Plots {#interact_SAS}
+
+The option of `plots = "SAS"` creates an interactive version of the [SAS panel](#SAS). 
+
+```{r}
+# Creates an interactive version of the SAS panel of plots
+resid_interact(tree_model, plots = "SAS")
+```
 
 ## Residual Types
 
-type
-Type of residuals to use in the plot. If not specified, the default residual type for each model type is used. (See details in the help file for resid_panel for the options available.)
+`resid_interact` includes the option of `type` to specify the type of residual to use in the plot. This option works in the same way as the `type` option in `resid_panel`. See the section on [residual types](#type) in `resid_panel` for details on how to use this option and the available residual types for each of the model options.
+
+```{r}
+# Example requesting the default interactive panel with Pearson residuals from an lm model
+resid_interact(tree_model, type = "pearson")
+```
 
 ## Formatting Options
 
-scale	
-Scales the size of the graphs in the panel. Takes values in (0,1].
-theme	
-ggplot2 theme to be used. Current options are "bw", "classic", and "grey" (or "gray"). Default is "bw".
-axis.text.size	
-Specifies the size of the text for the axis labels of all plots in the panel.
-title.text.size	
-Specifies the size of the text for the titles of all plots in the panel.
-title.opt	
-Indicates whether or not to include a title on the plots in the panel. Specify TRUE or FALSE. Default is set to TRUE.
-nrow	
-Sets the number of rows in the panel.
+`resid_interact` has the same formatting options as all of the functions in ggResidpanel. 
+
+- `axis.text.size` and `title.text.size`
+- `nrow`
+- `scale`
+- `theme`
+- `title.opt`
+
+See the section on [formatting options](#format) under the `resid_panel` documentation for the details on how to use the formatting options.
 
 # <span style="color:blue">`resid_xpanel`</span> {#resid_xpanel}
 
