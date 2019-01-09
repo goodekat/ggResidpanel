@@ -1,5 +1,6 @@
 ---
-title: "User Manual for Creating Diagnostic Plots with ggResidpanel"
+title: <span style="color:blue">ggResidpanel</span> User Manual
+subtitle: "For Easy Creation of Panels of Diagnostic Plots"
 author: "Katherine Goode and Kathleen Rey"
 date: "`r format(Sys.time(), '%B %d, %Y')`"
 output:
@@ -456,7 +457,7 @@ resid_interact(tree_model, plots = "cookd")
 
 #### Histogram of the Residuals {#interact_hist}
 
-The option of `plots = "hist"` creates an interactive histogram of the residuals. The cursor can be hovered over the bars in the histogram to display a tooltip that lists the density value at the top of the bar and the number of observations in the bar ("count"). If the cursor is hovered over the bottom on the plot where the density equal to 0, a tooltip appears that shows the location of the datapoints and lists the observed value and observation number of the data point.
+The option of `plots = "hist"` creates an interactive histogram of the residuals. The cursor can be hovered over the bars in the histogram to display a tooltip that lists the density value at the top of the bar and the number of observations in the bar ("count"). If the cursor is hovered over the bottom on the plot where the density equal to 0, a tooltip appears that shows the location of the data points and lists the observed value and observation number of the data point.
 
 `resid_interact` includes the same `bins` option as `resid_panel` for the histogram. It allows the user to specify the number of bins to use when creating the histogram. Again, by default, `bins = 30`.
 
@@ -472,7 +473,7 @@ resid_interact(tree_model, plots = "hist", bins = 20)
 
 The option of `plots = "index"` creates an interactive index plot of the residuals. The cursor can be hovered over a data point to see a tooltip that containing the value of the residual, the observed variable values, and the observation number of the point.
 
-`resid_interact` also includes the `smoother` option for the index plot which indicates whether or not to include a loess smoother on the index plot. Set `smoother = TRUE` to have the smoother appear. The default is `smoother = FALSE`. This option also affects the residual plot.
+`resid_interact` also includes the `smoother` option for the index plot which indicates whether or not to include a loess smoother on the index plot. Set `smoother = TRUE` to have the smoother appear. The default is `smoother = FALSE`. This option also affects the residual plot if included in the same panel.
 
 ```{r}
 # Creates an interactive index plot of the residuals
@@ -484,7 +485,7 @@ resid_interact(tree_model, plots = "index", smoother = TRUE)
 
 #### Residuals vs. Leverage Plot {#interact_lev}
 
-The option `plots = "lev"` creates an interactive residual versus leverage plot. 
+The option `plots = "lev"` creates an interactive residual versus leverage plot. The cursor can be hovered over a data point to see a tooltip that contains the leverage, the standardized residual, the observed variable values, and the observation number of the data points. It is also possible to hover over the smoother line and the Cook's D contour lines to see the leverage and standardized residual values at that location on the line.
 
 ```{r}
 # Creates an interactive residual vs. leverage plot
@@ -493,6 +494,8 @@ resid_interact(tree_model, plots = "lev")
 
 #### Location-Scale Plot {#interact_ls}
 
+The option `plots = "ls"` creates an interactive location-scale plot. The cursor can be hovered over a point to see a tooltip that contains the prediction, the square root of the absolute value of the standardized residual, the observed values of the variables in the model, and the observation number of the point. It is also possible to hover over the loess smoother to view the prediction and square root of the absolute value of the standardized residual at that location on the line.
+
 ```{r}
 # Creates an interactive location-scale plot
 resid_interact(tree_model, plots = "ls")
@@ -500,8 +503,9 @@ resid_interact(tree_model, plots = "ls")
 
 #### Normal Quantile Plot {#interact_qq}
 
-qqline	
-Indicates whether to include a 1-1 line on the qq-plot. Specify TRUE or FALSE. Default is set to TRUE. (The option of qqbands has not been implemented in plotly, so it is not available as an option with resid_interact.)
+The option `plots = "qq"` creates an interactive normal quantile plot. When the cursor is hovered over a point, a tooltip appears that displays the theoretical value, the residual value, the observed data values, and the observation number of the point.
+
+`resid_interact` contains the same option of `qqline` that is included with `resid_panel`. It indicates whether to include a 1-1 line on the qq-plot. If TRUE is specified, the line is included. By default, `qqline = TRUE`. The option of `qqbands` that is included with `resid_panel` has not been implemented in plotly, so it is not available as an option with `resid_interact`.
 
 ```{r}
 # Creates an interactive normal quantile plot
@@ -513,8 +517,9 @@ resid_interact(tree_model, plots = "qq", qqline = FALSE)
 
 #### Residual Plot {#interact_resid}
 
-smoother	
-Indicates whether or not to include a smoother on the residual plot and/or index plot. Specify TRUE or FALSE. Default is set to FALSE.
+The option of `plots = "resid"` creates an interactive residual plot. When the cursor is hovered over a point, a tooltip appears that contains the prediction, the residual, the observed variable values, and the observation number associated with the point.
+
+`resid_interact` includes the option of `smoother` (just like `resid_panel`), which indicates whether or not to include a loess smoother on the residual plot. If set to TRUE, the smoother is included. By default `smoother = FALSE`. This option also affects the index plot if included in the same panel. 
 
 ```{r}
 # Creates an interactive residual plot
@@ -525,6 +530,8 @@ resid_interact(tree_model, plots = "resid", smoother = TRUE)
 ```
 
 #### Response vs. Predicted Plot {#interact_yvp}
+
+The option of `plots = "yvp"` creates an interactive plot of the response variable versus the predicted value. If the cursor is hovered over a point, a tooltip appears that contains the predicted value, the response variable value, the observed variable values, and the observation number.
 
 ```{r}
 # Creates an interactive residual vs. predicted value plot
