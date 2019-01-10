@@ -1,7 +1,7 @@
 # Residual vs Index Plot.
 
 # Creates a residual plot with the input residuals and predicted values
-plot_auxindex <- function(resid, theme, axis.text.size, title.text.size, title.opt){
+plot_auxindex <- function(resid, smoother, theme, axis.text.size, title.text.size, title.opt){
 
   ## Creation of Values to Plot -----------------------------------------------------
 
@@ -18,6 +18,12 @@ plot_auxindex <- function(resid, theme, axis.text.size, title.text.size, title.o
     geom_point() +
     geom_abline(slope = 0, intercept = 0, color = "blue") +
     labs(x = "Observation Number", y = "Residuals")
+
+  # If smoother is set to true, add it to the plot
+  if (smoother == TRUE){
+    plot <- plot +
+      geom_smooth(method = "loess", se = FALSE, color = "red", size = 0.5)
+  }
 
   # Add theme to plot
   if (theme == "bw"){
