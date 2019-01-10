@@ -69,6 +69,8 @@ The most basic use of this function is to only include the model in the function
 resid_panel(tree_model)
 ```
 
+## Plots Available
+
 The `plots` option in `resid_panel` allows the user to create a panel with a desired set of plots using the plots included in the package. There are three ways a user can do this:
 
 - specify an [individual plot](#individual) to create one plot
@@ -77,7 +79,7 @@ The `plots` option in `resid_panel` allows the user to create a panel with a des
 
 Explanations and examples for each of these methods are included in the next three sections.
 
-## Individual Plots {#individual}
+### Individual Plots {#individual}
 
 An individual plot can be created by including the option of `plots = "name of plot"` in the `resid_panel` function. The name of the plot must be in quotations. There are currently nine plots included in the package with `resid_panel`. Their names in the packages are as follows.
 
@@ -219,7 +221,7 @@ This plot provides a visualization to assess how similar the model predictions o
 resid_panel(tree_model, plots = "yvp")
 ```
 
-## User Specified Panels {#vector}
+### User Specified Panels {#vector}
 
 The `plots` option in `resid_panel` also allows the user to specify a vector of plots to include in a panel. To do this, the user can include an option of the form of `plots = c("name of plot 1", "name of plot 2", ...))` in the function. The names of the plots must be in quotations. Any of the individual plots listed in the previous section that are available for the model type can be included in the vector. Any number of plots greater than 0 can be included in the vector. If a plot name is included multiple times in the vector, a plot will be created for each instance the name is included. Some examples of user specified plots are included below.
 
@@ -234,7 +236,7 @@ resid_panel(tree_model, plots = c("hist", "ls", "cookd", "lev"))
 resid_panel(tree_model, plots = c("resid", "resid"))
 ```
 
-## Package Specified Panels {#prespecified}
+### Package Specified Panels {#prespecified}
 
 ggResidpanel includes prespecified panel options for `resid_panel` that the authors of the package thought users would find helpful. These can be used by including the option of `plots = "specified panel name"` in `resid_panel`. The four package included panel option are as follows.
 
@@ -412,6 +414,8 @@ The most basic way to use `resid_interact` is to input a model into the function
 resid_interact(tree_model)
 ```
 
+## Plots Available
+
 `resid_interact` offers the same three ways in a which a user can create a panel of plots:
 
 - specify an [individual plot](#interact_ind) to create one plot
@@ -420,7 +424,7 @@ resid_interact(tree_model)
 
 Additional details on these methods are described in the next three sections.
 
-## Individual Plots {#interact_ind}
+### Individual Plots {#interact_ind}
 
 In the same way an individual plot can be created in `resid_panel`, an individual interactive plot can be created in `resid_interact` by including the option of `plots = "name of plot"` in the `resid_interact` function. The name of the plot must be in quotations. The same nine plots included with `resid_panel` are included with `resid_interact`. Their names in the packages are as follows.
 
@@ -537,7 +541,7 @@ The option of `plots = "yvp"` creates an interactive plot of the response variab
 resid_interact(tree_model, plots = "yvp")
 ```
 
-## User Specified Panels {#interact_vector}
+### User Specified Panels {#interact_vector}
 
 `resid_interact` allows for user specified panels. Just as with `resid_panel`, this can be done by including a vector of plot names of the form of `plots = c("name of plot 1", "name of plot 2", ...))`. Again, any of the individual plots listed in the previous section that are available for the model type can be included in the vector. Some examples of user specified panels are included below.
 
@@ -549,7 +553,7 @@ resid_interact(tree_model, plots = c("resid", "qq"))
 resid_interact(tree_model, plots = c("hist", "ls", "cookd", "lev"))
 ```
 
-## Package Specified Panels {#interact_pre}
+### Package Specified Panels {#interact_pre}
 
 `resid_interact` offers the same four prespecified panels as `resid_panel`:
 
@@ -625,7 +629,7 @@ resid_xpanel(tree_model)
 
 For predictor variables that are factors, the levels shown on the x-axis will be in the order that the levels are ordered in the data frame. This can be adjusted by reordering the levels of the factor before the model is fit.
 
-## Y-Axis Variable
+## Plots Available
 
 `resid_xpanel` includes the option of `yvar`. This allows the user to specify whether the residuals or the response variable from the model should be plotted on the y-axes of the plots in the panel. If `yvar = residual`, then the residuals will be plotted on the y-axes. If `yvar = response`, then the response variable will be plotted on the y-axes. By default, `yvar` is set to `residual`.
 
@@ -665,12 +669,12 @@ resid_xpanel(tree_model, yvar = "response",smoother = TRUE)
 
 Creates a panel of residual diagnostic plots given a list of models. Currently accepts models of type "lm", "glm", "lmerMod", "lmerModLmerTest", and "glmerMod".
 
-models	
-List of models fit using either lm, glm, lmer, lmerTest, or glmer.
+## Overview 
+
+## Plots Available
+
 plots	
 Plots chosen to include in the panel of plots. The default panel includes a residual plot, a normal quantile plot, an index plot, and a histogram of the residuals. (See details for the options available.)
-type	
-Type of residuals to use in the plot. If not specified, the default residual type for each model type is used. (See details for the options available.)
 bins	
 Number of bins to use when creating a histogram of the residuals. Default is set to 30.
 smoother	
@@ -679,17 +683,55 @@ qqline
 Indicates whether to include a 1-1 line on the qq-plot. Specify TRUE or FALSE. Default is set to TRUE.
 qqbands	
 Indicates whether to include confidence bands on the qq-plot. Specify TRUE or FALSE. Default is set to FALSE.
-scale	
-Scales the size of the graphs in the panel. Takes values in (0,1].
-theme	
-ggplot2 theme to be used. Current options are "bw", "classic", and "grey" (or "gray"). Default is "bw".
-axis.text.size	
-Specifies the size of the text for the axis labels of all plots in the panel.
-title.text.size	
-Specifies the size of the text for the titles of all plots in the panel.
-title.opt	
-Indicates whether or not to include a title on the plots in the panel. Specify TRUE or FALSE. Default is set to TRUE.
-nrow	
-Sets the number of rows in the panel.
+
+## Residual Types
+
+`resid_compare` includes the option of `type` to specify the type of residual to use in the plot. This option works in the same way as the `type` option in `resid_panel`. See the section on [residual types](#type) under `resid_panel` for details on how to use this option and the available residual types for each of the model types.
+
+## Formatting Options
+
+`resid_compare` has the same formatting options as all of the functions in ggResidpanel. See the section on [formatting options](#format) under the `resid_panel` documentation for the details on how to use the formatting options, or click on a formatting option below to go directly to the section with the details for that option.
+
+- [`axis.text.size`](#text.size) and [`title.text.size`](#text.size)
+- [`nrow`](#nrow)
+- [`scale`](#scale)
+- [`theme`](#theme)
+- [`title.opt`](#title.opt)
 
 # <span style="color:blue">`resid_auxpanel`</span> {#resid_auxpanel}
+
+## Overview
+
+Creates a panel of residual diagnostic plots given inputs of residuals and fitted values.
+
+resid	
+The residuals from the model.
+pred	
+The fitted values from the model.
+
+## Plots Available
+
+plots	
+Plots chosen to include in the panel of plots. The default panel includes a residual plot, a normal quantile plot, an index plot, and a histogram of the residuals. (See details for the options available.)
+bins	
+Number of bins for histogram of the residuals. Default is set to 30.
+smoother	
+Indicates whether or not to include a smoother on the residual plot and/or index plot. Specify TRUE or FALSE. Default is set to FALSE.
+qqline	
+Indicates whether to include a 1-1 line on the qq-plot. Specify TRUE or FALSE. Default is set to TRUE.
+qqbands	
+Indicates whether to include confidence bands on the qq-plot. Specify TRUE or FALSE. Default is set to FALSE.
+
+## Residual Types
+
+`resid_auxpanel` does not include the option of `type` to specify the type of residual to use in the plot. Since the model is not input to `resid_auxpanel`, it does not have the necessary information to be able to compute other types of residuals based on the input type of residuals. If the user wishes to use a different type of residual, the user must compute these on their own.
+
+## Formatting Options
+
+`resid_auxpanel` has the same formatting options as all of the functions in ggResidpanel. See the section on [formatting options](#format) under the `resid_panel` documentation for the details on how to use the formatting options, or click on a formatting option below to go directly to the section with the details for that option.
+
+- [`axis.text.size`](#text.size) and [`title.text.size`](#text.size)
+- [`nrow`](#nrow)
+- [`scale`](#scale)
+- [`theme`](#theme)
+- [`title.opt`](#title.opt)
