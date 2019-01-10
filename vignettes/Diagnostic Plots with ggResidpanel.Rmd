@@ -21,35 +21,29 @@ knitr::opts_chunk$set(echo = TRUE, fig.align = 'center', cache = TRUE)
 
 ggResidpanel provides a way to easily create and view diagnostic plots from models in R using ggplot2 graphics. The goal in creating the package was to allow a model to be passed to a function that returns a panel of diagnostic plots that can be viewed simultaneously. The panel allows the user to easily scan plots of interest to check for violations of model assumptions or lack of fit. The idea to portray the plots in a grid was motivated by the residual panel plots provided by SAS (version 9.4) procedures. In addition to being able to view the plots in a panel, ggResidpanel includes the ability to select which plots to include in the panel, ways to to adjust plot characteristics, and options to change the format of the figure. Furthermore, the package provides both static and interactive panels of plots and the ability to view diagnostic plots from multiple models in the same panel.
 
-The package contains the following five functions. (Describe the model types accepted here.)
+The package contains the following five functions. Note that `resid_panel`, `resid_interact`, `resid_xpanel`, and `resid_compare` are designed to work with models of type "lm", "glm", "lmer", "glmer", and "lmerTest".
 
-- [`resid_panel`](#resid_panel): Creates a panel of diagnostic plots of the residuals from a model (fit using a method currently accepted by the package)
-- [`resid_interact`](#resid_interact): Creates an interactive panel of diagnostic plots of the residuals form a model (fit using a method currently accepted by the package)
-- [`resid_xpanel`](#resid_xpanel): Creates a panel of diagnostic plots of the predictor variables (fit using a method currently accepted by the package)
-- [`resid_compare`](#resid_compare): Creates a panel of diagnostic plots from multiple models (fit using a method currently accepted by the package)
+- [`resid_panel`](#resid_panel): Creates a panel of diagnostic plots of the residuals from a model
+- [`resid_interact`](#resid_interact): Creates an interactive panel of diagnostic plots of the residuals form a model
+- [`resid_xpanel`](#resid_xpanel): Creates a panel of diagnostic plots of the predictor variables 
+- [`resid_compare`](#resid_compare): Creates a panel of diagnostic plots from multiple models
 - [`resid_auxpanel`](#resid_auxpanel): Creates a panel of diagnostic plots for model types not included in the package
 
-A section is included below for each function with details describing how to use them. Their function will be demonstrated by fitting a model to the dataset `trees` included in R. The dataset contains information on the volume, girth, and height of 31 black cherry trees. The linear model below is fit to determine if their is a linear relationship between the volume of the tree given its height and girth.
-
-```{r}
-# Fit a linear model with a response variable of volume and predictor
-# variables of height and girth
-tree_model <- lm(Volume ~ Height + Girth, data = trees)
-```
+A section is included in this vignette for each of the functions with details and examples showing how to use the functions.
 
 # Installation
 
 The package is currently only available on GitHub. The intention is to add the package to CRAN in the near future. For now, the following code can be used to install ggResidpanel using the devtools package.
 
 ```{r eval = FALSE}
-# Download and install ggResidpanel from GitHub
+# Downloads and installs ggResidpanel from GitHub
 devtools::install_github("goodekat/ggResidpanel")
 ```
 
 To use the package in R, load the library into your R session with the following code.
 
 ```{r}
-# Load the library
+# Loads the library
 library(ggResidpanel)
 ```
 
@@ -62,14 +56,22 @@ The function `resid_panel` takes a model and returns a panel of diagnostic plots
   - models fit using the `lm` or `glm` functions in base R (which will be referred to as "lm" and "glm" models) or 
   - models fit using the `lmer` or `glmer` functions from either the lme4 or lmerTest package (which will be referred to as "lmer", "glmer", and "lmerTest" models). 
   
-The most basic use of this function is to only include the model in the function. The code below shows the figure that is created if the `tree_model` is input into `resid_panel` with no other options specified. This produces a panel with the four plots of a residual plot, a normal quantile plot, an index plot, and a histogram of the residuals.
+This function and the next three functions will be demonstrated by fitting a model to the dataset `trees` included in base R. The dataset contains information on the volume, girth, and height of 31 black cherry trees. The linear model below is fit to determine if their is a linear relationship between the volume of the tree given its height and girth.
+
+```{r}
+# Fits a linear model with a response variable of volume and predictor
+# variables of height and girth
+tree_model <- lm(Volume ~ Height + Girth, data = trees)
+```
+
+The first argument in `resid_panel` is the `model` option. The most basic use of `resid_panel` to only include the model in the function. The code below shows the figure that is created if the `tree_model` is input into `resid_panel` with no other options specified. This produces a panel with the four plots of a residual plot, a normal quantile plot, an index plot, and a histogram of the residuals.
 
 ```{r}
 # Creates the default panel of plots based on the tree_model
 resid_panel(tree_model)
 ```
 
-## Plots Available
+## Plots {#plots}
 
 The `plots` option in `resid_panel` allows the user to create a panel with a desired set of plots using the plots included in the package. There are three ways a user can do this:
 
@@ -407,14 +409,14 @@ The function `resid_interact` produces makes use of the plotly package to create
 
 `resid_interact` functions in a similar way to `resid_panel`. It has (mostly) the same input options, and it includes the same plots and prespecified panels. Similar to `resid_panel`, `resid_interact` currently requires a model of type "lm", "glm", "lmer", lmerTest, or glmer.
 
-The most basic way to use `resid_interact` is to input a model into the function as seen below. It creates an interactive version of the default panel created by `resid_panel`. When the cursor is hovered over a point, a tooltip appears. The first two lines contain the $x$ and $y$ coordinates of the point. The remaining lines that appear after "Data:" are the observed values for the data point for all of the variables included in the model and the observation number. Different types of plots have slightly varying types of interactivity. All of the functionality is described below in the section on [individual plots](#interact_ind).
+The first argument in `resid_interact` is the `model` option. The most basic way to use `resid_interact` is to input a model into the function as seen below. It creates an interactive version of the default panel created by `resid_panel`. When the cursor is hovered over a point, a tooltip appears. The first two lines contain the $x$ and $y$ coordinates of the point. The remaining lines that appear after "Data:" are the observed values for the data point for all of the variables included in the model and the observation number. Different types of plots have slightly varying types of interactivity. All of the functionality is described below in the section on [individual plots](#interact_ind).
 
 ```{r}
 # Creates an interactive version of the default panel from resid_panel
 resid_interact(tree_model)
 ```
 
-## Plots Available
+## Plots
 
 `resid_interact` offers the same three ways in a which a user can create a panel of plots:
 
@@ -620,7 +622,7 @@ resid_interact(tree_model, plots = "SAS")
 
 When working with linear models, it is often helpful to assess the model by viewing the residuals versus the predictor variables. Additionally, it can be helpful to view the response variable versus the predictor variables to understand the relationships between the variables. The function `resid_xpanel` can be applied to a model to create a panel of plots of the residuals or the response variable (as specified by the user) versus the predictor ($X$) variables in the model. Interactions between predictor variables are not currently included in the panel. `resid_xpanel` currently accepts the model types of "lm", "glm", "lmerMod", "lmerModLmerTest", and "glmerMod".
 
-The most basic use of `resid_xpanel` is to input a model into the function as shown below. This creates a panel of scatterplots of the residuals from the model versus the predictor variables in the model. Two predictor variables were included in the `tree_model` (height and girth). As a result, the code below produces a panel with two plots.
+The first argument in `resid_xpanel` is the `model` option. The most basic use of `resid_xpanel` is to input a model into the function as shown below. This creates a panel of scatterplots of the residuals from the model versus the predictor variables in the model. Two predictor variables were included in the `tree_model` (height and girth). As a result, the code below produces a panel with two plots.
 
 ```{r}
 # Creates a panel of residuals versus the predictor variables in the tree_model
@@ -629,7 +631,7 @@ resid_xpanel(tree_model)
 
 For predictor variables that are factors, the levels shown on the x-axis will be in the order that the levels are ordered in the data frame. This can be adjusted by reordering the levels of the factor before the model is fit.
 
-## Plots Available
+## Plots
 
 `resid_xpanel` includes the option of `yvar`. This allows the user to specify whether the residuals or the response variable from the model should be plotted on the y-axes of the plots in the panel. If `yvar = residual`, then the residuals will be plotted on the y-axes. If `yvar = response`, then the response variable will be plotted on the y-axes. By default, `yvar` is set to `residual`.
 
@@ -667,22 +669,65 @@ resid_xpanel(tree_model, yvar = "response",smoother = TRUE)
 
 # <span style="color:blue">`resid_compare`</span> {#resid_compare}
 
-Creates a panel of residual diagnostic plots given a list of models. Currently accepts models of type "lm", "glm", "lmerMod", "lmerModLmerTest", and "glmerMod".
-
 ## Overview 
 
-## Plots Available
+The function of `resid_compare` was created to allow for the comparison of diagnostic plots between models. This function may be particularly helpful when a model assumption is not met and an adjustment is made to the model such as a transformation of the response in order to try to meet the model assumptions. `resid_compare` creates a panel with residual diagnostic plots from both models given a list of the models. This allows for side by side comparison of the changes in the diagnostic plots to determine if the adjustment are effective. `resid_compare` currently accepts models of type "lm", "glm", "lmerMod", "lmerModLmerTest", and "glmerMod".
 
-plots	
-Plots chosen to include in the panel of plots. The default panel includes a residual plot, a normal quantile plot, an index plot, and a histogram of the residuals. (See details for the options available.)
-bins	
-Number of bins to use when creating a histogram of the residuals. Default is set to 30.
-smoother	
-Indicates whether or not to include a smoother on the residual plot and/or index plot. Specify TRUE or FALSE. Default is set to FALSE.
-qqline	
-Indicates whether to include a 1-1 line on the qq-plot. Specify TRUE or FALSE. Default is set to TRUE.
-qqbands	
-Indicates whether to include confidence bands on the qq-plot. Specify TRUE or FALSE. Default is set to FALSE.
+The first argument in `resid_compare` is the `models` option, which requires a list of models. The most basic use of `resid_compare` is to only input a list of models into the function. The diagnostic plots from from the `tree_model` suggest possible issues with linearity and homogeneity. The code below fits two new models that attempt to deal with these issues. The three models of `tree_model`, `tree_model_squared`, and `tree_model_log` are input into `resid_compare` as a list. This creates a 4x3 panel of plots. The columns represent the models and the rows are different plot types. Each plot type is created for all three models. By default, the four plots in the default `resid_panel` appear. `resid_compare` includes options to change the plots and adjust the appearance of the figure.
+
+```{r fig.height = 8, fig.width = 12}
+# Fits a model with the log transformed volume variable as the response
+tree_model_log <- lm(log(Volume) ~ Height + Girth, data = trees)
+
+# Fits a model with an added squared term of girth
+tree_model_squared <- lm(Volume ~ Height + Girth + I(Girth^2), data = trees)
+
+# Creates a panel with the four default diagnostic plots for all three models
+resid_compare(models = list(tree_model, tree_model_log, tree_model_squared))
+```
+
+## Plots
+
+The `plots` option can be used to specify which plots to include in the panel. It uses the same three methods of selecting plots as `resid_panel` and `resid_interact`, and each of these methods include the same plotting options as the other functions. An overview of the options available are listed below. For more details on how to specify these options, how the plots are made, and additional graphing options associated with the plots, see the [plots section](#plots) under `resid_panel` or click on one of the links below to go directly to the documentation.
+
+- [individual plots](#individual)
+    + [`boxplot`](#boxplot)
+    + [`cookd`](#cookd)
+    + [`hist`](#hist) (includes `bins` option)
+    + [`index`](#index) (includes `smoother` option)
+    + [`lev`](#lev)
+    + [`ls`](#ls)
+    + [`qq`](#qq) (includes `qqline` and `qqbands` options)
+    + [`resid`](#resid) (includes `smoother` option)
+    + [`yvp`](#yvp)
+- [user specified vector of plots](#vector) of the form `plots = c("name of plot 1", "name of plot 2", ...))`
+- [package specified panel](#prespecified)
+    + [`all`](#all)
+    + [`default`](#default)
+    + [`R`](#R)
+    + [`SAS`](#SAS)
+
+Here are a few examples specifying different plot options with `resid_compare`.
+
+```{r fig.height = 4, width = 8}
+# Creates a panel comparing residual plots between two models with smoothers overlayed
+resid_compare(models = list(tree_model, tree_model_log), 
+              plots = "resid", smoother = TRUE)
+```
+
+```{r fig.height = 6, width = 8}
+# Creates a panel comparing residual plots, qq-plots, and Cook's D plots etween two models with confidence bands added to the qq-plot
+resid_compare(models = list(tree_model, tree_model_log), 
+              plots = c("resid", "qq", "cookd"), 
+              qqbands = TRUE)
+```
+
+```{r fig.height = 8, width = 8}
+# Creates SAS panel plots for both models using 20 bins to create the histograms
+resid_compare(models = list(tree_model, tree_model_log), 
+              plots = "SAS", 
+              bins = 20)
+```
 
 ## Residual Types
 
@@ -702,25 +747,46 @@ Indicates whether to include confidence bands on the qq-plot. Specify TRUE or FA
 
 ## Overview
 
-Creates a panel of residual diagnostic plots given inputs of residuals and fitted values.
+The function `resid_auxpanel` is included in the package to be used to create diagnostic plot panels similar to those from `resid_panel` if working with a model type that is not currently supported by `resid_panel`. The term "auxpanel" stands for "auxiliary panel" since this function is meant to provide additional support for users if they want to make use of the graphics in ggResidpanel but are not using a model of type "lm", "glm", "lmer", "glmer", or "lmerTest".
 
-resid	
-The residuals from the model.
-pred	
-The fitted values from the model.
+`resid_auxpanel` works differently than the other functions in ggResidpanel. The other functions require a model to be input. `resid_auxpanel` requires the residuals (`resid`) and the predicted values (`pred`) to be input. This allows users to extract the residuals and predicted values from any model type and create a panel of diagnostic plots. It could also be used if the user is working with a residual type not included in ggResidpanel.
 
-## Plots Available
+The code below fits a random forest model to the `trees` data. It specifies the volume as the response variable and the girth and height as the predictor variables. The predicted values are extracted from the model, and then the residuals are computed. These values are input into `resid_auxpanel`. The `plots` option is used to request a "resid" and a "index" plot, and the `smoother` option is set to `TRUE`. This produces a panel with a residual and index plot.
 
-plots	
-Plots chosen to include in the panel of plots. The default panel includes a residual plot, a normal quantile plot, an index plot, and a histogram of the residuals. (See details for the options available.)
-bins	
-Number of bins for histogram of the residuals. Default is set to 30.
-smoother	
-Indicates whether or not to include a smoother on the residual plot and/or index plot. Specify TRUE or FALSE. Default is set to FALSE.
-qqline	
-Indicates whether to include a 1-1 line on the qq-plot. Specify TRUE or FALSE. Default is set to TRUE.
-qqbands	
-Indicates whether to include confidence bands on the qq-plot. Specify TRUE or FALSE. Default is set to FALSE.
+```{r}
+# Fits a random forest model to the trees data
+rf_model <- randomForest::randomForest(x = trees[,1:2], y = trees[,3])
+
+# Obtains the predictions from the model on the observed data
+rf_pred <- predict(rf_model, trees[,1:2])
+
+# Obtains the residuals from the model
+rf_resid <- trees[,3] - rf_pred
+
+# Creates a panel with a residual and index plot
+resid_auxpanel(residuals = rf_resid, 
+               predicted = rf_pred, 
+               plots = c("resid", "index"), 
+               smoother = TRUE)
+```
+
+## Plots
+
+`resid_auxpanel` has a `plots` option like the other functions in ggResidpanel. However, it does not include as many plot options. Since it uses the specified residuals and predicted values, it does not contain all of the information that a model would contain. Some of the plots available with other functions require additional information from the model. As a result, these plots are not available with `resid_auxpanel`. The plots that are available are created in the same way and have the same plotting options as with the other functions. 
+
+The plotting options that are available with `resid_auxpanel` are listed below. See the documentation under `resid_panel` for details on the options.
+
+- [individual plots](#individual)
+    + [`boxplot`](#boxplot)
+    + [`hist`](#hist) (includes `bins` option)
+    + [`index`](#index) (includes `smoother` option)
+    + [`qq`](#qq) (includes `qqline` and `qqbands` options)
+    + [`resid`](#resid) (includes `smoother` option)
+- [user specified vector of plots](#vector) of the form `plots = c("name of plot 1", "name of plot 2", ...))`
+- [package specified panel](#prespecified)
+    + [`all`](#all)
+    + [`default`](#default)
+    + [`SAS`](#SAS)
 
 ## Residual Types
 
