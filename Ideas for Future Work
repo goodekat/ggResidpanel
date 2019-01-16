@@ -20,6 +20,9 @@ Katie's Tasks:
 
 Katherine's Tasks:
 - make a vignette with examples showing how to use the package
+- look into the "safely" functions or write your own function for managing the error of...
+  - Error in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y,  :
+  polygon edge not found
 
 - completed:
   - add alpha values to lev plot
@@ -56,8 +59,3 @@ Ideas for Future Package Versions:
 - add in minimum package versions?? (under imports)
 - add interactive versions of the auxpanel, xpanel, and compare plots
   - maybe add an option in each of the functions for an interactive version
-
-Mystery Errors/Warnings:
-
-Error in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y,  :
-  polygon edge not found
