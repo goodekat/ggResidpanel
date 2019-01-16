@@ -23,6 +23,11 @@ Katherine's Tasks:
 - look into the "safely" functions or write your own function for managing the error of...
   - Error in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y,  :
   polygon edge not found
+- dataset ideas:
+  - dasl or ozdasl
+  - tise journal
+  - https://github.com/fivethirtyeight/data
+  - ecology journal databases
 
 - completed:
   - add alpha values to lev plot
