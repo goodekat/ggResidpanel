@@ -56,6 +56,7 @@ Katherine's Tasks:
   - The residuals vs leverage interactive plot does the x,y positions last instead of first.
   - The interactive yvp plot shows the response twice (once as response and once by the name of the resopnse variable).
   - What do you think we should call the vignette that I wrote?
+  - Idea to option to color residuals by predictor variables?
 
 Ideas for Future Package Versions:
 - write a function for computing standardized residuals for lmer and glmer (Katie)
