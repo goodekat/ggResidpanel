@@ -57,6 +57,7 @@ Katherine's Tasks:
   - The interactive yvp plot shows the response twice (once as response and once by the name of the resopnse variable).
   - What do you think we should call the vignette that I wrote?
   - Idea to option to color residuals by predictor variables?
+  - Do you think we can add nlme models quickly before putting this on CRAN?
 
 Ideas for Future Package Versions:
 - write a function for computing standardized residuals for lmer and glmer (Katie)
