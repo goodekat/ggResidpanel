@@ -19,6 +19,7 @@ Katie's Tasks:
 - fix resid_interact for binomial case to be more general
 
 Katherine's Tasks:
+- need to update vignette to say that lme models are now allowed
 - make a vignette with examples showing how to use the package
 - look into the "safely" functions or write your own function for managing the error of...
   - Error in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y,  :
