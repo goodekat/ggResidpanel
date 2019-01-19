@@ -31,6 +31,16 @@ helper_resid <- function(type = NA, model){
       return((resid(model, type = "pearson")) / (sqrt(summary(model)$dispersion*(1 - hatvalues(model)))))
     }
 
+  # lme residuals
+  } else if (class(model)[1] == "lme"){
+
+    # Default: Pearson residuals (condtional on BLUPs)
+    if(is.na(type) | type == "pearson"){
+      return(resid(model, type = "response") / summary(model)$sigma)
+    } else if (type == "response"){
+      return(resid(model, type = "response"))
+    }
+
   # lmer residuals
   } else if (class(model)[1] == "lmerMod"){
 
@@ -42,7 +52,7 @@ helper_resid <- function(type = NA, model){
     }
 
   # lmerTest residuals
-  } else if (class(model)[1] == "lmerModLmerTest"){
+  }  else if (class(model)[1] == "lmerModLmerTest"){
 
     # Default: Pearson residuals (condtional on BLUPs)
     if(is.na(type) | type == "pearson"){

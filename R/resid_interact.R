@@ -1,10 +1,10 @@
 #' Panel of Interactive Versions of Diagnostic Residual Plots.
 #'
 #' Creates a panel of interactive residual diagnostic plots given a model. Currently
-#' accepts models of type "lm", "glm", "lmerMod", "lmerModLmerTest", and "glmerMod".
+#' accepts models of type "lm", "glm", "lmerMod", "lmerModLmerTest", "lme", and "glmerMod".
 #'
 #' @param model Model fit using either \code{lm}, \code{glm}, \code{lmer},
-#'   \code{lmerTest}, or \code{glmer}.
+#'   \code{lmerTest}, \code{lme}, or \code{glmer}.
 #' @param plots Plots chosen to include in the panel of plots. The default panel
 #'   includes a residual plot, a normal quantile plot, an index plot,
 #'   and a histogram of the residuals. (See details in the help file
@@ -161,7 +161,7 @@ resid_interact <- function(model, plots = "default", type = NA, bins = 30,
     } else{
       cookd <- ggplotly(cookd, tooltip = c("CooksD", "Data"))
     }
-  } else if("all" %in% plots & !(class(model)[1] %in% c("lmerMod", "lmerModLmerTest", "glmerMod"))){
+  } else if("all" %in% plots & !(class(model)[1] %in% c("lme", "lmerMod", "lmerModLmerTest", "glmerMod"))){
     cookd <- plot_cookd(model = model,
                         theme = theme,
                         axis.text.size = axis.text.size,
@@ -233,7 +233,7 @@ resid_interact <- function(model, plots = "default", type = NA, bins = 30,
     } else{
       lev <- ggplotly(lev, tooltip = c("Leverage", "Std_Res", "Data"))
     }
-  } else if("all" %in% plots & !(class(model)[1] %in% c("lmerMod", "lmerModLmerTest", "glmerMod"))){
+  } else if("all" %in% plots & !(class(model)[1] %in% c("lme", "lmerMod", "lmerModLmerTest", "glmerMod"))){
     lev <- plot_lev(model = model,
                     type = type,
                     theme = theme,
@@ -290,7 +290,7 @@ resid_interact <- function(model, plots = "default", type = NA, bins = 30,
                        tooltip = c("Prediction", "Sqrt_Std_Res", "Data"))
       }
     }
-  } else if("all" %in% plots & !(class(model)[1] %in% c("lmerMod", "lmerModLmerTest", "glmerMod"))){
+  } else if("all" %in% plots & !(class(model)[1] %in% c("lme", "lmerMod", "lmerModLmerTest", "glmerMod"))){
     ls <- plot_ls(model = model,
                   type = type,
                   theme = theme,

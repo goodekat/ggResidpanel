@@ -71,8 +71,8 @@
 #' \item \code{"yvp":}: A plot of observed response values versus predicted values
 #' } }
 #'
-#' Note: \code{"cookd"}, \code{"ls"}, and \code{"lev"} are not available for
-#' "lmer", "lmerTest", and "glmer" models.
+#' Note: \code{"cookd"}, \code{"ls"}, and \code{"lev"} are only available for "lm"
+#' and "glm" models.
 #'
 #' \strong{Options for Type}
 #'
@@ -93,9 +93,9 @@
 #' \item \code{"stand.deviance"}: The standardized deviance residuals
 #' \item \code{"stand.pearson"}: The standardized Pearson residuals
 #' }
-#' \item \code{lmer} and \code{lmerTest} residual options
+#' \item \code{lmer}, \code{lmerTest}, and \code{lme} residual options
 #' \itemize{
-#' \item \code{"pearson"}: The Pearson residuals (Default for "lmer" and "lmerTest")
+#' \item \code{"pearson"}: The Pearson residuals (Default for "lmer", "lmerTest", and "lme")
 #' \item \code{"response"}: The raw residuals
 #' }
 #' \item \code{glmer} residual options
@@ -218,7 +218,7 @@ resid_compare <- function(models, plots = "default", type = NA, bins = 30,
   } else if("all" %in% plots){
     check_count <- 0
     for(i in 1:length(models)){
-      if(!(class(models[[i]])[1] %in% c("lmerMod", "lmerModLmerTest", "glmerMod"))){
+      if(!(class(models[[i]])[1] %in% c("lme", "lmerMod", "lmerModLmerTest", "glmerMod"))){
         check_count <- check_count+1
       }
     }
@@ -290,7 +290,7 @@ resid_compare <- function(models, plots = "default", type = NA, bins = 30,
   } else if("all" %in% plots){
     check_count <- 0
     for(i in 1:length(models)){
-      if(!(class(models[[i]])[1] %in% c("lmerMod", "lmerModLmerTest", "glmerMod"))){
+      if(!(class(models[[i]])[1] %in% c("lme", "lmerMod", "lmerModLmerTest", "glmerMod"))){
         check_count <- check_count+1
       }
     }
@@ -326,7 +326,7 @@ resid_compare <- function(models, plots = "default", type = NA, bins = 30,
   } else if("all" %in% plots){
     check_count <- 0
     for(i in 1:length(models)){
-      if(!(class(models[[i]])[1] %in% c("lmerMod", "lmerModLmerTest", "glmerMod"))){
+      if(!(class(models[[i]])[1] %in% c("lme", "lmerMod", "lmerModLmerTest", "glmerMod"))){
         check_count <- check_count+1
       }
     }

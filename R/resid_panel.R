@@ -1,10 +1,10 @@
 #' Panel of Diagnostic Residual Plots.
 #'
 #' Creates a panel of residual diagnostic plots given a model. Currently accepts
-#' models of type "lm", "glm", "lmerMod", "lmerModLmerTest", and "glmerMod".
+#' models of type "lm", "glm", "lmerMod", "lmerModLmerTest", "lme", and "glmerMod".
 #'
 #' @param model Model fit using either \code{lm}, \code{glm}, \code{lmer},
-#'   \code{lmerTest}, or \code{glmer}.
+#'   \code{lmerTest}, \code{lme}, or \code{glmer}.
 #' @param plots Plots chosen to include in the panel of plots. The default panel
 #'   includes a residual plot, a normal quantile plot, an index plot,
 #'   and a histogram of the residuals. (See details for the options available.)
@@ -81,8 +81,8 @@
 #' \item \code{"yvp":}: A plot of observed response values versus predicted values
 #' } }
 #'
-#' Note: \code{"cookd"}, \code{"ls"}, and \code{"lev"} are not available for
-#' "lmer", "lmerTest", and "glmer" models.
+#' Note: \code{"cookd"}, \code{"ls"}, and \code{"lev"} are only available for "lm" and
+#' "glm" models.
 #'
 #' \strong{Options for Type}
 #'
@@ -103,9 +103,9 @@
 #' \item \code{"stand.deviance"}: The standardized deviance residuals
 #' \item \code{"stand.pearson"}: The standardized Pearson residuals
 #' }
-#' \item \code{lmer} and \code{lmerTest} residual options
+#' \item \code{lmer}, \code{lmerTest}, and \code{lme} residual options
 #' \itemize{
-#' \item \code{"pearson"}: The Pearson residuals (Default for "lmer" and "lmerTest")
+#' \item \code{"pearson"}: The Pearson residuals (Default for "lmer", "lmerTest", and "lme")
 #' \item \code{"response"}: The raw residuals
 #' }
 #' \item \code{glmer} residual options
@@ -252,6 +252,20 @@ resid_panel <- function(model, plots = "default", type = NA, bins = 30,
 
   ## Errors and Warnings -------------------------------------------------------
 
+  # model = m
+  # plots = "all"
+  # type = NA
+  # bins = 30
+  # smoother = FALSE
+  # qqline = TRUE
+  # qqbands = FALSE
+  # scale = 1
+  # theme = "bw"
+  # axis.text.size = 10
+  # title.text.size = 12
+  # title.opt = TRUE
+  # nrow = NULL
+
   # Checks that return an error
   check_modeltype(model = model)
   check_residualtype(model = model, type = type)
@@ -286,7 +300,7 @@ resid_panel <- function(model, plots = "default", type = NA, bins = 30,
                         title.text.size = title.text.size,
                         title.opt = title.opt)
   } else if("all" %in% plots &
-            !(class(model)[1] %in% c("lmerMod", "lmerModLmerTest", "glmerMod"))){
+            !(class(model)[1] %in% c("lme", "lmerMod", "lmerModLmerTest", "glmerMod"))){
     cookd <- plot_cookd(model = model,
                         theme = theme,
                         axis.text.size = axis.text.size,
@@ -331,7 +345,7 @@ resid_panel <- function(model, plots = "default", type = NA, bins = 30,
                     title.text.size = title.text.size,
                     title.opt = title.opt)
   } else if("all" %in% plots &
-            !(class(model)[1] %in% c("lmerMod", "lmerModLmerTest", "glmerMod"))){
+            !(class(model)[1] %in% c("lme", "lmerMod", "lmerModLmerTest", "glmerMod"))){
     lev <- plot_lev(model = model,
                     type = type,
                     theme = theme,
@@ -351,7 +365,7 @@ resid_panel <- function(model, plots = "default", type = NA, bins = 30,
                   title.text.size = title.text.size,
                   title.opt = title.opt)
   } else if("all" %in% plots &
-            !(class(model)[1] %in% c("lmerMod", "lmerModLmerTest", "glmerMod"))){
+            !(class(model)[1] %in% c("lme", "lmerMod", "lmerModLmerTest", "glmerMod"))){
     ls <- plot_ls(model = model,
                   type = type,
                   theme = theme,

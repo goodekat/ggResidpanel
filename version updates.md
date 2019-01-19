@@ -6,6 +6,7 @@ Major:
 
 - changed resid_interact to allow for a panel of interactive plots
 - added the functions of resid_xpanel and resid_compare
+- added model types of lmerTest and lme
 
 Minor: 
 

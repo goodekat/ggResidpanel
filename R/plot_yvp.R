@@ -30,6 +30,10 @@ plot_yvp <- function(model, theme, axis.text.size, title.text.size, title.opt){
                                  Response = model.frame(model)[[1]])
       y_label <- names(model.frame(model)[1])
     }
+  } else if (class(model)[1] == "lme") {
+    model_values <- data.frame(Predicted = fitted(model),
+                               Response = model$data[[1]])
+    y_label <- names(model$data[1])
   } else{
     model_values <- data.frame(Predicted = fitted(model),
                                Response = model.frame(model)[[1]])

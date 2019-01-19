@@ -99,7 +99,7 @@ if(class(model)[1]%in%c("lm", "glm")){
   Data <- paste(Data)
   Data <- paste("\n",Data)
 
-}else if (class(model)[1]%in%c("lmerMod", "lmerModLmerTest", "glmerMod")) {
+} else if (class(model)[1]%in%c("lmerMod", "lmerModLmerTest", "glmerMod")) {
   names_data <- names(model@frame)
   plotly_data <- data.frame(as.matrix(model@frame))
 
@@ -172,7 +172,31 @@ if(class(model)[1]%in%c("lm", "glm")){
   Data <- paste(Data, "\n")
   Data <- paste("\n",Data)
 
-}
+} else if (class(model)[1] == "lme") {
+  names_data <- names(model$data)
+  plotly_data <- data.frame(as.matrix(model$data))
+  plotly_data$Obs <- 1:nrow(plotly_data)
+  plotly_data[] <- lapply(plotly_data, as.character)
+  names_data <- names(plotly_data)
+
+  # Add name to rows
+  for(i in 1:ncol(plotly_data)){
+    plotly_data[,i] <- paste(names_data[i],": " ,plotly_data[,i], sep="")
+  }
+
+  # Limit to 20 variables showing
+  if(ncol(plotly_data) > 20){
+    plotly_data <- plotly_data[,c(1:9, ncol(plotly_data))]
+  }
+
+  Data <- plotly_data[,1]
+  for(i in 2:ncol(plotly_data)){
+    Data <- paste(Data, "\n", plotly_data[,{i}])
+  }
+  Data <- paste(Data, "\n")
+  Data <- paste("\n",Data)
+
+  }
 return(Data)
 #################################################################
 

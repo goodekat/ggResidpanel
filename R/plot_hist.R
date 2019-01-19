@@ -13,7 +13,7 @@ plot_hist <- function(model, type, bins, theme, axis.text.size, title.text.size,
   # Create a data frame with the residuals
   if(is.na(type)){
     model_values <- data.frame(Residual = helper_resid(type = NA, model = model))
-  }else{
+  } else{
     model_values <- data.frame(Residual = helper_resid(type = type, model = model))
   }
 
@@ -57,15 +57,14 @@ plot_hist <- function(model, type, bins, theme, axis.text.size, title.text.size,
   # if (is.na(min_x) & is.na(max_x)){
   model_values$Residual_Density <- model_values$Residual
 
-    plot <- ggplot(model_values, aes(x = Residual)) +
-      geom_point(aes(Resid, y, group=Data), alpha=0)+
+  plot <- ggplot(model_values, aes(x = Residual)) +
+    geom_point(aes(Resid, y, group = Data), alpha = 0)+
     labs(x = r_label, y = "Density")+
       geom_histogram(aes(y = ..density.., fill = ..count..),
                      color = "black", fill = "grey82", bins = bins) +
       stat_function(fun = dnorm, color = "blue",
                     args = list(mean = 0, sd = sd_resid)) +
       geom_point(data=d_data, aes(grid_r,y),alpha=0)
-
 
   # } else{
   #
@@ -80,12 +79,11 @@ plot_hist <- function(model, type, bins, theme, axis.text.size, title.text.size,
   #
   # }
 
-    # plot <- ggplot(model_values, aes(x = Residual)) +
-    #   geom_histogram(aes(y = ..density.., fill = ..count..),
-    #                  color = "black", fill = "grey82", bins = bins) +
-    #   geom_line(data=d_data, aes(Residual,y),color = "blue") +
-    #   labs(x = r_label, y = "Density")
-
+  # plot <- ggplot(model_values, aes(x = Residual)) +
+  #   geom_histogram(aes(y = ..density.., fill = ..count..),
+  #                  color = "black", fill = "grey82", bins = bins) +
+  #   geom_line(data=d_data, aes(Residual,y),color = "blue") +
+  #   labs(x = r_label, y = "Density")
 
   # Add theme to plot
   if (theme == "bw"){

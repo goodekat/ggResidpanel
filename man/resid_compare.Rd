@@ -94,8 +94,8 @@ For example, one can specify \code{plots = c("boxplot", "hist")} or
 \item \code{"yvp":}: A plot of observed response values versus predicted values
 } }
 
-Note: \code{"cookd"}, \code{"ls"}, and \code{"lev"} are not available for
-"lmer", "lmerTest", and "glmer" models.
+Note: \code{"cookd"}, \code{"ls"}, and \code{"lev"} are only available for "lm"
+and "glm" models.
 
 \strong{Options for Type}
 
@@ -116,9 +116,9 @@ that is input into \code{resid_panel}. These currently are as follows.
 \item \code{"stand.deviance"}: The standardized deviance residuals
 \item \code{"stand.pearson"}: The standardized Pearson residuals
 }
-\item \code{lmer} and \code{lmerTest} residual options
+\item \code{lmer}, \code{lmerTest}, and \code{lme} residual options
 \itemize{
-\item \code{"pearson"}: The Pearson residuals (Default for "lmer" and "lmerTest")
+\item \code{"pearson"}: The Pearson residuals (Default for "lmer", "lmerTest", and "lme")
 \item \code{"response"}: The raw residuals
 }
 \item \code{glmer} residual options

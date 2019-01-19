@@ -5,9 +5,9 @@
 # Return an error if an acceptable model type is not entered in the function
 check_modeltype <- function(model){
 
-  if(!(class(model)[1] %in% c("lm", "glm", "lmerMod", "lmerModLmerTest", "glmerMod")))
+  if(!(class(model)[1] %in% c("lm", "glm", "lme", "lmerMod", "lmerModLmerTest", "glmerMod")))
     stop("This function requires a model to be input. Accepted models
-         currently are lm, glm, lmer, lmerTest, and glmer.")
+         currently are lm, glm, lme, lmer, lmerTest, and glmer.")
 
 }
 
@@ -38,6 +38,11 @@ check_residualtype <- function(model, type){
               stop("The requested residual type is not available for an 'lmerTest' model. Please
                    select from the following options for an 'lmerTest' model: response or pearson.")
             }
+            } else if(class(model)[1] == "lme"){
+              if(!(type %in% c("response", "pearson"))){
+                stop("The requested residual type is not available for an 'lme' model. Please
+                   select from the following options for an 'lme' model: response or pearson.")
+              }
             } else if(class(model)[1] == "glmerMod"){
               if(!(type %in% c("response", "pearson", "deviance"))){
                 stop("The requested residual type is not available for a 'glmer' model. Please
@@ -53,10 +58,10 @@ check_residualtype <- function(model, type){
 # a 'glmer' model
 check_standardized <- function(model, plots){
 
-  if(class(model)[1] %in% c("lmerMod", "lmerModLmerTest", "glmerMod")){
+  if(class(model)[1] %in% c("lme", "lmerMod", "lmerModLmerTest", "glmerMod")){
     if("ls" %in% plots |"lev" %in% plots | "R" %in% plots){
       stop("The requested plot or panel uses standardized residuals, which are not
-           currently available for 'lmer', 'lmerTest', or 'glmer' models.")
+           currently available for 'lme', 'lmer', 'lmerTest', or 'glmer' models.")
     }
   }
 
@@ -65,9 +70,9 @@ check_standardized <- function(model, plots){
 # Return an error if Cook's D plot is requested for an 'lmer' or 'glmer' model
 check_cooksd <- function(model, plots){
 
-  if(class(model)[1] %in% c("lmerMod", "lmerModLmerTest", "glmerMod")){
+  if(class(model)[1] %in% c("lme", "lmerMod", "lmerModLmerTest", "glmerMod")){
     if("cookd" %in% plots){
-      stop("The Cook's D plot is unavailable for 'lmer', 'lmerTest', and 'glmer' models.")
+      stop("The Cook's D plot is unavailable for 'lme', 'lmer', 'lmerTest', and 'glmer' models.")
     }
   }
 
@@ -123,18 +128,22 @@ check_title <- function(title.opt){
 # Return warning if consant leverage
 check_leverage <- function(model, plots){
 
-  if("all" %in% plots | "R" %in% plots | "lev" %in% plots){
+  if(class(model) %in% c("lm", "glm")){
 
-    leverage_val <- hatvalues(model)
+    if("all" %in% plots | "R" %in% plots | "lev" %in% plots){
 
-    zero_range <- function(x, tol = .Machine$double.eps ^ 0.5) {
-      if (length(x) == 1) return(TRUE)
-      x <- range(x) / mean(x)
-      isTRUE(all.equal(x[1], x[2], tolerance = tol))
-    }
+      leverage_val <- hatvalues(model)
 
-    if(zero_range(leverage_val)==TRUE){
-      warning("Note that this model has constant leverage.")
+      zero_range <- function(x, tol = .Machine$double.eps ^ 0.5) {
+        if (length(x) == 1) return(TRUE)
+        x <- range(x) / mean(x)
+        isTRUE(all.equal(x[1], x[2], tolerance = tol))
+      }
+
+      if(zero_range(leverage_val)==TRUE){
+        warning("Note that this model has constant leverage.")
+      }
+
     }
 
   }

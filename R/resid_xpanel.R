@@ -3,10 +3,10 @@
 #' Creates a panel of plots of the residuals or response variable versus the
 #' predictor (x) variables in the model. Interactions between predictor variables
 #' are not included. Currently accepts models of type "lm", "glm", "lmerMod",
-#' "lmerModLmerTest", and "glmerMod".
+#' "lmerModLmerTest", "lme", and "glmerMod".
 #'
 #' @param model Model fit using either \code{lm}, \code{glm}, \code{lmer},
-#'   \code{lmerTest}, or \code{glmer}.
+#'   \code{lmerTest}, \code{lme}, or \code{glmer}.
 #' @param yvar Specifies the variable to put on the y-axis of the plots. Options
 #'   are "residual" (default) or "response".
 #' @param type Type of residuals to use in the plot. If not specified, the
@@ -110,6 +110,8 @@ resid_xpanel <- function(model, yvar = "residual", type = NA,
     }
   } else if (class(model)[1] %in% c("lmerMod", "lmerModLmerTest")){
     model_data <- cbind(Residual = residuals, model@frame)
+  } else if (class(model)[1] == "lme"){
+    model_data <- cbind(Residual = residuals, model$data)
   } else if (class(model)[1] == "glmerMod"){
     if (model@resp$family[[1]] == "binomial") {
       model_data <- data.frame(Residual = residuals,

@@ -11,7 +11,7 @@ resid_panel(model, plots = "default", type = NA, bins = 30,
 }
 \arguments{
 \item{model}{Model fit using either \code{lm}, \code{glm}, \code{lmer},
-\code{lmerTest}, or \code{glmer}.}
+\code{lmerTest}, \code{lme}, or \code{glmer}.}
 
 \item{plots}{Plots chosen to include in the panel of plots. The default panel
 includes a residual plot, a normal quantile plot, an index plot,
@@ -55,7 +55,7 @@ A panel of residual diagnostic plots containing plots specified.
 }
 \description{
 Creates a panel of residual diagnostic plots given a model. Currently accepts
-models of type "lm", "glm", "lmerMod", "lmerModLmerTest", and "glmerMod".
+models of type "lm", "glm", "lmerMod", "lmerModLmerTest", "lme", and "glmerMod".
 }
 \details{
 The first two sections below contain information on the available input
@@ -94,8 +94,8 @@ For example, one can specify \code{plots = c("boxplot", "hist")} or
 \item \code{"yvp":}: A plot of observed response values versus predicted values
 } }
 
-Note: \code{"cookd"}, \code{"ls"}, and \code{"lev"} are not available for
-"lmer", "lmerTest", and "glmer" models.
+Note: \code{"cookd"}, \code{"ls"}, and \code{"lev"} are only available for "lm" and
+"glm" models.
 
 \strong{Options for Type}
 
@@ -116,9 +116,9 @@ that is input into \code{resid_panel}. These currently are as follows.
 \item \code{"stand.deviance"}: The standardized deviance residuals
 \item \code{"stand.pearson"}: The standardized Pearson residuals
 }
-\item \code{lmer} and \code{lmerTest} residual options
+\item \code{lmer}, \code{lmerTest}, and \code{lme} residual options
 \itemize{
-\item \code{"pearson"}: The Pearson residuals (Default for "lmer" and "lmerTest")
+\item \code{"pearson"}: The Pearson residuals (Default for "lmer", "lmerTest", and "lme")
 \item \code{"response"}: The raw residuals
 }
 \item \code{glmer} residual options

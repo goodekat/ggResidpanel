@@ -10,7 +10,7 @@ resid_xpanel(model, yvar = "residual", type = NA, smoother = FALSE,
 }
 \arguments{
 \item{model}{Model fit using either \code{lm}, \code{glm}, \code{lmer},
-\code{lmerTest}, or \code{glmer}.}
+\code{lmerTest}, \code{lme}, or \code{glmer}.}
 
 \item{yvar}{Specifies the variable to put on the y-axis of the plots. Options
 are "residual" (default) or "response".}
@@ -47,7 +47,7 @@ predictor variables.
 Creates a panel of plots of the residuals or response variable versus the
 predictor (x) variables in the model. Interactions between predictor variables
 are not included. Currently accepts models of type "lm", "glm", "lmerMod",
-"lmerModLmerTest", and "glmerMod".
+"lmerModLmerTest", "lme", and "glmerMod".
 }
 \details{
 Note that for x variables that are factors, the levels shown on the

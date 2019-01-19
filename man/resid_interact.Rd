@@ -11,7 +11,7 @@ resid_interact(model, plots = "default", type = NA, bins = 30,
 }
 \arguments{
 \item{model}{Model fit using either \code{lm}, \code{glm}, \code{lmer},
-\code{lmerTest}, or \code{glmer}.}
+\code{lmerTest}, \code{lme}, or \code{glmer}.}
 
 \item{plots}{Plots chosen to include in the panel of plots. The default panel
 includes a residual plot, a normal quantile plot, an index plot,
@@ -55,7 +55,7 @@ A panel of interactive residual diagnostic plots containing plots specified.
 }
 \description{
 Creates a panel of interactive residual diagnostic plots given a model. Currently
-accepts models of type "lm", "glm", "lmerMod", "lmerModLmerTest", and "glmerMod".
+accepts models of type "lm", "glm", "lmerMod", "lmerModLmerTest", "lme", and "glmerMod".
 }
 \details{
 Details on the creation of the plots can be found in the details section of

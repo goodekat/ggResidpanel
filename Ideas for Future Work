@@ -39,6 +39,7 @@ Katherine's Tasks:
   - create a development rmd file with updates for each version
   - updated package number in development version
   - added a smoother option to the index plot (and updated documentation)
+  - added an option to allow for lme models (from nlme) and updated documentation
 
 - questions:
   - I get some warnings about the loess curve with the following code:
@@ -57,7 +58,6 @@ Katherine's Tasks:
   - The interactive yvp plot shows the response twice (once as response and once by the name of the resopnse variable).
   - What do you think we should call the vignette that I wrote?
   - Idea to option to color residuals by predictor variables?
-  - Do you think we can add nlme models quickly before putting this on CRAN?
 
 Ideas for Future Package Versions:
 - write a function for computing standardized residuals for lmer and glmer (Katie)
