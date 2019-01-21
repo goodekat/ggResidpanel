@@ -9,7 +9,7 @@ Katie's Tasks:
 - Work on residual vignette
   - include a link to the residual document in the documentation
 - constant leverage factor plot
-  - use isConst.hat from getanywhere(plot.lm)
+  - use isConst.hat from getanywhere(plot.lm) (DONE)
   - Perform more error checking with more than categorical variable
   - add to test file and add lmertest to test functionality on lmer objects
 - modify so works for predictive models (Research at least)(NOT FOR CRAN)

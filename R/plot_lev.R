@@ -7,7 +7,12 @@ plot_lev <- function(model, type, theme, axis.text.size, title.text.size, title.
 
   Leverage = hatvalues(model)
 
-  if(length(unique(as.numeric(as.character(Leverage)))) == 1){
+  # Check if constant leverage
+  range_lev <- range(Leverage, na.rm = TRUE)
+  const_lev <- all(range_lev == 0) || diff(range_lev) < 1e-10 * mean(Leverage, na.rm = TRUE)
+
+
+  if(const_lev){
 
     plot_constlev(model = model,
                   type = type,
