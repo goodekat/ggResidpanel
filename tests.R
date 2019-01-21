@@ -1,5 +1,5 @@
 ######Create one of each model type###########################################
-
+library(ggplot2)
 #lm_model1
 #lm_model2
 #glm_model
@@ -8,14 +8,108 @@
 #glmer_model2
 
 
-#Linear mmodel
+# Linear mmodel #############################################################
+
+# One continuous X
 lm_model1 <- lm(Volume ~ Girth, data = trees)
+# One categorical X
 lm_model2 <- lm(weight ~ group, data = PlantGrowth)
-#Linear Model experimental design
 
-m_PlantGrowth <- lm(weight ~ group, data = PlantGrowth)
+d <- diamonds[sample(1:nrow(diamonds), 50),]
+# Multiple continuous X and categorical X
+lm_model3 <- lm(price ~ carat + cut + color + depth, data = d)
+# Multiple categorical X
+lm_model4 <- lm(price ~ cut + color + clarity, data = d)
 
 
+# Default panel
+resid_panel(lm_model1)
+resid_panel(lm_model2)
+resid_panel(lm_model3)
+resid_panel(lm_model4)
+
+# SAS Panel
+resid_panel(lm_model1, plots = "SAS")
+resid_panel(lm_model2, plots = "SAS")
+resid_panel(lm_model3, plots = "SAS")
+resid_panel(lm_model4, plots = "SAS")
+
+# R Panel
+resid_panel(lm_model1, plots = "R")
+resid_panel(lm_model2, plots = "R")
+resid_panel(lm_model3, plots = "R")
+resid_panel(lm_model4, plots = "R")
+
+
+resid_panel(lm_model1, plots="SAS", type="pearson")
+resid_panel(lm_model1, plots="SAS", type="standardized")
+
+resid_panel(lm_model1, plots="R")
+resid_panel(lm_model2, plots="R")
+
+resid_panel(lm_model1, plots="all")
+resid_panel(lm_model2, plots="all")
+
+resid_panel(lm_model1, plots="boxplot")
+resid_panel(lm_model2, plots="boxplot")
+
+resid_panel(lm_model1, plots="cookd")
+resid_panel(lm_model2, plots="cookd")
+
+resid_panel(lm_model1, plots="hist")
+resid_panel(lm_model2, plots="hist")
+
+resid_panel(lm_model1, plots="lev")
+resid_panel(lm_model2, plots="lev")
+
+resid_panel(lm_model1, plots="ls")
+resid_panel(lm_model2, plots="ls")
+
+resid_panel(lm_model1, plots="resid")
+resid_panel(lm_model2, plots="resid")
+
+resid_panel(lm_model1, plots="resid", smoother=TRUE)
+
+resid_panel(lm_model1, plots="qq")
+resid_panel(lm_model2, plots="qq")
+
+resid_panel(lm_model1, plots="yvp")
+resid_panel(lm_model2, plots="yvp")
+
+resid_auxpanel(resid(lm_model1), fitted(lm_model1), plots="SAS")
+
+resid_auxpanel(resid(lm_model1), fitted(lm_model1), plots="boxplot")
+
+resid_auxpanel(resid(lm_model2), fitted(lm_model2), plots="boxplot", title.opt=FALSE)
+
+resid_interact(lm_model1, plot="boxplot")
+resid_interact(lm_model2, plot="boxplot")
+
+resid_interact(lm_model1, plot="cookd")
+resid_interact(lm_model2, plot="cookd")
+
+resid_interact(lm_model1, plot="hist")
+resid_interact(lm_model2, plot="hist")
+
+resid_interact(lm_model1, plot="lev")
+resid_interact(lm_model2, plot="lev")
+
+resid_interact(lm_model1, plot="ls")
+resid_interact(lm_model2, plot="ls")
+
+resid_interact(glm_model1, plot="hist")
+resid_interact(glm_model2, plot="hist")
+
+resid_interact(lm_model1, plot="resid")
+resid_interact(lm_model2, plot="resid")
+
+resid_interact(lm_model1, plot="qq")
+resid_interact(lm_model2, plot="qq")
+
+resid_interact(lm_model1, plot="yvp")
+resid_interact(lm_model2, plot="yvp")
+
+xxxxxx
 #Poisson Model
 # counts <- c(18,17,15,20,10,20,25,13,12)
 # outcome <- gl(3,1,9)
@@ -83,8 +177,6 @@ m6 <- lm(y~X1+X2+X3+X4+X5+X6+X7+X8+X9+X10+X11+X12+X13+X14+X15,data=data)
 #glmer_model1
 #glmer_model2
 
-resid_panel(lm_model1)
-resid_panel(lm_model2)
 resid_panel(glm_model)
 resid_panel(lmer_model)
 resid_panel(lmer_model2)
@@ -94,14 +186,6 @@ resid_panel(glmer_model2)
 
 #OTHER options
 resid_panel(lmer_model, plots="SAS", title.opt=FALSE)
-resid_panel(lm_model1, plots="SAS", type="pearson")
-resid_panel(lm_model1, plots="SAS", type="standardized")
-
-
-######R###############################################
-
-resid_panel(lm_model1, plots="R")
-resid_panel(lm_model2, plots="R")
 
 resid_panel(glm_model, plots="R", title.opt=FALSE)
 
@@ -111,8 +195,6 @@ resid_panel(glmer_model1, plots="R")
 
 #######ALL#######
 
-resid_panel(lm_model1, plots="all")
-resid_panel(lm_model2, plots="all")
 resid_panel(glm_model, plots="all")
 resid_panel(lmer_model, plots="all")
 resid_panel(glmer_model1, plots="all")
@@ -121,8 +203,6 @@ resid_panel(glmer_model2, plots="all")
 
 ######Boxplot#######
 
-resid_panel(lm_model1, plots="boxplot")
-resid_panel(lm_model2, plots="boxplot")
 resid_panel(glm_model, plots="boxplot")
 resid_panel(lmer_model, plots="boxplot")
 resid_panel(glmer_model1, plots="boxplot")
@@ -130,8 +210,6 @@ resid_panel(glmer_model2, plots="boxplot")
 
 ######cookd#######
 
-resid_panel(lm_model1, plots="cookd")
-resid_panel(lm_model2, plots="cookd")
 resid_panel(glm_model, plots="cookd")
 
 #Check errors
@@ -141,8 +219,6 @@ resid_panel(glmer_model1, plots="cookd")
 
 ######histogram######
 
-resid_panel(lm_model1, plots="hist")
-resid_panel(lm_model2, plots="hist")
 resid_panel(glm_model, plots="hist")
 resid_panel(lmer_model, plots="hist")
 resid_panel(glmer_model1, plots="hist")
@@ -150,8 +226,6 @@ resid_panel(glmer_model2, plots="hist")
 
 ######leverage######
 
-resid_panel(lm_model1, plots="lev")
-resid_panel(lm_model2, plots="lev")
 resid_panel(glm_model, plots="lev")
 
 ##check errors
@@ -160,8 +234,6 @@ resid_panel(glmer_model1, plots="lev")
 
 ######location-scale######
 
-resid_panel(lm_model1, plots="ls")
-resid_panel(lm_model2, plots="ls")
 resid_panel(glm_model, plots="ls")
 
 ##check errors
@@ -171,19 +243,13 @@ resid_panel(glmer_model1, plots="ls")
 
 ######residual plot######
 
-resid_panel(lm_model1, plots="resid")
-resid_panel(lm_model2, plots="resid")
 resid_panel(glm_model, plots="resid")
 resid_panel(lmer_model, plots="resid")
 resid_panel(glmer_model1, plots="resid")
 resid_panel(glmer_model2, plots="resid")
 
-resid_panel(lm_model1, plots="resid", smoother=TRUE)
 
 ######Q-Q plot######
-
-resid_panel(lm_model1, plots="qq")
-resid_panel(lm_model2, plots="qq")
 resid_panel(glm_model, plots="qq")
 resid_panel(lmer_model, plots="qq")
 resid_panel(glmer_model1, plots="qq")
@@ -193,8 +259,6 @@ resid_panel(glmer_model1, plots="qq", qqbands=TRUE)
 
 ######prediction vs actual######
 
-resid_panel(lm_model1, plots="yvp")
-resid_panel(lm_model2, plots="yvp")
 resid_panel(glm_model, plots="yvp")
 resid_panel(lmer_model, plots="yvp")
 resid_panel(glmer_model1, plots="yvp")
@@ -202,15 +266,10 @@ resid_panel(glmer_model2, plots="yvp")
 
 ######auxpanel#########
 
-resid_auxpanel(resid(lm_model1), fitted(lm_model1), plots="SAS")
 resid_auxpanel(resid(glmer_model1), fitted(glmer_model1), plots="SAS")
 
 resid_auxpanel(resid(m4), fitted(m4), plots="SAS", title.opt=FALSE)
 ######sboxplot#########
-
-resid_auxpanel(resid(lm_model1), fitted(lm_model1), plots="boxplot")
-
-resid_auxpanel(resid(lm_model2), fitted(lm_model2), plots="boxplot", title.opt=FALSE)
 
 ######histogram#########
 
@@ -230,17 +289,12 @@ resid_auxpanel(resid(glmer_model2), fitted(glmer_model2), plots="qq", qqbands = 
 
 ###Boxplot#####
 
-resid_interact(lm_model1, plot="boxplot")
-resid_interact(lm_model2, plot="boxplot")
 resid_interact(glm_model, plot="boxplot")
 resid_interact(lmer_model, plot="boxplot", title.opt=FALSE)
 resid_interact(glmer_model1, plot="boxplot", title.opt=FALSE)
 resid_interact(glmer_model2, plot="boxplot", title.opt=FALSE)
 
 ###Boxplot#####
-
-resid_interact(lm_model1, plot="cookd")
-resid_interact(lm_model2, plot="cookd")
 resid_interact(glm_model, plot="cookd")
 
 #Check for error
@@ -251,19 +305,11 @@ resid_interact(glmer_model1, plot="cookd")
 
 ###hist#####
 
-resid_interact(lm_model1, plot="hist")
-resid_interact(lm_model2, plot="hist")
-resid_interact(glm_model1, plot="hist")
-resid_interact(glm_model2, plot="hist")
-
 resid_interact(lmer_model, plot="hist")
 resid_interact(glmer_model, plot="hist")
 resid_interact(glmer_model2, plot="hist")
 
 ###leverage#####
-
-resid_interact(lm_model1, plot="lev")
-resid_interact(lm_model2, plot="lev")
 resid_interact(glm_model, plot="lev")
 
 #show errors
@@ -271,9 +317,6 @@ resid_interact(lmer_model, plot="lev")
 resid_interact(glmer_model1, plot="lev")
 
 ###location-scale#####
-
-resid_interact(lm_model1, plot="ls")
-resid_interact(lm_model2, plot="ls")
 resid_interact(glm_model, plot="ls")
 
 #show errors
@@ -281,9 +324,6 @@ resid_interact(lmer_model, plot="ls")
 resid_interact(glmer_model1, plot="ls")
 
 ###residplot#####
-
-resid_interact(lm_model1, plot="resid")
-resid_interact(lm_model2, plot="resid")
 resid_interact(glm_model1, plot="resid")
 resid_interact(glm_model2, plot="resid")
 
@@ -293,18 +333,12 @@ resid_interact(glmer_model2, plot="resid")
 
 
 ###qq##### (Still working on)
-
-resid_interact(lm_model1, plot="qq")
-resid_interact(lm_model2, plot="qq")
 resid_interact(glm_model, plot="qq")
 resid_interact(lmer_model, plot="qq")
 resid_interact(glmer_model1, plot="qq")
 resid_interact(glmer_model2, plot="qq")
 
 ####Actual vs. predicted######
-
-resid_interact(lm_model1, plot="yvp")
-resid_interact(lm_model2, plot="yvp")
 resid_interact(glm_model1, plot="yvp")
 resid_interact(glm_model2, plot="yvp")
 
