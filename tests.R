@@ -50,40 +50,110 @@ resid_panel(lm_model3, plots = "R")
 resid_panel(lm_model4, plots = "R")
 
 
-resid_panel(lm_model1, plots="SAS", type="pearson")
-resid_panel(lm_model1, plots="SAS", type="standardized")
+# All Panel
 
-resid_panel(lm_model1, plots="R")
-resid_panel(lm_model2, plots="R")
+resid_panel(lm_model1, plots = "all")
+resid_panel(lm_model2, plots = "all")
+resid_panel(lm_model3, plots = "all")
+resid_panel(lm_model4, plots = "all")
 
-resid_panel(lm_model1, plots="all")
-resid_panel(lm_model2, plots="all")
 
-resid_panel(lm_model1, plots="boxplot")
-resid_panel(lm_model2, plots="boxplot")
+# Vector of plots
+resid_panel(lm_model1, plots = c("boxplot", "cookd"))
+resid_panel(lm_model2, plots = c("boxplot", "cookd"))
 
-resid_panel(lm_model1, plots="cookd")
-resid_panel(lm_model2, plots="cookd")
+resid_panel(lm_model1, plots = c("qq", "ls", "index"))
+resid_panel(lm_model2, plots = c("qq", "ls", "index"))
 
-resid_panel(lm_model1, plots="hist")
-resid_panel(lm_model2, plots="hist")
 
-resid_panel(lm_model1, plots="lev")
-resid_panel(lm_model2, plots="lev")
+# Each individual plot
+resid_panel(lm_model1, plots = "boxplot")
+resid_panel(lm_model2, plots = "boxplot")
 
-resid_panel(lm_model1, plots="ls")
-resid_panel(lm_model2, plots="ls")
+resid_panel(lm_model1, plots = "cookd")
+resid_panel(lm_model2, plots = "cookd")
 
-resid_panel(lm_model1, plots="resid")
-resid_panel(lm_model2, plots="resid")
+resid_panel(lm_model1, plots = "hist")
+resid_panel(lm_model2, plots = "hist")
 
-resid_panel(lm_model1, plots="resid", smoother=TRUE)
+resid_panel(lm_model1, plots = "index")
+resid_panel(lm_model2, plots = "index")
 
-resid_panel(lm_model1, plots="qq")
-resid_panel(lm_model2, plots="qq")
+resid_panel(lm_model1, plots = "ls")
+resid_panel(lm_model2, plots = "ls")
 
-resid_panel(lm_model1, plots="yvp")
-resid_panel(lm_model2, plots="yvp")
+resid_panel(lm_model1, plots = "qq")
+resid_panel(lm_model2, plots = "qq")
+
+resid_panel(lm_model1, plots = "lev")
+resid_panel(lm_model2, plots = "lev")
+# Contour lines do not show
+resid_panel(lm_model4, plots = "lev")
+
+resid_panel(lm_model1, plots = "resid")
+resid_panel(lm_model2, plots = "resid")
+
+resid_panel(lm_model1, plots = "yvp")
+resid_panel(lm_model2, plots = "yvp")
+resid_panel(lm_model3, plots = "yvp")
+
+
+# Type
+
+resid_panel(lm_model1, plots = "all", type = "pearson")
+resid_panel(lm_model2, plots = "all", type = "pearson")
+
+resid_panel(lm_model1, plots = "all", type = "standardized")
+resid_panel(lm_model2, plots = "all", type = "standardized")
+
+resid_panel(lm_model1, plots = "lev", type = "pearson")
+resid_panel(lm_model2, plots = "lev", type = "pearson")
+
+# Bins
+
+resid_panel(lm_model1, plots = "all", bins = 20)
+resid_panel(lm_model2, plots = "hist", bins = 10)
+
+# smoother
+
+resid_panel(lm_model1, plots = "all", smoother = TRUE)
+resid_panel(lm_model2, plots = c("resid","index"), smoother = TRUE)
+
+# qqline, qqbands
+
+resid_panel(lm_model1, plots = "all", qqline = TRUE, qqbands = TRUE)
+resid_panel(lm_model2, plots = "qq", qqline = TRUE, qqbands = TRUE)
+
+# Scale
+
+resid_panel(lm_model1, scale = .8)
+resid_panel(lm_model2, scale = 1.2)
+resid_panel(lm_model1, plots = "all", scale = .8)
+
+# Theme
+
+resid_panel(lm_model1, theme = "classic")
+resid_panel(lm_model2, theme = "grey")
+resid_panel(lm_model3, plots = "all", theme = "grey")
+
+# axis.tex.size, title.text.size
+
+resid_panel(lm_model1, plots = "all", axis.text.size = 6, title.text.size = 6)
+resid_panel(lm_model2, plots = "SAS", axis.text.size = 12, title.text.size = 12)
+
+# title.opt
+
+resid_panel(lm_model1, plots = c("resid", "cookd", "index"), title.opt = FALSE)
+resid_panel(lm_model2, plots = "R", title.opt = FALSE)
+
+# nrow
+
+resid_panel(lm_model1, nrow = 4)
+resid_panel(lm_model2, plots = "all", nrow = 2)
+resid_panel(lm_model4, plots = c("cookd", "index", "qq"), nrow = 1)
+
+
+
 
 resid_auxpanel(resid(lm_model1), fitted(lm_model1), plots="SAS")
 
