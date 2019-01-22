@@ -82,12 +82,12 @@ plot_ls <- function(model, type, theme, axis.text.size, title.text.size, title.o
   # Set text size of title and axis lables, determine whether to include a title,
   # and return plot
   if(title.opt == TRUE){
-    suppressWarnings(plot +
+    plot +
       labs(title = "Location-Scale Plot") +
       theme(plot.title = element_text(size = title.text.size, face = "bold"),
-            axis.title = element_text(size = axis.text.size)))
+            axis.title = element_text(size = axis.text.size))
   } else if (title.opt == FALSE){
-    suppressWarnings(plot + theme(axis.title = element_text(size = axis.text.size)))
+    plot + theme(axis.title = element_text(size = axis.text.size))
   }
 
 }
