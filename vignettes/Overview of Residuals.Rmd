@@ -3,6 +3,36 @@ title: "Overview of Residuals"
 output: html_document
 ---
 
+# Linear Models
+
+The option `type` in the function `resid_panel`, `resid_compare`, and `resid_interact` offers the options of "response", "pearson", or "standardized" for linear models. 
+
+By linear models, this text is referring to models of the form: $Y = X\beta+\epsilon$ where $\epsilon \sim N(0,\sigma^2)$.
+
+### Response 
+
+The "response" residuals are the raw residuals: $y_i-\hat{y_i}$. In this case, $\hat{y} = X\hat{\beta}$. 
+
+The `r` code used to obtain the raw residuals from a linear model is: `resid(model, type="response")`.
+
+### Pearson
+
+In the case of a linear model, a Pearson residual is simple the raw residual scaled by estimate of the variance of the response variable: $\hat{\sigma}$. The formula is below:
+
+$\frac{y_i-\hat{y_i}}{\sqrt{\hat{\sigma}^2}}$
+
+Selecting the "pearson" option in the `resid` function does not actually return this result. Thus, the following code is implemented in order to retrieve the Pearson residuals: `resid(model, type = "response") / summary(model)$sigma`
+
+http://support.sas.com/documentation/cdl/en/statug/68162/HTML/default/viewer.htm#statug_intromod_sect046.htm
+
+https://v8doc.sas.com/sashtml/insight/chap39/sect56.htm
+
+
+### Standardized
+
+$\frac{y_i-\hat{y_i}}{\sqrt{\sigma^2(1-h_{ii})}}$ where $h_{ii}$ is the diagonal from the matrix $X(X'X)^{-1}X'$
+
+This is what 'stdres(model)' reports for a linear model.
 
 # Linear Model
 
@@ -28,17 +58,7 @@ http://support.sas.com/documentation/cdl/en/sgug/59902/HTML/default/viewer.htm#f
 
 *SUGGESTION: Only offer raw, pearson, and internally studentized residuals (what stdres does)*
 
-#### Raw Residuals
 
-$y_i-\hat{y_i}$
-
-This is what the 'resid(model, type="response")' reports for a linear model.
-
-#### Pearson Residuals
-
-$\frac{y_i-\hat{y_i}}{\sqrt{s^2}}$
-
-**This is NOT what the 'resid(model, type="pearson") reports for a linear model.)** It reports the raw residuals regardless of the option for linear models. When requesting the pearson residuals for a Gaussian distribution in SAS, the results are the formula above. 
 
 #### Deviance Residuals
 
@@ -50,11 +70,6 @@ The function 'resid(model, type="deviance")' reports the raw residuals.
 
 These don't really make sense to use for linear models so might want to add in a warning if a person enters a linear model and request deviance residuals.
 
-
-#### Standardized Residuals
-$\frac{y_i-\hat{y_i}}{\sqrt{\sigma^2(1-h_{ii})}}$ where $h_{ii}$ is the diagonal from the matrix $X(X'X)^{-1}X'$
-
-This is what 'stdres(model)' reports for a linear model.
 
 #### Studentized Residuals
 
