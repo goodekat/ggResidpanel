@@ -15,7 +15,13 @@ lm_model1 <- lm(Volume ~ Girth, data = trees)
 # One categorical X
 lm_model2 <- lm(weight ~ group, data = PlantGrowth)
 
-d <- diamonds[sample(1:nrow(diamonds), 50),]
+d <- diamonds[1:50,]
+d <- d[-which(d$cut=="Fair"),]
+d <- d[-which(d$color=="G"),]
+d <- d[-which(d$clarity=="I1"),]
+d <- d[-which(d$clarity=="VVS2"),]
+d <- d[-which(d$clarity=="VVS1"),]
+
 # Multiple continuous X and categorical X
 lm_model3 <- lm(price ~ carat + cut + color + depth, data = d)
 # Multiple categorical X
@@ -36,7 +42,10 @@ resid_panel(lm_model4, plots = "SAS")
 
 # R Panel
 resid_panel(lm_model1, plots = "R")
+
+# There is warning about using pseduoinverses from plot_ls
 resid_panel(lm_model2, plots = "R")
+
 resid_panel(lm_model3, plots = "R")
 resid_panel(lm_model4, plots = "R")
 
