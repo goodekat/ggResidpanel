@@ -22,6 +22,13 @@ Katie's Tasks:
 - write a function to show residual plots from multiple models at the same time (In Progress)
   - resid_compare
 - fix resid_interact for binomial case to be more general
+- add lme examples to tests
+- switch the order of the plots in resid_compare
+- residual plot is still using the lowess curve
+- Cook's D plot includes tooltips at the y=0 location
+- histogram density interactive issue - try?: style(ggplotly(p), hoverinfo = "skip", traces = 2)
+- make smoother tooltips consistent
+- change order residuals vs leverage interactive plot does the x,y positions last instead of first
 
 Katherine's Tasks:
 - need to update vignette to say that lme models are now allowed
@@ -34,36 +41,13 @@ Katherine's Tasks:
   - tise journal
   - https://github.com/fivethirtyeight/data
   - ecology journal databases
-
-- completed:
-  - add alpha values to lev plot
-  - create limits outside of the plot and subset the contour lines to within the limits
-    of the leverage plot
-  - updated documentation for leverage plot
-  - update default in auxpanel
-  - updated readme including an interactive plot
-  - create a development rmd file with updates for each version
-  - updated package number in development version
-  - added a smoother option to the index plot (and updated documentation)
-  - added an option to allow for lme models (from nlme) and updated documentation
-
-- questions:
-  - I get some warnings about the loess curve with the following code:
-  - m2 <- lm(mpg ~ cyl, data = mtcars)
-  - resid_panel(m2, plots = "lev")
+- I get some warnings about the loess curve with the following code:
+  m2 <- lm(mpg ~ cyl, data = mtcars)
+  resid_panel(m2, plots = "lev")
   - What do we want to do about this?
-  - Can you switch the order of the plots in resid_compare?
-  - Should I add references to the vignette to tell where we obtained some of our calculations and thresholds from?
-  - How should the plots in the "all" option be ordered?
-  - It looks like the residual plot is still using the lowess curve. Is this right?
-  - I discovered that the Cook's D plot includes tooltips at the y=0 location for each of the datapoints. Is this suppose to happen?
-  - Can the density curve be "moved behind" the bars in the interactive plot? (Right now, the plot is not interactive where the density crosses the bars.)
-  - How do we want to handle the tooltip information for the smoothers?
-  - The tooltip for the smoother on the residual plot seems like it contains too much information...
-  - The residuals vs leverage interactive plot does the x,y positions last instead of first.
-  - The interactive yvp plot shows the response twice (once as response and once by the name of the resopnse variable).
-  - What do you think we should call the vignette that I wrote?
-  - Idea to option to color residuals by predictor variables?
+- add references to vignette
+- swich all plots order
+- change title
 
 Ideas for Future Package Versions:
 - write a function for computing standardized residuals for lmer and glmer (Katie)
@@ -72,3 +56,4 @@ Ideas for Future Package Versions:
 - add in minimum package versions?? (under imports)
 - add interactive versions of the auxpanel, xpanel, and compare plots
   - maybe add an option in each of the functions for an interactive version
+- option to color residuals by predictor variables?
