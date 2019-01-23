@@ -11,11 +11,9 @@ Katie's Tasks:
   - trying to suppress "pseudoinverse" warning
 - plot_lev
   - note that plot will not be created if there are categories with only one observation due to hat values of 1
-  - Question: when would contour lines not appear?
+  - Send example to Katherine
 - constant leverage factor plot
-  - use isConst.hat from getanywhere(plot.lm) (DONE)
-  - Perform more error checking with more than categorical variable
-  - add to test file and add lmertest to test functionality on lmer objects
+   - add to test file and add lmertest to test functionality on lmer objects
 - modify so works for predictive models (Research at least)(NOT FOR CRAN)
   -receive predictive model in resid_panel
 - write a function to show residual plots from multiple models at the same time (In Progress)
