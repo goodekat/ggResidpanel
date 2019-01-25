@@ -28,23 +28,24 @@ Katie's Tasks:
 - change order residuals vs leverage interactive plot does the x,y positions last instead of first
 
 Katherine's Tasks:
-- need to update vignette to say that lme models are now allowed
-- make a vignette with examples showing how to use the package
-- look into the "safely" functions or write your own function for managing the error of...
-  - Error in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y,  :
-  polygon edge not found
-- dataset ideas:
-  - dasl or ozdasl
-  - tise journal
-  - https://github.com/fivethirtyeight/data
-  - ecology journal databases
-- I get some warnings about the loess curve with the following code:
-  m2 <- lm(mpg ~ cyl, data = mtcars)
-  resid_panel(m2, plots = "lev")
-  - What do we want to do about this?
-- add references to vignette
-- swich all plots order
-- change title
+- code:
+  - switch all plots order (resid, index, rvp, qq, hist, box, cookd, rvl, ls)
+  - look into the "safely" functions or write your own function for managing error:
+    - Error in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y,  :
+    polygon edge not found
+  - I get some warnings about the loess curve with the following code:
+    m2 <- lm(mpg ~ cyl, data = mtcars)
+    resid_panel(m2, plots = "lev")
+- vignette:
+  - change title to include usermanual and add a subtitle
+  - need to update vignette to say that lme models are now allowed
+  - make a vignette with examples showing how to use the package
+  - dataset ideas:
+    - dasl or ozdasl
+    - tise journal
+    - https://github.com/fivethirtyeight/data
+    - ecology journal databases
+  - add references to vignette
 
 Ideas for Future Package Versions:
 - write a function for computing standardized residuals for lmer and glmer (Katie)
