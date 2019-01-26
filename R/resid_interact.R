@@ -446,7 +446,9 @@ resid_interact <- function(model, plots = "default", type = NA, bins = 30,
       if (is.null(nrow)) nrow = 3
 
       # Create the panel
-      subplot(resid, hist, qq, boxplot, cookd, ls, lev, yvp, index,
+      subplot(resid, index, yvp,
+              qq, hist, boxplot,
+              cookd, ls, lev,
               nrows = nrow, titleX = TRUE, titleY = TRUE, margin = 1 - scale)
 
     } else{
@@ -455,7 +457,8 @@ resid_interact <- function(model, plots = "default", type = NA, bins = 30,
       if (is.null(nrow)) nrow = 2
 
       # Create the panel
-      subplot(resid, hist, qq, boxplot, yvp, index,
+      subplot(resid, index, yvp,
+              qq, hist, boxplot,
               nrows = nrow, titleX = TRUE, titleY = TRUE, margin = 1 - scale)
 
     }

@@ -12,6 +12,7 @@ Minor:
 
 - updated documentation
 - added Cook's distance values to residual-leverage plot
+- reordered plots in "all" panels
 
 ### 0.1.1.9000 and earlier
 

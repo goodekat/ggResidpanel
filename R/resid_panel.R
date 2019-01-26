@@ -456,12 +456,15 @@ resid_panel <- function(model, plots = "default", type = NA, bins = 30,
     if(class(model)[1] == "lm" | class(model)[1] == "glm"){
 
       # Create the grid
-      plot_grid(resid, hist, qq, boxplot, cookd, ls, lev, yvp, index,
+      plot_grid(resid, index, yvp,
+                qq, hist, boxplot,
+                cookd, ls, lev,
                 scale = scale, nrow = nrow)
     } else{
 
       # Create the grid
-      plot_grid(resid, hist, qq, boxplot, yvp, index,
+      plot_grid(resid, index, yvp,
+                qq, hist, boxplot,
                 scale = scale, nrow = nrow)
     }
 
