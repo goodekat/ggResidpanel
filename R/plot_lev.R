@@ -5,6 +5,7 @@ plot_lev <- function(model, type, theme, axis.text.size, title.text.size, title.
 
   ## Creation of Values to Plot -----------------------------------------------------
 
+  # Obtain the leverage values
   Leverage = hatvalues(model)
 
   # Check if constant leverage
@@ -92,15 +93,21 @@ plot_lev <- function(model, type, theme, axis.text.size, title.text.size, title.
       geom_point(aes(group = Data)) +
       labs(x = "Leverage", y = r_label) +
       expand_limits(x = 0) +
-      geom_smooth(method = "loess",se = FALSE, color = "red", size = 0.5) +
+      geom_smooth(method = "loess", se = FALSE, color = "red", size = 0.5) +
       geom_hline(yintercept = 0, linetype = "dashed") +
       geom_vline(xintercept = 0, linetype = "dashed") +
-      geom_line(data = cooksd_contours, aes(x = hh, y = stdres, group = case), color = "red", linetype = "dashed", na.rm = TRUE) +
       scale_x_continuous(limits = xlimits) +
       scale_y_continuous(limits = ylimits) +
       geom_text(aes(x = 2.25 * min(model_values$Leverage, na.rm = TRUE),
                     y = 1.1 * min(model_values$Std_Res, na.rm = TRUE)),
                 label = "- - - Cook's distance contours", color = "red", size = 3)
+
+    # Add Cook's D lines if they are inside the limits of the plot
+    if (dim(cooksd_contours)[1] > 0) {
+      plot <- plot +
+        geom_line(data = cooksd_contours, aes(x = hh, y = stdres, group = case),
+                  color = "red", linetype = "dashed", na.rm = TRUE)
+    }
 
     # Add Cook's D contour line labels if within the range of graph limits
     xlable <- max(model_values$Leverage, na.rm = TRUE)

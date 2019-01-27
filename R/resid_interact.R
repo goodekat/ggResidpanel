@@ -105,19 +105,6 @@
 #' # Create an interactive residual plot with the Pearson residuals
 #' resid_interact(glmer_model, plot = "resid", type = "pearson")
 
-model = m2
-plots = "lev"
-type = NA
-bins = 30
-smoother = FALSE
-qqline = TRUE
-scale = 0.9
-theme = "bw"
-axis.text.size = 10
-title.text.size = 12
-title.opt = TRUE
-nrow = NULL
-
 resid_interact <- function(model, plots = "default", type = NA, bins = 30,
                            smoother = FALSE, qqline = TRUE, scale = 0.9,
                            theme = "bw", axis.text.size = 10, title.text.size = 12,
@@ -241,10 +228,10 @@ resid_interact <- function(model, plots = "default", type = NA, bins = 30,
                     title.opt = title.opt)
     if(title.opt == TRUE){
       title = helper_plotly_title(lev)
-      lev <- ggplotly(lev, tooltip = c("Leverage", "Std_Res", "Data")) %>%
+      lev <- suppressWarnings(ggplotly(lev, tooltip = c("Leverage", "Std_Res", "Data"))) %>%
         layout(annotations = title, title = FALSE)
     } else{
-      lev <- ggplotly(lev, tooltip = c("Leverage", "Std_Res", "Data"))
+      lev <- suppressWarnings(ggplotly(lev, tooltip = c("Leverage", "Std_Res", "Data")))
     }
   } else if("all" %in% plots & !(class(model)[1] %in% c("lme", "lmerMod", "lmerModLmerTest", "glmerMod"))){
     lev <- plot_lev(model = model,
@@ -255,10 +242,10 @@ resid_interact <- function(model, plots = "default", type = NA, bins = 30,
                     title.opt = title.opt)
     if(title.opt == TRUE){
       title = helper_plotly_title(lev)
-      lev <- ggplotly(lev, tooltip = c("Leverage", "Std_Res", "Data")) %>%
-        layout(annotations = title, title = FALSE)
+      lev <- suppressWarnings(ggplotly(lev, tooltip = c("Leverage", "Std_Res", "Data")) %>%
+        layout(annotations = title, title = FALSE))
     } else{
-      lev <- ggplotly(lev, tooltip = c("Leverage", "Std_Res", "Data"))
+      lev <- suppressWarnings(ggplotly(lev, tooltip = c("Leverage", "Std_Res", "Data")))
     }
   } else{
     lev <- NULL
@@ -275,32 +262,32 @@ resid_interact <- function(model, plots = "default", type = NA, bins = 30,
     if(title.opt == TRUE){
       title = helper_plotly_title(ls)
       if (class(model)[1] == "lm"){
-        ls <- ggplotly(ls + labs(x = "Predicted Values", y = "sqrt(|Standardized Residuals|)"),
-                       tooltip=c("Prediction", "Sqrt_Std_Res", "Data")) %>%
+        ls <- suppressWarnings(ggplotly(ls + labs(x = "Predicted Values", y = "sqrt(|Standardized Residuals|)"),
+                       tooltip = c("Prediction", "Sqrt_Std_Res", "Data"))) %>%
           layout(annotations = title, title = FALSE)
       } else if(is.na(type) | type == "deviance" | type == "stand.deviance"){
-        ls <- ggplotly(ls + labs(x = "Predicted Values",
+        ls <- suppressWarnings(ggplotly(ls + labs(x = "Predicted Values",
                                  y = "sqrt(|Standardized Deviance Residuals|)"),
-                       tooltip = c("Prediction", "Sqrt_Std_Res", "Data")) %>%
+                       tooltip = c("Prediction", "Sqrt_Std_Res", "Data"))) %>%
           layout(annotations = title, title = FALSE)
       } else if(type == "pearson" | type == "stand.pearson"){
-        ls <- ggplotly(ls + labs(x = "Predicted Values",
+        ls <- suppressWarnings(ggplotly(ls + labs(x = "Predicted Values",
                                  y = "sqrt(|Standardized Pearson Residuals|)"),
-                       tooltip = c("Prediction", "Sqrt_Std_Res", "Data")) %>%
+                       tooltip = c("Prediction", "Sqrt_Std_Res", "Data"))) %>%
           layout(annotations = title, title = FALSE)
       }
     } else {
       if (class(model)[1] == "lm"){
-        ls <- ggplotly(ls + labs(x = "Predicted Values", y = "sqrt(|Standardized Residuals|)"),
-                       tooltip=c("Prediction", "Sqrt_Std_Res", "Data"))
+        ls <- suppressWarnings(ggplotly(ls + labs(x = "Predicted Values", y = "sqrt(|Standardized Residuals|)"),
+                       tooltip=c("Prediction", "Sqrt_Std_Res", "Data")))
       } else if(is.na(type) | type == "deviance" | type == "stand.deviance"){
-        ls <- ggplotly(ls + labs(x = "Predicted Values",
+        ls <- suppressWarnings(ggplotly(ls + labs(x = "Predicted Values",
                                  y = "sqrt(|Standardized Deviance Residuals|)"),
-                       tooltip = c("Prediction", "Sqrt_Std_Res", "Data"))
+                       tooltip = c("Prediction", "Sqrt_Std_Res", "Data")))
       } else if(type == "pearson" | type == "stand.pearson"){
-        ls <- ggplotly(ls + labs(x = "Predicted Values",
+        ls <- suppressWarnings(ggplotly(ls + labs(x = "Predicted Values",
                                  y = "sqrt(|Standardized Pearson Residuals|)"),
-                       tooltip = c("Prediction", "Sqrt_Std_Res", "Data"))
+                       tooltip = c("Prediction", "Sqrt_Std_Res", "Data")))
       }
     }
   } else if("all" %in% plots & !(class(model)[1] %in% c("lme", "lmerMod", "lmerModLmerTest", "glmerMod"))){
@@ -313,32 +300,32 @@ resid_interact <- function(model, plots = "default", type = NA, bins = 30,
     if(title.opt == TRUE){
       title = helper_plotly_title(ls)
       if (class(model)[1] == "lm"){
-        ls <- ggplotly(ls + labs(x = "Predicted Values", y = "sqrt(|Standardized Residuals|)"),
-                       tooltip=c("Prediction", "Sqrt_Std_Res", "Data")) %>%
+        ls <- suppressWarnings(ggplotly(ls + labs(x = "Predicted Values", y = "sqrt(|Standardized Residuals|)"),
+                       tooltip=c("Prediction", "Sqrt_Std_Res", "Data"))) %>%
           layout(annotations = title, title = FALSE)
       } else if(is.na(type) | type == "deviance" | type == "stand.deviance"){
-        ls <- ggplotly(ls + labs(x = "Predicted Values",
+        ls <- suppressWarnings(ggplotly(ls + labs(x = "Predicted Values",
                                  y = "sqrt(|Standardized Deviance Residuals|)"),
-                       tooltip = c("Prediction", "Sqrt_Std_Res", "Data")) %>%
+                       tooltip = c("Prediction", "Sqrt_Std_Res", "Data"))) %>%
           layout(annotations = title, title = FALSE)
       } else if(type == "pearson" | type == "stand.pearson"){
-        ls <- ggplotly(ls + labs(x = "Predicted Values",
+        ls <- suppressWarnings(ggplotly(ls + labs(x = "Predicted Values",
                                  y = "sqrt(|Standardized Pearson Residuals|)"),
-                       tooltip = c("Prediction", "Sqrt_Std_Res", "Data")) %>%
+                       tooltip = c("Prediction", "Sqrt_Std_Res", "Data"))) %>%
           layout(annotations = title, title = FALSE)
       }
     } else{
       if (class(model)[1] == "lm"){
-        ls <- ggplotly(ls + labs(x = "Predicted Values", y = "sqrt(|Standardized Residuals|)"),
-                       tooltip=c("Prediction", "Sqrt_Std_Res", "Data"))
+        ls <- suppressWarnings(ggplotly(ls + labs(x = "Predicted Values", y = "sqrt(|Standardized Residuals|)"),
+                       tooltip=c("Prediction", "Sqrt_Std_Res", "Data")))
       } else if(is.na(type) | type == "deviance" | type == "stand.deviance"){
-        ls <- ggplotly(ls + labs(x = "Predicted Values",
+        ls <- suppressWarnings(ggplotly(ls + labs(x = "Predicted Values",
                                  y = "sqrt(|Standardized Deviance Residuals|)"),
-                       tooltip = c("Prediction", "Sqrt_Std_Res", "Data"))
+                       tooltip = c("Prediction", "Sqrt_Std_Res", "Data")))
       } else if(type == "pearson" | type == "stand.pearson"){
-        ls <- ggplotly(ls + labs(x = "Predicted Values",
+        ls <- suppressWarnings(ggplotly(ls + labs(x = "Predicted Values",
                                  y = "sqrt(|Standardized Pearson Residuals|)"),
-                       tooltip = c("Prediction", "Sqrt_Std_Res", "Data"))
+                       tooltip = c("Prediction", "Sqrt_Std_Res", "Data")))
       }
     }
   } else{
