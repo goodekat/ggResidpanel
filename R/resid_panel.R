@@ -252,20 +252,6 @@ resid_panel <- function(model, plots = "default", type = NA, bins = 30,
 
   ## Errors and Warnings -------------------------------------------------------
 
-  # model = m
-  # plots = "all"
-  # type = NA
-  # bins = 30
-  # smoother = FALSE
-  # qqline = TRUE
-  # qqbands = FALSE
-  # scale = 1
-  # theme = "bw"
-  # axis.text.size = 10
-  # title.text.size = 12
-  # title.opt = TRUE
-  # nrow = NULL
-
   # Checks that return an error
   check_modeltype(model = model)
   check_residualtype(model = model, type = type)
@@ -435,20 +421,20 @@ resid_panel <- function(model, plots = "default", type = NA, bins = 30,
   if (plots == "default"){
 
     # Create grid of the default plots
-    plot_grid(resid, qq, index, hist,
-              scale = scale, nrow = nrow)
+    suppressWarnings(plot_grid(resid, qq, index, hist,
+                               scale = scale, nrow = nrow))
 
   } else if (plots == "SAS"){
 
     # Create grid of SAS plots
-    plot_grid(resid, hist, qq, boxplot,
-              scale = scale, nrow = nrow)
+    suppressWarnings(plot_grid(resid, hist, qq, boxplot,
+                               scale = scale, nrow = nrow))
 
   } else if (plots == "R") {
 
     # Create grid of R plots
-    plot_grid(resid, qq, ls, lev,
-              scale = scale, nrow = nrow)
+    suppressWarnings(plot_grid(resid, qq, ls, lev,
+                               scale = scale, nrow = nrow))
 
   } else if (plots == "all") {
 
@@ -456,16 +442,16 @@ resid_panel <- function(model, plots = "default", type = NA, bins = 30,
     if(class(model)[1] == "lm" | class(model)[1] == "glm"){
 
       # Create the grid
-      plot_grid(resid, index, yvp,
-                qq, hist, boxplot,
-                cookd, ls, lev,
-                scale = scale, nrow = nrow)
+      suppressWarnings(plot_grid(resid, index, yvp,
+                                 qq, hist, boxplot,
+                                 cookd, ls, lev,
+                                 scale = scale, nrow = nrow))
     } else{
 
       # Create the grid
-      plot_grid(resid, index, yvp,
-                qq, hist, boxplot,
-                scale = scale, nrow = nrow)
+      suppressWarnings(plot_grid(resid, index, yvp,
+                                 qq, hist, boxplot,
+                                 scale = scale, nrow = nrow))
     }
 
   } else if (plots == "individual") {
@@ -484,8 +470,8 @@ resid_panel <- function(model, plots = "default", type = NA, bins = 30,
     # Select the chosen plots
     individual_plots <- individual_plots[chosen]
 
-    # Create grid of individual plots specified
-    plot_grid(plotlist = individual_plots, scale = scale, nrow = nrow)
+    # Create grid of individual plots specified and suppress any warnings
+    suppressWarnings(plot_grid(plotlist = individual_plots, scale = scale, nrow = nrow))
 
   }
 

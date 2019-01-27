@@ -144,7 +144,7 @@ resid_xpanel <- function(model, yvar = "residual", type = NA,
                             axis.text.size = axis.text.size)
 
   # Create the panel of the predictor plots
-  predictor_panel <- plot_grid(plotlist = predictor_plots, scale = scale, nrow = nrow)
+  predictor_panel <- suppressWarnings(plot_grid(plotlist = predictor_plots, scale = scale, nrow = nrow))
 
   # Add a title if requested and return the panel
   if(title.opt == TRUE){

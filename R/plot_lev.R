@@ -102,7 +102,6 @@ plot_lev <- function(model, type, theme, axis.text.size, title.text.size, title.
                     y = 1.1 * min(model_values$Std_Res, na.rm = TRUE)),
                 label = "- - - Cook's distance contours", color = "red", size = 3)
 
-
     # Add Cook's D contour line labels if within the range of graph limits
     xlable <- max(model_values$Leverage, na.rm = TRUE)
     ylable_pos_0.5 <- 1.05 * sqrt(0.5 * p * (1 - max(model_values$Leverage, na.rm = TRUE)) /

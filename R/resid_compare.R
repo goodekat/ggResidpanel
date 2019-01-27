@@ -474,5 +474,5 @@ resid_compare <- function(models, plots = "default", type = NA, bins = 30,
 #     plot_grid(plotlist = individual_plots, scale = scale, nrow = nrow)
 #
 #   }
-  plot_grid(plotlist = compare_list, scale = scale, nrow = compare_rows)
+  suppressWarnings(plot_grid(plotlist = compare_list, scale = scale, nrow = compare_rows))
 }
