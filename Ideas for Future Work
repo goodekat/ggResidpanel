@@ -29,13 +29,12 @@ Katie's Tasks:
 
 Katherine's Tasks:
 - code:
-  - I get some warnings about the loess curve with the following code:
-    m2 <- lm(mpg ~ cyl, data = mtcars)
-    resid_panel(m2, plots = "lev")
+  - look into issue Katie brought up
+  - problem with resid_interact(m2, plots = "lev") and need to suppress warnings
+    with resid_interact
   - look into the "safely" functions or write your own function for managing error:
     - Error in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y,  :
     polygon edge not found
-  - look into issue Katie brought up
 - vignette:
   - change title to include usermanual and add a subtitle
   - need to update vignette to say that lme models are now allowed
