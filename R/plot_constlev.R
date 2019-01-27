@@ -20,7 +20,7 @@ plot_constlev <- function(model, type, theme, axis.text.size, title.text.size, t
     all_factors <- paste(all_factors, model$model[[i]], sep = ":")
   }
 
-  # Create a data frame to store the model values in
+  # Create a data frame with the all_factors variable
   model_values <- data.frame(Variables = all_factors)
 
   # Add the standardized residuals to the plot

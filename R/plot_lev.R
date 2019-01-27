@@ -3,24 +3,22 @@
 # Creates a plot of the residuals versus leverage from a model
 plot_lev <- function(model, type, theme, axis.text.size, title.text.size, title.opt){
 
-  # model = m
-  # type = "response"
-  # theme = "bw"
-  # axis.text.size = 10
-  # title.text.size = 12
-  # title.opt = TRUE
-
   ## Creation of Values to Plot -----------------------------------------------------
 
   # Obtain the leverage values
   Leverage = hatvalues(model)
 
+  # Determine if any of the leverage values are equal to 1
+  cutoff = 0.999999999
+  one_lev = sum(Leverage >= cutoff) > 0
+
   # Check if constant leverage
-  range_lev <- range(subset(Leverage, Leverage != 1), na.rm = TRUE)
-  const_lev <- all(range_lev == 0) || diff(range_lev) < 1e-10 * mean(Leverage, na.rm = TRUE)
+  range_lev <- range(subset(Leverage, Leverage < cutoff), na.rm = TRUE)
+  const_lev <- all(range_lev == 0) || diff(range_lev) < 1e-10 * mean(subset(Leverage, Leverage < cutoff), na.rm = TRUE)
 
   if(const_lev){
 
+    # Create the constant leverage plot
     plot_constlev(model = model,
                   type = type,
                   theme = theme,
@@ -30,60 +28,61 @@ plot_lev <- function(model, type, theme, axis.text.size, title.text.size, title.
 
   } else {
 
-    # Return a warning if
-    if(length(subset(Leverage, Leverage == 1)) > 0){
+    # Return a warning if any of the leverage values are equal to 1
+    if(one_lev){
       warning("Observations with a leverage value of 1 are not included
               in the residuals versus leverage plot.")
     }
 
+    # Create a dataframe with the leverage values
+    model_values <- data.frame(Leverage = hatvalues(model))
+
     # Create a data frame with the leverage values and standardized residuals based
     # on the type of model
-    if(class(model)[1] == "lm"){
-        model_values <- data.frame(Leverage = hatvalues(model),
-                                   Std_Res = ifelse(sum(Leverage == 1) > 0,
-                                                    suppressWarnings(helper_resid(model, type = "standardized")),
-                                                    helper_resid(model, type = "standardized")))
+    if (class(model)[1] == "lm") {
+      if (one_lev){
+        model_values$Std_Res = suppressWarnings(helper_resid(model, type = "standardized"))
+      } else {
+        model_values$Std_Res = helper_resid(model, type = "standardized")
+      }
     } else if (class(model)[1] == "glm"){
       if(is.na(type) | type == "deviance" | type == "stand.deviance"){
-        model_values <- data.frame(Leverage = hatvalues(model),
-                                   Std_Res = ifelse(sum(Leverage == 1) > 0,
-                                                    suppressWarnings(helper_resid(model, type = "stand.deviance")),
-                                                    helper_resid(model, type = "stand.deviance")))
+        if (one_lev){
+          model_values$Std_Res = suppressWarnings(helper_resid(model, type = "stand.deviance"))
+        } else {
+          model_values$Std_Res = helper_resid(model, type = "stand.deviance")
+        }
       } else if (type == "pearson" | type == "stand.pearson"){
-        model_values <- data.frame(Leverage = hatvalues(model),
-                                   Std_Res = ifelse(sum(Leverage == 1) > 0,
-                                                    suppressWarnings(helper_resid(model, type = "stand.pearson")),
-                                                    helper_resid(model, type = "stand.pearson")))
+        if (one_lev){
+          model_values$Std_Res = suppressWarnings(helper_resid(model, type = "stand.pearson"))
+        } else {
+          model_values$Std_Res = helper_resid(model, type = "stand.pearson")
+        }
       }
     }
-
-    # Compute the hat matrix values
-    hii <- (infl <- influence(model, do.coef = FALSE))$hat
-
-    # Determine the range of the hat matrix values
-    r.hat <- range(hii, na.rm = TRUE)
 
     # Determine the rank of the model
     p <- model$rank
 
     # Create a sequence of hat values
-    usr <- par("usr")
-    hh <- seq.int(min(r.hat[1], r.hat[2]/100), usr[2], length.out = 100)
+    hat_seq <- seq.int(min(range_lev[1], range_lev[2]/100),
+                       range_lev[2],
+                       length.out = 100)
 
     # Create the limits for the plot
-    xlimits <- c(0, max(model_values$Leverage, na.rm = TRUE))
-    ylimits <- extendrange(range(model_values$Std_Res, na.rm = TRUE), f = 0.1)
+    xlimits <- c(0, max(subset(model_values$Leverage, model_values$Leverage < cutoff), na.rm = TRUE))
+    ylimits <- extendrange(range(subset(model_values$Std_Res, model_values$Leverage < cutoff), na.rm = TRUE), f = 0.1)
 
     # Compute standardized residual locations based on a Cook's D value
     # and the sequence of leverage values
-    cooksd_contours <- data.frame(case = rep(c("pos_0.5", "neg_0.5", "pos_1", "neg_1"), each = length(hh)),
-                                  hh = rep(hh, 4),
-                                  stdres = c(sqrt(0.5 * p * (1 - hh) / hh),
-                                             -sqrt(0.5 * p * (1 - hh) / hh),
-                                             sqrt(1 * p * (1 - hh) / hh),
-                                             -sqrt(1 * p * (1 - hh) / hh)))
+    cooksd_contours <- data.frame(case = rep(c("pos_0.5", "neg_0.5", "pos_1", "neg_1"), each = length(hat_seq)),
+                                  hat_seq = rep(hat_seq, 4),
+                                  stdres = c(sqrt(0.5 * p * (1 - hat_seq) / hat_seq),
+                                             -sqrt(0.5 * p * (1 - hat_seq) / hat_seq),
+                                             sqrt(1 * p * (1 - hat_seq) / hat_seq),
+                                             -sqrt(1 * p * (1 - hat_seq) / hat_seq)))
 
-    cooksd_contours <- subset(cooksd_contours, cooksd_contours$hh <= xlimits[2] &
+    cooksd_contours <- subset(cooksd_contours, cooksd_contours$hat_seq <= xlimits[2] &
                                 cooksd_contours$stdres <= ylimits[2] &
                                 cooksd_contours$stdres >= ylimits[1])
 
@@ -107,7 +106,7 @@ plot_lev <- function(model, type, theme, axis.text.size, title.text.size, title.
     ## Creation of Plot ---------------------------------------------------------------
 
     # Remove data points with leverage values equal to 1
-    model_values <- subset(model_values, model_values$Leverage != 1)
+    model_values <- subset(model_values, model_values$Leverage < cutoff)
 
     # Create the residual vs. leverage plot
     plot <- ggplot(data = model_values, aes(x = Leverage, y = Std_Res), na.rm = TRUE) +
@@ -126,7 +125,7 @@ plot_lev <- function(model, type, theme, axis.text.size, title.text.size, title.
     # Add Cook's D lines if they are inside the limits of the plot
     if (dim(cooksd_contours)[1] > 0) {
       plot <- plot +
-        geom_line(data = cooksd_contours, aes(x = hh, y = stdres, group = case),
+        geom_line(data = cooksd_contours, aes(x = hat_seq, y = stdres, group = case),
                   color = "red", linetype = "dashed", na.rm = TRUE)
     }
 
