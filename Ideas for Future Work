@@ -7,11 +7,6 @@ Katie's Tasks:
 - try to figure out why plotly graphs showing up horizontally
 - Work on residual vignette (IN PROGRESS)
   - include a link to the residual document in the documentation
-- plot_ls
-  - trying to suppress "pseudoinverse" warning
-- plot_lev
-  - note that plot will not be created if there are categories with only one observation due to hat values of 1
-  - Send example to Katherine
 - constant leverage factor plot
    - add to test file and add lmertest to test functionality on lmer objects
 - modify so works for predictive models (Research at least)(NOT FOR CRAN)
@@ -24,9 +19,12 @@ Katie's Tasks:
 - histogram density interactive issue - try?: style(ggplotly(p), hoverinfo = "skip", traces = 2)
 - make smoother tooltips consistent
 - change order residuals vs leverage interactive plot does the x,y positions last instead of first
+
 - Completed:
   - fix resid_interact for binomial case to be more general (Double check names with Katherine)
   - residual plot is still using the lowess curve (switched to "loess" using geom_smooth)
+  - plot_ls: trying to suppress "pseudoinverse" warning (Katherine figured this out)
+
 
 Katherine's Tasks:
 - code:
