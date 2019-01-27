@@ -28,7 +28,6 @@ Katie's Tasks:
 
 Katherine's Tasks:
 - code:
-  - look into issue Katie brought up
   - look into the "safely" functions or write your own function for managing error:
     - Error in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y,  :
     polygon edge not found
@@ -42,10 +41,6 @@ Katherine's Tasks:
     - https://github.com/fivethirtyeight/data
     - ecology journal databases
   - add references to vignette
-- questions:
-  - something seems to be wrong with the ls plot in this case:
-    m2 <- lm(mpg ~ cyl, data = mtcars)
-    resid_panel(m2, plots = "ls")
 
 Ideas for Future Package Versions:
 - write a function for computing standardized residuals for lmer and glmer (Katie)
