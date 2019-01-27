@@ -3,15 +3,21 @@
 # Creates a plot of the residuals versus leverage from a model
 plot_lev <- function(model, type, theme, axis.text.size, title.text.size, title.opt){
 
+  # model = m
+  # type = "response"
+  # theme = "bw"
+  # axis.text.size = 10
+  # title.text.size = 12
+  # title.opt = TRUE
+
   ## Creation of Values to Plot -----------------------------------------------------
 
   # Obtain the leverage values
   Leverage = hatvalues(model)
 
   # Check if constant leverage
-  range_lev <- range(Leverage, na.rm = TRUE)
+  range_lev <- range(subset(Leverage, Leverage != 1), na.rm = TRUE)
   const_lev <- all(range_lev == 0) || diff(range_lev) < 1e-10 * mean(Leverage, na.rm = TRUE)
-
 
   if(const_lev){
 
@@ -22,20 +28,32 @@ plot_lev <- function(model, type, theme, axis.text.size, title.text.size, title.
                   title.text.size = title.text.size,
                   title.opt = title.opt)
 
-  } else{
+  } else {
+
+    # Return a warning if
+    if(length(subset(Leverage, Leverage == 1)) > 0){
+      warning("Observations with a leverage value of 1 are not included
+              in the residuals versus leverage plot.")
+    }
 
     # Create a data frame with the leverage values and standardized residuals based
     # on the type of model
     if(class(model)[1] == "lm"){
         model_values <- data.frame(Leverage = hatvalues(model),
-                                   Std_Res = helper_resid(model, type = "standardized"))
+                                   Std_Res = ifelse(sum(Leverage == 1) > 0,
+                                                    suppressWarnings(helper_resid(model, type = "standardized")),
+                                                    helper_resid(model, type = "standardized")))
     } else if (class(model)[1] == "glm"){
       if(is.na(type) | type == "deviance" | type == "stand.deviance"){
         model_values <- data.frame(Leverage = hatvalues(model),
-                                   Std_Res = helper_resid(model, type = "stand.deviance"))
+                                   Std_Res = ifelse(sum(Leverage == 1) > 0,
+                                                    suppressWarnings(helper_resid(model, type = "stand.deviance")),
+                                                    helper_resid(model, type = "stand.deviance")))
       } else if (type == "pearson" | type == "stand.pearson"){
         model_values <- data.frame(Leverage = hatvalues(model),
-                                   Std_Res = helper_resid(model, type = "stand.pearson"))
+                                   Std_Res = ifelse(sum(Leverage == 1) > 0,
+                                                    suppressWarnings(helper_resid(model, type = "stand.pearson")),
+                                                    helper_resid(model, type = "stand.pearson")))
       }
     }
 
@@ -87,6 +105,9 @@ plot_lev <- function(model, type, theme, axis.text.size, title.text.size, title.
     model_values$Data <- Data
 
     ## Creation of Plot ---------------------------------------------------------------
+
+    # Remove data points with leverage values equal to 1
+    model_values <- subset(model_values, model_values$Leverage != 1)
 
     # Create the residual vs. leverage plot
     plot <- ggplot(data = model_values, aes(x = Leverage, y = Std_Res), na.rm = TRUE) +

@@ -125,7 +125,7 @@ check_title <- function(title.opt){
 
 }
 
-# Return warning if consant leverage
+# Return warning if consant leverage or any observations have a leverage value of 1
 check_leverage <- function(model, plots){
 
   if(class(model) %in% c("lm", "glm")){
@@ -140,7 +140,7 @@ check_leverage <- function(model, plots){
         isTRUE(all.equal(x[1], x[2], tolerance = tol))
       }
 
-      if(zero_range(leverage_val)==TRUE){
+      if(zero_range(leverage_val) == TRUE){
         warning("Note that this model has constant leverage.")
       }
 

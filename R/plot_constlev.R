@@ -20,17 +20,29 @@ plot_constlev <- function(model, type, theme, axis.text.size, title.text.size, t
     all_factors <- paste(all_factors, model$model[[i]], sep = ":")
   }
 
+  # Create a data frame to store the model values in
+  model_values <- data.frame(Variables = all_factors)
 
+  # Add the standardized residuals to the plot
   if(class(model)[1] == "lm"){
-      model_values <- data.frame(Variables = all_factors,
-                                 Std_Res = helper_resid(model, type = "standardized"))
+    if (sum(hatvalues(model) == 1) > 0) {
+      model_values$Std_Res = suppressWarnings(helper_resid(model, type = "standardized"))
+    } else {
+      model_values$Std_Res = helper_resid(model, type = "standardized")
+    }
   } else if (class(model)[1] == "glm"){
     if(is.na(type) | type == "deviance" | type == "stand.deviance"){
-      model_values <- data.frame(Variables = all_factors,
-                                 Std_Res = helper_resid(model, type = "stand.deviance"))
+      if (sum(hatvalues(model) == 1) > 0) {
+        model_values$Std_Res = suppressWarnings(helper_resid(model, type = "stand.deviance"))
+      } else {
+        model_values$Std_Res = helper_resid(model, type = "stand.deviance")
+      }
     } else if (type == "pearson" | type == "stand.pearson"){
-      model_values <- data.frame(Variables = all_factors,
-                                 Std_Res = helper_resid(model, type = "stand.pearson"))
+      if (sum(hatvalues(model) == 1) > 0) {
+        model_values$Std_Res = suppressWarnings(helper_resid(model, type = "stand.pearson"))
+      } else {
+        model_values$Std_Res =  helper_resid(model, type = "stand.pearson")
+      }
     }
   }
 
@@ -50,9 +62,6 @@ plot_constlev <- function(model, type, theme, axis.text.size, title.text.size, t
       r_label <- helper_label(type = "stand.pearson", model)
     }
   }
-
-  # Create a title for the plot based on r_label
-  #title <- paste(r_label, "vs Leverage")
 
   # Create labels for plotly
   Data <- helper_plotly_label(model)
