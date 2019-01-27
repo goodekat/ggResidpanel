@@ -189,8 +189,8 @@ resid_interact <- function(model, plots = "default", type = NA, bins = 30,
                       title.opt = title.opt)
     if(title.opt == TRUE){
       title = helper_plotly_title(hist)
-      hist <- ggplotly(hist, tooltip = c("Data", "density", "fill")) %>%
-        layout(annotations = title, title = FALSE)
+      hist <- style(ggplotly(hist, tooltip = c("Data", "density", "fill")) %>%
+        layout(annotations = title, title = FALSE),hoverinfo = "none", traces = 7)
     } else{
       hist <- ggplotly(hist, tooltip = c("Data", "density", "fill"))
     }
