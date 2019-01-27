@@ -18,7 +18,6 @@ Katie's Tasks:
   -receive predictive model in resid_panel
 - write a function to show residual plots from multiple models at the same time (In Progress)
   - resid_compare
-- fix resid_interact for binomial case to be more general
 - add lme examples to tests
 - switch the order of the plots in resid_compare
 - residual plot is still using the lowess curve
@@ -26,6 +25,8 @@ Katie's Tasks:
 - histogram density interactive issue - try?: style(ggplotly(p), hoverinfo = "skip", traces = 2)
 - make smoother tooltips consistent
 - change order residuals vs leverage interactive plot does the x,y positions last instead of first
+- Completed:
+  - fix resid_interact for binomial case to be more general (Double check names with Katherine)
 
 Katherine's Tasks:
 - code:
