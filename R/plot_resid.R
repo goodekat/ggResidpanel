@@ -15,9 +15,6 @@ plot_resid <- function(model, type, smoother, theme, axis.text.size,
                                Prediction = fitted(model))
   }
 
-  # Compute the values for the lowess curve
-  model_values$Lowess.x <- lowess(x = model_values$Prediction, y = model_values$Residual)$x
-  model_values$Lowess.y <- lowess(x = model_values$Prediction, y = model_values$Residual)$y
 
   ## Creation of Labels -------------------------------------------------------------
 
@@ -41,7 +38,7 @@ plot_resid <- function(model, type, smoother, theme, axis.text.size,
   # If smoother is set to true, add it to the plot
   if (smoother == TRUE){
    plot <- plot +
-     geom_line(aes(Lowess.x, Lowess.y), colour = "red", size = 0.5)
+     geom_smooth(aes(Prediction, Residual), method = "loess", se = FALSE, color = "red", size = 0.5)
   }
 
   # Add theme to plot
