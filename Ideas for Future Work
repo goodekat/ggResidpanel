@@ -27,10 +27,6 @@ Katie's Tasks:
 
 
 Katherine's Tasks:
-- code:
-  - look into the "safely" functions or write your own function for managing error:
-    - Error in grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y,  :
-    polygon edge not found
 - vignette:
   - change title to include usermanual and add a subtitle
   - need to update vignette to say that lme models are now allowed
@@ -43,6 +39,10 @@ Katherine's Tasks:
   - add references to vignette
 
 Ideas for Future Package Versions:
+- figure out how to use the "safely" and "quietly" functions to only show desired
+  warnings and suppress the error:
+    grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y,  :
+      polygon edge not found (Katherine)
 - write a function for computing standardized residuals for lmer and glmer (Katie)
 - look into testthat and vistest packages for testing
 - create an option for the user to add their own theme
