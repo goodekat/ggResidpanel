@@ -110,10 +110,10 @@ plot_lev <- function(model, type, theme, axis.text.size, title.text.size, title.
 
     # Create the residual vs. leverage plot
     plot <- ggplot(data = model_values, aes(x = Leverage, y = Std_Res), na.rm = TRUE) +
-      geom_point(aes(group = Data)) +
       labs(x = "Leverage", y = r_label) +
       expand_limits(x = 0) +
       geom_smooth(method = "loess", se = FALSE, color = "red", size = 0.5) +
+      geom_point(aes(group = Data)) +
       geom_hline(yintercept = 0, linetype = "dashed") +
       geom_vline(xintercept = 0, linetype = "dashed") +
       scale_x_continuous(limits = xlimits) +

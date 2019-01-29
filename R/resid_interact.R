@@ -189,8 +189,8 @@ resid_interact <- function(model, plots = "default", type = NA, bins = 30,
                       title.opt = title.opt)
     if(title.opt == TRUE){
       title = helper_plotly_title(hist)
-      hist <- style(ggplotly(hist, tooltip = c("Data", "density", "fill")) %>%
-        layout(annotations = title, title = FALSE),hoverinfo = "none", traces = 7)
+      hist <- ggplotly(hist, tooltip = c("Data", "density", "fill")) %>%
+        layout(annotations = title, title = FALSE)
     } else{
       hist <- ggplotly(hist, tooltip = c("Data", "density", "fill"))
     }
@@ -209,10 +209,10 @@ resid_interact <- function(model, plots = "default", type = NA, bins = 30,
                         title.opt = title.opt)
     if(title.opt == TRUE){
       title = helper_plotly_title(index)
-      index <- ggplotly(index, tooltip = c("Residual", "Data")) %>%
+      index <- ggplotly(index, tooltip = c("Observation", "Residual", "Data")) %>%
         layout(annotations = title, title = FALSE)
     } else{
-      index <- ggplotly(index,tooltip = c("Residual", "Data"))
+      index <- ggplotly(index,tooltip = c("Observation", "Residual", "Data"))
     }
   } else{
     index <- NULL
@@ -242,10 +242,10 @@ resid_interact <- function(model, plots = "default", type = NA, bins = 30,
                     title.opt = title.opt)
     if(title.opt == TRUE){
       title = helper_plotly_title(lev)
-      lev <- suppressWarnings(ggplotly(lev, tooltip = c("Leverage", "Std_Res", "Data")) %>%
+      lev <- suppressWarnings(ggplotly(lev, tooltip = c("Leverage", "Std_Res")) %>%
         layout(annotations = title, title = FALSE))
     } else{
-      lev <- suppressWarnings(ggplotly(lev, tooltip = c("Leverage", "Std_Res", "Data")))
+      lev <- suppressWarnings(ggplotly(lev, tooltip = c("Leverage", "Std_Res")))
     }
   } else{
     lev <- NULL
@@ -364,10 +364,10 @@ resid_interact <- function(model, plots = "default", type = NA, bins = 30,
                         title.opt = title.opt)
     if(title.opt == TRUE){
       title = helper_plotly_title(resid)
-      resid <- ggplotly(resid) %>%
+      resid <- ggplotly(resid, tooltip = c("Prediction", "Residual", "Data")) %>%
         layout(annotations = title, title = FALSE)
     } else {
-      resid <- ggplotly(resid)
+      resid <- ggplotly(resid, tooltip = c("Prediction", "Residual", "Data"))
     }
   } else{
     resid <- NULL
