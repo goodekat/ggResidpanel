@@ -31,6 +31,7 @@ plot_cookd <- function(model, theme, axis.text.size, title.text.size, title.opt)
     geom_hline(yintercept = cutoff, colour = "blue", linetype = 5) +
     geom_hline(yintercept = 0, colour = "black")
 
+
   # Add theme to plot
   if (theme == "bw"){
     plot <- plot + theme_bw()

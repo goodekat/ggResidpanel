@@ -15,9 +15,7 @@ Katie's Tasks:
   - resid_compare
 - add lme examples to tests
 - switch the order of the plots in resid_compare
-- Cook's D plot includes tooltips at the y=0 location
 - histogram density interactive issue - try?: style(ggplotly(p), hoverinfo = "skip", traces = 2)
-- make smoother tooltips consistent (Still working on resid_lev)
 - change order residuals vs leverage interactive plot does the x,y positions last instead of first
 
 - Completed:
@@ -25,6 +23,7 @@ Katie's Tasks:
   - residual plot is still using the lowess curve (switched to "loess" using geom_smooth)
   - plot_ls: trying to suppress "pseudoinverse" warning (Katherine figured this out)
   - make smoother tooltips consistent
+  - Cook's D plot includes tooltips at the y=0 location
 
 
 Katherine's Tasks:
