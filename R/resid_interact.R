@@ -230,10 +230,10 @@ resid_interact <- function(model, plots = "default", type = NA, bins = 30,
                     title.opt = title.opt)
     if(title.opt == TRUE){
       title = helper_plotly_title(lev)
-      lev <- suppressWarnings(ggplotly(lev, tooltip = c("Leverage", "Std_Res", "Data"))) %>%
+      lev <- suppressWarnings(style(ggplotly(lev, tooltip = c("Leverage", "Std_Res", "Data")), hoverinfo = "skip", traces = c(6))) %>%
         layout(annotations = title, title = FALSE)
     } else{
-      lev <- suppressWarnings(ggplotly(lev, tooltip = c("Leverage", "Std_Res", "Data")))
+      lev <- suppressWarnings(style(ggplotly(lev, tooltip = c("Leverage", "Std_Res", "Data")), hoverinfo = "skip", traces = c(6)))
     }
   } else if("all" %in% plots & !(class(model)[1] %in% c("lme", "lmerMod", "lmerModLmerTest", "glmerMod"))){
     lev <- plot_lev(model = model,

@@ -36,7 +36,7 @@
 #' @details
 #'
 #' The first two sections below contain information on the available input
-#' options for the \code{plots} and \code{type} arguments in \code{resid_panel}.
+#' options for the \code{plots} and \code{type} arguments in \code{resid_compare}.
 #' The third section contains details relating to the creation of the plots.
 #'
 #' \strong{Options for Plots}
@@ -186,6 +186,81 @@ resid_compare <- function(models, plots = "default", type = NA, bins = 30,
   compare_list <- list()
   compare_index <- 1
 
+  # Create a residual plot if selected in plots otherwise set as NULL
+  if("resid" %in% plots | "default" %in% plots | "SAS" %in% plots | "R" %in% plots | "all" %in% plots){
+
+    for(i in 1:length(models)){
+      compare_list[[compare_index]] <- plot_resid(model = models[[i]],
+                                                  type = type,
+                                                  smoother = smoother,
+                                                  theme = theme,
+                                                  axis.text.size = axis.text.size,
+                                                  title.text.size = title.text.size,
+                                                  title.opt = title.opt)
+      compare_index <- compare_index+1
+    }
+
+  } else{
+    resid <- NULL
+  }
+
+  # Create a q-q plot of the residuals if selected in plots otherwise set as NULL
+  if("qq" %in% plots | "default" %in% plots | "SAS" %in% plots | "R" %in% plots | "all" %in% plots){
+
+    for(i in 1:length(models)){
+      compare_list[[compare_index]] <- plot_qq(model = models[[i]],
+                                               type = type,
+                                               theme = theme,
+                                               axis.text.size = axis.text.size,
+                                               title.text.size = title.text.size,
+                                               title.opt = title.opt,
+                                               qqline = qqline,
+                                               qqbands = qqbands)
+      compare_index <- compare_index+1
+    }
+
+  } else{
+    qq <- NULL
+  }
+
+  # Create an index plot of the residuals if selected in plots otherwise set as NULL
+  if("index" %in% plots | "default" %in% plots | "all" %in% plots){
+
+    for(i in 1:length(models)){
+      compare_list[[compare_index]] <- plot_index(model = models[[i]],
+                                                  type = type,
+                                                  theme = theme,
+                                                  smoother = smoother,
+                                                  axis.text.size = axis.text.size,
+                                                  title.text.size = title.text.size,
+                                                  title.opt = title.opt)
+      compare_index <- compare_index+1
+    }
+
+  } else{
+    index <- NULL
+  }
+
+  # Create a histogram of the residuals if selected in plots otherwise set as NULL
+  if("hist" %in% plots | "default" %in% plots | "SAS" %in% plots | "all" %in% plots){
+
+    for(i in 1:length(models)){
+      compare_list[[compare_index]] <- plot_hist(model = models[[i]],
+                                                 type = type,
+                                                 bins = bins,
+                                                 theme = theme,
+                                                 axis.text.size = axis.text.size,
+                                                 title.text.size = title.text.size,
+                                                 title.opt = title.opt)
+      compare_index <- compare_index+1
+    }
+
+
+  } else{
+    hist <- NULL
+  }
+
+
   # Create a boxplot of the residuals if selected in plots otherwise set as NULL
   if("boxplot" %in% plots | "SAS" %in% plots | "all" %in% plots){
 
@@ -236,41 +311,40 @@ resid_compare <- function(models, plots = "default", type = NA, bins = 30,
     cookd <- NULL
   }
 
-  # Create a histogram of the residuals if selected in plots otherwise set as NULL
-  if("hist" %in% plots | "default" %in% plots | "SAS" %in% plots | "all" %in% plots){
+  # Create a location-scale plot if selected in plots otherwise set as NULL
+  if("ls" %in% plots | "R" %in% plots){
 
     for(i in 1:length(models)){
-      compare_list[[compare_index]] <- plot_hist(model = models[[i]],
-                                     type = type,
-                                     bins = bins,
-                                     theme = theme,
-                                     axis.text.size = axis.text.size,
-                                     title.text.size = title.text.size,
-                                     title.opt = title.opt)
+      compare_list[[compare_index]] <- plot_ls(model = models[[i]],
+                                               type = type,
+                                               theme = theme,
+                                               axis.text.size = axis.text.size,
+                                               title.text.size = title.text.size,
+                                               title.opt = title.opt)
       compare_index <- compare_index+1
     }
 
-
-  } else{
-    hist <- NULL
-  }
-
-  # Create an index plot of the residuals if selected in plots otherwise set as NULL
-  if("index" %in% plots | "default" %in% plots | "all" %in% plots){
-
+  } else if("all" %in% plots){
+    check_count <- 0
     for(i in 1:length(models)){
-      compare_list[[compare_index]] <- plot_index(model = models[[i]],
-                                      type = type,
-                                      theme = theme,
-                                      smoother = smoother,
-                                      axis.text.size = axis.text.size,
-                                      title.text.size = title.text.size,
-                                      title.opt = title.opt)
-      compare_index <- compare_index+1
+      if(!(class(models[[i]])[1] %in% c("lme", "lmerMod", "lmerModLmerTest", "glmerMod"))){
+        check_count <- check_count+1
+      }
     }
 
+    if(check_count==length(models)){
+      for(i in 1:length(models)){
+        compare_list[[compare_index]] <- plot_ls(model = models[[i]],
+                                                 type = type,
+                                                 theme = theme,
+                                                 axis.text.size = axis.text.size,
+                                                 title.text.size = title.text.size,
+                                                 title.opt = title.opt)
+        compare_index <- compare_index+1
+      }
+    }
   } else{
-    index <- NULL
+    ls <- NULL
   }
 
   # Create a residual-leverage plot if selected in plots otherwise set as NULL
@@ -310,78 +384,9 @@ resid_compare <- function(models, plots = "default", type = NA, bins = 30,
     lev <- NULL
   }
 
-  # Create a location-scale plot if selected in plots otherwise set as NULL
-  if("ls" %in% plots | "R" %in% plots){
 
-    for(i in 1:length(models)){
-      compare_list[[compare_index]] <- plot_ls(model = models[[i]],
-                                   type = type,
-                                   theme = theme,
-                                   axis.text.size = axis.text.size,
-                                   title.text.size = title.text.size,
-                                   title.opt = title.opt)
-      compare_index <- compare_index+1
-    }
 
-  } else if("all" %in% plots){
-    check_count <- 0
-    for(i in 1:length(models)){
-      if(!(class(models[[i]])[1] %in% c("lme", "lmerMod", "lmerModLmerTest", "glmerMod"))){
-        check_count <- check_count+1
-      }
-    }
 
-    if(check_count==length(models)){
-      for(i in 1:length(models)){
-        compare_list[[compare_index]] <- plot_ls(model = models[[i]],
-                                   type = type,
-                                   theme = theme,
-                                   axis.text.size = axis.text.size,
-                                   title.text.size = title.text.size,
-                                   title.opt = title.opt)
-        compare_index <- compare_index+1
-      }
-    }
-  } else{
-    ls <- NULL
-  }
-
-  # Create a q-q plot of the residuals if selected in plots otherwise set as NULL
-  if("qq" %in% plots | "default" %in% plots | "SAS" %in% plots | "R" %in% plots | "all" %in% plots){
-
-    for(i in 1:length(models)){
-      compare_list[[compare_index]] <- plot_qq(model = models[[i]],
-                                   type = type,
-                                   theme = theme,
-                                   axis.text.size = axis.text.size,
-                                   title.text.size = title.text.size,
-                                   title.opt = title.opt,
-                                   qqline = qqline,
-                                   qqbands = qqbands)
-      compare_index <- compare_index+1
-    }
-
-  } else{
-    qq <- NULL
-  }
-
-  # Create a residual plot if selected in plots otherwise set as NULL
-  if("resid" %in% plots | "default" %in% plots | "SAS" %in% plots | "R" %in% plots | "all" %in% plots){
-
-    for(i in 1:length(models)){
-      compare_list[[compare_index]] <- plot_resid(model = models[[i]],
-                                      type = type,
-                                      smoother = smoother,
-                                      theme = theme,
-                                      axis.text.size = axis.text.size,
-                                      title.text.size = title.text.size,
-                                      title.opt = title.opt)
-      compare_index <- compare_index+1
-    }
-
-    } else{
-    resid <- NULL
-  }
 
   # Create a plot of the response variable vs the predicted values if selected
   # in plots otherwise set as NULL

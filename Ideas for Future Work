@@ -16,14 +16,15 @@ Katie's Tasks:
 - add lme examples to tests
 - switch the order of the plots in resid_compare
 - histogram density interactive issue - try?: style(ggplotly(p), hoverinfo = "skip", traces = 2)
-- change order residuals vs leverage interactive plot does the x,y positions last instead of first
+      - style not working for this: did work for cooks d plot
 
 - Completed:
   - fix resid_interact for binomial case to be more general (Double check names with Katherine)
   - residual plot is still using the lowess curve (switched to "loess" using geom_smooth)
   - plot_ls: trying to suppress "pseudoinverse" warning (Katherine figured this out)
-  - make smoother tooltips consistent
+  - make smoother tooltips consistent (Do we want observation added for smoother?)
   - Cook's D plot includes tooltips at the y=0 location
+  - change order residuals vs leverage interactive plot does the x,y positions last instead of first
 
 
 Katherine's Tasks:

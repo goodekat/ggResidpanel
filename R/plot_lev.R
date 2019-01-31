@@ -109,11 +109,11 @@ plot_lev <- function(model, type, theme, axis.text.size, title.text.size, title.
     model_values <- subset(model_values, model_values$Leverage < cutoff)
 
     # Create the residual vs. leverage plot
-    plot <- ggplot(data = model_values, aes(x = Leverage, y = Std_Res), na.rm = TRUE) +
+    plot <- ggplot() +
       labs(x = "Leverage", y = r_label) +
       expand_limits(x = 0) +
-      geom_smooth(method = "loess", se = FALSE, color = "red", size = 0.5) +
-      geom_point(aes(group = Data)) +
+      geom_smooth(data = model_values, aes(x = Leverage, y = Std_Res), na.rm=TRUE, method = "loess", se = FALSE, color = "red", size = 0.5) +
+      geom_point(data = model_values, aes(x = Leverage, y = Std_Res, group = Data), na.rm = TRUE) +
       geom_hline(yintercept = 0, linetype = "dashed") +
       geom_vline(xintercept = 0, linetype = "dashed") +
       scale_x_continuous(limits = xlimits) +
