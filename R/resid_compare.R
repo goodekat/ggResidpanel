@@ -484,28 +484,5 @@ resid_compare <- function(models, plots = "default", type = NA, bins = 30,
 
   }
 
-  # names_plots <- names(compare_list)
-  # if(length(plots)==1){
-  # if(plots%in%c("SAS", "sas")){
-  #   names_plots <- names_plots[c(which(grepl("resid", names_plots)==TRUE),
-  #                                 which(grepl("hist", names_plots)==TRUE),
-  #                                 which(grepl("qq", names_plots)==TRUE),
-  #                                 which(grepl("boxplot", names_plots)==TRUE))]
-  # }else if (plots%in%c("default", "Default", "DEFAULT")){
-  #   names_plots <- names_plots[c(which(grepl("resid", names_plots)==TRUE),
-  #                                which(grepl("qq", names_plots)==TRUE),
-  #                                which(grepl("index", names_plots)==TRUE),
-  #                                which(grepl("hist", names_plots)==TRUE))]
-  # }
-  # }else if(length(plots)>1){
-  #   names_plots_temp <- names_plots[c(which(grepl(plots[1], names_plots)==TRUE))]
-  #   for(i in 2:length(plots)){
-  #     names_plots_temp <- c(names_plots_temp,names_plots[c(which(grepl(plots[i], names_plots)==TRUE))])
-  #   }
-  #   names_plots <- names_plots_temp
-  # }
-  #
-  # compare_list <- compare_list[names_plots]
 
-  # suppressWarnings(plot_grid(plotlist = compare_list, scale = scale, nrow = compare_rows))
 }
