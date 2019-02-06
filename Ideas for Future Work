@@ -14,7 +14,6 @@ Katie's Tasks:
 - write a function to show residual plots from multiple models at the same time (In Progress)
   - resid_compare
 - add lme examples to tests
-- switch the order of the plots in resid_compare
 - histogram density interactive issue - try?: style(ggplotly(p), hoverinfo = "skip", traces = 2)
       - style not working for this: did work for cooks d plot
 
@@ -25,6 +24,8 @@ Katie's Tasks:
   - make smoother tooltips consistent (Do we want observation added for smoother?)
   - Cook's D plot includes tooltips at the y=0 location
   - change order residuals vs leverage interactive plot does the x,y positions last instead of first
+  - switch the order of the plots in resid_compare
+
 
 
 Katherine's Tasks:
