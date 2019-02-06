@@ -147,6 +147,21 @@
 #'
 #' @return A panel of residual diagnostic plots containing plots specified for each model.
 #'
+#' @examples
+#'
+#' # Fit a linear regression model to predict the volume of a tree based on the
+#' # girth of a tree using the R "trees" data
+#' lm_model1 <- lm(Volume ~ Girth, data = trees)
+#'
+#' # Fit a linear model to compare the weights of plants bewteen different
+#' # treatment groups using the R "PlantGrowth" data
+#' lm_model2 <- lm(weight ~ group, data = PlantGrowth)
+#'
+#' # Compare the residuals from the two separte models using the default panel
+#' resid_compare(list(lm_model1, lm_model2))
+#'
+#' # Compare the residuals from two different models for a selection of plots
+#' resid_compare(list(lm_model1, lm_model2), plots = c("resid", "qq", "cookd"))
 
 
 resid_compare <- function(models, plots = "default", type = NA, bins = 30,

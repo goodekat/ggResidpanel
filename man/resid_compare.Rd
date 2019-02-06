@@ -59,7 +59,7 @@ models of type "lm", "glm", "lmerMod", "lmerModLmerTest", and "glmerMod".
 }
 \details{
 The first two sections below contain information on the available input
-options for the \code{plots} and \code{type} arguments in \code{resid_panel}.
+options for the \code{plots} and \code{type} arguments in \code{resid_compare}.
 The third section contains details relating to the creation of the plots.
 
 \strong{Options for Plots}
@@ -167,4 +167,20 @@ model on the y-axis and the predicted values on the x-axis. Both response
 variable and predicted values are plotted on the original scale for
 \code{glm} and \code{glmer} models.}
 }
+}
+\examples{
+
+# Fit a linear regression model to predict the volume of a tree based on the
+# girth of a tree using the R "trees" data
+lm_model1 <- lm(Volume ~ Girth, data = trees)
+
+# Fit a linear model to compare the weights of plants bewteen different
+# treatment groups using the R "PlantGrowth" data
+lm_model2 <- lm(weight ~ group, data = PlantGrowth)
+
+# Compare the residuals from the two separte models using the default panel
+resid_compare(list(lm_model1, lm_model2))
+
+# Compare the residuals from two different models for a selection of plots
+resid_compare(list(lm_model1, lm_model2), plots = c("resid", "qq", "cookd"))
 }
