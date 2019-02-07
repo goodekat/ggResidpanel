@@ -34,7 +34,7 @@
 #'
 #' @export resid_interact
 #'
-#' @importFrom plotly ggplotly subplot %>% layout
+#' @importFrom plotly ggplotly subplot %>% layout style
 #'
 #' @details Details on the creation of the plots can be found in the details section of
 #'   the help file for \code{resid_panel}.
