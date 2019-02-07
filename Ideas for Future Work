@@ -7,13 +7,11 @@ Katie's Tasks:
 - try to figure out why plotly graphs showing up horizontally
 - Work on residual vignette (IN PROGRESS)
   - include a link to the residual document in the documentation
-- constant leverage factor plot
-   - add to test file and add lmertest to test functionality on lmer objects
 - modify so works for predictive models (Research at least)(NOT FOR CRAN)
   -receive predictive model in resid_panel
-- write a function to show residual plots from multiple models at the same time (In Progress)
-  - resid_compare
-- add lme examples to tests
+- test file
+  - add lmertest to test functionality on lmer objects
+  - add lme examples to tests
 - histogram density interactive issue - try?: style(ggplotly(p), hoverinfo = "skip", traces = 2)
       - style not working for this: did work for cooks d plot
 
