@@ -83,5 +83,5 @@ glm_model <- glm(count ~ spray, family = "poisson", data = InsectSprays)
 # Specify three plots to use, request no title, change the theme to gray, and 
 # indicate three columns
 resid_panel(glm_model, plots = c("resid", "qq", "hist"), bins = 20, 
-            title.opt = FALSE, theme = "gray", ind.ncol = 3)
+            title.opt = FALSE, theme = "gray")
 ```
