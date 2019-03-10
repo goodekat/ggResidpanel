@@ -42,77 +42,52 @@ resid_panel(lm_model4, plots = "SAS")
 
 # R Panel
 resid_panel(lm_model1, plots = "R")
-
-# There is warning about using pseduoinverses from plot_ls
 resid_panel(lm_model2, plots = "R")
-
 resid_panel(lm_model3, plots = "R")
 resid_panel(lm_model4, plots = "R")
 
 
 # All Panel
-
 resid_panel(lm_model1, plots = "all")
 resid_panel(lm_model2, plots = "all")
 resid_panel(lm_model3, plots = "all")
 resid_panel(lm_model4, plots = "all")
 
-
 # Vector of plots
 resid_panel(lm_model1, plots = c("boxplot", "cookd"))
-resid_panel(lm_model2, plots = c("boxplot", "cookd"))
+resid_panel(lm_model2, plots = c("boxplot", "cookd"), nrow = 2)
 
 resid_panel(lm_model1, plots = c("qq", "ls", "index"))
-resid_panel(lm_model2, plots = c("qq", "ls", "index"))
-
+resid_panel(lm_model2, plots = c("qq", "ls", "index"), qqbands = TRUE, nrow = 3)
 
 # Each individual plot
 resid_panel(lm_model1, plots = "boxplot")
-resid_panel(lm_model2, plots = "boxplot")
-
-resid_panel(lm_model1, plots = "cookd")
 resid_panel(lm_model2, plots = "cookd")
+resid_panel(lm_model4, plots = "cookd")
 
 resid_panel(lm_model1, plots = "hist")
-resid_panel(lm_model2, plots = "hist")
-
 resid_panel(lm_model1, plots = "index")
-resid_panel(lm_model2, plots = "index")
-
-resid_panel(lm_model1, plots = "ls")
 resid_panel(lm_model2, plots = "ls")
-
 resid_panel(lm_model1, plots = "qq")
-resid_panel(lm_model2, plots = "qq")
 
 resid_panel(lm_model1, plots = "lev")
 resid_panel(lm_model2, plots = "lev")
-# Contour lines do not show
+# Contour lines do not show (does make sense since no points outside of .5 or 1)
 resid_panel(lm_model4, plots = "lev")
 
 resid_panel(lm_model1, plots = "resid")
-resid_panel(lm_model2, plots = "resid")
 
 resid_panel(lm_model1, plots = "yvp")
-resid_panel(lm_model2, plots = "yvp")
-resid_panel(lm_model3, plots = "yvp")
 
 
 # Type
-
 resid_panel(lm_model1, plots = "all", type = "pearson")
-resid_panel(lm_model2, plots = "all", type = "pearson")
-
 resid_panel(lm_model1, plots = "all", type = "standardized")
-resid_panel(lm_model2, plots = "all", type = "standardized")
-
-resid_panel(lm_model1, plots = "lev", type = "pearson")
-resid_panel(lm_model2, plots = "lev", type = "pearson")
 
 # Bins
 
 resid_panel(lm_model1, plots = "all", bins = 20)
-resid_panel(lm_model2, plots = "hist", bins = 10)
+resid_panel(lm_model4, plots = "hist", bins = 10)
 
 # smoother
 
@@ -121,25 +96,25 @@ resid_panel(lm_model2, plots = c("resid","index"), smoother = TRUE)
 
 # qqline, qqbands
 
-resid_panel(lm_model1, plots = "all", qqline = TRUE, qqbands = TRUE)
-resid_panel(lm_model2, plots = "qq", qqline = TRUE, qqbands = TRUE)
+resid_panel(lm_model1, plots = "all", qqline = FALSE, qqbands = TRUE)
+resid_panel(lm_model2, plots = "qq", qqbands = TRUE)
 
 # Scale
 
 resid_panel(lm_model1, scale = .8)
-resid_panel(lm_model2, scale = 1.2)
 resid_panel(lm_model1, plots = "all", scale = .8)
+resid_panel(lm_model2, plots = "qq", scale = .5)
 
 # Theme
 
 resid_panel(lm_model1, theme = "classic")
 resid_panel(lm_model2, theme = "grey")
-resid_panel(lm_model3, plots = "all", theme = "grey")
+resid_panel(lm_model3, plots = "all", theme = "bw")
 
 # axis.tex.size, title.text.size
 
 resid_panel(lm_model1, plots = "all", axis.text.size = 6, title.text.size = 6)
-resid_panel(lm_model2, plots = "SAS", axis.text.size = 12, title.text.size = 12)
+resid_panel(lm_model2, plots = "SAS", axis.text.size = 18, title.text.size = 18)
 
 # title.opt
 
@@ -153,9 +128,29 @@ resid_panel(lm_model2, plots = "all", nrow = 2)
 resid_panel(lm_model4, plots = c("cookd", "index", "qq"), nrow = 1)
 
 
+### Resid_auxpanel
 
 
+# Panels
+
+resid_auxpanel(resid(lm_model1), fitted(lm_model1))
 resid_auxpanel(resid(lm_model1), fitted(lm_model1), plots="SAS")
+resid_auxpanel(resid(lm_model1), fitted(lm_model1), plots="all")
+
+# Options
+
+resid_auxpanel(resid(lm_model1), fitted(lm_model1), plots = "hist", bins = 50)
+resid_auxpanel(resid(lm_model1), fitted(lm_model1), plots = c("resid", "index"), smoother = TRUE)
+resid_auxpanel(resid(lm_model1), fitted(lm_model1), plots = "qq", qqband = TRUE, qqline = FALSE)
+resid_auxpanel(resid(lm_model1), fitted(lm_model1), plots="SAS", scale = .8)
+resid_auxpanel(resid(lm_model1), fitted(lm_model1), plots="all", theme = "grey")
+resid_auxpanel(resid(lm_model1), fitted(lm_model1), plots = c("resid", "index"), smoother = TRUE,
+               axis.text.size = 16, title.text.size = 20)
+resid_auxpanel(resid(lm_model1), fitted(lm_model1), title.opt = FALSE)
+### DOES NOT USE THIRD ROW####
+resid_auxpanel(resid(lm_model1), fitted(lm_model1), nrow = 3)
+
+
 
 resid_auxpanel(resid(lm_model1), fitted(lm_model1), plots="boxplot")
 
