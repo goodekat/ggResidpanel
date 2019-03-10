@@ -128,7 +128,7 @@ resid_panel(lm_model2, plots = "all", nrow = 2)
 resid_panel(lm_model4, plots = c("cookd", "index", "qq"), nrow = 1)
 
 
-### Resid_auxpanel
+### Resid_auxpanel #######
 
 
 # Panels
@@ -147,14 +147,19 @@ resid_auxpanel(resid(lm_model1), fitted(lm_model1), plots="all", theme = "grey")
 resid_auxpanel(resid(lm_model1), fitted(lm_model1), plots = c("resid", "index"), smoother = TRUE,
                axis.text.size = 16, title.text.size = 20)
 resid_auxpanel(resid(lm_model1), fitted(lm_model1), title.opt = FALSE)
-### DOES NOT USE THIRD ROW####
+
 resid_auxpanel(resid(lm_model1), fitted(lm_model1), nrow = 3)
 
+### resid_interact #######
+
+## Panels
+
+resid_interact(lm_model1)
+resid_interact(lm_model2, plot = "R")
+resid_interact(lm_model1, plot = "SAS")
+resid_interact(lm_model1, plot = "all")
 
 
-resid_auxpanel(resid(lm_model1), fitted(lm_model1), plots="boxplot")
-
-resid_auxpanel(resid(lm_model2), fitted(lm_model2), plots="boxplot", title.opt=FALSE)
 
 resid_interact(lm_model1, plot="boxplot")
 resid_interact(lm_model2, plot="boxplot")
