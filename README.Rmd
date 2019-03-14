@@ -1,5 +1,7 @@
 ---
-output: rmarkdown::github_document
+output: 
+  html_document:
+    keep_md: TRUE
 always_allow_html: yes
 ---
 
