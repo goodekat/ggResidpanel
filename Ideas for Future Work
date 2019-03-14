@@ -12,6 +12,8 @@ Katie's Tasks:
 - test file
   - add lmertest to test functionality on lmer objects
   - add lme examples to tests
+  - NOTE:USING THE WORD plot instead of plots
+  - NOTE: if plotting a panel of four plots, nrow DOES NOT USE THIRD ROW when nrow = 3
 - histogram density interactive issue - try?: style(ggplotly(p), hoverinfo = "skip", traces = 2)
       - style not working for this: did work for cooks d plot
 
