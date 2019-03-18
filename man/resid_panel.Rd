@@ -24,8 +24,9 @@ options available.)}
 \item{bins}{Number of bins to use when creating a histogram of the residuals.
 Default is set to 30.}
 
-\item{smoother}{Indicates whether or not to include a smoother on the
-residual plot and/or index plot. Specify TRUE or FALSE. Default is set to FALSE.}
+\item{smoother}{Indicates whether or not to include a smoother on the index,
+residual vs leverage, and residual plots. Specify TRUE or FALSE. Default is
+set to FALSE.}
 
 \item{qqline}{Indicates whether to include a 1-1 line on the qq-plot. Specify
 TRUE or FALSE. Default is set to TRUE.}
@@ -179,7 +180,7 @@ variable and predicted values are plotted on the original scale for
 lm_model1 <- lm(Volume ~ Girth, data = trees)
 
 # Plot the residuals using the default panel
-resid_panel(lm_model1, bins = 30)
+resid_panel(lm_model1)
 
 # Create a panel of all diagnostic plot options and add a smoother to the
 # residual plot

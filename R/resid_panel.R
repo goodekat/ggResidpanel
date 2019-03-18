@@ -13,8 +13,9 @@
 #'   options available.)
 #' @param bins Number of bins to use when creating a histogram of the residuals.
 #'   Default is set to 30.
-#' @param smoother Indicates whether or not to include a smoother on the
-#'   residual plot and/or index plot. Specify TRUE or FALSE. Default is set to FALSE.
+#' @param smoother Indicates whether or not to include a smoother on the index,
+#'   residual vs leverage, and residual plots. Specify TRUE or FALSE. Default is
+#'   set to FALSE.
 #' @param qqline Indicates whether to include a 1-1 line on the qq-plot. Specify
 #'   TRUE or FALSE. Default is set to TRUE.
 #' @param qqbands Indicates whether to include confidence bands on the qq-plot.
@@ -168,7 +169,7 @@
 #' lm_model1 <- lm(Volume ~ Girth, data = trees)
 #'
 #' # Plot the residuals using the default panel
-#' resid_panel(lm_model1, bins = 30)
+#' resid_panel(lm_model1)
 #'
 #' # Create a panel of all diagnostic plot options and add a smoother to the
 #' # residual plot
@@ -326,6 +327,7 @@ resid_panel <- function(model, plots = "default", type = NA, bins = 30,
   if("lev" %in% plots | "R" %in% plots){
     lev <- plot_lev(model = model,
                     type = type,
+                    smoother = smoother,
                     theme = theme,
                     axis.text.size = axis.text.size,
                     title.text.size = title.text.size,
@@ -334,6 +336,7 @@ resid_panel <- function(model, plots = "default", type = NA, bins = 30,
             !(class(model)[1] %in% c("lme", "lmerMod", "lmerModLmerTest", "glmerMod"))){
     lev <- plot_lev(model = model,
                     type = type,
+                    smoother = smoother,
                     theme = theme,
                     axis.text.size = axis.text.size,
                     title.text.size = title.text.size,

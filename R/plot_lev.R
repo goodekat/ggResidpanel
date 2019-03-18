@@ -1,7 +1,7 @@
 # Residual-Leverage plot.
 
 # Creates a plot of the residuals versus leverage from a model
-plot_lev <- function(model, type, theme, axis.text.size, title.text.size, title.opt){
+plot_lev <- function(model, type, smoother, theme, axis.text.size, title.text.size, title.opt){
 
   ## Creation of Values to Plot -----------------------------------------------------
 
@@ -112,7 +112,6 @@ plot_lev <- function(model, type, theme, axis.text.size, title.text.size, title.
     plot <- ggplot() +
       labs(x = "Leverage", y = r_label) +
       expand_limits(x = 0) +
-      geom_smooth(data = model_values, aes(x = Leverage, y = Std_Res), na.rm=TRUE, method = "loess", se = FALSE, color = "red", size = 0.5) +
       geom_point(data = model_values, aes(x = Leverage, y = Std_Res, group = Data), na.rm = TRUE) +
       geom_hline(yintercept = 0, linetype = "dashed") +
       geom_vline(xintercept = 0, linetype = "dashed") +
@@ -121,6 +120,18 @@ plot_lev <- function(model, type, theme, axis.text.size, title.text.size, title.
       geom_text(aes(x = 2.25 * min(model_values$Leverage, na.rm = TRUE),
                     y = 1.1 * min(model_values$Std_Res, na.rm = TRUE)),
                 label = "- - - Cook's distance contours", color = "red", size = 3)
+
+    # If smoother is set to true, add it to the plot
+    if (smoother == TRUE){
+      plot <- plot +
+        geom_smooth(data = model_values,
+                    aes(x = Leverage, y = Std_Res),
+                    na.rm = TRUE,
+                    method = "loess",
+                    se = FALSE,
+                    color = "red",
+                    size = 0.5)
+    }
 
     # Add Cook's D lines if they are inside the limits of the plot
     if (dim(cooksd_contours)[1] > 0) {

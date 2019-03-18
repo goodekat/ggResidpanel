@@ -13,8 +13,9 @@
 #'   options available.)
 #' @param bins Number of bins to use when creating a histogram of the residuals.
 #'   Default is set to 30.
-#' @param smoother Indicates whether or not to include a smoother on the
-#'   residual plot and/or index plot. Specify TRUE or FALSE. Default is set to FALSE.
+#' @param smoother Indicates whether or not to include a smoother on the index,
+#'   residual vs leverage, and residual plots. Specify TRUE or FALSE. Default is
+#'   set to FALSE.
 #' @param qqline Indicates whether to include a 1-1 line on the qq-plot. Specify
 #'   TRUE or FALSE. Default is set to TRUE.
 #' @param qqbands Indicates whether to include confidence bands on the qq-plot.
@@ -381,6 +382,7 @@ resid_compare <- function(models, plots = "default", type = NA, bins = 30,
     for(i in 1:length(models)){
       lev_list[[i]] <- plot_lev(model = models[[i]],
                                     type = type,
+                                smoother = smoother,
                                     theme = theme,
                                     axis.text.size = axis.text.size,
                                     title.text.size = title.text.size,
@@ -401,6 +403,7 @@ resid_compare <- function(models, plots = "default", type = NA, bins = 30,
       for(i in 1:length(models)){
         lev_list[[i]] <- plot_lev(model = models[[i]],
                                     type = type,
+                                  smoother = smoother,
                                     theme = theme,
                                     axis.text.size = axis.text.size,
                                     title.text.size = title.text.size,
