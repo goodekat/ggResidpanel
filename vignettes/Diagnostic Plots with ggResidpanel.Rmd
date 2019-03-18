@@ -1,5 +1,6 @@
 ---
-title: Creating Panels of Diagnostic Plots with <span style="color:blue">ggResidpanel</span>
+title: Using <span style="color:blue">ggResidpanel</span>
+subtitle: Easily Create Panels of Diagnostic Plots
 author: "Katherine Goode and Kathleen Rey"
 date: "`r format(Sys.time(), '%B %d, %Y')`"
 output:
@@ -19,17 +20,18 @@ knitr::opts_chunk$set(echo = TRUE, fig.align = 'center', cache = TRUE)
 
 # Introduction to ggResidpanel
 
-ggResidpanel provides a way to easily create and view diagnostic plots from models in R using ggplot2 graphics. The goal in creating the package was to allow a model to be passed to a function that returns a panel of diagnostic plots that can be viewed simultaneously. The panel allows the user to easily scan plots of interest to check for violations of model assumptions or lack of fit. The idea to portray the plots in a grid was motivated by the residual panel plots provided by SAS (version 9.4) procedures. In addition to being able to view the plots in a panel, ggResidpanel includes the ability to select which plots to include in the panel, ways to to adjust plot characteristics, and options to change the format of the figure. Furthermore, the package provides both static and interactive panels of plots and the ability to view diagnostic plots from multiple models in the same panel.
-
-The package contains the following five functions. Note that `resid_panel`, `resid_interact`, `resid_xpanel`, and `resid_compare` are designed to work with models of type "lm", "glm", "lmer", "glmer", and "lmerTest".
+ggResidpanel provides a way to easily create and view diagnostic plots from models in R using ggplot2 graphics. The goal in creating the package was to allow a model to be passed to a function that returns a panel of diagnostic plots that can be viewed simultaneously. The panel allows the user to scan plots of interest to check for violations of model assumptions or lack of fit. The idea to portray the plots in a grid was motivated by the residual panel plots provided in [SAS procedures](https://support.sas.com/documentation/cdl/en/statug/63962/HTML/default/viewer.htm#statug_mixed_sect030.htm). In addition to being able to view plots in a panel, ggResidpanel allows for the creation of panels with interactive plots and the ability to view plots from multiple models in the same panel. These operations can be obtained by applying one of the four functions listed below to a model. 
 
 - [`resid_panel`](#resid_panel): Creates a panel of diagnostic plots of the residuals from a model
 - [`resid_interact`](#resid_interact): Creates an interactive panel of diagnostic plots of the residuals form a model
 - [`resid_xpanel`](#resid_xpanel): Creates a panel of diagnostic plots of the predictor variables 
 - [`resid_compare`](#resid_compare): Creates a panel of diagnostic plots from multiple models
+
+As of now, ggResidpanel allows these functions to work with models of type "lm", "glm", "lme", "lmer", "glmer", and "lmerTest". An additional function is included in the package that can be used with any model type and produces similar output as `resid_panel`.
+
 - [`resid_auxpanel`](#resid_auxpanel): Creates a panel of diagnostic plots for model types not included in the package
 
-A section is included in this vignette for each of the functions with details and examples showing how to use the functions.
+All functions in the package include the ability to select which plots to include in the panel, ways to to adjust plot characteristics, and options to change the figure format. Each function has a section in this vignette with details on how to use the function and examples. 
 
 # Installation
 
@@ -47,16 +49,15 @@ To use the package in R, load the library into your R session with the following
 library(ggResidpanel)
 ```
 
-# <span style="color:blue">`resid_panel`</span> {#resid_panel}
+# Example Data
 
-## Overview
+The functions in this vignette will be demonstrated by using the `trees` data included in base R. The dataset contains information on the volume, girth, and height of 31 black cherry trees. The first six rows of the data are shown below.
 
-The function `resid_panel` takes a model and returns a panel of diagnostic plots. The currently accepted models are 
+```{r}
+head(trees)
+```
 
-  - models fit using the `lm` or `glm` functions in base R (which will be referred to as "lm" and "glm" models) or 
-  - models fit using the `lmer` or `glmer` functions from either the lme4 or lmerTest package (which will be referred to as "lmer", "glmer", and "lmerTest" models). 
-  
-This function and the next three functions will be demonstrated by fitting a model to the dataset `trees` included in base R. The dataset contains information on the volume, girth, and height of 31 black cherry trees. The linear model below is fit to determine if their is a linear relationship between the volume of the tree given its height and girth.
+A linear model is fit below to determine if there is a linear relationship between the volume of the tree and its height and girth. This model will be used for examples throughout this vignette.
 
 ```{r}
 # Fits a linear model with a response variable of volume and predictor
@@ -64,7 +65,18 @@ This function and the next three functions will be demonstrated by fitting a mod
 tree_model <- lm(Volume ~ Height + Girth, data = trees)
 ```
 
-The first argument in `resid_panel` is the `model` option. The most basic use of `resid_panel` to only include the model in the function. The code below shows the figure that is created if the `tree_model` is input into `resid_panel` with no other options specified. This produces a panel with the four plots of a residual plot, a normal quantile plot, an index plot, and a histogram of the residuals.
+# `resid_panel` {#resid_panel}
+
+## Overview
+
+The function `resid_panel` is applied to a model and returns a panel of diagnostic plots. It currently accepts the following models.
+
+  - "lm": models fit using the function [`lm`](https://stat.ethz.ch/R-manual/R-patched/library/stats/html/lm.html) from base R
+  - "glm": models fit using the function [`glm`](https://stat.ethz.ch/R-manual/R-patched/library/stats/html/glm.html) from base R
+  - "lmer", "glmer", and "lmerTest: models fit using the [`lmer`](https://www.rdocumentation.org/packages/lme4/versions/0.999375-37/topics/lmer) or [`glmer`](https://www.rdocumentation.org/packages/lme4/versions/1.1-21/topics/glmer) functions from either the lme4 package or fit with the lmerTest package loaded
+  - "lme": models fit using the [`lme`](https://www.rdocumentation.org/packages/nlme/versions/3.1-137/topics/lme) function from the `nlme` package
+
+The first argument in `resid_panel` is the `model` option. The most basic use of `resid_panel` is to only include the model in the function. The code below shows the figure that is created if the `tree_model` is input into `resid_panel` with no other options specified. This produces a panel with the four plots of a residual plot, a normal quantile plot, an index plot, and a histogram of the residuals.
 
 ```{r}
 # Creates the default panel of plots based on the tree_model
@@ -73,11 +85,11 @@ resid_panel(tree_model)
 
 ## Plots {#plots}
 
-The `plots` option in `resid_panel` allows the user to create a panel with a desired set of plots using the plots included in the package. There are three ways a user can do this:
+The `plots` option in `resid_panel` allows the user to select the designed plots to include in the panel. There are three ways a user can do this.
 
-- specify an [individual plot](#individual) to create one plot
-- specify a [vector of plots](#vector) included in the package to create a panel including these plots
-- specify a [package included panel](#prespecified) of plots
+1. Specify an [individual plot](#individual) to create one plot
+2. Specify a [vector of plots](#vector) included in the package to create a panel including these plots
+3. Specify the name of panel of plots that is [prespecified](#prespecified) in the package
 
 Explanations and examples for each of these methods are included in the next three sections.
 
@@ -95,7 +107,7 @@ An individual plot can be created by including the option of `plots = "name of p
 - [`resid`](#resid)
 - [`yvp`](#yvp)
 
-All plots are available to be used with "lm" and "glm" models, but `cookd`, `lev`, and `ls` are not available to be used with "lmer", "glmer", and "lmerTest" models. The details and examples of each plot are included below.
+All plots are available to be used with "lm" and "glm" models, but `cookd`, `lev`, and `ls` are not available to be used with "lmer", "glmer", "lmerTest", and "lme" models. The details and examples of each plot are included below.
 
 #### Boxplot of the Residuals {#boxplot}
 
@@ -110,9 +122,9 @@ resid_panel(tree_model, plots = "boxplot")
 
 #### Cook's Distance Plot {#cookd}
 
-The option of `plots = "cookd"` creates a plot of the Cook's distance values versus the observation numbers. The blue dashed horizontal line is placed at 4/n where n is the number of observations used to fit the model. This plot is only available for "lm" and "glm" models. 
+The option of `plots = "cookd"` creates a plot of the Cook's distance values versus the observation numbers. It is only available for "lm" and "glm" models. The blue dashed horizontal line is placed at 4/n where n is the number of observations used to fit the model.
 
-This can be used to check for points with high leverage. Points above the dashed blue line are considered to be high leverage points, and points that have Cook's D values that are much larger than the rest are of particular interest.
+This plot can be used to check for points with high leverage. Points above the dashed blue line are considered to be high leverage points, and points that have Cook's D values that are much larger than the rest are of particular interest.
 
 ```{r}
 # Creates a Cook's D plot
@@ -123,7 +135,7 @@ resid_panel(tree_model, plots = "cookd")
 
 The option of `plots = "hist"` creates a histogram of the residuals. The blue line is a normal density curve with a mean of zero and a standard deviation equal to the standard deviation of the residuals. 
 
-`resid_panel` includes a `bins` option to specify the number of bins in the histogram. By default, `bins = 30` based on the default for the number of bins in the ggplot2 `geom_histogram` function.
+`resid_panel` includes a `bins` option to specify the number of bins in the histogram. By default, `bins = 30` is based on the default for the number of bins in the ggplot2 [`geom_histogram`](https://ggplot2.tidyverse.org/reference/geom_histogram.html) function.
 
 This is another plot that can be used to visualize the distribution of the residuals. In particular, the normal density curve allows for the comparison of the residuals to a normal distribution.
 
@@ -131,7 +143,7 @@ This is another plot that can be used to visualize the distribution of the resid
 # Creates a histogram of the residuals
 resid_panel(tree_model, plots = "hist")
 
-# Creates the histogram with 20 bins
+# Creates a histogram with 20 bins
 resid_panel(tree_model, plots = "hist", bins = 20)
 ```
 
@@ -139,31 +151,36 @@ resid_panel(tree_model, plots = "hist", bins = 20)
 
 The option of `plots = "index"` creates a plot of the residuals versus the observation numbers. A solid blue horizontal line through 0 is included for reference.
 
-`residual_panel` includes a `smoother` indicator option. If set to `TRUE`, a loess smoother will included on the index plot. If set to `FALSE`, it will not be included. By default, `smoother = FALSE`. (This option also affects the `resid` plot.)
+`residual_panel` includes a `smoother` indicator option. If set to `TRUE`, a loess smoother will included on the index plot as a red solid line. If set to `FALSE`, it will not be included. By default, `smoother = FALSE`. (This option also affects the `lev` and `resid` plots.)
 
-This can be used to look for patterns in the residuals in regards to the manner in which the data used to fit the model have been ordered. Often the data are ordered in a meaningful way such as time of observation. This plot can help to check if there is any relationship between the residuals and the order of the data. If a trend is found in this plot, it may suggest that a variable has been excluded from the model that would help to explain the variation in the response variable.
+This plot can be used to look for patterns in the residuals in regards to the manner in which the data used to fit the model have been ordered. Often the data are ordered in a meaningful way such as by time of observation. This plot can help to check if there is any relationship between the residuals and the order of the data. If a trend is found in this plot, it may suggest that a variable has been excluded from the model that would help to explain the variation in the response variable.
 
 ```{r}
 # Creates an index plot of the residuals
 resid_panel(tree_model, plots = "index")
 
-# Creates the index plot with a smoother added
+# Creates an index plot with a smoother added
 resid_panel(tree_model, plots = "index", smoother = TRUE)
 ```
 
 #### Residuals vs. Leverage Plot {#lev}
 
-The option of `plots = "lev"` creates a plot of the standardized residuals versus the leverage values. A loess curve is overlaid as a red solid line, and a horizontal line through 0 and a vertical line through 0 are included as black dashed lines. The red dashed lines are Cook's distance contour lines for Cook's D values of 0.5 and 1. This plot is only available for "lm" and "glm" models.
+The option of `plots = "lev"` creates a plot of the standardized residuals versus the leverage values. This plot is only available for "lm" and "glm" models. A horizontal line through 0 and a vertical line through 0 are included as black dashed lines to mimic the residual vs. leverage plot created by the [`plot.lm`](https://www.rdocumentation.org/packages/stats/versions/3.5.2/topics/plot.lm) function from base R. The red dashed lines are Cook's distance contour lines for Cook's D values of 0.5 and 1. These values were chosen based on the default options used in `plot.lm`. 
 
-The Cook's D contour lines were obtained using the fact that Cook's distance can be computed as a function of the leverage and the standardized residual. For observation $i$, let $D_i$ represent the Cook's distance, $r_i$ represent the standardized residual, and $h_i$ represent the leverage value. Finally, let $p$ be the rank of the model. Then Cook's distance can be computed as
+`residual_panel` includes a `smoother` indicator option. If set to `TRUE`, a loess smoother will included on the residual vs leverage plot as a red solid line. If set to `FALSE`, it will not be included. By default, `smoother = FALSE`. (This option also affects the `index` and `resid` plots.)
+
+The Cook's D contour lines are computed using the fact that Cook's distance can be written as a function of the leverage and the standardized residual. For observation $i$, let $D_i$ represent the Cook's distance, $r_i$ represent the standardized residual, and $h_i$ represent the leverage value. Finally, let $p$ be the rank of the model. Cook's distance can be computed as
   $$D_i = \frac{r_i}{p}\left(\frac{h_i}{(1-h_i)^2}\right).$$
-Thus, given a specified value of Cook's D ($D_i=0.5$ or $D_i=1$), a leverage value ($h_i$), and the rank of the model ($p$), it is possible to solve for the value of the standardized residual ($r_i$). The value of $D_i=1$ was chosen since a value of Cook's D larger than 1 is often considered to be a point with high leverage.
+Thus, given a specified value of Cook's D, a leverage value ($h_i$), and the rank of the model ($p$), it is possible to solve for the value of the standardized residual ($r_i$). The value of $D_i=1$ is used since a data point with a value of Cook's D larger than 1 is often considered to be a point with high leverage.
 
-This plot can be used to look for trends in the residuals based on the leverage values and to identify points with high leverage. Points that fall outside of Cook's D contours lines may be of interest. Points that fall outside of the contour line with Cook's D set to 1 are considered to be high leverage points. As seen in the plot below, not all contour lines may appear when the plot is created depending on the leverage values of the data points. 
+This plot can be used to look for trends in the residuals based on the leverage values and to identify points with high leverage. Points that fall outside of the Cook's D contours lines may be of interest. Points that fall outside of the contour line with Cook's D set to 1 are considered to be high leverage points. As seen in the plot below, not all contour lines may appear when the plot is created if they fall far outside of the range of the observed leverage values.
 
 ```{r}
 # Creates a residuals vs. leverage plot
 resid_panel(tree_model, plots = "lev")
+
+# Creates a residuals vs. leverage plot with a smoother added
+resid_panel(tree_model, plots = "lev", smoother = TRUE)
 ```
 
 #### Location-Scale Plot {#ls}
