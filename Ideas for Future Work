@@ -30,7 +30,6 @@ Katie's Tasks:
 
 Katherine's Tasks:
 - vignette:
-  - change title to include usermanual and add a subtitle
   - need to update vignette to say that lme models are now allowed
   - make a vignette with examples showing how to use the package
   - dataset ideas:
@@ -39,6 +38,15 @@ Katherine's Tasks:
     - https://github.com/fivethirtyeight/data
     - ecology journal databases
   - add references to vignette
+  - check all of the hyperlinks
+  - adjust all of the documentation examples once vignette is finished
+- references to add:
+  - 4/n for Cook's D plot (Katie)
+  - density curve on the histogram (Katie)
+  - formula for Cook's D
+  - value of 1 for Cook's D
+- completed:
+  - change title to include usermanual and add a subtitle
 
 Ideas for Future Package Versions:
 - figure out how to use the "safely" and "quietly" functions to only show desired
