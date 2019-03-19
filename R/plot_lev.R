@@ -108,7 +108,7 @@ plot_lev <- function(model, type, smoother, theme, axis.text.size, title.text.si
     # Remove data points with leverage values equal to 1
     model_values <- subset(model_values, model_values$Leverage < cutoff)
 
-    # Create the residual vs. leverage plot
+    # Create the residual-leverage plot
     plot <- ggplot() +
       labs(x = "Leverage", y = r_label) +
       expand_limits(x = 0) +
@@ -176,7 +176,7 @@ plot_lev <- function(model, type, smoother, theme, axis.text.size, title.text.si
     # and return plot
     if(title.opt == TRUE){
       plot +
-        labs(title = "Residual vs Leverage") +
+        labs(title = "Residual-Leverage Plot") +
         theme(plot.title = element_text(size = title.text.size, face = "bold"),
               axis.title = element_text(size = axis.text.size))
     } else if (title.opt == FALSE){

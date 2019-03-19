@@ -25,8 +25,8 @@ options available.)}
 Default is set to 30.}
 
 \item{smoother}{Indicates whether or not to include a smoother on the index,
-residual vs leverage, and residual plots. Specify TRUE or FALSE. Default is
-set to FALSE.}
+residual-leverage, location-scale, and residual plots. Specify TRUE or FALSE.
+Default is set to FALSE.}
 
 \item{qqline}{Indicates whether to include a 1-1 line on the qq-plot. Specify
 TRUE or FALSE. Default is set to TRUE.}

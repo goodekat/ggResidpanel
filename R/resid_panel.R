@@ -14,8 +14,8 @@
 #' @param bins Number of bins to use when creating a histogram of the residuals.
 #'   Default is set to 30.
 #' @param smoother Indicates whether or not to include a smoother on the index,
-#'   residual vs leverage, and residual plots. Specify TRUE or FALSE. Default is
-#'   set to FALSE.
+#'   residual-leverage, location-scale, and residual plots. Specify TRUE or FALSE.
+#'   Default is set to FALSE.
 #' @param qqline Indicates whether to include a 1-1 line on the qq-plot. Specify
 #'   TRUE or FALSE. Default is set to TRUE.
 #' @param qqbands Indicates whether to include confidence bands on the qq-plot.
@@ -134,7 +134,7 @@
 #' \item{Index Plot (\code{index})}{Plots the residuals on the y-axis and the observation
 #' number associated with the residual on the x-axis.}
 #'
-#' \item{Residuals vs Leverage Plot (\code{lev})}{Plots the standardized residuals on the
+#' \item{Residual-Leverage Plot (\code{lev})}{Plots the standardized residuals on the
 #' y-axis and the leverage values on the x-axis with a loess curve is overlaid. Cook's
 #' D contour lines (which are a function of leverage and standardized residuals) are plotted
 #' as the red dashed lines for Cook's D values of 0.5 and 1.}
@@ -349,6 +349,7 @@ resid_panel <- function(model, plots = "default", type = NA, bins = 30,
   if("ls" %in% plots | "R" %in% plots){
     ls <- plot_ls(model = model,
                   type = type,
+                  smoother = smoother,
                   theme = theme,
                   axis.text.size = axis.text.size,
                   title.text.size = title.text.size,
@@ -357,6 +358,7 @@ resid_panel <- function(model, plots = "default", type = NA, bins = 30,
             !(class(model)[1] %in% c("lme", "lmerMod", "lmerModLmerTest", "glmerMod"))){
     ls <- plot_ls(model = model,
                   type = type,
+                  smoother = smoother,
                   theme = theme,
                   axis.text.size = axis.text.size,
                   title.text.size = title.text.size,

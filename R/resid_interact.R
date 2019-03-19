@@ -15,8 +15,8 @@
 #' @param bins Number of bins to use when creating a histogram of the residuals.
 #'   Default is set to 30.
 #' @param smoother Indicates whether or not to include a smoother on the index,
-#'   residual vs leverage, and residual plots. Specify TRUE or FALSE. Default is
-#'   set to FALSE.
+#'   residual-leverage, location-scale, and residual plots. Specify TRUE or FALSE.
+#'   Default is set to FALSE.
 #' @param qqline Indicates whether to include a 1-1 line on the qq-plot. Specify
 #'   TRUE or FALSE. Default is set to TRUE. (The option of \code{qqbands} has not
 #'   been implemented in plotly, so it is not available as an option with
@@ -260,6 +260,7 @@ resid_interact <- function(model, plots = "default", type = NA, bins = 30,
   if("ls" %in% plots | "R" %in% plots){
     ls <- plot_ls(model = model,
                   type = type,
+                  smoother = smoother,
                   theme = theme,
                   axis.text.size = axis.text.size,
                   title.text.size = title.text.size,
@@ -298,6 +299,7 @@ resid_interact <- function(model, plots = "default", type = NA, bins = 30,
   } else if("all" %in% plots & !(class(model)[1] %in% c("lme", "lmerMod", "lmerModLmerTest", "glmerMod"))){
     ls <- plot_ls(model = model,
                   type = type,
+                  smoother = smoother,
                   theme = theme,
                   axis.text.size = axis.text.size,
                   title.text.size = title.text.size,

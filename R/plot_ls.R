@@ -2,7 +2,7 @@
 
 # Creates a location-scale plot with the square root of the standardized residuals
 # versus predicted values from a model
-plot_ls <- function(model, type, theme, axis.text.size, title.text.size, title.opt){
+plot_ls <- function(model, type, smoother, theme, axis.text.size, title.text.size, title.opt){
 
   ## Creation of Values to Plot -----------------------------------------------------
 
@@ -43,8 +43,7 @@ plot_ls <- function(model, type, theme, axis.text.size, title.text.size, title.o
     plot <- ggplot(model_values, aes(x = Prediction, y = Sqrt_Std_Res, label = Data)) +
       geom_point() +
       labs(x = "Predicted Values", y = expression(sqrt(abs(" Standardized Residuals ")))) +
-      expand_limits(y = 0) +
-      geom_smooth(method = "loess", se = FALSE, colour = "red", size = 0.5)
+      expand_limits(y = 0)
 
   } else if (class(model)[1] == "glm"){
 
@@ -54,8 +53,7 @@ plot_ls <- function(model, type, theme, axis.text.size, title.text.size, title.o
         geom_point() +
         labs(x = "Predicted Values",
              y = expression(sqrt(abs(" Standardized Deviance Residuals ")))) +
-        expand_limits(y = 0) +
-        geom_smooth(method = "loess", se = FALSE, colour = "red", size = 0.5)
+        expand_limits(y = 0)
 
     # Location-scale plot for glm model with Pearson residuals
     } else if(type == "pearson" | type == "stand.pearson"){
@@ -63,11 +61,16 @@ plot_ls <- function(model, type, theme, axis.text.size, title.text.size, title.o
         geom_point() +
         labs(x = "Predicted Values",
              y = expression(sqrt(abs(" Standardized Pearson Residuals ")))) +
-        expand_limits(y = 0) +
-        geom_smooth(method = "loess", se = FALSE, colour = "red", size = 0.5)
+        expand_limits(y = 0)
 
     }
 
+  }
+
+  # If smoother is set to true, add it to the plot
+  if (smoother == TRUE){
+    plot <- plot +
+      geom_smooth(method = "loess", se = FALSE, color = "red", size = 0.5)
   }
 
   # Add theme to plot
