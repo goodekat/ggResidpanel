@@ -28,23 +28,24 @@ Katie's Tasks:
 
 Katherine's Tasks:
 - vignette:
-  - check all of the hyperlinks
-  - dataset ideas:
-    - dasl or ozdasl
-    - tise journal
-    - https://github.com/fivethirtyeight/data
-    - ecology journal databases
+  - adjust all of the documentation examples once vignette is finished
   - add references to vignette
     - 4/n for Cook's D plot (Katie)
     - density curve on the histogram (Katie)
     - formula for Cook's D
     - value of 1 for Cook's D
-  - adjust all of the documentation examples once vignette is finished
+  - dataset ideas:
+    - dasl or ozdasl
+    - tise journal
+    - https://github.com/fivethirtyeight/data
+    - ecology journal databases
   - add in sentence and link to residual vignette when it is finished
 - make a vignette with examples showing how to use the package
 - completed:
+  - added smoother options to lev and ls plots
   - change title to include usermanual and add a subtitle
   - need to update vignette to say that lme models are now allowed
+  - check all of the hyperlinks
 
 Ideas for Future Package Versions:
 - figure out how to use the "safely" and "quietly" functions to only show desired
