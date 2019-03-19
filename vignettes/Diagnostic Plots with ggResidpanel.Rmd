@@ -89,7 +89,7 @@ The `plots` option in `resid_panel` allows the user to select the designed plots
 
 1. Specify an [individual plot](#individual) to create one plot
 2. Specify a [vector of plots](#vector) included in the package to create a panel including these plots
-3. Specify the name of a [prespecified panel](#prespecified) of plot included in the package
+3. Specify the name of a [prespecified panel](#prespecified) of plots included in the package
 
 Explanations and examples for each of these methods are included in the next three sections.
 
@@ -442,7 +442,7 @@ resid_interact(tree_model)
 
 1. Specify an [individual plot](#interact_ind) to create one plot
 2. Specify a [vector of plots](#interact_vector) included in the package to create a panel including these plots
-3. Specify the name of a [prespecified panel](#interact_pre) of plot included in the package
+3. Specify the name of a [prespecified panel](#interact_pre) of plots included in the package
 
 Additional details on these methods are described in the next three sections.
 
