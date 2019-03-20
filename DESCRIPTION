@@ -18,8 +18,13 @@ Imports:
   plotly,
   qqplotr,
   stringr
-RoxygenNote: 6.1.0
-Suggests: knitr,
-    rmarkdown,
-    testthat
+RoxygenNote: 6.1.1
+Suggests: 
+  knitr,
+  lme4,
+  randomForest,
+  rmarkdown,
+  testthat
 VignetteBuilder: knitr
+Depends:R (>= 3.0.0)
+
