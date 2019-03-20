@@ -3,8 +3,8 @@
 #' Creates a panel of residual diagnostic plots given inputs of residuals and
 #' fitted values.
 #'
-#' @param resid The residuals from the model.
-#' @param pred The fitted values from the model.
+#' @param residuals The residuals from the model.
+#' @param predicted The fitted values from the model.
 #' @param plots Plots chosen to include in the panel of plots. The default panel
 #'   includes a residual plot, a normal quantile plot, an index plot,
 #'   and a histogram of the residuals. (See details for the options available.)
@@ -65,7 +65,8 @@
 #' resid_auxpanel(resid(lm_model1), fitted(lm_model1), bins = 30)
 #'
 #' # Fit a random forest model to the mtcars data to predict the mpg
-#' rf_model <- randomForest::randomForest(x = mtcars[,2:11], y = mtcars[,1])
+#' library(randomForest)
+#' rf_model <- randomForest(x = mtcars[,2:11], y = mtcars[,1])
 #'
 #' # Obtain the predictions from the model on the observed data
 #' rf_pred <- predict(rf_model, mtcars[,2:11])

@@ -10,6 +10,10 @@ resid_auxpanel(residuals, predicted, plots = "default", bins = 30,
   title.opt = TRUE, nrow = NULL)
 }
 \arguments{
+\item{residuals}{The residuals from the model.}
+
+\item{predicted}{The fitted values from the model.}
+
 \item{plots}{Plots chosen to include in the panel of plots. The default panel
 includes a residual plot, a normal quantile plot, an index plot,
 and a histogram of the residuals. (See details for the options available.)}
@@ -41,10 +45,6 @@ plots.}
 Specify TRUE or FALSE. Default is set to TRUE.}
 
 \item{nrow}{Sets the number of rows in the panel.}
-
-\item{resid}{The residuals from the model.}
-
-\item{pred}{The fitted values from the model.}
 }
 \value{
 A panel of residual diagnostic plots containing plots specified.
@@ -88,7 +88,8 @@ lm_model1 <- lm(Volume ~ Girth, data = trees)
 resid_auxpanel(resid(lm_model1), fitted(lm_model1), bins = 30)
 
 # Fit a random forest model to the mtcars data to predict the mpg
-rf_model <- randomForest::randomForest(x = mtcars[,2:11], y = mtcars[,1])
+library(randomForest)
+rf_model <- randomForest(x = mtcars[,2:11], y = mtcars[,1])
 
 # Obtain the predictions from the model on the observed data
 rf_pred <- predict(rf_model, mtcars[,2:11])
