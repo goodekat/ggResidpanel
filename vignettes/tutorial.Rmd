@@ -16,7 +16,7 @@ vignette: >
 ---
 
 ```{r setup, include = FALSE, message = FALSE}
-knitr::opts_chunk$set(echo = TRUE, fig.align = 'center', message = FALSE)
+knitr::opts_chunk$set(echo = TRUE, fig.align = 'center', message = FALSE, cache = TRUE)
 ```
 
 ![](../images/gg_resid_sticker4.png){width=25%}

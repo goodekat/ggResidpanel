@@ -28,6 +28,7 @@ Katie's Tasks:
 
 Katherine's Tasks:
 - work on getting CRAN checks all passed
+- figure out how to handle tutorial vignette with CRAN (or not) and add cache back
 - tutorial:
   - adjust all of the documentation examples once vignette is finished
   - add in sentence and link to residual vignette when it is finished
