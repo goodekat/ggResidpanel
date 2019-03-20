@@ -27,25 +27,28 @@ Katie's Tasks:
   - switch the order of the plots in resid_compare
 
 Katherine's Tasks:
-- vignette:
+- work on getting CRAN checks all passed
+- tutorial:
   - adjust all of the documentation examples once vignette is finished
-  - add references to vignette
-    - 4/n for Cook's D plot (Katie)
-    - density curve on the histogram (Katie)
-    - formula for Cook's D
-    - value of 1 for Cook's D
-  - dataset ideas:
-    - dasl or ozdasl
-    - tise journal
-    - https://github.com/fivethirtyeight/data
-    - ecology journal databases
   - add in sentence and link to residual vignette when it is finished
-- make a vignette with examples showing how to use the package
+- make an introduction vignette
+  - dataset ideas:
+    - dasl
+    - https://github.com/rfordatascience/tidytuesday
+    - https://github.com/BuzzFeedNews/everything#data-and-analyses
 - completed:
   - added smoother options to lev and ls plots
   - change title to include usermanual and add a subtitle
   - need to update vignette to say that lme models are now allowed
   - check all of the hyperlinks
+  - added penguin data to package and changed in tutorial
+  - add references to vignette
+    - formula for Cook's D
+    - value of 1 for Cook's D
+- ask Katie:
+  - what reference did you use for:
+    - 4/n for Cook's D plot (I found one that works?)
+    - density curve on the histogram
 
 Ideas for Future Package Versions:
 - figure out how to use the "safely" and "quietly" functions to only show desired
