@@ -1,0 +1,63 @@
+---
+title: "An Introduction to ggResidpanel"
+author: "Katherine Goode and Kathleen Rey"
+date: "`r format(Sys.time(), '%B %d, %Y')`"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Vignette Title}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r setup, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+
+```{r eval = FALSE}
+ggplot(penguins, aes(x = duration, y = heartrate, color = bird)) + 
+  geom_point() + 
+  facet_wrap( ~ bird)
+
+ggplot(penguins, aes(x = depth, y = heartrate, color = bird)) + 
+  geom_point() + 
+  facet_wrap( ~ bird)
+```
+
+```{r eval = FALSE}
+m <- lm(heartrate ~ duration + depth + bird, data = penguins)
+summary(m)
+resid_panel(m)
+resid_xpanel(m, yvar = "response")
+
+m2 <- lm(log(Dive.Heart.Rate) ~ Duration.min. + Depth.m., data = penguins)
+summary(m2)
+resid_panel(m2)
+resid_xpanel(m2, yvar = "response")
+
+m3 <- lm(Dive.Heart.Rate ~ Duration.min. + I((Duration.min.)^2) + Depth.m., data = penguins)
+summary(m3)
+resid_panel(m3)
+resid_xpanel(m3, yvar = "response")
+
+m4 <- lm(log(Dive.Heart.Rate) ~ Duration.min. + I((Duration.min.)^2) + Depth.m., data = penguins)
+summary(m4)
+resid_panel(m4)
+resid_xpanel(m4, yvar = "response")
+
+library(dplyr)
+
+sub <- penguins %>%
+  group_by(Bird.) %>%
+  summarise_all(mean)
+
+m5 <- lm(Dive.Heart.Rate ~ Duration.min. + Depth.m., data = sub)
+summary(m5)
+resid_panel(m5)
+resid_xpanel(m5, yvar = "response")
+
+```
+

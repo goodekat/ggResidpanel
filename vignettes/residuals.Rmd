@@ -1,6 +1,12 @@
 ---
 title: "Overview of Residuals"
-output: html_document
+author: "Katherine Goode and Kathleen Rey"
+date: "`r format(Sys.time(), '%B %d, %Y')`"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Vignette Title}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
 ---
 
 # Linear Models
