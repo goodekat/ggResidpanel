@@ -7,7 +7,7 @@ Authors@R: c(person("Katherine", "Goode", email = "kgoode@iastate.edu", role = c
 Description: An R package for creating panels of diagnostic plots for residuals from a model 
     using ggplot2 and plotly to analyze residuals and model assumptions from a variety of 
     viewpoints. It also allows for the creation of interactive diagnostic plots.
-License: MIT
+License: MIT + file LICENSE
 Encoding: UTF-8
 LazyData: true
 Imports:
