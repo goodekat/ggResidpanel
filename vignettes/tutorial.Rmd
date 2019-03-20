@@ -1,5 +1,5 @@
 ---
-title: <span style="color:blue">ggResidpanel</span> Tutorial and User Manual
+title: ggResidpanel Tutorial and User Manual
 author: "Katherine Goode and Kathleen Rey"
 date: "`r format(Sys.time(), '%B %d, %Y')`"
 output:
@@ -9,10 +9,6 @@ output:
     toc_depth: 2
     toc_float: true
     theme: paper
-vignette: >
-  %\VignetteIndexEntry{Vignette Title}
-  %\VignetteEngine{knitr::rmarkdown}
-  %\VignetteEncoding{UTF-8}
 ---
 
 ```{r setup, include = FALSE, message = FALSE}
