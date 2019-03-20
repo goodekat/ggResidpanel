@@ -54,27 +54,19 @@ library(ggResidpanel)
 
 ## Example Data
 
-The functions in this vignette will be demonstrated by using the `penguins` data included the package. The dataset contains information on the heart rate (beats per minute), depth (meters), and duration (minutes) of dives by 9 emperor penguins. Multiple observations are recorded for each penguin. A total of 125 observations are in the dataset. The first six rows of the data are shown below.
+The functions in this vignette will be demonstrated by using the `trees` data included in base R. The dataset contains information on the volume, girth, and height of 31 black cherry trees. The first six rows of the data are shown below.
 
 ```{r}
 # Loads the dplyr library and displays the first six rows of the dataset
-library(dplyr)
-head(penguins) %>% knitr::kable()
+head(trees)
 ```
 
-The number of observations per bird are shown below.
+A linear model is fit below to determine if there is a linear relationship between the volume of the tree and its height and girth. This model will be used for examples throughout this vignette.
 
 ```{r}
-# Counts the number of observations per penguin
-penguins %>% count(bird) %>% knitr::kable()
-```
-
-A linear mixed model is fit below to determine if there is a linear relationship between the heart rate of a penguin and the depth and duration of the dive. For now, the variables of depth and duration are included in the model as main effects only. A random effect is included to account for the dependence of observations within a penguin. This model will be used for examples throughout this vignette.
-
-```{r}
-# Fits a linear model with a response variable of heart rate and predictor
-# variables of depth and duration
-penguin_model <- lm(heartrate ~ depth + duration, data = penguins)
+# Fits a linear model with a response variable of volume and predictor
+# variables of height and girth
+tree_model <- lm(Volume ~ Height + Girth, data = trees)
 ```
 
 # `resid_panel` {#resid_panel}
@@ -88,11 +80,11 @@ The function `resid_panel` is applied to a model and returns a panel of diagnost
   - "lmer", "glmer", and "lmerTest": models fit using the [`lmer`](https://www.rdocumentation.org/packages/lme4/versions/0.999375-37/topics/lmer) or [`glmer`](https://www.rdocumentation.org/packages/lme4/versions/1.1-21/topics/glmer) functions from either the lme4 package or fit with the lmerTest package loaded
   - "lme": models fit using the [`lme`](https://www.rdocumentation.org/packages/nlme/versions/3.1-137/topics/lme) function from the `nlme` package
 
-The first argument in `resid_panel` is the `model` option. The most basic use of `resid_panel` is to only include the model in the function. The code below shows the figure that is created if the `penguin_model` is input into `resid_panel` with no other options specified. This produces a panel with the four plots of a residual plot, a normal quantile plot, an index plot, and a histogram of the residuals.
+The first argument in `resid_panel` is the `model` option. The most basic use of `resid_panel` is to only include the model in the function. The code below shows the figure that is created if the `tree_model` is input into `resid_panel` with no other options specified. This produces a panel with the four plots of a residual plot, a normal quantile plot, an index plot, and a histogram of the residuals.
 
 ```{r}
-# Creates the default panel of plots based on the penguin_model
-resid_panel(penguin_model)
+# Creates the default panel of plots based on the tree_model
+resid_panel(tree_model)
 ```
 
 ## Plots {#plots}
@@ -129,7 +121,7 @@ This can be used to visualize the distribution of the residuals from the model. 
 
 ```{r}
 # Creates a boxplot of the residuals
-resid_panel(penguin_model, plots = "boxplot")
+resid_panel(tree_model, plots = "boxplot")
 ```
 
 #### `cookd`: Cook's Distance Plot {#cookd}
@@ -140,7 +132,7 @@ This plot can be used to check for points with high leverage. Points above the d
 
 ```{r}
 # Creates a Cook's D plot
-resid_panel(penguin_model, plots = "cookd")
+resid_panel(tree_model, plots = "cookd")
 ```
 
 #### `hist`: Histogram of the Residuals {#hist}
@@ -153,10 +145,10 @@ This is another plot that can be used to visualize the distribution of the resid
 
 ```{r}
 # Creates a histogram of the residuals
-resid_panel(penguin_model, plots = "hist")
+resid_panel(tree_model, plots = "hist")
 
 # Creates a histogram with 20 bins
-resid_panel(penguin_model, plots = "hist", bins = 20)
+resid_panel(tree_model, plots = "hist", bins = 20)
 ```
 
 #### `index`: Index Plot of the Residuals {#index}
@@ -169,10 +161,10 @@ This plot can be used to look for patterns in the residuals in regards to the ma
 
 ```{r}
 # Creates an index plot of the residuals
-resid_panel(penguin_model, plots = "index")
+resid_panel(tree_model, plots = "index")
 
 # Creates an index plot with a smoother added
-resid_panel(penguin_model, plots = "index", smoother = TRUE)
+resid_panel(tree_model, plots = "index", smoother = TRUE)
 ```
 
 #### `lev`: Residual-Leverage Plot {#lev}
@@ -189,10 +181,10 @@ This plot can be used to look for trends in the residuals based on the leverage 
 
 ```{r}
 # Creates a residual-leverage plot
-resid_panel(penguin_model, plots = "lev")
+resid_panel(tree_model, plots = "lev")
 
 # Creates a residual-leverage plot with a smoother added
-resid_panel(penguin_model, plots = "lev", smoother = TRUE)
+resid_panel(tree_model, plots = "lev", smoother = TRUE)
 ```
 
 #### `ls`: Location-Scale Plot {#ls}
@@ -205,10 +197,10 @@ The location-scale plot can be used to check for patterns in the residuals in re
 
 ```{r}
 # Creates a location-scale plot of the residuals
-resid_panel(penguin_model, plots = "ls")
+resid_panel(tree_model, plots = "ls")
 
 # Creates a location-scale plot of the residuals with a 
-resid_panel(penguin_model, plots = "ls", smoother = TRUE)
+resid_panel(tree_model, plots = "ls", smoother = TRUE)
 ```
 
 #### `qq`: Normal Quantile Plot {#qq}
@@ -221,13 +213,13 @@ This plot is meant to be used to check if the residuals approximately follow a n
 
 ```{r}
 # Creates a normal quantile plot of the residuals
-resid_panel(penguin_model, plots = "qq")
+resid_panel(tree_model, plots = "qq")
 
 # Creates a qq-plot with the 1-1 line removed
-resid_panel(penguin_model, plots = "qq", qqline = FALSE)
+resid_panel(tree_model, plots = "qq", qqline = FALSE)
 
 # Creates a qq-plot with the confidence bands added
-resid_panel(penguin_model, plots = "qq", qqbands = TRUE)
+resid_panel(tree_model, plots = "qq", qqbands = TRUE)
 ```
 
 #### `resid`: Residual Plot {#resid}
@@ -240,10 +232,10 @@ The residual plot can be used to check for homogeneity (constant variance) of th
 
 ```{r}
 # Creates a residual plot
-resid_panel(penguin_model, plots = "resid")
+resid_panel(tree_model, plots = "resid")
 
 # Creates a plot with the smoother added
-resid_panel(penguin_model, plots = "resid", smoother = TRUE)
+resid_panel(tree_model, plots = "resid", smoother = TRUE)
 ```
 
 #### `yvp`: Response vs. Predicted Plot {#yvp}
@@ -254,7 +246,7 @@ This plot provides a visualization to assess how similar the model predictions o
 
 ```{r}
 # Creates a plot of observed values vs. fitted values
-resid_panel(penguin_model, plots = "yvp")
+resid_panel(tree_model, plots = "yvp")
 ```
 
 ### User Specified Panels {#vector}
@@ -263,13 +255,13 @@ The `plots` option in `resid_panel` also allows the user to specify a vector of 
 
 ```{r}
 # Creates a panel with a user specified vector of two plot names
-resid_panel(penguin_model, plots = c("resid", "qq"))
+resid_panel(tree_model, plots = c("resid", "qq"))
 
 # Creates a panel from a vector of four plot names
-resid_panel(penguin_model, plots = c("hist", "ls", "cookd", "lev"))
+resid_panel(tree_model, plots = c("hist", "ls", "cookd", "lev"))
 
 # An example to show what happens if a plot name is included multiple times in the vector
-resid_panel(penguin_model, plots = c("resid", "resid"))
+resid_panel(tree_model, plots = c("resid", "resid"))
 ```
 
 ### Package Prespecified Panels {#prespecified}
@@ -289,7 +281,7 @@ The option of `plots = "all"` creates a panel of all plots included in the packa
 
 ```{r}
 # Creates a panel of all plots available for an "lm" model
-resid_panel(penguin_model, plots = "all")
+resid_panel(tree_model, plots = "all")
 ```
 
 #### `default`: Default Panel {#default}
@@ -298,10 +290,10 @@ Unsurprisingly, the option of `plots = "default"` is the default panel displayed
 
 ```{r}
 # Creates the default panel of plots
-resid_panel(penguin_model)
+resid_panel(tree_model)
 
 # Creates the default panel with the option explicitly specified
-resid_panel(penguin_model, plots = "default")
+resid_panel(tree_model, plots = "default")
 ```
 
 #### `R`: Base R Inspired Panel of Plots {#R}
@@ -310,11 +302,11 @@ The option of `plots = "R"` is designed to mimic the diagnostic plots created by
 
 ```{r}
 # Creates the R panel of plots with the smoother option set to TRUE
-resid_panel(penguin_model, plots = "R", smoother = TRUE)
+resid_panel(tree_model, plots = "R", smoother = TRUE)
 
 # These are the lm diagnostic plots from base R which the "R" panel is designed to mimic
 par(mfrow = c(2,2)) # Creates a 2x2 grid of plots
-plot(penguin_model)    # Creates the base R diagnostic plots
+plot(tree_model)    # Creates the base R diagnostic plots
 par(mfrow = c(1,1)) # Returns the settings to a 1x1 grid of plots
 ```
 
@@ -324,7 +316,7 @@ The option of `plots = "SAS"` creates a panel with a residual plot, a normal qua
 
 ```{r}
 # Creates the SAS panel of plots
-resid_panel(penguin_model, plots = "SAS")
+resid_panel(tree_model, plots = "SAS")
 ```
 
 ## Residual Types {#type}
@@ -362,7 +354,7 @@ Note that the plots of `ls` and `lev` only accept standardized residuals.
 
 ```{r}
 # Example requesting standardized residuals with a panel of plots from an lm model
-resid_panel(penguin_model, type = "standardized")
+resid_panel(tree_model, type = "standardized")
 ```
 
 ## Formatting Options {#format}
@@ -383,7 +375,7 @@ There are two options that can be used to adjust the text size in the panel. The
 
 ```{r}
 # Creates the default panel with larger text sizes for both the axis labels and the title
-resid_panel(penguin_model, axis.text.size = 14, title.text.size = 16)
+resid_panel(tree_model, axis.text.size = 14, title.text.size = 16)
 ```
 
 #### `nrow`: Number of Rows in the Panel {#nrow}
@@ -392,12 +384,12 @@ The option of `nrow` allows the user to specify the number of rows in the panel.
 
 ```{r fig.width = 12, fig.height = 4}
 # Creates the default panel of four plots with all of the plots in a row instead of a 2x2 grid
-resid_panel(penguin_model, nrow = 1)
+resid_panel(tree_model, nrow = 1)
 ```
 
 ```{r fig.width = 3, out.width = '40%'}
 # Creates a panel with a residual plot and a qq-plot with two rows 
-resid_panel(penguin_model, plots = c("resid", "qq"), nrow = 2)
+resid_panel(tree_model, plots = c("resid", "qq"), nrow = 2)
 ```
 
 #### `scale`: Scale of Graph {#scale}
@@ -406,10 +398,10 @@ The option of `scale` adjust the size of the graphs in the panel. It takes value
 
 ```{r}
 # Creates a panel of plots with the default scale
-resid_panel(penguin_model, plots = c("lev", "yvp", "ls", "cookd"))
+resid_panel(tree_model, plots = c("lev", "yvp", "ls", "cookd"))
 
 # Creates the same panel of plots shown above with a scale of 0.9 
-resid_panel(penguin_model,  plots = c("lev", "yvp", "ls", "cookd"), scale = 0.9)
+resid_panel(tree_model,  plots = c("lev", "yvp", "ls", "cookd"), scale = 0.9)
 ```
 
 #### `theme`: Panel Theme {#theme}
@@ -418,10 +410,10 @@ The option of `theme` adjusts the ggplot2 theme to be used when creating the plo
 
 ```{r}
 # Creates the default panel with the classic theme
-resid_panel(penguin_model, theme = "classic")
+resid_panel(tree_model, theme = "classic")
 
 # Creates the default panel with the grey theme
-resid_panel(penguin_model, theme = "grey")
+resid_panel(tree_model, theme = "grey")
 ```
 
 #### `title.opt`: Title Option {#title.opt}
@@ -430,7 +422,7 @@ The option of `title.opt` indicates whether or not to include a title on the plo
 
 ```{r}
 # Creates the default panel with the titles removed
-resid_panel(penguin_model, title.opt = FALSE)
+resid_panel(tree_model, title.opt = FALSE)
 ```
 
 # `resid_interact` {#resid_interact}
@@ -445,7 +437,7 @@ The first argument in `resid_interact` is the `model` option. The most basic way
 
 ```{r}
 # Creates an interactive version of the default panel from resid_panel
-resid_interact(penguin_model)
+resid_interact(tree_model)
 ```
 
 ## Plots
@@ -480,7 +472,7 @@ The option `plots = "boxplot"` creates an interactive boxplot. If the cursor is 
 
 ```{r}
 # Creates an interactive boxplot of the residuals
-resid_interact(penguin_model, plots = "boxplot")
+resid_interact(tree_model, plots = "boxplot")
 ```
 
 #### `cookd`: Cook’s Distance Plot {#interact_cookd}
@@ -489,7 +481,7 @@ The option `plots = "cookd"` creates an interactive Cook's distance plot. When t
 
 ```{r}
 # Creates an interactive Cook's D plot
-resid_interact(penguin_model, plots = "cookd")
+resid_interact(tree_model, plots = "cookd")
 ```
 
 #### `hist`: Histogram of the Residuals {#interact_hist}
@@ -500,10 +492,10 @@ The option of `plots = "hist"` creates an interactive histogram of the residuals
 
 ```{r}
 # Creates an interactive histogram of the residuals
-resid_interact(penguin_model, plots = "hist")
+resid_interact(tree_model, plots = "hist")
 
 # Creates an interactive histogram with 20 bins
-resid_interact(penguin_model, plots = "hist", bins = 20)
+resid_interact(tree_model, plots = "hist", bins = 20)
 ```
 
 #### `index`: Index Plot of the Residuals {#interact_index}
@@ -514,10 +506,10 @@ The option of `plots = "index"` creates an interactive index plot of the residua
 
 ```{r}
 # Creates an interactive index plot of the residuals
-resid_interact(penguin_model, plots = "index")
+resid_interact(tree_model, plots = "index")
 
 # Creates an interactive index plot with a smoother
-resid_interact(penguin_model, plots = "index", smoother = TRUE)
+resid_interact(tree_model, plots = "index", smoother = TRUE)
 ```
 
 #### `lev`" Residual-Leverage Plot {#interact_lev}
@@ -528,10 +520,10 @@ The `smoother` option in `resid_interact` is also available for the residual-lev
 
 ```{r}
 # Creates an interactive residual-leverage plot
-resid_interact(penguin_model, plots = "lev")
+resid_interact(tree_model, plots = "lev")
 
 # Creates an interactive residual-leverage plot with a smoother
-resid_interact(penguin_model, plots = "lev", smoother = TRUE)
+resid_interact(tree_model, plots = "lev", smoother = TRUE)
 ```
 
 #### `ls`: Location-Scale Plot {#interact_ls}
@@ -542,10 +534,10 @@ The `smoother` option in `resid_interact` is also available for the location-sca
 
 ```{r}
 # Creates an interactive location-scale plot
-resid_interact(penguin_model, plots = "ls")
+resid_interact(tree_model, plots = "ls")
 
 # Creates an interactive location-scale plot with a smoother
-resid_interact(penguin_model, plots = "ls", smoother = TRUE)
+resid_interact(tree_model, plots = "ls", smoother = TRUE)
 ```
 
 #### `qq`: Normal Quantile Plot {#interact_qq}
@@ -556,10 +548,10 @@ The option `plots = "qq"` creates an interactive normal quantile plot. When the 
 
 ```{r}
 # Creates an interactive normal quantile plot
-resid_interact(penguin_model, plots = "qq")
+resid_interact(tree_model, plots = "qq")
 
 # Creates a normal quantile plot with the 1-1 line removed
-resid_interact(penguin_model, plots = "qq", qqline = FALSE)
+resid_interact(tree_model, plots = "qq", qqline = FALSE)
 ```
 
 #### `resid`: Residual Plot {#interact_resid}
@@ -570,10 +562,10 @@ The `smoother` option in `resid_interact` is also available for the residual plo
 
 ```{r}
 # Creates an interactive residual plot
-resid_interact(penguin_model, plots = "resid")
+resid_interact(tree_model, plots = "resid")
 
 # Creates the residual plot with a smoother
-resid_interact(penguin_model, plots = "resid", smoother = TRUE)
+resid_interact(tree_model, plots = "resid", smoother = TRUE)
 ```
 
 #### `yvp`: Response vs. Predicted Plot {#interact_yvp}
@@ -582,7 +574,7 @@ The option of `plots = "yvp"` creates an interactive plot of the response variab
 
 ```{r}
 # Creates an interactive residual vs. predicted value plot
-resid_interact(penguin_model, plots = "yvp")
+resid_interact(tree_model, plots = "yvp")
 ```
 
 ### User Specified Panels {#interact_vector}
@@ -591,10 +583,10 @@ resid_interact(penguin_model, plots = "yvp")
 
 ```{r}
 # Creates a panel with a user specified vector of two plot names
-resid_interact(penguin_model, plots = c("resid", "qq"))
+resid_interact(tree_model, plots = c("resid", "qq"))
 
 # Creates a panel from a vector of four plot names
-resid_interact(penguin_model, plots = c("hist", "ls", "cookd", "lev"))
+resid_interact(tree_model, plots = c("hist", "ls", "cookd", "lev"))
 ```
 
 ### Package Specified Panels {#interact_pre}
@@ -614,7 +606,7 @@ The option of `plots = "all"` creates an interactive version of the [panel of al
 
 ```{r}
 # Creates an interactive panel of all plots available for an "lm" model
-resid_interact(penguin_model, plots = "all")
+resid_interact(tree_model, plots = "all")
 ```
 
 #### `default`: Default Panel {#interact_default}
@@ -623,7 +615,7 @@ The option of `plots = "default"` creates an interactive version of the [default
 
 ```{r}
 # Creates an interactive default panel with the option explicitly specified
-resid_interact(penguin_model, plots = "default")
+resid_interact(tree_model, plots = "default")
 ```
 
 #### `R`: Base R Inspired Panel of Plots {#interact_R}
@@ -632,7 +624,7 @@ The option of `plots = "R"` creates an interactive version of the [R panel](#R) 
 
 ```{r}
 # Creates an interactive version of the R panel of plots with the smoother option set to TRUE
-resid_interact(penguin_model, plots = "R", smoother = TRUE)
+resid_interact(tree_model, plots = "R", smoother = TRUE)
 ```
 
 #### `SAS`: SAS Inspired Panel of Plots {#interact_SAS}
@@ -641,7 +633,7 @@ The option of `plots = "SAS"` creates an interactive version of the [SAS panel](
 
 ```{r}
 # Creates an interactive version of the SAS panel of plots
-resid_interact(penguin_model, plots = "SAS")
+resid_interact(tree_model, plots = "SAS")
 ```
 
 ## Residual Types
@@ -664,11 +656,11 @@ resid_interact(penguin_model, plots = "SAS")
 
 When working with linear models, it is often helpful to assess the model by viewing the residuals versus the predictor variables. Additionally, it can be helpful to view the response variable versus the predictor variables to understand the relationships between the variables. The function `resid_xpanel` can be applied to a model to create a panel of plots of the residuals or the response variable (as specified by the user) versus the predictor ($X$) variables in the model. Interactions between predictor variables are not currently included in the panel. `resid_xpanel` currently accepts the model types of "lm", "glm", "lmer", "glmer", "lmerTest", and "lme".
 
-The first argument in `resid_xpanel` is the `model` option. The most basic use of `resid_xpanel` is to input a model into the function as shown below. This creates a panel of scatterplots of the residuals from the model versus the predictor variables in the model. Two predictor variables were included in the `penguin_model` (height and girth). As a result, the code below produces a panel with two plots.
+The first argument in `resid_xpanel` is the `model` option. The most basic use of `resid_xpanel` is to input a model into the function as shown below. This creates a panel of scatterplots of the residuals from the model versus the predictor variables in the model. Two predictor variables were included in the `tree_model` (height and girth). As a result, the code below produces a panel with two plots.
 
 ```{r}
-# Creates a panel of residuals versus the predictor variables in the penguin_model
-resid_xpanel(penguin_model)
+# Creates a panel of residuals versus the predictor variables in the tree_model
+resid_xpanel(tree_model)
 ```
 
 For predictor variables that are factors, the levels shown on the x-axis will be in the order that the levels are ordered in the data frame. This can be adjusted by reordering the levels of the factor before the model is fit.
@@ -679,20 +671,20 @@ For predictor variables that are factors, the levels shown on the x-axis will be
 
 ```{r}
 # Creates an xpanel with the y-axis option of residual explicitly specified
-resid_xpanel(penguin_model, yvar = "residual")
+resid_xpanel(tree_model, yvar = "residual")
 
 # Creates an xpanel with the y-axis option set to response
-resid_xpanel(penguin_model, yvar = "response")
+resid_xpanel(tree_model, yvar = "response")
 ```
 
 `resid_xpanel` includes the option to overlay loess smoothers on all of the plots in the panel. This is done by including the option `smoother = TRUE` in the function. By default, `smoother = FALSE`.
 
 ```{r}
 # Creates an xpanel with residuals on the y-axis and with loess smoothers on all of the plots
-resid_xpanel(penguin_model, smoother = TRUE)
+resid_xpanel(tree_model, smoother = TRUE)
 
 # Creates an xpanel with the response variable on the y-axis and with loess smoothers on all of the plots
-resid_xpanel(penguin_model, yvar = "response",smoother = TRUE)
+resid_xpanel(tree_model, yvar = "response",smoother = TRUE)
 ```
 
 ## Residual Types
@@ -715,17 +707,17 @@ resid_xpanel(penguin_model, yvar = "response",smoother = TRUE)
 
 The function of `resid_compare` was created to allow for the comparison of diagnostic plots between models. This function may be particularly helpful when a model assumption is not met and an adjustment is made to the model such as a transformation of the response in order to try to meet the model assumptions. `resid_compare` creates a panel with residual diagnostic plots from both models given a list of the models. This allows for side by side comparison of the changes in the diagnostic plots to determine if the adjustment are effective. `resid_compare` currently accepts models of type "lm", "glm", "lmer", "glmer", "lmerTest", and "lme".
 
-The first argument in `resid_compare` is the `models` option, which requires a list of models. The most basic use of `resid_compare` is to only input a list of models into the function. The diagnostic plots from from the `penguin_model` suggest possible issues with linearity and homogeneity. The code below fits two new models that attempt to deal with these issues. The three models of `penguin_model`, `penguin_model_squared`, and `penguin_model_log` are input into `resid_compare` as a list. This creates a 4x3 panel of plots. The columns represent the models, and the rows are different plot types. Each plot type is created for all three models. By default, the four plots in the default `resid_panel` appear. `resid_compare` includes options to change the plots and adjust the appearance of the figure.
+The first argument in `resid_compare` is the `models` option, which requires a list of models. The most basic use of `resid_compare` is to only input a list of models into the function. The diagnostic plots from from the `tree_model` suggest possible issues with linearity and homogeneity. The code below fits two new models that attempt to deal with these issues. The three models of `tree_model`, `tree_model_squared`, and `tree_model_log` are input into `resid_compare` as a list. This creates a 4x3 panel of plots. The columns represent the models, and the rows are different plot types. Each plot type is created for all three models. By default, the four plots in the default `resid_panel` appear. `resid_compare` includes options to change the plots and adjust the appearance of the figure.
 
 ```{r fig.height = 8, fig.width = 12}
 # Fits a model with the log transformed volume variable as the response
-penguin_model_log <- lm(log(Volume) ~ Height + Girth, data = trees)
+tree_model_log <- lm(log(Volume) ~ Height + Girth, data = trees)
 
 # Fits a model with an added squared term of girth
-penguin_model_squared <- lm(Volume ~ Height + Girth + I(Girth^2), data = trees)
+tree_model_squared <- lm(Volume ~ Height + Girth + I(Girth^2), data = trees)
 
 # Creates a panel with the four default diagnostic plots for all three models
-resid_compare(models = list(penguin_model, penguin_model_log, penguin_model_squared))
+resid_compare(models = list(tree_model, tree_model_log, tree_model_squared))
 ```
 
 ## Plots
@@ -753,20 +745,20 @@ Here are a few examples specifying different plot options with `resid_compare`.
 
 ```{r fig.height = 4, width = 8}
 # Creates a panel comparing residual plots between two models with smoothers
-resid_compare(models = list(penguin_model, penguin_model_log), 
+resid_compare(models = list(tree_model, tree_model_log), 
               plots = "resid", smoother = TRUE)
 ```
 
 ```{r fig.height = 6, width = 8}
 # Creates a panel comparing residual plots, qq-plots, and Cook's D plots between two models with confidence bands added to the qq-plot
-resid_compare(models = list(penguin_model, penguin_model_log), 
+resid_compare(models = list(tree_model, tree_model_log), 
               plots = c("resid", "qq", "cookd"), 
               qqbands = TRUE)
 ```
 
 ```{r fig.height = 8, width = 8}
 # Creates a SAS panel of plots for both models using 20 bins to create the histograms
-resid_compare(models = list(penguin_model, penguin_model_log), 
+resid_compare(models = list(tree_model, tree_model_log), 
               plots = "SAS", 
               bins = 20)
 ```
