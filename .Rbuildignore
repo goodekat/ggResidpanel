@@ -6,6 +6,7 @@
 ^Ideas for Future Work$
 ^docs$
 ^images$
-^version updates.md$
+^NEWS.md$
 ^tests.R$
-^tutorial.Rmd$
+^vignettes/tutorial.Rmd$
+^vignettes/tutorial_cache$
