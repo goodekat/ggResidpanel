@@ -87,12 +87,18 @@ models of type &quot;lm&quot;, &quot;glm&quot;, &quot;lmerMod&quot;, &quot;lmerM
   </a>
   <ul class="dropdown-menu" role="menu">
     <li>
-      <a href="../articles/Diagnostic Plots with ggResidpanel.html">Creating Panels of Diagnostic Plots with &lt;span style="color:blue"&gt;ggResidpanel&lt;/span&gt;</a>
+      <a href="../articles/introduction.html">An Introduction to ggResidpanel</a>
     </li>
     <li>
-      <a href="../articles/Overview of Residuals.html">Overview of Residuals</a>
+      <a href="../articles/residuals.html">Overview of Residuals</a>
+    </li>
+    <li>
+      <a href="../articles/tutorial.html">ggResidpanel Tutorial and User Manual</a>
     </li>
   </ul>
+</li>
+<li>
+  <a href="../news/index.html">Changelog</a>
 </li>
       </ul>
       
@@ -154,8 +160,9 @@ Default is set to 30.</p></td>
     </tr>
     <tr>
       <th>smoother</th>
-      <td><p>Indicates whether or not to include a smoother on the
-residual plot and/or index plot. Specify TRUE or FALSE. Default is set to FALSE.</p></td>
+      <td><p>Indicates whether or not to include a smoother on the index,
+residual-leverage, location-scale, and residual plots. Specify TRUE or FALSE.
+Default is set to FALSE.</p></td>
     </tr>
     <tr>
       <th>qqline</th>
@@ -275,7 +282,7 @@ curve overlaid has mean equal to zero and standard deviation equal to the
 standard deviation of the residuals.</p></dd>
     <dt>Index Plot (<code>index</code>)</dt><dd><p>Plots the residuals on the y-axis and the observation
 number associated with the residual on the x-axis.</p></dd>
-    <dt>Residuals vs Leverage Plot (<code>lev</code>)</dt><dd><p>Plots the standardized residuals on the
+    <dt>Residual-Leverage Plot (<code>lev</code>)</dt><dd><p>Plots the standardized residuals on the
 y-axis and the leverage values on the x-axis with a loess curve is overlaid. Cook's
 D contour lines (which are a function of leverage and standardized residuals) are plotted
 as the red dashed lines for Cook's D values of 0.5 and 1.</p></dd>
@@ -305,7 +312,7 @@ variable and predicted values are plotted on the original scale for
 <span class='no'>lm_model1</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/stats/topics/lm'>lm</a></span>(<span class='no'>Volume</span> ~ <span class='no'>Girth</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>trees</span>)
 
 <span class='co'># Plot the residuals using the default panel</span>
-<span class='fu'>resid_panel</span>(<span class='no'>lm_model1</span>, <span class='kw'>bins</span> <span class='kw'>=</span> <span class='fl'>30</span>)</div><div class='img'><img src='resid_panel-1.png' alt='' width='700' height='433' /></div><div class='input'>
+<span class='fu'>resid_panel</span>(<span class='no'>lm_model1</span>)</div><div class='img'><img src='resid_panel-1.png' alt='' width='700' height='433' /></div><div class='input'>
 <span class='co'># Create a panel of all diagnostic plot options and add a smoother to the</span>
 <span class='co'># residual plot</span>
 <span class='fu'>resid_panel</span>(<span class='no'>lm_model1</span>, <span class='kw'>bins</span> <span class='kw'>=</span> <span class='fl'>30</span>, <span class='kw'>plots</span> <span class='kw'>=</span> <span class='st'>"all"</span>, <span class='kw'>smoother</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)</div><div class='img'><img src='resid_panel-2.png' alt='' width='700' height='433' /></div><div class='input'>
