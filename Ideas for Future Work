@@ -30,6 +30,7 @@ Katherine's Tasks:
 - work on getting CRAN checks all passed
 - figure out how to handle tutorial vignette with CRAN (or not) and add cache back
 - tutorial:
+  - finish changing all data to penguins
   - adjust all of the documentation examples once vignette is finished
   - add in sentence and link to residual vignette when it is finished
 - make an introduction vignette
