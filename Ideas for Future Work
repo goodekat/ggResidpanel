@@ -29,6 +29,7 @@ Katie's Tasks:
 Katherine's Tasks:
 
 To Do
+- finish reading about vdiffr: https://github.com/r-lib/vdiffr
 - move all tests to test-that
 - add tests to check warnings
 - adjust all of the documentation examples
