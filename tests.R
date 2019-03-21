@@ -46,7 +46,6 @@ resid_panel(lm_model2, plots = "R")
 resid_panel(lm_model3, plots = "R")
 resid_panel(lm_model4, plots = "R")
 
-
 # All Panel
 resid_panel(lm_model1, plots = "all")
 resid_panel(lm_model2, plots = "all")
