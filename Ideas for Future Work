@@ -27,30 +27,36 @@ Katie's Tasks:
   - switch the order of the plots in resid_compare
 
 Katherine's Tasks:
-- work on getting CRAN checks all passed
+
+To Do
+- move all tests to test-that
+- add tests to check warnings
 - adjust all of the documentation examples
-- add in sentence and link in the tutorial vignette to the residual vignette (when finished)
 - make an introduction vignette
   - include penguin data
   - dataset ideas:
     - dasl
     - https://github.com/rfordatascience/tidytuesday
     - https://github.com/BuzzFeedNews/everything#data-and-analyses
-- completed:
-  - added smoother options to lev and ls plots
-  - change title to include usermanual and add a subtitle
-  - need to update vignette to say that lme models are now allowed
-  - check all of the hyperlinks
-  - added penguin data to package
-  - add references to vignette (formula for Cook's D & value of 1 for Cook's D)
-  - added LICENSE file
-  - figure out how to handle tutorial vignette with CRAN (or not) and add cache back
-- ask Katie:
-  - what reference did you use for:
-    - 4/n for Cook's D plot? (I found one that would work?)
-    - density curve on the histogram?
-  - do you think the trees data in the tutorial is okay?
-  - I'm thinking of not including the tutorial vignette in the package?
+- add in sentence and link in the tutorial vignette to the residual vignette (when finished)
+
+Completed
+- added smoother options to lev and ls plots
+- change title to include usermanual and add a subtitle
+- need to update vignette to say that lme models are now allowed
+- check all of the hyperlinks
+- added penguin data to package
+- add references to vignette (formula for Cook's D & value of 1 for Cook's D)
+- added LICENSE file
+- figure out how to handle tutorial vignette with CRAN (or not) and add cache back
+- work on getting CRAN checks all passed
+
+Ask Katie
+- What reference did you use for:
+  - 4/n for Cook's D plot? (I found one that would work?)
+  - density curve on the histogram?
+- Do you think the trees data in the tutorial is okay?
+- I'm thinking of not including the tutorial vignette in the package?
 
 Ideas for Future Package Versions:
 - figure out how to use the "safely" and "quietly" functions to only show desired
