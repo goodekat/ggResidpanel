@@ -5,8 +5,10 @@
 #' relates to the depth and duration of the dive. The study involved attaching a
 #' device to penguins that recorded the heart rate of the bird during a dive. The
 #' dataset contains multiple observations recorded from 9 penguins. The dataset has
-#' 125 observations and 4 variables. The variables are as follows.
+#' 125 observations and 4 variables.
 #'
+#'
+#' @details The variables in the dataset are as follows.
 #' \tabular{ll}{
 #'  \code{heartrate} \tab Heart rate of the penguin during the dive (beats per minute) \cr
 #'  \code{depth} \tab Depth of the dive (meters) \cr

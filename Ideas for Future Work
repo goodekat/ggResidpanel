@@ -29,20 +29,20 @@ Katie's Tasks:
 Katherine's Tasks:
 
 To Do
-- move all tests to test-that
-- add tests to check warnings
-- find more data
+- make an introduction vignette
+  - include penguin data
+  - finish cleaning board game data and include
+- adjust all of the documentation examples to use package data
+- errors:
+  - resid_panel(glm_model, plots = "all", type = "response")
+  - resid_panel(glm_binomial_model, plots = "all", type = "response")
+- add in links in vignettes to the residual vignette (when finished)
+- more data?
   - dasl
   - https://github.com/rfordatascience/tidytuesday
   - https://github.com/BuzzFeedNews/everything#data-and-analyses
   - https://www.cdc.gov/nccdphp/dnpao/data-trends-maps/index.html
-- adjust all of the documentation examples to use package data
-- make an introduction vignette
-  - include penguin data
-- add in sentence and link in the tutorial vignette to the residual vignette (when finished)
-- errors:
-  - resid_panel(glm_model, plots = "all", type = "response")
-  - resid_panel(glm_binomial_model, plots = "all", type = "response")
+
 Completed
 - added smoother options to lev and ls plots
 - change title to include usermanual and add a subtitle
@@ -54,6 +54,8 @@ Completed
 - figure out how to handle tutorial vignette with CRAN (or not) and add cache back
 - work on getting CRAN checks all passed
 - finish reading about vdiffr: https://github.com/r-lib/vdiffr
+- started working with vdiffr for tests
+- Should we add tests to check warnings?
 
 Ask Katie
 - What reference did you use for:
@@ -62,6 +64,7 @@ Ask Katie
 - Do you think the trees data in the tutorial is okay?
 - I'm thinking of not including the tutorial vignette in the package?
 - Can we change the constant leverage plot title? (too long)
+- Do you want to finish the process of moving the tests to vdiffr?
 
 Ideas for Future Package Versions:
 - figure out how to use the "safely" and "quietly" functions to only show desired
