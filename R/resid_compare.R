@@ -172,10 +172,10 @@ resid_compare <- function(models, plots = "default", type = NA, bins = 30,
 
   ## Set number of rows
   compare_rows <- length(plots)
-  if(compare_rows==1){
-    if(plots=="all"){
+  if (compare_rows == 1) {
+    if(plots == "all"){
       compare_rows <- 9
-    }else if (plots %in% c("default", "R", "SAS")){
+    } else if (plots %in% c("default", "R", "SAS")) {
       compare_rows <- 4
     }
   }
@@ -234,7 +234,7 @@ resid_compare <- function(models, plots = "default", type = NA, bins = 30,
         check_count <- check_count+1
       }
     }
-    if(check_count==length(models)){
+    if(check_count == length(models)){
       cookd_list <- list()
 
       for(i in 1:length(models)){
@@ -306,7 +306,7 @@ resid_compare <- function(models, plots = "default", type = NA, bins = 30,
       }
     }
 
-    if(check_count==length(models)){
+    if(check_count == length(models)){
       lev_list <- list()
       for(i in 1:length(models)){
         lev_list[[i]] <- plot_lev(model = models[[i]],
@@ -450,7 +450,7 @@ resid_compare <- function(models, plots = "default", type = NA, bins = 30,
   } else if (plots == "all") {
 
     # Create grid of all plots
-    if(class(model)[1] == "lm" | class(model)[1] == "glm"){
+    if(class(models)[1] == "lm" | class(models)[1] == "glm"){
 
       # Create grid of the default plots
       suppressWarnings(plot_grid(plotlist = c(resid_list, index_list, yvp_list, qq_list, hist_list, boxplot_list,

@@ -24,9 +24,9 @@ plot_cookd <- function(model, theme, axis.text.size, title.text.size, title.opt)
   ## Creation of Plot ---------------------------------------------------------------
 
   # Create the Cook's D plot
-  plot <- ggplot(model_values, aes(x = Obs, y = CooksD, label = Data)) +
+  plot <- ggplot(model_values, aes_string(x = "Obs", y = "CooksD", label = "Data")) +
     geom_point() +
-    geom_segment(aes(xend = Obs, yend = 0), color = "blue") +
+    geom_segment(aes_string(xend = "Obs", yend = 0), color = "blue") +
     labs(x = "Observation", y = "COOK's D") +
     geom_hline(yintercept = cutoff, colour = "blue", linetype = 5) +
     geom_hline(yintercept = 0, colour = "black")

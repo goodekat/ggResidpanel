@@ -26,7 +26,8 @@ plot_index <- function(model, type, smoother, theme, axis.text.size, title.text.
   ## Creation of Plot ---------------------------------------------------------------
 
   # Create the residual plot
-  plot <- ggplot(data = model_values, aes(x = Observation, y = Residual, label = Data)) +
+  plot <- ggplot(data = model_values,
+                 mapping = aes_string(x = "Observation", y = "Residual", label = "Data")) +
     geom_point() +
     geom_abline(slope = 0, intercept = 0, color = "blue") +
     labs(x = "Observation Number", y = r_label)

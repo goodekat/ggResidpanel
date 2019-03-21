@@ -70,9 +70,9 @@ plot_constlev <- function(model, type, theme, axis.text.size, title.text.size, t
   ## Creation of Plot ---------------------------------------------------------------
   # Create the constant leverage plot
 
-  plot <- ggplot(data = model_values, aes(x = Variables, y = Std_Res), na.rm=TRUE) +
-    geom_point(aes(group = Data)) +
-    geom_line(aes(Lowess.x, Lowess.y),color = "red", size = 0.5)+
+  plot <- ggplot(data = model_values, aes_string(x = "Variables", y = "Std_Res"), na.rm=TRUE) +
+    geom_point(aes_string(group = "Data")) +
+    geom_line(aes_string(x = "Lowess.x", y = "Lowess.y"), color = "red", size = 0.5)+
     geom_abline(slope = 0, intercept = 0, color = "blue", size = 0.5)+
     xlab("Factor Level Combinations")+
     ylab("Standardized Residuals")

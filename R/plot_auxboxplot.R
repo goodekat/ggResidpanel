@@ -14,7 +14,7 @@ plot_auxboxplot <- function(resid, theme, axis.text.size, title.text.size, title
   ## Creation of Plot ---------------------------------------------------------------
 
   # Create the boxplot of residuals
-  plot <- ggplot(model_values, aes(x = " ", y = Residual)) +
+  plot <- ggplot(model_values, aes_string(x = " ", y = "Residual")) +
     geom_boxplot(width = .5) +
     geom_point(alpha = 0) +
     labs(x = " ", y = "Residuals")

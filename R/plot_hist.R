@@ -29,8 +29,8 @@ plot_hist <- function(model, type, bins, theme, axis.text.size, title.text.size,
   #   max_x <- 4 * sd(model_values$Residual)
   # }
 
-  grid_r <- seq(-4 * sd(model_values$Residual),4 * sd(model_values$Residual),.01)
-  y <- dnorm(grid_r, mea=0, sd=sd(model_values$Residual))
+  grid_r <- seq(-4 * sd(model_values$Residual),4 * sd(model_values$Residual), .01)
+  y <- dnorm(grid_r, mean = 0, sd = sd(model_values$Residual))
 
   d_data <- data.frame(grid_r, y)
 
@@ -57,14 +57,14 @@ plot_hist <- function(model, type, bins, theme, axis.text.size, title.text.size,
   # if (is.na(min_x) & is.na(max_x)){
   model_values$Residual_Density <- model_values$Residual
 
-  plot <- ggplot(model_values, aes(x = Residual)) +
-    geom_point(aes(Resid, y, group = Data), alpha = 0)+
+  plot <- ggplot(model_values, aes_string(x = "Residual")) +
+    geom_point(aes_string(x = "Resid", y = "y", group = "Data"), alpha = 0)+
     labs(x = r_label, y = "Density")+
-      geom_histogram(aes(y = ..density.., fill = ..count..),
+      geom_histogram(aes_string(y = "..density..", fill = "..count.."),
                      color = "black", fill = "grey82", bins = bins) +
       stat_function(fun = dnorm, color = "blue",
                     args = list(mean = 0, sd = sd_resid)) +
-      geom_point(data=d_data, aes(grid_r,y),alpha=0)
+      geom_point(data = d_data, aes_string(x = "grid_r", y = "y"), alpha = 0)
 
   # } else{
   #

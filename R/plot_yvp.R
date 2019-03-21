@@ -49,7 +49,8 @@ plot_yvp <- function(model, theme, axis.text.size, title.text.size, title.opt){
 
 
   # Create the plot of response variable versus predicted values
-  plot <- ggplot(model_values, aes(x = Predicted, y = Response, label = Data)) +
+  plot <- ggplot(data = model_values,
+                 mapping = aes_string(x = "Predicted", y = "Response", label = "Data")) +
     geom_point() +
     geom_abline(slope = 1, intercept = 0, color = "blue") +
     labs(x = "Predicted Values", y = y_label)

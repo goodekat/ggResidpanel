@@ -30,7 +30,8 @@ plot_resid <- function(model, type, smoother, theme, axis.text.size,
   ## Creation of Plot ---------------------------------------------------------------
 
   # Create the residual plot
-  plot <- ggplot(data = model_values, aes(x = Prediction, y = Residual, label = Data)) +
+  plot <- ggplot(data = model_values,
+                 mapping = aes_string(x = "Prediction", y = "Residual", label = "Data")) +
     geom_point() +
     geom_abline(slope = 0, intercept = 0, color = "blue") +
     labs(x = "Predicted Values", y = r_label)

@@ -28,7 +28,8 @@ plot_qq <- function(model, type, theme, axis.text.size, title.text.size, title.o
 
   ## Creation of Plot ---------------------------------------------------------------
   model_values <- model_values[order(model_values$Residual),]
-  plot <- ggplot(data = model_values, mapping = aes(sample = Residual, label = Data)) +
+  plot <- ggplot(data = model_values,
+                 mapping = aes_string(sample = "Residual", label = "Data")) +
     stat_qq_point()+
     labs(x = "Theoretical Quantiles", y = "Sample Quantiles")
 
@@ -41,7 +42,8 @@ plot_qq <- function(model, type, theme, axis.text.size, title.text.size, title.o
   if(qqbands == TRUE){
 
     # Add bands if requested
-    plot <- ggplot(data = model_values, mapping = aes(sample = Residual_Plot, label = Data)) +
+    plot <- ggplot(data = model_values,
+                   mapping = aes_string(sample = "Residual_Plot", label = "Data")) +
       stat_qq_band() +
       stat_qq_point() +
       labs(x = "Theoretical Quantiles", y = "Sample Quantiles")
@@ -49,9 +51,10 @@ plot_qq <- function(model, type, theme, axis.text.size, title.text.size, title.o
   } else{
 
     # Don't add bands
-    plot <- ggplot(data = model_values, mapping = aes(sample = Residual_Plot, label = Data)) +
+    plot <- ggplot(data = model_values,
+                   mapping = aes_string(sample = "Residual_Plot", label = "Data")) +
       stat_qq_point()+
-      geom_point(aes(Theoretical, Residual))+
+      geom_point(mapping = aes_string(x = "Theoretical", y = "Residual"))+
       labs(x = "Theoretical Quantiles", y = "Sample Quantiles")
 
   }

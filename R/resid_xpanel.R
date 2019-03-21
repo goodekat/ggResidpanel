@@ -188,13 +188,13 @@ create_predictor_plots <- function(x_column_number, y_column_number,
 
   # Create the plot
   if(y_column_number == 1){
-    plot <- ggplot(data_sub, aes(x = x, y = y)) +
+    plot <- ggplot(data_sub, aes(x = data_sub$x, y = data_sub$y)) +
       geom_point() +
       geom_hline(yintercept = 0, color = "blue") +
       theme_bw() +
       labs(x = xlab, y = ylab)
   } else if (y_column_number == 2){
-    plot <- ggplot(data_sub, aes(x = x, y = y)) +
+    plot <- ggplot(data_sub, aes(x = data_sub$x, y = data_sub$y)) +
       geom_point() +
       theme_bw() +
       labs(x = xlab, y = ylab)

@@ -40,7 +40,8 @@ plot_ls <- function(model, type, smoother, theme, axis.text.size, title.text.siz
   if (class(model)[1] == "lm"){
 
     # Location-scale plot for lm model
-    plot <- ggplot(model_values, aes(x = Prediction, y = Sqrt_Std_Res, label = Data)) +
+    plot <- ggplot(data = model_values,
+                   mapping = aes_string(x = "Prediction", y = "Sqrt_Std_Res", label = "Data")) +
       geom_point() +
       labs(x = "Predicted Values", y = expression(sqrt(abs(" Standardized Residuals ")))) +
       expand_limits(y = 0)
@@ -49,7 +50,8 @@ plot_ls <- function(model, type, smoother, theme, axis.text.size, title.text.siz
 
     # Location-scale plot for glm model with deviance residuals
     if(is.na(type) | type == "deviance" | type == "stand.deviance"){
-      plot <- ggplot(model_values, aes(x = Prediction, y = Sqrt_Std_Res, label = Data)) +
+      plot <- ggplot(data = model_values,
+                     mapping = aes_string(x = "Prediction", y = "Sqrt_Std_Res", label = "Data")) +
         geom_point() +
         labs(x = "Predicted Values",
              y = expression(sqrt(abs(" Standardized Deviance Residuals ")))) +
@@ -57,7 +59,8 @@ plot_ls <- function(model, type, smoother, theme, axis.text.size, title.text.siz
 
     # Location-scale plot for glm model with Pearson residuals
     } else if(type == "pearson" | type == "stand.pearson"){
-      plot <- ggplot(model_values, aes(x = Prediction, y = Sqrt_Std_Res, label = Data)) +
+      plot <- ggplot(data = model_values,
+                     mapping = aes_string(x = "Prediction", y = "Sqrt_Std_Res", label = "Data")) +
         geom_point() +
         labs(x = "Predicted Values",
              y = expression(sqrt(abs(" Standardized Pearson Residuals ")))) +

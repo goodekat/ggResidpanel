@@ -14,7 +14,7 @@ plot_auxindex <- function(resid, smoother, theme, axis.text.size, title.text.siz
   ## Creation of Plot ---------------------------------------------------------------
 
   # Create the residual plot
-  plot <- ggplot(data = model_values, aes(x = Observation, y = Residual)) +
+  plot <- ggplot(data = model_values, aes_string(x = "Observation", y = "Residual")) +
     geom_point() +
     geom_abline(slope = 0, intercept = 0, color = "blue") +
     labs(x = "Observation Number", y = "Residuals")

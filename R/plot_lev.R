@@ -112,7 +112,9 @@ plot_lev <- function(model, type, smoother, theme, axis.text.size, title.text.si
     plot <- ggplot() +
       labs(x = "Leverage", y = r_label) +
       expand_limits(x = 0) +
-      geom_point(data = model_values, aes(x = Leverage, y = Std_Res, group = Data), na.rm = TRUE) +
+      geom_point(data = model_values,
+                 mapping = aes_string(x = "Leverage", y = "Std_Res", group = "Data"),
+                 na.rm = TRUE) +
       geom_hline(yintercept = 0, linetype = "dashed") +
       geom_vline(xintercept = 0, linetype = "dashed") +
       scale_x_continuous(limits = xlimits) +
@@ -125,7 +127,7 @@ plot_lev <- function(model, type, smoother, theme, axis.text.size, title.text.si
     if (smoother == TRUE){
       plot <- plot +
         geom_smooth(data = model_values,
-                    aes(x = Leverage, y = Std_Res),
+                    aes_string(x = "Leverage", y = "Std_Res"),
                     na.rm = TRUE,
                     method = "loess",
                     se = FALSE,
@@ -136,7 +138,8 @@ plot_lev <- function(model, type, smoother, theme, axis.text.size, title.text.si
     # Add Cook's D lines if they are inside the limits of the plot
     if (dim(cooksd_contours)[1] > 0) {
       plot <- plot +
-        geom_line(data = cooksd_contours, aes(x = hat_seq, y = stdres, group = case),
+        geom_line(data = cooksd_contours,
+                  mapping = aes_string(x = "hat_seq", y = "stdres", group = "case"),
                   color = "red", linetype = "dashed", na.rm = TRUE)
     }
 

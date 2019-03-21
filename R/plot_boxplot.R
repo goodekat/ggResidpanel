@@ -7,9 +7,11 @@ plot_boxplot <- function(model, type, theme, axis.text.size, title.text.size, ti
 
   # Create a data frame with the residuals
   if(is.na(type)){
-    model_values <- data.frame(Residual = helper_resid(type = NA, model = model))
+    model_values <- data.frame(Residual = helper_resid(type = NA, model = model),
+                               Group = "")
   } else{
-    model_values <- data.frame(Residual = helper_resid(type = type, model = model))
+    model_values <- data.frame(Residual = helper_resid(type = type, model = model),
+                               Group = "")
   }
 
   # Add an observation variable
@@ -29,7 +31,7 @@ plot_boxplot <- function(model, type, theme, axis.text.size, title.text.size, ti
   ## Creation of Plot ---------------------------------------------------------------
 
   # Create the boxplot of residuals
-  plot <- ggplot(model_values, aes(x = " ", y = Residual, label = Data)) +
+  plot <- ggplot(model_values, aes_string(x = "Group", y = "Residual", label = "Data")) +
     geom_boxplot(width = .5) +
     geom_point(alpha = 0) +
     labs(x = " ", y = r_label)

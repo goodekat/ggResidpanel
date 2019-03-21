@@ -34,14 +34,16 @@
 #'
 #' @export resid_panel
 #'
-#' @importFrom ggplot2 ggplot aes geom_point geom_abline labs theme_bw theme
+#' @importFrom cowplot plot_grid ggdraw draw_label
+#' @importFrom ggplot2 ggplot aes aes_string geom_point geom_abline labs theme_bw theme
 #'   geom_histogram stat_function xlim geom_boxplot expand_limits geom_smooth
 #'   element_text ggplotGrob geom_vline theme_classic geom_hline geom_segment
 #'   geom_line scale_x_continuous scale_y_continuous theme_grey ggplot_build xlab ylab
-#'   geom_text
-#' @importFrom cowplot plot_grid ggdraw draw_label
+#'   geom_text element_blank
+#' @importFrom grDevices extendrange
 #' @importFrom MASS stdres
 #' @importFrom qqplotr stat_qq_point stat_qq_line stat_qq_band
+#' @importFrom stats cooks.distance dnorm fitted hatvalues lowess model.frame resid sd
 #' @importFrom stringr str_sub
 #'
 #' @details

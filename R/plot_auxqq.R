@@ -14,7 +14,7 @@ plot_auxqq <- function(resid, theme, axis.text.size, title.text.size, title.opt,
   if(qqbands == TRUE){
 
     # Add bands if requested
-    plot <- ggplot(data = model_values, mapping = aes(sample = Residual)) +
+    plot <- ggplot(data = model_values, mapping = aes_string(sample = "Residual")) +
       stat_qq_band() +
       stat_qq_point() +
       labs(x = "Theoretical Quantiles", y = "Sample Quantiles")
@@ -22,7 +22,7 @@ plot_auxqq <- function(resid, theme, axis.text.size, title.text.size, title.opt,
   } else{
 
     # Don't add bands
-    plot <- ggplot(data = model_values, mapping = aes(sample = Residual)) +
+    plot <- ggplot(data = model_values, mapping = aes_string(sample = "Residual")) +
       stat_qq_point() +
       labs(x = "Theoretical Quantiles", y = "Sample Quantiles")
 
