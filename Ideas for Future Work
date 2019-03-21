@@ -58,6 +58,7 @@ Ask Katie
   - density curve on the histogram?
 - Do you think the trees data in the tutorial is okay?
 - I'm thinking of not including the tutorial vignette in the package?
+- Can we change the constant leverage plot title? (too long)
 
 Ideas for Future Package Versions:
 - figure out how to use the "safely" and "quietly" functions to only show desired
