@@ -13,10 +13,12 @@ LazyData: true
 Imports:
   cowplot,
   ggplot2,
+  grDevices,
   grid,
   MASS,
   plotly,
   qqplotr,
+  stats,
   stringr
 RoxygenNote: 6.1.1
 Suggests: 
