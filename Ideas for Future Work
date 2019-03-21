@@ -35,11 +35,14 @@ To Do
   - dasl
   - https://github.com/rfordatascience/tidytuesday
   - https://github.com/BuzzFeedNews/everything#data-and-analyses
+  - https://www.cdc.gov/nccdphp/dnpao/data-trends-maps/index.html
 - adjust all of the documentation examples to use package data
 - make an introduction vignette
   - include penguin data
 - add in sentence and link in the tutorial vignette to the residual vignette (when finished)
-
+- errors:
+  - resid_panel(glm_model, plots = "all", type = "response")
+  - resid_panel(glm_binomial_model, plots = "all", type = "response")
 Completed
 - added smoother options to lev and ls plots
 - change title to include usermanual and add a subtitle

@@ -1,5 +1,8 @@
 context("resid_panel")
 
+# Load libraries
+library(lme4)
+library(nlme)
 library(vdiffr)
 
 test_that("formatting options", {
@@ -152,23 +155,164 @@ test_that("lm with multiple categorical X", {
 
 })
 
-# other models
-# glm_model <- glm(count ~ spray, family = "poisson", data = InsectSprays)
-#
-# library(lme4)
-# lmer_model <- lmer(weight ~ Time + Diet + Time*Diet + (1|Chick), data = ChickWeight)
-#
-# library(lmerTest)
-# lmer_model2 <- lmer(weight ~ Time + Diet + Time*Diet + (1|Chick), data = ChickWeight)
-#
-# example_data1 <- data.frame(y = rpois(54, 3),
-#                             trt = rep(c("A", "B"), each = 27),
-#                             subject = rep(1:18, each = 3))
-# glmer_poisson <- glmer(y ~ trt + (1|subject), family = "poisson", data = example_data1)
-#
-# example_data2 <- data.frame(success = rpois(54, 5),
-#                             trt = rep(c("A", "B"), each = 27),
-#                             subject = rep(1:18, each = 3))
-# example_data2$total <-  example_data2$success+rpois(54,4)
-# glmer_binomial <- glmer(cbind(success, total-success) ~ trt + (1|subject), family = "binomial", data = example_data2)
+test_that("glm poisson", {
 
+  # model
+  glm_poisson_model <- glm(count ~ spray, family = "poisson", data = InsectSprays)
+
+  # tests for individual plots
+  expect_doppelganger(title = "glm poisson - plots = boxplot", fig = resid_panel(glm_poisson_model, plots = "boxplot"))
+  expect_doppelganger(title = "glm poisson - plots = cookd", fig = resid_panel(glm_poisson_model, plots = "cookd"))
+  expect_doppelganger(title = "glm poisson - plots = index", fig = resid_panel(glm_poisson_model, plots = "index"))
+  expect_doppelganger(title = "glm poisson - plots = hist", fig = resid_panel(glm_poisson_model, plots = "hist"))
+  expect_doppelganger(title = "glm poisson - plots = lev", fig = resid_panel(glm_poisson_model, plots = "lev"))
+  expect_doppelganger(title = "glm poisson - plots = ls", fig = resid_panel(glm_poisson_model, plots = "ls"))
+  expect_doppelganger(title = "glm poisson - plots = qq", fig = resid_panel(glm_poisson_model, plots = "qq"))
+  expect_doppelganger(title = "glm poisson - plots = resid", fig = resid_panel(glm_poisson_model, plots = "resid"))
+  expect_doppelganger(title = "glm poisson - plots = yvp", fig = resid_panel(glm_poisson_model, plots = "yvp"))
+
+  # tests for residual types
+  expect_doppelganger(title = "glm poisson - type = pearson", fig = resid_panel(glm_poisson_model, plots = "all", type = "pearson"))
+  expect_doppelganger(title = "glm poisson - type = deviance", fig = resid_panel(glm_poisson_model, plots = "all", type = "deviance"))
+  #expect_doppelganger(title = "glm poisson - type = response", fig = resid_panel(glm_poisson_model, plots = "all", type = "response"))
+  expect_doppelganger(title = "glm poisson - type = stand.deviance", fig = resid_panel(glm_poisson_model, plots = "all", type = "stand.deviance"))
+  expect_doppelganger(title = "glm poisson - type = stand.pearson", fig = resid_panel(glm_poisson_model, plots = "all", type = "stand.pearson"))
+
+})
+
+test_that("glm binomial", {
+
+  # model
+  glm_binomial_model <- glm(cbind(incidence, size - incidence) ~ period, data = cbpp, family = binomial)
+
+  # tests for individual plots
+  expect_doppelganger(title = "glm binomial - plots = boxplot", fig = resid_panel(glm_binomial_model, plots = "boxplot"))
+  expect_doppelganger(title = "glm binomial - plots = cookd", fig = resid_panel(glm_binomial_model, plots = "cookd"))
+  expect_doppelganger(title = "glm binomial - plots = index", fig = resid_panel(glm_binomial_model, plots = "index"))
+  expect_doppelganger(title = "glm binomial - plots = hist", fig = resid_panel(glm_binomial_model, plots = "hist"))
+  expect_doppelganger(title = "glm binomial - plots = lev", fig = resid_panel(glm_binomial_model, plots = "lev"))
+  expect_doppelganger(title = "glm binomial - plots = ls", fig = resid_panel(glm_binomial_model, plots = "ls"))
+  expect_doppelganger(title = "glm binomial - plots = qq", fig = resid_panel(glm_binomial_model, plots = "qq"))
+  expect_doppelganger(title = "glm binomial - plots = resid", fig = resid_panel(glm_binomial_model, plots = "resid"))
+  expect_doppelganger(title = "glm binomial - plots = yvp", fig = resid_panel(glm_binomial_model, plots = "yvp"))
+
+  # tests for residual types
+  expect_doppelganger(title = "glm binomial - type = pearson", fig = resid_panel(glm_binomial_model, plots = "all", type = "pearson"))
+  expect_doppelganger(title = "glm binomial - type = deviance", fig = resid_panel(glm_binomial_model, plots = "all", type = "deviance"))
+  #expect_doppelganger(title = "glm binomial - type = response", fig = resid_panel(glm_binomial_model, plots = "all", type = "response"))
+  expect_doppelganger(title = "glm binomial - type = stand.deviance", fig = resid_panel(glm_binomial_model, plots = "all", type = "stand.deviance"))
+  expect_doppelganger(title = "glm binomial - type = stand.pearson", fig = resid_panel(glm_binomial_model, plots = "all", type = "stand.pearson"))
+
+})
+
+test_that("lmer", {
+
+  # model
+  lmer_model <- lmer(weight ~ Time + Diet + Time*Diet + (1|Chick), data = ChickWeight)
+
+  # tests for individual plots
+  expect_doppelganger(title = "lmer - plots = boxplot", fig = resid_panel(lmer_model, plots = "boxplot"))
+  expect_doppelganger(title = "lmer - plots = index", fig = resid_panel(lmer_model, plots = "index"))
+  expect_doppelganger(title = "lmer - plots = hist", fig = resid_panel(lmer_model, plots = "hist"))
+  expect_doppelganger(title = "lmer - plots = qq", fig = resid_panel(lmer_model, plots = "qq"))
+  expect_doppelganger(title = "lmer - plots = resid", fig = resid_panel(lmer_model, plots = "resid"))
+  expect_doppelganger(title = "lmer - plots = yvp", fig = resid_panel(lmer_model, plots = "yvp"))
+
+  # tests for residual types
+  expect_doppelganger(title = "lmer - type = pearson", fig = resid_panel(lmer_model, plots = "all", type = "pearson"))
+  expect_doppelganger(title = "lmer - type = response", fig = resid_panel(lmer_model, plots = "all", type = "response"))
+
+})
+
+test_that("lmerTest", {
+
+  # model
+  library(lmerTest)
+  lmerTest_model <- lmer(weight ~ Time + Diet + Time*Diet + (1|Chick), data = ChickWeight)
+
+  # tests for individual plots
+  expect_doppelganger(title = "lmerTest - plots = boxplot", fig = resid_panel(lmerTest_model, plots = "boxplot"))
+  expect_doppelganger(title = "lmerTest - plots = index", fig = resid_panel(lmerTest_model, plots = "index"))
+  expect_doppelganger(title = "lmerTest - plots = hist", fig = resid_panel(lmerTest_model, plots = "hist"))
+  expect_doppelganger(title = "lmerTest - plots = qq", fig = resid_panel(lmerTest_model, plots = "qq"))
+  expect_doppelganger(title = "lmerTest - plots = resid", fig = resid_panel(lmerTest_model, plots = "resid"))
+  expect_doppelganger(title = "lmerTest - plots = yvp", fig = resid_panel(lmerTest_model, plots = "yvp"))
+
+  # tests for residual types
+  expect_doppelganger(title = "lmerTest - type = pearson", fig = resid_panel(lmerTest_model, plots = "all", type = "pearson"))
+  expect_doppelganger(title = "lmerTest - type = response", fig = resid_panel(lmerTest_model, plots = "all", type = "response"))
+
+})
+
+test_that("lme", {
+
+  # model
+  lme_model <- lme(weight ~ Time + Diet + Time*Diet, random = ~1|Chick, data = ChickWeight)
+
+  # tests for individual plots
+  expect_doppelganger(title = "lme - plots = boxplot", fig = resid_panel(lme_model, plots = "boxplot"))
+  expect_doppelganger(title = "lme - plots = index", fig = resid_panel(lme_model, plots = "index"))
+  expect_doppelganger(title = "lme - plots = hist", fig = resid_panel(lme_model, plots = "hist"))
+  expect_doppelganger(title = "lme - plots = qq", fig = resid_panel(lme_model, plots = "qq"))
+  expect_doppelganger(title = "lme - plots = resid", fig = resid_panel(lme_model, plots = "resid"))
+  expect_doppelganger(title = "lme - plots = yvp", fig = resid_panel(lme_model, plots = "yvp"))
+
+  # tests for residual types
+  expect_doppelganger(title = "lme - type = pearson", fig = resid_panel(lme_model, plots = "all", type = "pearson"))
+  expect_doppelganger(title = "lme - type = response", fig = resid_panel(lme_model, plots = "all", type = "response"))
+
+})
+
+test_that("glmer_poisson", {
+
+  # data
+  set.seed(20190321)
+  example_data1 <- data.frame(y = rpois(54, 3),
+                              trt = rep(c("A", "B"), each = 27),
+                              subject = rep(1:18, each = 3))
+
+  # model
+  glmer_poisson_model <- glmer(y ~ trt + (1|subject), family = "poisson", data = example_data1)
+
+  # tests for individual plots
+  expect_doppelganger(title = "glmer poisson - plots = boxplot", fig = resid_panel(glmer_poisson_model, plots = "boxplot"))
+  expect_doppelganger(title = "glmer poisson - plots = index", fig = resid_panel(glmer_poisson_model, plots = "index"))
+  expect_doppelganger(title = "glmer poisson - plots = hist", fig = resid_panel(glmer_poisson_model, plots = "hist"))
+  expect_doppelganger(title = "glmer poisson - plots = qq", fig = resid_panel(glmer_poisson_model, plots = "qq"))
+  expect_doppelganger(title = "glmer poisson - plots = resid", fig = resid_panel(glmer_poisson_model, plots = "resid"))
+  expect_doppelganger(title = "glmer poisson - plots = yvp", fig = resid_panel(glmer_poisson_model, plots = "yvp"))
+
+  # tests for residual types
+  expect_doppelganger(title = "glmer poisson - type = pearson", fig = resid_panel(glmer_poisson_model, plots = "all", type = "pearson"))
+  expect_doppelganger(title = "glmer poisson - type = deviance", fig = resid_panel(glmer_poisson_model, plots = "all", type = "deviance"))
+  expect_doppelganger(title = "glmer poisson - type = response", fig = resid_panel(glmer_poisson_model, plots = "all", type = "response"))
+
+})
+
+test_that("glmer_poisson", {
+
+  # data
+  set.seed(20190321)
+  example_data2 <- data.frame(success = rpois(54, 5),
+                              trt = rep(c("A", "B"), each = 27),
+                              subject = rep(1:18, each = 3))
+  set.seed(20190321)
+  example_data2$total <-  example_data2$success+rpois(54,4)
+
+  # model
+  glmer_binomial_model <- glmer(cbind(success, total-success) ~ trt + (1|subject), family = "binomial", data = example_data2)
+
+  # tests for individual plots
+  expect_doppelganger(title = "glmer binomial - plots = boxplot", fig = resid_panel(glmer_binomial_model, plots = "boxplot"))
+  expect_doppelganger(title = "glmer binomial - plots = index", fig = resid_panel(glmer_binomial_model, plots = "index"))
+  expect_doppelganger(title = "glmer binomial - plots = hist", fig = resid_panel(glmer_binomial_model, plots = "hist"))
+  expect_doppelganger(title = "glmer binomial - plots = qq", fig = resid_panel(glmer_binomial_model, plots = "qq"))
+  expect_doppelganger(title = "glmer binomial - plots = resid", fig = resid_panel(glmer_binomial_model, plots = "resid"))
+  expect_doppelganger(title = "glmer binomial - plots = yvp", fig = resid_panel(glmer_binomial_model, plots = "yvp"))
+
+  # tests for residual types
+  expect_doppelganger(title = "glmer binomial - type = pearson", fig = resid_panel(glmer_binomial_model, plots = "all", type = "pearson"))
+  expect_doppelganger(title = "glmer binomial - type = deviance", fig = resid_panel(glmer_binomial_model, plots = "all", type = "deviance"))
+  expect_doppelganger(title = "glmer binomial - type = response", fig = resid_panel(glmer_binomial_model, plots = "all", type = "response"))
+
+})
