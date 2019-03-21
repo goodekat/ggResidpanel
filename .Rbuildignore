@@ -8,5 +8,4 @@
 ^images$
 ^NEWS.md$
 ^tests.R$
-^vignettes/tutorial.Rmd$
-^vignettes/tutorial_cache$
+^tutorial$
