@@ -36,6 +36,7 @@ To Do
 - errors:
   - resid_panel(glm_model, plots = "all", type = "response")
   - resid_panel(glm_binomial_model, plots = "all", type = "response")
+- figure out how to link to the tutorial
 - add in links in vignettes to the residual vignette (when finished)
 - more data?
   - dasl
