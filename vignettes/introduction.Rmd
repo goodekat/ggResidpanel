@@ -34,16 +34,22 @@ library(ggResidpanel)
 
 The dataset `penguins` is included in ggResidpanel, which contains information from a study done on emperor penguins. Emperor pengunins are able to dive under the water for long periods of time. The scientists who conducted the study were interested in understanding how the heart rate of the penguins relates to the depth and duration of the dives. The study involved attaching a device to penguins that recorded the heart rate of the bird during a dive.
 
-A summary of the data is shown below. It has four variables: the heartrate of the penguin (beats per minute), the depth of the dive (meters), duration of the dive (minutes), and a variable identifying the bird associated with the dive. The summary shows that each bird had multiple dives recorded.
+The structure of the data is shown below. It has four variables.
+  
+- heartrate of the penguin (beats per minute)
+- depth of the dive (meters)
+- duration of the dive (minutes)
+- bird identification number associated with the dive 
+
+There are 125 observations in the data and 9 birds. Thus, there are multiple observations per penguin.
 
 ```{r}
-summary(penguins)
+str(penguins)
 ```
 
-The code below shows that there are 125 observations in the data and observations on 9 penguins with as few as 6 observations from a bird and as many as 20 observations from a bird.
+The code below show the number of observations per penguin. Penguin number 6 has the least number of observations with only 6, and penguin number 1 has the most observations with 20.
 
 ```{r}
-dim(penguins)
 table(penguins$bird)
 ```
 
