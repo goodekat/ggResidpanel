@@ -10,8 +10,17 @@ vignette: >
 ---
 
 ```{r setup, include = FALSE}
-knitr::opts_chunk$set(collapse = TRUE, comment = "#>", fig.align = "center")
+knitr::opts_chunk$set(collapse = TRUE, comment = "#>", fig.align = "center",
+                      message = FALSE, fig.height = 4.5, fig.width = 6.5)
 ```
+
+```{r echo = FALSE}
+# Load libraries
+library(dplyr)
+library(ggplot2)
+```
+
+<img align="right" width="135" height="150" src="https://goodekat.github.io/ggResidpanel/images/gg_resid_sticker4.png">
 
 ggResidpanel is an R package that was developed with the intention of providing an easier way to both create and view diagnostic plots for models. The graphics are created using ggplot2, and interactive versions of the plots are rendered using plotly. This vignette provides a brief introduction to ggResidpanel with information on how to install the package and several examples. To learn more about ggResidpanel, you can read through the ggResidpanel Tutorial and User Manual, which contains the details for all of the functions in the package and demonstrates how to use them.
 
@@ -32,11 +41,11 @@ library(ggResidpanel)
 
 ## Penguin Example
 
-The dataset `penguins` is included in ggResidpanel, which contains information from a study done on emperor penguins. Emperor pengunins are able to dive under the water for long periods of time. The scientists who conducted the study were interested in understanding how the heart rate of the penguins relates to the depth and duration of the dives. The study involved attaching a device to penguins that recorded the heart rate of the bird during a dive.
+The dataset `penguins` is included in ggResidpanel, which contains information from a study done on emperor penguins. Emperor penguins are able to dive under the water for long periods of time. The scientists who conducted the study were interested in understanding how the heart rate of the penguins relates to the depth and duration of the dives. The study involved attaching a device to penguins that recorded the heart rate of the bird during a dive.
 
 The structure of the data is shown below. It has four variables.
   
-- heartrate of the penguin (beats per minute)
+- heart rate of the penguin (beats per minute)
 - depth of the dive (meters)
 - duration of the dive (minutes)
 - bird identification number associated with the dive 
@@ -53,44 +62,57 @@ The code below show the number of observations per penguin. Penguin number 6 has
 table(penguins$bird)
 ```
 
-```{r eval = FALSE}
-library(ggplot2)
-
-# add the zissou palette
-ggplot(penguins, aes(x = duration, y = heartrate, color = bird)) + 
+```{r echo = FALSE}
+penguins %>%
+  mutate(bird = forcats::fct_recode(bird, 
+                                    "Penguin 1" = "1", "Penguin 2" = "2",
+                                    "Penguin 3" = "3", "Penguin 4" = "4", 
+                                    "Penguin 5" = "5", "Penguin 6" = "6", 
+                                    "Penguin 7" = "7", "Penguin 8" = "8", 
+                                    "Penguin 9" = "9")) %>%
+ggplot(aes(x = depth, y = heartrate, color = bird)) + 
   geom_point() + 
   facet_wrap( ~ bird) + 
   theme_bw() + 
-  scale_color_manual(pal[1:9]) +
-  labs(color = "Penguin")
+  scale_color_manual(values = wesanderson::wes_palette("Zissou1", 9, 
+                                                       type = "continuous")[1:9]) +
+  labs(x = "Depth (m)", y = "Heart Rate (beats per minute)", color = "Penguin") + 
+  theme(legend.position = "none")
+```
 
-pal <- wesanderson::wes_palette("Zissou1", 9, type = "continuous")
-image(volcano, col = pal)
-
-str(pal)
-# 
-# pal <- wesanderson::wes_palette("Zissou1", 100, type = "continuous")
-# 
-# # heatmap is a local dataset
-# ggplot(heatmap, aes(x = X2, y = X1, fill = value)) +
-#   geom_tile() + 
-#   scale_fill_gradientn(colours = pal) +
-#   scale_x_discrete(expand = c(0, 0)) +
-#   scale_y_discrete(expand = c(0, 0)) + 
-#   coord_equal() 
-
-ggplot(penguins, aes(x = depth, y = heartrate, color = bird)) + 
+```{r echo = FALSE}
+penguins %>%
+  mutate(bird = forcats::fct_recode(bird, 
+                                    "Penguin 1" = "1", "Penguin 2" = "2",
+                                    "Penguin 3" = "3", "Penguin 4" = "4", 
+                                    "Penguin 5" = "5", "Penguin 6" = "6", 
+                                    "Penguin 7" = "7", "Penguin 8" = "8", 
+                                    "Penguin 9" = "9")) %>%
+ggplot(aes(x = duration, y = heartrate, color = bird)) + 
   geom_point() + 
-  facet_wrap( ~ bird)
+  facet_wrap( ~ bird) + 
+  theme_bw() + 
+  scale_color_manual(values = wesanderson::wes_palette("Zissou1", 9, 
+                                                       type = "continuous")[1:9]) +
+  labs(x = "Duration (min)", y = "Heart Rate (beats per minute)", color = "Penguin") + 
+  theme(legend.position = "none")
 ```
 
 ```{r}
 library(lme4)
 m <- lmer(heartrate ~ duration + depth + (1|bird), data = penguins)
 summary(m)
-resid_panel(m)
-resid_xpanel(m, yvar = "response")
+```
 
+```{r}
+resid_panel(m)
+```
+
+```{r}
+resid_xpanel(m, yvar = "response")
+```
+
+```{r}
 # m2 <- lm(log(Dive.Heart.Rate) ~ Duration.min. + Depth.m., data = penguins)
 # summary(m2)
 # resid_panel(m2)
@@ -116,7 +138,6 @@ resid_xpanel(m, yvar = "response")
 # summary(m5)
 # resid_panel(m5)
 # resid_xpanel(m5, yvar = "response")
-
 ```
 
 ## Board Game Example
