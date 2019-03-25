@@ -62,6 +62,8 @@ The code below show the number of observations per penguin. Penguin number 6 has
 table(penguins$bird)
 ```
 
+The figure below shows scatter plots for each penguin with the heart rate of a penguin versus the depth of the dive of the penguin. The points are colored by penguin. This shows that there appears to be a decrease in heart rate as the depth of the dive increases, but the manner in which the heart rate decreases varies between penguin.
+
 ```{r echo = FALSE}
 penguins %>%
   mutate(bird = forcats::fct_recode(bird, 
@@ -79,6 +81,8 @@ ggplot(aes(x = depth, y = heartrate, color = bird)) +
   labs(x = "Depth (m)", y = "Heart Rate (beats per minute)", color = "Penguin") + 
   theme(legend.position = "none")
 ```
+
+The next figure shows the heart rate versus duration of the dive for each penguin. Again, the plots are colored by penguin. There is a clear decrease in heart rate as the duration of the dive increases. The trends are very similar between penguins.
 
 ```{r echo = FALSE}
 penguins %>%
@@ -98,18 +102,38 @@ ggplot(aes(x = duration, y = heartrate, color = bird)) +
   theme(legend.position = "none")
 ```
 
+To model the data, a linear mixed effects model is fit below with heart rate as the response variable. To start, depth and duration are included as fixed main effects in the model, and a random effect for penguin is specified.
+
 ```{r}
 library(lme4)
-m <- lmer(heartrate ~ duration + depth + (1|bird), data = penguins)
-summary(m)
+penguin_model <- lmer(heartrate ~ depth + duration + (1|bird), data = penguins)
+```
+
+The summary of the model is shown below.
+
+```{r}
+summary(penguin_model)
+```
+
+Linear mixed effects models have four assumptions that need to be checked. 
+
+1. Independence of observations
+2. Linearity between the response variable and the predictor variables
+3. Constant variance of the residuals
+4. Normality of the residuals
+
+The first assumption can only be checked by considering the study design. In our case, there is a dependence between observations taken from the same penguin, and we already accounted for this by including a random effect for penguin in the model. The other assumptions can be checked by looking at residual plots. ggResidpanel makes it possible to easily create a panel with diagnostic plots that lets us check these assumptions by simply applying the function `resid_panel` to the model. The code and resulting plot are shown below.
+
+```{r}
+resid_panel(penguin_model)
 ```
 
 ```{r}
-resid_panel(m)
+resid_xpanel(penguin_model)
 ```
 
 ```{r}
-resid_xpanel(m, yvar = "response")
+resid_xpanel(penguin_model, yvar = "response")
 ```
 
 ```{r}
