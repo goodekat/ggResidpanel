@@ -122,46 +122,51 @@ Linear mixed effects models have four assumptions that need to be checked.
 3. Constant variance of the residuals
 4. Normality of the residuals
 
-The first assumption can only be checked by considering the study design. In our case, there is a dependence between observations taken from the same penguin, and we already accounted for this by including a random effect for penguin in the model. The other assumptions can be checked by looking at residual plots. ggResidpanel makes it possible to easily create a panel with diagnostic plots that lets us check these assumptions by simply applying the function `resid_panel` to the model. The code and resulting plot are shown below.
+The first assumption can only be checked by considering the study design. In our case, there is a dependence between observations taken from the same penguin, and we already accounted for this by including a random effect for penguin in the model. The other assumptions can be checked by looking at residual plots. ggResidpanel makes it possible to easily create a panel with diagnostic plots that lets us check these assumptions by simply applying the function `resid_panel` to the model. The code and resulting panel of plots are shown below. 
+
+The default panel includes four plots. 
+
+- The plot in the upper left of the panel is a plot of the residuals versus predictived values from the model. This plot can be used to assess the linearity and constant variance assumptions. The curving trend suggests a violation of the lineary assumption, and there appears to be a violation of the constant variance since the variance of the residuals is getting larger as the predicted values increase.
+
+- The plot in the upper right is a normal quantile plot. There appears to be a deviation from normality in the upper end of the residuals, but this is not as much of a concern as linearity and constant variance issues.
+
+- The plot in the lower right of the panel is a histogram of the residuals with a normal density overlayed. This plot is an additional way to check the normality assumption from a different view. This plot makes it clear that there is a slight right skew in the data.
+
+- The plot in the lower left of the panel is a plot of the residuals versus the observation number of the observation. This plot can help to find trends related to the way that the data has been ordered, which may provide insights into additional trends that have not been accounted for in the data. There is not obvious trend in this plot.
 
 ```{r}
 resid_panel(penguin_model)
 ```
 
+To further assess the issues with this model, it may be helpful to look at plots of the residuals versus the predictor variables in the model. This can be done easily by applying the function `resid_xpanel` to the model. The code and resulting panel of plots is shown below.
+
+The function creates a panel with a plot included for each predictor variable in the model. In this case, three plots are created for the variables of depth, duration, and bird. Pearson residuals are plotted on the y-axis for each of the plots. These plots show a clear decrease in variation of the residuals as the value of depth increases and the nonlinear relationship is related to the variable of duration. The plot of residuals versus bird shows no obvious trend and relatively constant variance across the penguins.
+
 ```{r}
 resid_xpanel(penguin_model)
 ```
+
+The function `resid_xpanel` has the option to plot the response variable on the y-axis by setting `yvar = "response"`. The updated code and resulting panel of plots is shown below.
 
 ```{r}
 resid_xpanel(penguin_model, yvar = "response")
 ```
 
 ```{r}
-# m2 <- lm(log(Dive.Heart.Rate) ~ Duration.min. + Depth.m., data = penguins)
-# summary(m2)
-# resid_panel(m2)
-# resid_xpanel(m2, yvar = "response")
-# 
-# m3 <- lm(Dive.Heart.Rate ~ Duration.min. + I((Duration.min.)^2) + Depth.m., data = penguins)
-# summary(m3)
-# resid_panel(m3)
-# resid_xpanel(m3, yvar = "response")
-# 
-# m4 <- lm(log(Dive.Heart.Rate) ~ Duration.min. + I((Duration.min.)^2) + Depth.m., data = penguins)
-# summary(m4)
-# resid_panel(m4)
-# resid_xpanel(m4, yvar = "response")
-# 
-# library(dplyr)
-# 
-# sub <- penguins %>%
-#   group_by(Bird.) %>%
-#   summarise_all(mean)
-# 
-# m5 <- lm(Dive.Heart.Rate ~ Duration.min. + Depth.m., data = sub)
-# summary(m5)
-# resid_panel(m5)
-# resid_xpanel(m5, yvar = "response")
+penguin_model2 <- lmer(heartrate ~ depth + duration + I(duration^2) + (1|bird), 
+                       data = penguins)
+penguin_model3 <- lmer(log(heartrate) ~ depth + duration + (1|bird), 
+                       data = penguins)
+penguin_model4 <- lmer(log(heartrate) ~ depth + duration + I(duration^2) + (1|bird), 
+                       data = penguins)
+```
+
+```{r fig.width = 7}
+resid_compare(models = list(penguin_model, penguin_model2, 
+                            penguin_model3, penguin_model4),
+              plots = c("resid", "qq"),
+              smoother = TRUE,
+              qqbands = TRUE)
 ```
 
 ## Board Game Example
