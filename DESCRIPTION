@@ -22,11 +22,14 @@ Imports:
   stringr
 RoxygenNote: 6.1.1
 Suggests: 
+  dplyr,
+  forcats,
   knitr,
   lme4,
   randomForest,
   rmarkdown,
-  testthat
+  testthat,
+  wesanderson
 VignetteBuilder: knitr
 Depends:R (>= 3.0.0)
 
