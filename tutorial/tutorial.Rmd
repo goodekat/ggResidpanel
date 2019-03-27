@@ -1,8 +1,8 @@
 ---
-title: ggResidpanel Tutorial and User Manual
+title: "ggResidpanel Tutorial and User Manual"
 author: "Katherine Goode and Kathleen Rey"
 date: "`r format(Sys.time(), '%B %d, %Y')`"
-output:
+output: 
   html_document:
     df_print: paged
     toc: true
@@ -12,12 +12,13 @@ output:
 ---
 
 ```{r setup, include = FALSE, message = FALSE}
-knitr::opts_chunk$set(echo = TRUE, fig.align = 'center', message = FALSE, cache = TRUE)
+knitr::opts_chunk$set(echo = TRUE, fig.align = 'center', message = FALSE,
+                      fig.height = 4.5, fig.width = 6.5)
 ```
 
-![](../images/gg_resid_sticker4.png){width=25%}
+<img align="right" width="135" height="150" src="../figures/logo.png">
 
-# Overview
+# Overview {#overview}
 
 ggResidpanel provides a way to easily create and view diagnostic plots from models in R using ggplot2 graphics. The goal in creating the package was to allow a model to be passed to a function that returns a panel of diagnostic plots that can be viewed simultaneously. The panel allows the user to scan plots of interest to check for violations of model assumptions or lack of fit. The idea to portray the plots in a grid was motivated by the residual panel plots provided in [SAS procedures](https://support.sas.com/documentation/cdl/en/statug/63962/HTML/default/viewer.htm#statug_mixed_sect030.htm). In addition to being able to view plots in a panel, ggResidpanel allows for the creation of panels with interactive plots and the ability to view plots from multiple models in the same panel. These operations can be obtained by applying one of the four functions listed below to a model. 
 
@@ -32,7 +33,7 @@ As of now, ggResidpanel allows these functions to work with models of type "lm",
 
 All functions in the package include the ability to select which plots to include in the panel, ways to to adjust plot characteristics, and options to change the figure format. Each function has a section in this vignette with details on how to use the function and examples. 
 
-## Installation
+## Installation {#installation}
 
 The package is currently only available on GitHub. The intention is to add the package to CRAN in the near future. For now, the following code can be used to install ggResidpanel using the devtools package.
 
@@ -48,7 +49,7 @@ To use the package in R, load the library into your R session with the following
 library(ggResidpanel)
 ```
 
-## Example Data
+## Example Data {#exampledata}
 
 The functions in this vignette will be demonstrated by using the `trees` data included in base R. The dataset contains information on the volume, girth, and height of 31 black cherry trees. The first six rows of the data are shown below.
 

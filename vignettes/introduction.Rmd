@@ -20,9 +20,9 @@ library(dplyr)
 library(ggplot2)
 ```
 
-<img align="right" width="135" height="150" src="https://goodekat.github.io/ggResidpanel/images/gg_resid_sticker4.png">
+<img align="right" width="135" height="150" src="./figures/logo.png">
 
-ggResidpanel is an R package that was developed with the intention of providing an easier way to both create and view diagnostic plots for models. The graphics are created using ggplot2, and interactive versions of the plots are rendered using plotly. This vignette provides a brief introduction to ggResidpanel with information on how to install the package, a description of the functions included in the package, and several examples. To learn more about ggResidpanel, you can read through the ggResidpanel Tutorial and User Manual, which contains the details for all of the functions in the package and demonstrates how to use them.
+ggResidpanel is an R package that was developed with the intention of providing an easier way to both create and view diagnostic plots for models. The graphics are created using ggplot2, and interactive versions of the plots are rendered using plotly. This vignette provides a brief introduction to ggResidpanel with information on how to install the package, a description of the functions included in the package, and examples. To learn more about ggResidpanel, you can read through the ggResidpanel Tutorial and User Manual, which contains the details for all of the functions in the package and demonstrates how to use them.
 
 ## Installation
 
@@ -51,7 +51,7 @@ ggResidpanel has five available functions. These are as follows.
 
 Currently, ggResidpanel allows the first four functions listed above to work with models fit using the functions of `lm`, `glm`, `lme` (from nlme), and `lmer` or `glmer` (from lme4 or fit using lmerTest).
 
-## Penguin Example
+## Penguin Data Example
 
 The dataset `penguins` is included in ggResidpanel, which contains information from a study done on emperor penguins. Emperor penguins are able to dive under the water for long periods of time. The scientists who conducted the study were interested in understanding how the heart rate of the penguins relates to the depth and duration of the dives. The study involved attaching a device to penguins that recorded the heart rate of the bird during a dive.
 
@@ -150,6 +150,12 @@ The default panel includes four plots.
 resid_panel(penguin_model)
 ```
 
+The static panel of plots do not allow one to determine which observtions are associated with a point. The function `resid_interact` allows users to interact with the plots by using functionality from plotly. The code below reproduces the plot above with interactivity. When the cursor is hovered over a point, a tooltip appears with the x and y location of the point, the observed values associated with the point from variables included in the model, and the observation number. This function is meant to help users identify outliers and points of interest in the plot.
+
+```{r}
+resid_interact(penguin_model)
+```
+
 To further assess the issues with this model, it may be helpful to look at plots of the residuals versus the predictor variables in the model. This can be done easily by applying the function `resid_xpanel` to the model. The code and resulting panel of plots is shown below.
 
 The function creates a panel with a plot included for each predictor variable in the model. In this case, three plots are created for the variables of depth, duration, and bird. Pearson residuals are plotted on the y-axis for each of the plots. These plots show a clear decrease in variation of the residuals as the value of depth increases and the nonlinear relationship is related to the variable of duration. The plot of residuals versus bird shows no obvious trend and relatively constant variance across the penguins.
@@ -189,6 +195,25 @@ resid_compare(models = list(penguin_model,
               qqbands = TRUE)
 ```
 
-## Board Game Example
+```{r}
+resid_panel(penguin_model_log2, plots = "yvp")
+```
 
+```{r}
+penguin_tree <- rpart::rpart(heartrate ~ depth + duration, data = penguins)
+```
+
+```{r}
+plot(penguin_tree)
+text(penguin_tree)
+```
+
+```{r}
+penguin_tree_pred <- predict(penguin_tree)
+penguin_tree_resid <- penguins$heartrate - penguin_tree_pred
+```
+
+```{r}
+resid_auxpanel(penguin_tree_resid, penguin_tree_pred, plots = c("resid", "index"))
+```
 

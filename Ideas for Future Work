@@ -29,45 +29,44 @@ Katie's Tasks:
 Katherine's Tasks:
 
 To Do
-- make an introduction vignette
-  - include penguin data
-  - finish cleaning board game data and include
-- adjust all of the documentation examples to use package data
+- finish introduction vignette
 - errors:
   - resid_panel(glm_model, plots = "all", type = "response")
   - resid_panel(glm_binomial_model, plots = "all", type = "response")
-- figure out how to link to the tutorial
-- add in links in vignettes to the residual vignette (when finished)
-- more data?
-  - dasl
-  - https://github.com/rfordatascience/tidytuesday
-  - https://github.com/BuzzFeedNews/everything#data-and-analyses
-  - https://www.cdc.gov/nccdphp/dnpao/data-trends-maps/index.html
+  - look into this warning: test-resid_panel.R:124: warning: glm poisson
+    the condition has length > 1 and only the first element will be used
 
 Completed
-- added smoother options to lev and ls plots
-- change title to include usermanual and add a subtitle
-- need to update vignette to say that lme models are now allowed
-- check all of the hyperlinks
-- added penguin data to package
-- add references to vignette (formula for Cook's D & value of 1 for Cook's D)
-- added LICENSE file
-- figure out how to handle tutorial vignette with CRAN (or not) and add cache back
-- work on getting CRAN checks all passed
-- finish reading about vdiffr: https://github.com/r-lib/vdiffr
-- started working with vdiffr for tests
-- Should we add tests to check warnings?
+- Added penguin data to package
+- Adjusted all of the documentation examples to use package data
+- Added smoother options to lev and ls plots
+- Change vignette title to include usermanual and add a subtitle
+- Updated vignette to say that lme models are now allowed
+- Checked all of the hyperlinks
+- Added references to vignette (formula for Cook's D & value of 1 for Cook's D)
+- Added LICENSE file
+- Worked on getting CRAN checks all passed
+- Finished reading about vdiffr: https://github.com/r-lib/vdiffr
+- Started working with vdiffr for tests
+- Put residual vignette in build-ignore for now
 
 Ask Katie
 - What reference did you use for:
   - 4/n for Cook's D plot? (I found one that would work?)
   - density curve on the histogram?
-- Do you think the trees data in the tutorial is okay?
+- Do you think the trees data in the tutorial and the README is okay?
 - I'm thinking of not including the tutorial vignette in the package?
 - Can we change the constant leverage plot title? (too long)
 - Do you want to finish the process of moving the tests to vdiffr?
+- Can you add the code for creating the sticker to the data-raw folder in the package?
+- What do we want to do about the tutorial? (Should I change the format or just post it on my webpage?)
+- Should we add tests to check warnings?
+- Issues with rounding in the interactive penguin plots?
 
 Ideas for Future Package Versions:
+- cleaning board game data and coach salary data to use for paper (and vignettes?)
+- add in links in vignettes to the residual vignette (when finished)
+- contact Jessica Meir to ask for citation of penguin data
 - figure out how to use the "safely" and "quietly" functions to only show desired
   warnings and suppress the error:
     grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y,  :

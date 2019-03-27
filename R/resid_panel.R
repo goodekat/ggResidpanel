@@ -162,91 +162,23 @@
 #' @return A panel of residual diagnostic plots containing plots specified.
 #'
 #' @examples
-#' ## --------------------------------------------------------------------------------
-#' ## Linear Regression Models
-#' ## --------------------------------------------------------------------------------
 #'
-#' # Fit a linear regression model to predict the volume of a tree based on the
-#' # girth of a tree using the R "trees" data
-#' lm_model1 <- lm(Volume ~ Girth, data = trees)
+#' # Fit a model to the penguin data
+#' penguin_model <- lme4::lmer(heartrate ~ depth + duration + (1|bird), data = penguins)
 #'
-#' # Plot the residuals using the default panel
-#' resid_panel(lm_model1)
+#' # Create the default panel
+#' resid_panel(penguin_model)
 #'
-#' # Create a panel of all diagnostic plot options and add a smoother to the
-#' # residual plot
-#' resid_panel(lm_model1, bins = 30, plots = "all", smoother = TRUE)
+#' # Select all plots to include in the panel and set the smoother option to TRUE
+#' resid_panel(penguin_model, plots = "all", smoother = TRUE)
 #'
-#' # Fit a linear model to compare the weights of plants bewteen different
-#' # treatment groups using the R "PlantGrowth" data
-#' lm_model2 <- lm(weight ~ group, data = PlantGrowth)
+#' # Select only the residual plot and qq-plot to be included in the panel,
+#' # request confidence bands on the qq plot, and set the number of rows to 2
+#' resid_panel(penguin_model, plots = c("resid", "qq"), qqbands = TRUE, nrow = 2)
 #'
-#' # Create a panel of the residual plot, the histogram, and the location-scale plot for
-#' #"lm" models using the classic theme
-#' resid_panel(lm_model2, plots = c("resid", "hist", "ls"), theme = "classic")
-#'
-#' ## --------------------------------------------------------------------------------
-#' ## Generalized Linear Regression Models
-#' ## --------------------------------------------------------------------------------
-#'
-#' # Fit a generalized linear regression model using a Poisson family to compare
-#' # the insect counts between different sprays from the R "InsectSprays" data
-#' glm_model1 <- glm(count ~ spray, family = "poisson", data = InsectSprays)
-#'
-#' # Plot the residuals using the default panel without titles and with a gray theme
-#' resid_panel(glm_model1, bins = 30, title.opt = FALSE, theme = "gray")
-#'
-#' # Plot the residuals using the default panel with standarized deviance residuals
-#' # and use a smaller scaling of the plots
-#' resid_panel(glm_model1, type = "stand.deviance", scale = 0.9)
-#'
-#' #Generate binomial data
-#' total <- c(rpois(45,20))+1
-#' example_data1 <- data.frame(success = rbinom(45, total,.56),
-#' trt = rep(c("A", "B", "C"), each = 15))
-#'
-#' # Fit a generalized lineaer regression model using a binomial family to compare
-#' # across treatments
-#' glm_model2 <- glm(cbind(success, total-success) ~ trt, family = "binomial", data = example_data1)
-#'
-#' #Plot all residual plots with Pearson residuals
-#' resid_panel(glm_model2, plot = "all", type = "pearson")
-#'
-#' ## --------------------------------------------------------------------------------
-#' ## Linear Mixed Effects Models
-#' ## --------------------------------------------------------------------------------
-#'
-#' # Load the lme4 package
-#' library(lme4)
-#'
-#' # Fit a linear mixed effect model to compare weights of chicks between diets using
-#' # the R "ChickWeight" data and including chick as a random effect to account for the
-#' # multiple measurements over time
-#' lmer_model <- lmer(weight ~ Time + Diet + Time*Diet + (1|Chick), data = ChickWeight)
-#'
-#' # Create a panel of the residual plot and the normal quantile plot with
-#' # confidence bands
-#' resid_panel(lmer_model, plots = c("resid", "qq"), qqbands = TRUE)
-#'
-#' ## --------------------------------------------------------------------------------
-#' ## Generalized Linear Mixed Effects Models
-#' ## --------------------------------------------------------------------------------
-#'
-#' # Generate Poisson data
-#' example_data2 <- data.frame(y = rpois(54, 3),
-#'                            trt = rep(c("A", "B"), each = 27),
-#'                            subject = rep(1:18, each = 3))
-#'
-#' # Fit a generalized linear mixed effects model with a Poisson family to compare
-#' # the response between the treatments with a random effect for subject to
-#' # account for the dependence within a subject
-#' glmer_model <- glmer(y ~ trt + (1|subject), family = "poisson", data = example_data2)
-#'
-#' # Plot the residual plot with the size of the title and axis lables increased
-#' resid_panel(glmer_model, plots = "resid", title.text.size = 14, axis.text.size = 12)
-#'
-#' # Plot the residual plot using the Pearson residuals
-#' resid_panel(glmer_model, plots = "resid", type = "pearson")
+#' # Choose the SAS panel of plots, change the theme to classic, and remove the
+#' # titles of the plots
+#' resid_panel(penguin_model, plots = "SAS", theme = "classic", title.opt = FALSE)
 
 resid_panel <- function(model, plots = "default", type = NA, bins = 30,
                         smoother = FALSE, qqline = TRUE, qqbands = FALSE,

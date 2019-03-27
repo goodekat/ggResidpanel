@@ -80,22 +80,15 @@ The following grid options can be chosen for the \code{plots}
   the help file for \code{resid_panel}.
 }
 \examples{
-# Fit a linear regression model to predict the volume of a tree based on the
-# girth of a tree using the R "trees" data
-lm_model1 <- lm(Volume ~ Girth, data = trees)
 
-# Plot the residuals using the default panel
-resid_auxpanel(resid(lm_model1), fitted(lm_model1), bins = 30)
-
-# Fit a random forest model to the mtcars data to predict the mpg
-library(randomForest)
-rf_model <- randomForest(x = mtcars[,2:11], y = mtcars[,1])
+# Fit a random forest model to the penguins data
+rf_model <- randomForest::randomForest(x = penguins[,2:3], y = penguins[,1])
 
 # Obtain the predictions from the model on the observed data
-rf_pred <- predict(rf_model, mtcars[,2:11])
+rf_pred <- predict(rf_model, penguins[,2:3])
 
 # Obtain the residuals from the model
-rf_resid <- mtcars[,1] - rf_pred
+rf_resid <- penguins[,1] - rf_pred
 
 # Create a panel with the residual and index plot
 resid_auxpanel(rf_resid, rf_pred, plots = c("resid", "index"), theme = "classic")

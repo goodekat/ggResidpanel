@@ -39,38 +39,15 @@
 #' predictor variables.
 #'
 #' @examples
-#' # Fit a linear regression model to predict the volume of a tree based on the
-#' # girth of a tree using the R "trees" data
-#' lm_model1 <- lm(Volume ~ Girth, data = trees)
 #'
-#' # Create the plot of the residuals versus the x variable of girth
-#' resid_xpanel(lm_model1)
+#' # Fit a model to the penguin data
+#' penguin_model <- lme4::lmer(heartrate ~ depth + duration + (1|bird), data = penguins)
 #'
-#' # Create the plot of the response versus the x variable of girth
-#' resid_xpanel(lm_model1, yvar = "response")
+#' # Create plots of the residuals versus the predictor variables
+#' resid_xpanel(penguin_model, theme = "classic")
 #'
-#' # Fit a linear model to compare the weights of plants bewteen different
-#' # treatment groups using the R "PlantGrowth" data
-#' lm_model2 <- lm(weight ~ group, data = PlantGrowth)
-#'
-#' # Create the plot of the residuals versus the x variable of group
-#' resid_xpanel(lm_model2)
-#'
-#' # Load the lme4 package
-#' library(lme4)
-#'
-#' # Fit a linear mixed effect model to compare weights of chicks between diets using
-#' # the R "ChickWeight" data and including chick as a random effect to account for the
-#' # multiple measurements over time
-#' lmer_model <- lmer(weight ~ Time + Diet + Time*Diet + (1|Chick), data = ChickWeight)
-#'
-#' # Create a panel of plots of the residuals versus the x variables of
-#' # time, diet, and chick with a smoother included for the continuous variable of
-#' # time using a classic theme with three rows
-#' resid_xpanel(lmer_model, smoother = TRUE, theme = 'classic', nrow = 3)
-#'
-#' # Create the panel with the response variable of weight as the y-axis variable
-#' resid_xpanel(lmer_model, yvar = "response", theme = 'classic', nrow = 3)
+#' # Create plots of the response variable versus the predictor variables
+#' resid_xpanel(penguin_model, yvar = "response", theme = "classic", smoother = TRUE)
 
 resid_xpanel <- function(model, yvar = "residual", type = NA,
                          smoother = FALSE, scale = 1, theme = "bw",
