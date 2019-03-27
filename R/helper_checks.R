@@ -128,7 +128,7 @@ check_title <- function(title.opt){
 # Return warning if consant leverage or any observations have a leverage value of 1
 check_leverage <- function(model, plots){
 
-  if(class(model) %in% c("lm", "glm")){
+  if(class(model)[1] %in% c("lm", "glm")){
 
     if("all" %in% plots | "R" %in% plots | "lev" %in% plots){
 
