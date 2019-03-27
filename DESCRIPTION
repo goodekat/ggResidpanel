@@ -28,6 +28,7 @@ Suggests:
   lme4,
   randomForest,
   rmarkdown,
+  rpart,
   testthat,
   wesanderson
 VignetteBuilder: knitr
