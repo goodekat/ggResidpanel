@@ -65,6 +65,9 @@ test_that("lm with one categorical X", {
   # model
   lm_model2 <- lm(weight ~ group, data = PlantGrowth)
 
+  # test for warning
+  expect_warning(resid_panel(lm_model2, plots = "all"))
+
   # tests for plots
   expect_doppelganger(title = "lm with one categorical X - plots = all", fig = resid_panel(lm_model2, plots = "all"))
   expect_doppelganger(title = "lm with one categorical X - type = pearson", fig = resid_panel(lm_model2, plots = "all", type = "pearson"))
@@ -119,6 +122,9 @@ test_that("glm poisson", {
 
   # model
   glm_poisson_model <- glm(count ~ spray, family = "poisson", data = InsectSprays)
+
+  # test for warning
+  expect_warning(resid_panel(glm_poisson_model, plots = "all"))
 
   # tests for plots
   expect_doppelganger(title = "glm poisson - plots = all", fig = resid_panel(glm_poisson_model, plots = "all"))

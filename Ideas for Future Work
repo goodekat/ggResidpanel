@@ -30,11 +30,6 @@ Katherine's Tasks:
 
 To Do
 - finish introduction vignette
-- errors:
-  - resid_panel(glm_model, plots = "all", type = "response")
-  - resid_panel(glm_binomial_model, plots = "all", type = "response")
-  - look into this warning: test-resid_panel.R:124: warning: glm poisson
-    the condition has length > 1 and only the first element will be used
 
 Completed
 - Added penguin data to package
@@ -49,6 +44,8 @@ Completed
 - Finished reading about vdiffr: https://github.com/r-lib/vdiffr
 - Started working with vdiffr for tests
 - Put residual vignette in build-ignore for now
+- Fixed this warning: test-resid_panel.R:124: warning: glm poisson
+  the condition has length > 1 and only the first element will be used
 
 Ask Katie
 - What reference did you use for:
@@ -62,6 +59,19 @@ Ask Katie
 - What do we want to do about the tutorial? (Should I change the format or just post it on my webpage?)
 - Should we add tests to check warnings?
 - Issues with rounding in the interactive penguin plots?
+- What do we want to do about this?
+  - constant leverage plot breaks when there is a glm model with type = "response"
+    since no option for creating the Std_Res
+      glm_poisson_model <- glm(count ~ spray, family = "poisson", data = InsectSprays)
+      resid_panel(glm_model, plots = "lev", type = "response")
+  - lev plot also breaking when glm model with type = "response"
+    since no option for creating the Std_Res
+      library(lme4)
+      glm_binomial_model <- glm(cbind(incidence, size - incidence) ~ period,
+      data = cbpp, family = binomial)
+      resid_panel(glm_binomial_model, plots = "lev", type = "response")
+  - ls plot is also breaking with glm models with type = "response" because again
+    there is no option for creating the Std_Res
 
 Ideas for Future Package Versions:
 - cleaning board game data and coach salary data to use for paper (and vignettes?)
