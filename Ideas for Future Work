@@ -29,7 +29,8 @@ Katie's Tasks:
 Katherine's Tasks:
 
 To Do
-- finish introduction vignette
+- adjust tutorial links in intro vignette and readme once tutorial is posted
+- add a resid versus y plot (either in resid_panel or resid_xpanel)
 
 Completed
 - Added penguin data to package
@@ -46,8 +47,10 @@ Completed
 - Put residual vignette in build-ignore for now
 - Fixed this warning: test-resid_panel.R:124: warning: glm poisson
   the condition has length > 1 and only the first element will be used
+- finish introduction vignette
 
 Ask Katie
+- Would you be willing to proof read the vignettes I wrote?
 - What reference did you use for:
   - 4/n for Cook's D plot? (I found one that would work?)
   - density curve on the histogram?
