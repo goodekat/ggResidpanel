@@ -1,7 +1,6 @@
 ---
 title: "An Introduction to ggResidpanel"
-author: "Katherine Goode and Kathleen Rey"
-date: "`r format(Sys.time(), '%B %d, %Y')`"
+author: "ggResidpanel version `r packageVersion('ggResidpanel')`"
 output: rmarkdown::html_vignette
 vignette: >
   %\VignetteIndexEntry{An Introduction to ggResidpanel}
@@ -20,13 +19,11 @@ library(dplyr)
 library(ggplot2)
 ```
 
-<img align="right" width="135" height="150" src="./figures/logo.png">
-
-ggResidpanel is an R package that was developed with the intention of providing an easier way to both create and view diagnostic plots for models. The graphics are created using ggplot2, and interactive versions of the plots are rendered using plotly. This vignette provides a brief introduction to ggResidpanel with information on how to install the package, a description of the functions included in the package, and examples. To learn more about ggResidpanel, you can read through the ggResidpanel Tutorial and User Manual, which contains the details for all of the functions in the package and demonstrates how to use them.
+ggResidpanel was developed with the intention of providing an easier way to both create and view diagnostic plots for models in R. The graphics are created using ggplot2, and interactive versions of the plots are rendered using plotly. This vignette provides a brief introduction to ggResidpanel with information on how to install the package, a description of the functions included in the package, and examples. To learn more about ggResidpanel, read through the [ggResidpanel Tutorial and User Manual](), which contains the details for all of the functions in the package and demonstrates how to use them.
 
 ## Installation
 
-ggResidpanel can be installed from GitHub using the command below. (ggResidpanel is not available on CRAN yet)
+ggResidpanel can be installed from GitHub using the command below. ggResidpanel is not available on CRAN yet.
 
 ```{r, eval = FALSE}
 devtools::install_github("goodekat/ggResidpanel")
@@ -35,13 +32,12 @@ devtools::install_github("goodekat/ggResidpanel")
 Load the ggResidpanel library.
 
 ```{r}
-# Load the library
 library(ggResidpanel)
 ```
 
 ## Functions
 
-ggResidpanel has five available functions. These are as follows.
+ggResidpanel has five functions:
 
 - `resid_panel`: Creates a panel of diagnostic plots of the residuals from a model
 - `resid_interact`: Creates an interactive panel of diagnostic plots of the residuals form a model
@@ -49,32 +45,32 @@ ggResidpanel has five available functions. These are as follows.
 - `resid_compare`: Creates a panel of diagnostic plots from multiple models
 - `resid_auxpanel`: Creates a panel of diagnostic plots for model types not included in the package
 
-Currently, ggResidpanel allows the first four functions listed above to work with models fit using the functions of `lm`, `glm`, `lme` (from nlme), and `lmer` or `glmer` (from lme4 or fit using lmerTest).
+Currently, ggResidpanel allows the first four functions listed above to work with models fit using the functions of `lm` and `glm` from base R, `lme` from nlme, and `lmer` or `glmer` from lme4 (or fit using lmerTest).
 
-## Penguin Data Example
+## Examples
 
-The dataset `penguins` is included in ggResidpanel, which contains information from a study done on emperor penguins. Emperor penguins are able to dive under the water for long periods of time. The scientists who conducted the study were interested in understanding how the heart rate of the penguins relates to the depth and duration of the dives. The study involved attaching a device to penguins that recorded the heart rate of the bird during a dive.
+Emperor penguins are able to dive under the water for long periods of time. The dataset `penguins` included in ggResidpanel contains information from a study done on the dives of emperor penguins. The scientists who conducted the study were interested in understanding how the heart rate of the penguins related to the depth and duration of the dives. A device was attached to penguins that recorded the heart rate of the bird during a dive.
 
-The structure of the data is shown below. It has four variables.
+The structure of the data is shown below. It has four variables:
   
 - heart rate of the penguin (beats per minute)
 - depth of the dive (meters)
 - duration of the dive (minutes)
-- bird identification number associated with the dive 
+- bird associated with the dive 
 
-There are 125 observations in the data and 9 birds. Thus, there are multiple observations per penguin.
+There were 9 penguins included in the study with multiple observations taken from each bird and a total of 125 observations in the dataset.
 
 ```{r}
 str(penguins)
 ```
 
-The code below show the number of observations per penguin. Penguin number 6 has the least number of observations with only 6, and penguin number 1 has the most observations with 20.
+The code below show the number of observations per penguin. Penguin number 6 has the least with only 6, and penguin number 1 has the most with 20.
 
 ```{r}
 table(penguins$bird)
 ```
 
-The figure below shows scatter plots for each penguin with the heart rate of a penguin versus the depth of the dive of the penguin. The points are colored by penguin. This shows that there appears to be a decrease in heart rate as the depth of the dive increases, but the manner in which the heart rate decreases varies between penguin.
+The figure below shows scatter plots of heart rate versus depth of a dive for each penguin. The points are colored by bird number. This data shows a decrease in heart rate as the depth of the dive increases, but the manner in which the heart rate decreases varies between penguin.
 
 ```{r echo = FALSE}
 penguins %>%
@@ -94,7 +90,7 @@ ggplot(aes(x = depth, y = heartrate, color = bird)) +
   theme(legend.position = "none")
 ```
 
-The next figure shows the heart rate versus duration of the dive for each penguin. Again, the plots are colored by penguin. There is a clear decrease in heart rate as the duration of the dive increases. The trends are very similar between penguins.
+The next figure shows the heart rate versus duration of the dive for each penguin. Again, there is a clear decrease in heart rate as the duration of the dive increases. The trends are very similar between penguins.
 
 ```{r echo = FALSE}
 penguins %>%
@@ -127,38 +123,80 @@ The summary of the model is shown below.
 summary(penguin_model)
 ```
 
-Linear mixed effects models have four assumptions that need to be checked. 
+### Diagnostic Panels with `resid_panel` 
+
+There are four key assumptions to check for this model.
 
 1. Independence of observations
 2. Linearity between the response variable and the predictor variables
 3. Constant variance of the residuals
 4. Normality of the residuals
 
-The first assumption can only be checked by considering the study design. In our case, there is a dependence between observations taken from the same penguin, and we already accounted for this by including a random effect for penguin in the model. The other assumptions can be checked by looking at residual plots. ggResidpanel makes it possible to easily create a panel with diagnostic plots that lets us check these assumptions by simply applying the function `resid_panel` to the model. The code and resulting panel of plots are shown below. 
+The first assumption can only be checked by considering the study design. In our case, there is a dependence between observations taken from the same penguin, and we already accounted for this by including a random effect for penguin in the model. The other assumptions can be checked by looking at residual diagnostic plots. These plots can be easily created by applying the function `resid_panel` from ggResidpanel to the model. By default, a panel with four plots is created. This is demonstrated below by applying `resid_panel` to the `penguin_model`. The default panel includes the following four plots.
 
-The default panel includes four plots. 
+- **Residual Plot** (upper left): This is a plot of the residuals versus predictive values from the model to assess the linearity and constant variance assumptions. The curving trend seen in the `penguin_model` plot suggests a violation of the linearity assumption, and there appears to be a violation of the constant variance assumption as well since the variance of the residuals is getting larger as the predicted values increase.
 
-- The plot in the upper left of the panel is a plot of the residuals versus predictive values from the model. This plot can be used to assess the linearity and constant variance assumptions. The curving trend suggests a violation of the linearity assumption, and there appears to be a violation of the constant variance since the variance of the residuals is getting larger as the predicted values increase.
+- **Normal Quantile Plot** (upper right): Also known as a qq-plot, this plot allows us to assess the normality assumption. There appears to be a deviation from normality in the upper end of the residuals from the `penguin_model`, but this is not as much of a concern as linearity and constant variance issues.
 
-- The plot in the upper right is a normal quantile plot. There appears to be a deviation from normality in the upper end of the residuals, but this is not as much of a concern as linearity and constant variance issues.
+- **Histogram** (lower right): This is a histogram of the residuals with a normal density with mean and standard deviation computed from the residuals overlaid. It provides an additional way to check the normality assumption. This plot makes it clear that there is a slight right skew in the residuals from the `penguin_model`.
 
-- The plot in the lower right of the panel is a histogram of the residuals with a normal density overlaid. This plot is an additional way to check the normality assumption from a different view. This plot makes it clear that there is a slight right skew in the data.
-
-- The plot in the lower left of the panel is a plot of the residuals versus the observation number of the observation. This plot can help to find trends related to the way that the data has been ordered, which may provide insights into additional trends that have not been accounted for in the data. There is not obvious trend in this plot.
+- **Index Plot** (lower left): This is a plot of the residuals versus the observation numbers. It can help to find patterns related to the way that the data has been ordered, which may provide insights into additional trends in the data that have not been accounted for in the model. There is no obvious trend in the `penguin_model` index plot.
 
 ```{r}
 resid_panel(penguin_model)
 ```
 
-The static panel of plots do not allow one to determine which observtions are associated with a point. The function `resid_interact` allows users to interact with the plots by using functionality from plotly. The code below reproduces the plot above with interactivity. When the cursor is hovered over a point, a tooltip appears with the x and y location of the point, the observed values associated with the point from variables included in the model, and the observation number. This function is meant to help users identify outliers and points of interest in the plot.
+All functions in the package include a `plots` option that allows users to specify which plots to include in the panel. Users can either specify an individual plot, a vector of plot names, or a prespecified panel. 
 
-```{r}
-resid_interact(penguin_model)
+**Plot Names**:
+
+- `"boxplot"`: A boxplot of residuals
+- `"cookd"`: A plot of Cook's D values versus observation numbers
+- `"hist"`: A histogram of residuals
+- `"index"`: A plot of residuals versus observation numbers
+- `"ls"`: A location scale plot of the residuals
+- `"qq"`: A normal quantile plot of residuals
+- `"lev"`: A plot of standardized residuals versus leverage values
+- `"resid"`: A plot of residuals versus predicted values
+- `"yvp"`:: A plot of observed response values versus predicted values
+
+Note that the plots of "cookd", "ls", and "lev" are only available for models fit using `lm` and `glm` and cannot be selected with `resid_auxpanel`.
+
+** Prespecified Panels**:
+
+- `"all"`: panel of all plots in the package that are available for the model type
+- `"default"`: panel with a residual plot, a normal quantile plot of the residuals, an index plot of the residuals, and a histogram of the residuals
+- `"R"`: panel with a residual plot, a normal quantile plot of the residuals, a location-scale plot, and a residuals versus leverage plot (modeled after the plots shown in R if the `plot` function is applied to an lm model)
+- `"SAS"`: panel with a residual plot, a normal quantile plot of the residuals, a histogram of the residuals, and a boxplot of the residuals (modeled after the residpanel option in proc mixed from SAS)
+
+Note that the `"R"` option can only be used with models fit using `lm` and `glm`.
+
+Here is an example requesting a panel with all plots available for a model fit using `lmer`.
+
+```{r fig.width = 7}
+resid_panel(penguin_model, plots = "all")
 ```
 
-To further assess the issues with this model, it may be helpful to look at plots of the residuals versus the predictor variables in the model. This can be done easily by applying the function `resid_xpanel` to the model. The code and resulting panel of plots is shown below.
+Here is an example requesting the plot of the response variable versus the predicted values. There is a clear curving pattern in the plot.
 
-The function creates a panel with a plot included for each predictor variable in the model. In this case, three plots are created for the variables of depth, duration, and bird. Pearson residuals are plotted on the y-axis for each of the plots. These plots show a clear decrease in variation of the residuals as the value of depth increases and the nonlinear relationship is related to the variable of duration. The plot of residuals versus bird shows no obvious trend and relatively constant variance across the penguins.
+```{r}
+resid_panel(penguin_model, plots = "yvp")
+```
+
+
+### Interactivity with `resid_interact`
+
+The static panel of plots does not allow one to easily identify an observation associated with a point of interest. The function `resid_interact` allows users to interact with the plots thanks to plotly. The code below creates a panel with a residual plot, a qq-plot, and a response versus predicted values plot with interactivity. All functions in the package include the option of `nrow` to specify the number of rows in the panel. In this case, `nrow` has been set to 2. When the cursor is hovered over a point, a tooltip appears with the x and y location of the point, the observed values from variables included in the model associated with the point, and the observation number. This function is meant to help users identify outliers and points of interest in the plot.
+
+```{r}
+resid_interact(penguin_model, plots = c("resid", "qq", "yvp"), nrow = 2)
+```
+
+### Incorporating Predictor Variables with `resid_xpanel`
+
+To further assess the issues with a model, it may be helpful to look at plots of the residuals versus the predictor variables. This can be done easily by applying the function `resid_xpanel` to the model. 
+
+The code below creates a panel with a plot included for each predictor variable in the `penguin_model`. That is, three plots are created for the variables of depth, duration, and bird. Pearson residuals are plotted on the y-axis for each of the plots. These plots show a clear decrease in variation of the residuals as the value of depth increases, and the nonlinear relationship appears to be related to the variable of duration. The plot of residuals versus bird shows no obvious trend and relatively constant variance across the penguins.
 
 ```{r}
 resid_xpanel(penguin_model)
@@ -170,7 +208,9 @@ The function `resid_xpanel` has the option to plot the response variable on the 
 resid_xpanel(penguin_model, yvar = "response")
 ```
 
-To deal with the violations of the model assumptions, three new models are fit. The first (`penguin_model_2`) adds a quadratic duration term, the second (`penguin_model_log`) uses a log transformation of the heart rate as the response, and the third model `penguin_model_log2` uses both a log transformation of the response and a quadratic term for duration.
+### Model Comparisons with `resid_compare`
+
+To deal with the violations of the model assumptions in the `penguin_model`, three new models are fit. The first (`penguin_model_2`) adds a quadratic duration term, the second (`penguin_model_log`) uses a log transformation of the heart rate as the response, and the third model `penguin_model_log2` uses both a log transformation of the response and a quadratic term for duration.
 
 ```{r}
 penguin_model_2 <- lmer(heartrate ~ depth + duration + I(duration^2) + (1|bird), 
@@ -181,39 +221,50 @@ penguin_model_log2 <- lmer(log(heartrate) ~ depth + duration + I(duration^2) + (
                        data = penguins)
 ```
 
-It would be nice to compare the residual plots side by side. The function `resid_compare` allows this. The first argument in `resid_compare` is a list of the models to compare. In the code below, the four models fit to the `penguin` data are included in the list. Additionally, it is of most interest to view the residual plot and qqplot to check if the linearity, constant variance, and normality assumptions are met. All functions in ggResidpanel include the option to specify which plots to include in the panel using the `plots` option. This is done in the code below by listing the names of the plots desired in a vector. (See the documentatation for the functions or the tutorial for names of the plots included in the package.) Some additional options have also been specified, which are available in other functions of the package as well. The option of `smoother = TRUE` add a smoother to the residual plots, and `qqbands = TRUE` adds a 95% confidence interval to the qqplot.
+The function `resid_compare` allows the residual plots from multiple models to be compared side by side. The first argument in `resid_compare` is a list of the models to compare. In the code below, the four models fit to the `penguin` data are included in the list, and the `resid`, `qq`, and `yvp` plots are selected to be included in the panel assess the linearity, constant variance, and normality assumptions. Some additional options have also been specified, which are available in other functions of the package as well. The option of `smoother = TRUE` add a smoother to the residual plots, and `qqbands = TRUE` adds a 95% confidence interval to the qq-plot. The resulting panel includes 8 plots where each column contains the plots associated with one of the models. The plots are ordered from left to right following the order the models were specified in the list. 
 
-The resulting panel includes 8 plots. The first row contains the residual plots for all four models. The plots are shown from left to right in the order in which the models are listed in the input to the function. The second row contains the qqplots for the models. The first column of plots are the ones seen earlier in the default `resid_panel` output from the initial model with a smoother added to the residual plot and confidence bands added to the q-q plot. The next colum of plots is for the model with a quadratic term added. The residual plot suggests that this improves the linearity issue, but the non-constant variance is still present. The q-q plot falls outside of the 95% confidence interval in the upper tail. The thid column contains the plots associated with the model with the log transformation of heart rate. This shows an improvement with the non-constant variance, but there is still an issues with linearity. Again, the q-q plot falls outside of the bands in the upper tail. The last column contains the plots for the model with a log transformation and a quadratic term. The residual plot looks great. The assumptions of linearity and constant variance both appear to be met, and the points all fall inside the confidence bands in the qqplot. The fourth model appears to meet all of the model assumptions based on these plots.
+These plots show that there is still a non-constant variance issue with the model with the quadratic term for duration and a linearity problem with the model with the log transformation. Both of these models also still show some skewness in the qq-plots. However, the model with both the log transformation and a quadratic term for duration appears to meet all of the assumptions. The `yvp` plot also shows a nice linear relationship between the response and predicted values.
 
-```{r fig.width = 7}
+```{r fig.width = 7, fig.height = 6}
 resid_compare(models = list(penguin_model, 
                             penguin_model_2, 
                             penguin_model_log, 
                             penguin_model_log2),
-              plots = c("resid", "qq"),
+              plots = c("resid", "qq", "yvp"),
               smoother = TRUE,
               qqbands = TRUE)
 ```
 
-```{r}
-resid_panel(penguin_model_log2, plots = "yvp")
-```
+### Additional Model Types with `resid_auxpanel`
+
+The function `resid_auxpanel` has been included in the package to allow for the creation of diagnostic plot panels with models that are not included in the package. For example, if there was a desire to try fitting a regression tree to the `penguins` data, it would not be possible to create residual plots with any of the ggResidpanel functions considered so far.
+
+A regression tree is fit to the `penguins` data below using the rpart package.
 
 ```{r}
 penguin_tree <- rpart::rpart(heartrate ~ depth + duration, data = penguins)
 ```
 
-```{r}
+A plot of the tree is shown below.
+
+```{r fig.height = 7}
 plot(penguin_tree)
 text(penguin_tree)
 ```
+
+We can extract the predicted values from the regression tree and use these to compute the residuals for the model.
 
 ```{r}
 penguin_tree_pred <- predict(penguin_tree)
 penguin_tree_resid <- penguins$heartrate - penguin_tree_pred
 ```
 
-```{r}
-resid_auxpanel(penguin_tree_resid, penguin_tree_pred, plots = c("resid", "index"))
-```
+The function `resid_auxpanel` accepts the residuals and predicted values as inputs and uses these to create diagnostic plots. Since some of the plots available in the package require additional information from a model (`cookd`, `lev`, and `ls`), they cannot be used with `resid_auxpanel` as previously mentioned. 
 
+The code below takes the residuals and predicted values from `penguin_tree` and creates a panel with a `resid` and `index` plot. The residual plot shows an increase in variance, and it may be of interest to adjust for this in some way with the model. The index plot does not show any concerns.
+
+```{r}
+resid_auxpanel(residuals = penguin_tree_resid, 
+               predicted = penguin_tree_pred, 
+               plots = c("resid", "index"))
+```
