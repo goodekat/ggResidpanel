@@ -29,8 +29,8 @@ Katie's Tasks:
 Katherine's Tasks:
 
 To Do
+- figure out how to adjust the size issue
 - adjust tutorial links in intro vignette and readme once tutorial is posted
-- add a resid versus y plot (either in resid_panel or resid_xpanel)
 
 Completed
 - Added penguin data to package
@@ -61,6 +61,7 @@ Ask Katie
 - Can you add the code for creating the sticker to the data-raw folder in the package?
 - What do we want to do about the tutorial? (Should I change the format or just post it on my webpage?)
 - Should we add tests to check warnings?
+- Should we add a resid versus y plot (either in resid_panel or resid_xpanel)?
 - Issues with rounding in the interactive penguin plots?
 - What do we want to do about this?
   - constant leverage plot breaks when there is a glm model with type = "response"
