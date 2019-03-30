@@ -1,7 +1,6 @@
 ---
 title: "Overview of Residuals"
-author: "Katherine Goode and Kathleen Rey"
-date: "`r format(Sys.time(), '%B %d, %Y')`"
+author: "ggResidpanel version `r packageVersion('ggResidpanel')`"
 output: rmarkdown::html_vignette
 vignette: >
   %\VignetteIndexEntry{Overview of Residuals}
