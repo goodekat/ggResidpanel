@@ -68,7 +68,7 @@ The third section contains details relating to the creation of the plots.
 The following options can be chosen for the \code{plots} argument.
 \itemize{
 \item "all": This creates a panel of all plot types included in the package
-that are available for the model type input into \code{residpanel}. (See note
+that are available for the model type input into \code{resid_panel}. (See note
 below.)
 \item "default": This creates a panel with a residual plot, a normal quantile plot
 of the residuals, an index plot of the residuals, and a histogram of the residuals.
@@ -79,7 +79,7 @@ is applied to an \code{lm} model. This option can only be used with an \code{lm}
 \code{glm} model.
 \item "SAS": This creates a panel with a residual plot, a normal quantile plot of
 the residuals, a histogram of the residuals, and a boxplot of the residuals.
-This was modeled after the residpanel option in proc mixed from SAS version 9.4.
+This was modeled after the residualpanel option in proc mixed from SAS version 9.4.
 \item A vector of individual plots can also be specified.
 For example, one can specify \code{plots = c("boxplot", "hist")} or
 \code{plots = "qq"}. The individual plot options are as follows.
