@@ -22,7 +22,7 @@ The `r` code used to obtain the raw residuals from a linear model is: `resid(mod
 
 ### Pearson
 
-In the case of a linear model, a Pearson residual is simple the raw residual scaled by estimate of the variance of the response variable: $\hat{\sigma}$. The formula is below:
+In the case of a linear model, a Pearson residual is the raw residual scaled by the estimate of the variance of the response variable: $\hat{\sigma}$. The formula is below:
 
 $\frac{y_i-\hat{y_i}}{\sqrt{\hat{\sigma}^2}}$
 
@@ -38,6 +38,8 @@ https://v8doc.sas.com/sashtml/insight/chap39/sect56.htm
 $\frac{y_i-\hat{y_i}}{\sqrt{\sigma^2(1-h_{ii})}}$ where $h_{ii}$ is the diagonal from the matrix $X(X'X)^{-1}X'$
 
 This is what 'stdres(model)' reports for a linear model.
+
+https://v8doc.sas.com/sashtml/insight/chap39/sect54.htm
 
 # Linear Model
 
