@@ -29,6 +29,7 @@ test_that("formatting options", {
 
 })
 
+#devtools::test("test-resid_interact")
 test_that("panel options", {
 
   # model
