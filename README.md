@@ -28,7 +28,7 @@ Learn More
 Here are some resources for learning how to use ggResidpanel:
 
 -   [Introduction Vignette](https://goodekat.github.io/ggResidpanel/articles/introduction.html)
--   [Tutorial and User Manual](https://github.com/goodekat/ggResidpanel-tutorial/tutorial.html)
+-   [Tutorial and User Manual](https://goodekat.github.io/ggResidpanel-tutorial/tutorial.html)
 
 Overview and Examples
 ---------------------
