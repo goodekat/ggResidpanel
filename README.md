@@ -1,6 +1,6 @@
 
-ggResidpanel <img align="right" width="120" height="135" src="./man/figures/logo.png">
-======================================================================================
+ggResidpanel <img align="right" width="120" height="135" src="./figures/logo.png">
+==================================================================================
 
 ggResidpanel is an R package for creating panels of diagnostic plots for a model using ggplot2 and interactive versions of the plots using plotly.
 
@@ -22,6 +22,14 @@ Load the ggResidpanel library.
 library(ggResidpanel)
 ```
 
+Learn More
+----------
+
+Here are some resources for learning how to use ggResidpanel:
+
+-   [Introduction Vignette](https://goodekat.github.io/ggResidpanel/articles/introduction.html)
+-   [Tutorial and User Manual](https://github.com/goodekat/ggResidpanel-tutorial/tutorial.html)
+
 Overview and Examples
 ---------------------
 
@@ -33,95 +41,113 @@ The package provides five functions that allow the user to assess diagnostic plo
 -   `resid_compare`: Creates a panel of diagnostic plots from multiple models
 -   `resid_auxpanel`: Creates a panel of diagnostic plots for model types not included in the package
 
-Currently, ggResidpanel allows the first four functions listed above to work with models fit using the functions of `lm`, `glm`, `lme` (from nlme), and `lmer` or `glmer` (from lme4 or fit using lmerTest). Each of these functions is applied below to show the panel that is output from the function. The functions have multiple input options such as the formatting options of `scale`, `theme`, `axis.text.size`, `title.text.size`, and `title.opt`. See the documentation or vignettes for more details about how to use the functions.
+Currently, ggResidpanel allows the first four functions listed above to work with models fit using the functions of `lm`, `glm`, `lme` (from nlme), and `lmer` or `glmer` (from lme4 or fit using lmerTest). Each of these functions is applied below to show the panel that is output from the function. The functions have multiple input options such as the formatting options of `scale`, `theme`, `axis.text.size`, `title.text.size`, and `title.opt`.
+
+The `penguins` data used in the examples below is included in ggResidpanel.
+
+``` r
+str(penguins)
+```
+
+    ## 'data.frame':    125 obs. of  4 variables:
+    ##  $ heartrate: num  88.8 103.4 97.4 85.3 60.6 ...
+    ##  $ depth    : num  5 9 22 25.5 30.5 32.5 38 32 6 10.5 ...
+    ##  $ duration : num  1.05 1.18 1.92 3.47 7.08 ...
+    ##  $ bird     : Factor w/ 9 levels "1","2","3","4",..: 1 1 1 1 1 1 1 1 1 1 ...
 
 #### `resid_panel`
 
-This function creates a panel of residual diagnostic plots given a model of type "lm", "glm", "lmerMod", "lmerModLmerTest", and "glmerMod". It allows the user to select a panel of plots from the options in the package or create their own panel by selecting from the plots available for this function.
+This function creates a panel of residual diagnostic plots given a model. It allows the user to select a panel of plots from the options in the package or create their own panel by selecting from the plots available for this function.
 
 ``` r
-# Fit a linear model
-lm_model <- lm(Volume ~ Girth + Height, data = trees)
+# Fit a model
+penguin_model <- lme4::lmer(heartrate ~ depth + duration + (1|bird), data = penguins)
 
 # Create the default panel of plots
-resid_panel(lm_model, bins = 20)
+resid_panel(penguin_model)
 ```
 
-![](README_files/figure-markdown_github/unnamed-chunk-3-1.png)
+![](README_files/figure-markdown_github/unnamed-chunk-4-1.png)
 
 ``` r
-# Create the R panel of plots and change the theme to classic
-resid_panel(lm_model, bins = 20, plots = "R", theme = "classic")
+# Create a pancel with residual, qq, and yvp plots, add 95% confidence interval 
+# bands to the qq-plot, and change the theme to classic
+resid_panel(penguin_model, plots = c("resid", "qq", "yvp"), 
+            qqbands = TRUE, theme = "classic")
 ```
 
-![](README_files/figure-markdown_github/unnamed-chunk-3-2.png)
+![](README_files/figure-markdown_github/unnamed-chunk-4-2.png)
 
 ``` r
-# Create a panel with all plots available
-resid_panel(lm_model, plots = "all", bins = 20)
+# Create a panel with all plots available for a model fit using lmer
+resid_panel(penguin_model, plots = "all")
 ```
 
-![](README_files/figure-markdown_github/unnamed-chunk-3-3.png)
+![](README_files/figure-markdown_github/unnamed-chunk-4-3.png)
 
 #### `resid_interact`
 
-This function creates interactive versions of residual diagnostic plot panels given a model. It accepts models of type "lm", "glm", "lmerMod", "lmerModLmerTest", and "glmerMod". Similar to `resid_panel`, it allows the user to select a panel of plots from the options in the package or to create their own panel by selecting from the plots available for this function.
+This function creates interactive versions of residual diagnostic plot panels given a model. Similar to `resid_panel`, it allows the user to select a panel of plots from the options in the package or to create their own panel by selecting from the plots available for this function.
 
 ``` r
 # Create an interactive panel of the default diagnostic plots
-resid_interact(lm_model)
+resid_interact(penguin_model)
 ```
 
-![](./man/figures/interact.gif)
+![](./figures/interact.gif)
 
 #### `resid_xpanel`
 
-This function creates a panel of plots of the residuals or response variable versus the predictor (x) variables in the model. It accepts models of type "lm", "glm", "lmerMod", "lmerModLmerTest", and "glmerMod".
+This function creates a panel of plots of the residuals or response variable versus the predictor (x) variables in the model.
 
 ``` r
 # Create a panel of plots of the residuals versus the predictor variables
-resid_xpanel(lm_model)
-```
-
-![](README_files/figure-markdown_github/unnamed-chunk-5-1.png)
-
-``` r
-# Create a panel of plots of the response variable versus the predictor variables
-resid_xpanel(lm_model, yvar = "response")
-```
-
-![](README_files/figure-markdown_github/unnamed-chunk-5-2.png)
-
-#### `resid_compare`
-
-This function creates a panel of residual diagnostic plots given a list of models. This allows the user to compare the diagnostic plots from multiple models. It currently accepts models of type "lm", "glm", "lmerMod", "lmerModLmerTest", and "glmerMod".
-
-``` r
-# Fit the model with a log transformation on the response variable
-lm_model_log <- lm(log(Volume) ~ Girth + Height, data = trees)
-
-# Plot the residual and normal quantile plots for the two models
-resid_compare(list(lm_model, lm_model_log), plots = c("resid", "qq"))
+resid_xpanel(penguin_model)
 ```
 
 ![](README_files/figure-markdown_github/unnamed-chunk-6-1.png)
+
+``` r
+# Create a panel of plots of the response variable versus the predictor variables
+resid_xpanel(penguin_model, yvar = "response")
+```
+
+![](README_files/figure-markdown_github/unnamed-chunk-6-2.png)
+
+#### `resid_compare`
+
+This function creates a panel of residual diagnostic plots given a list of models. This allows the user to compare the diagnostic plots from multiple models.
+
+``` r
+# Fit the model with a log transformation of the response variable and a 
+# quadratic term for duration
+penguin_model_log2 <- lme4::lmer(log(heartrate) ~ depth + duration + I(duration^2) + (1|bird), 
+                                 data = penguins)
+
+# Plot the residual and normal quantile plots for the two models
+resid_compare(list(penguin_model, penguin_model_log2), plots = c("resid", "qq"))
+```
+
+![](README_files/figure-markdown_github/unnamed-chunk-7-1.png)
 
 #### `resid_auxpanel`
 
 This function creates a panel of residual diagnostic plots given inputs of residuals and fitted values to use for models not accepted by `resid_panel`. Users can select from panel options in the package or create their own panel from the plots available for this function.
 
 ``` r
-# Fit a random forest model to the mtcars data to predict the mpg
-rf_model <- randomForest::randomForest(x = mtcars[,2:11], y = mtcars[,1])
+# Fit a regression tree to the penguins data
+penguin_tree <- rpart::rpart(heartrate ~ depth + duration, data = penguins)
 
 # Obtain the predictions from the model on the observed data
-rf_pred <- predict(rf_model, mtcars[,2:11])
+penguin_tree_pred <- predict(penguin_tree)
 
 # Obtain the residuals from the model
-rf_resid <- mtcars[,1] - rf_pred
+penguin_tree_resid <- penguins$heartrate - penguin_tree_pred
 
 # Create a panel with the residual and index plot
-resid_auxpanel(rf_resid, rf_pred, plots = c("resid", "index"))
+resid_auxpanel(residuals = penguin_tree_resid, 
+               predicted = penguin_tree_pred, 
+               plots = c("resid", "index"))
 ```
 
-![](README_files/figure-markdown_github/unnamed-chunk-7-1.png)
+![](README_files/figure-markdown_github/unnamed-chunk-8-1.png)

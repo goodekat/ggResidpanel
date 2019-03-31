@@ -81,15 +81,17 @@ The following grid options can be chosen for the \code{plots}
 }
 \examples{
 
-# Fit a random forest model to the penguins data
-rf_model <- randomForest::randomForest(x = penguins[,2:3], y = penguins[,1])
+# Fit a regression tree to the penguins data
+penguin_tree <- rpart::rpart(heartrate ~ depth + duration, data = penguins)
 
 # Obtain the predictions from the model on the observed data
-rf_pred <- predict(rf_model, penguins[,2:3])
+penguin_tree_pred <- predict(penguin_tree)
 
 # Obtain the residuals from the model
-rf_resid <- penguins[,1] - rf_pred
+penguin_tree_resid <- penguins$heartrate - penguin_tree_pred
 
 # Create a panel with the residual and index plot
-resid_auxpanel(rf_resid, rf_pred, plots = c("resid", "index"), theme = "classic")
+resid_auxpanel(residuals = penguin_tree_resid,
+             predicted = penguin_tree_pred,
+             plots = c("resid", "index", "yvp"))
 }

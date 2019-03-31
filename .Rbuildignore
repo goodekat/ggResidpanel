@@ -2,6 +2,7 @@
 ^\.Rproj\.user$
 ^data-raw$
 ^docs$
+^figures$
 ^Ideas for Future Work$
 ^tests/katie_tests.R$
 ^NEWS.md$

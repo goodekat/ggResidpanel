@@ -229,17 +229,19 @@ Specify TRUE or FALSE. Default is set to TRUE.</p></td>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'>
-<span class='co'># Fit a random forest model to the penguins data</span>
-<span class='no'>rf_model</span> <span class='kw'>&lt;-</span> <span class='kw pkg'>randomForest</span><span class='kw ns'>::</span><span class='fu'><a href='https://www.rdocumentation.org/packages/randomForest/topics/randomForest'>randomForest</a></span>(<span class='kw'>x</span> <span class='kw'>=</span> <span class='no'>penguins</span>[,<span class='fl'>2</span>:<span class='fl'>3</span>], <span class='kw'>y</span> <span class='kw'>=</span> <span class='no'>penguins</span>[,<span class='fl'>1</span>])
+<span class='co'># Fit a regression tree to the penguins data</span>
+<span class='no'>penguin_tree</span> <span class='kw'>&lt;-</span> <span class='kw pkg'>rpart</span><span class='kw ns'>::</span><span class='fu'><a href='https://www.rdocumentation.org/packages/rpart/topics/rpart'>rpart</a></span>(<span class='no'>heartrate</span> ~ <span class='no'>depth</span> + <span class='no'>duration</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>penguins</span>)
 
 <span class='co'># Obtain the predictions from the model on the observed data</span>
-<span class='no'>rf_pred</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/stats/topics/predict'>predict</a></span>(<span class='no'>rf_model</span>, <span class='no'>penguins</span>[,<span class='fl'>2</span>:<span class='fl'>3</span>])
+<span class='no'>penguin_tree_pred</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/stats/topics/predict'>predict</a></span>(<span class='no'>penguin_tree</span>)
 
 <span class='co'># Obtain the residuals from the model</span>
-<span class='no'>rf_resid</span> <span class='kw'>&lt;-</span> <span class='no'>penguins</span>[,<span class='fl'>1</span>] - <span class='no'>rf_pred</span>
+<span class='no'>penguin_tree_resid</span> <span class='kw'>&lt;-</span> <span class='no'>penguins</span>$<span class='no'>heartrate</span> - <span class='no'>penguin_tree_pred</span>
 
 <span class='co'># Create a panel with the residual and index plot</span>
-<span class='fu'>resid_auxpanel</span>(<span class='no'>rf_resid</span>, <span class='no'>rf_pred</span>, <span class='kw'>plots</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='st'>"resid"</span>, <span class='st'>"index"</span>), <span class='kw'>theme</span> <span class='kw'>=</span> <span class='st'>"classic"</span>)</div><div class='img'><img src='resid_auxpanel-1.png' alt='' width='700' height='433' /></div></pre>
+<span class='fu'>resid_auxpanel</span>(<span class='kw'>residuals</span> <span class='kw'>=</span> <span class='no'>penguin_tree_resid</span>,
+             <span class='kw'>predicted</span> <span class='kw'>=</span> <span class='no'>penguin_tree_pred</span>,
+             <span class='kw'>plots</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='st'>"resid"</span>, <span class='st'>"index"</span>, <span class='st'>"yvp"</span>))</div><div class='img'><img src='resid_auxpanel-1.png' alt='' width='700' height='433' /></div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>

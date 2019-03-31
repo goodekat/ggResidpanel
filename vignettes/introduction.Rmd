@@ -221,7 +221,7 @@ penguin_model_log2 <- lmer(log(heartrate) ~ depth + duration + I(duration^2) + (
                        data = penguins)
 ```
 
-The function `resid_compare` allows the residual plots from multiple models to be compared side by side. The first argument in `resid_compare` is a list of the models to compare. In the code below, the four models fit to the `penguin` data are included in the list, and the `resid`, `qq`, and `yvp` plots are selected to be included in the panel assess the linearity, constant variance, and normality assumptions. Some additional options have also been specified, which are available in other functions of the package as well. The option of `smoother = TRUE` add a smoother to the residual plots, and `qqbands = TRUE` adds a 95% confidence interval to the qq-plot. The resulting panel includes 8 plots where each column contains the plots associated with one of the models. The plots are ordered from left to right following the order the models were specified in the list. 
+The function `resid_compare` allows the residual plots from multiple models to be compared side by side. The first argument in `resid_compare` is a list of the models to compare. In the code below, the four models fit to the `penguin` data are included in the list, and the `resid`, `qq`, and `yvp` plots are selected to be included in the panel assess the linearity, constant variance, and normality assumptions. Some additional options have also been specified, which are available in other functions of the package as well. The option of `smoother = TRUE` add a smoother to the residual plots, and `qqbands = TRUE` adds a 95% confidence interval to the qq-plot. The option of `title.opt = FALSE` removes the titles from the plots. The resulting panel includes 8 plots where each column contains the plots associated with one of the models. The plots are ordered from left to right following the order the models were specified in the list. 
 
 These plots show that there is still a non-constant variance issue with the model with the quadratic term for duration and a linearity problem with the model with the log transformation. Both of these models also still show some skewness in the qq-plots. However, the model with both the log transformation and a quadratic term for duration appears to meet all of the assumptions. The `yvp` plot also shows a nice linear relationship between the response and predicted values.
 
@@ -232,7 +232,8 @@ resid_compare(models = list(penguin_model,
                             penguin_model_log2),
               plots = c("resid", "qq", "yvp"),
               smoother = TRUE,
-              qqbands = TRUE)
+              qqbands = TRUE,
+              title.opt = FALSE)
 ```
 
 ### Additional Model Types with `resid_auxpanel`

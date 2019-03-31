@@ -77,9 +77,8 @@
   <div class="col-md-9 contents">
     <div class="page-header toc-ignore">
       <h1>Overview of Residuals</h1>
-                        <h4 class="author">Katherine Goode and Kathleen Rey</h4>
+                        <h4 class="author">ggResidpanel version 0.2.0.9000</h4>
             
-            <h4 class="date">March 27, 2019</h4>
       
       
       <div class="hidden name"><code>residuals.Rmd</code></div>
@@ -102,7 +101,7 @@
 <div id="pearson" class="section level3">
 <h3 class="hasAnchor">
 <a href="#pearson" class="anchor"></a>Pearson</h3>
-<p>In the case of a linear model, a Pearson residual is simple the raw residual scaled by estimate of the variance of the response variable: <span class="math inline">\(\hat{\sigma}\)</span>. The formula is below:</p>
+<p>In the case of a linear model, a Pearson residual is the raw residual scaled by the estimate of the variance of the response variable: <span class="math inline">\(\hat{\sigma}\)</span>. The formula is below:</p>
 <p><span class="math inline">\(\frac{y_i-\hat{y_i}}{\sqrt{\hat{\sigma}^2}}\)</span></p>
 <p>Selecting the “pearson” option in the <code>resid</code> function does not actually return this result. Thus, the following code is implemented in order to retrieve the Pearson residuals: <code>resid(model, type = "response") / summary(model)$sigma</code></p>
 <p><a href="http://support.sas.com/documentation/cdl/en/statug/68162/HTML/default/viewer.htm#statug_intromod_sect046.htm" class="uri">http://support.sas.com/documentation/cdl/en/statug/68162/HTML/default/viewer.htm#statug_intromod_sect046.htm</a></p>
@@ -113,6 +112,7 @@
 <a href="#standardized" class="anchor"></a>Standardized</h3>
 <p><span class="math inline">\(\frac{y_i-\hat{y_i}}{\sqrt{\sigma^2(1-h_{ii})}}\)</span> where <span class="math inline">\(h_{ii}\)</span> is the diagonal from the matrix <span class="math inline">\(X(X'X)^{-1}X'\)</span></p>
 <p>This is what ‘stdres(model)’ reports for a linear model.</p>
+<p><a href="https://v8doc.sas.com/sashtml/insight/chap39/sect54.htm" class="uri">https://v8doc.sas.com/sashtml/insight/chap39/sect54.htm</a></p>
 </div>
 </div>
 <div id="linear-model" class="section level1">
