@@ -19,7 +19,7 @@ library(dplyr)
 library(ggplot2)
 ```
 
-ggResidpanel was developed with the intention of providing an easier way to both create and view diagnostic plots for models in R. The graphics are created using ggplot2, and interactive versions of the plots are rendered using plotly. This vignette provides a brief introduction to ggResidpanel with information on how to install the package, a description of the functions included in the package, and examples. To learn more about ggResidpanel, read through the [ggResidpanel Tutorial and User Manual](), which contains the details for all of the functions in the package and demonstrates how to use them.
+ggResidpanel was developed with the intention of providing an easier way to both create and view diagnostic plots for models in R. The graphics are created using ggplot2, and interactive versions of the plots are rendered using plotly. This vignette provides a brief introduction to ggResidpanel with information on how to install the package, a description of the functions included in the package, and examples. To learn more about ggResidpanel, read through the [ggResidpanel Tutorial and User Manual](https://goodekat.github.io/ggResidpanel-tutorial/tutorial.html), which contains the details for all of the functions in the package and demonstrates how to use them.
 
 ## Installation
 

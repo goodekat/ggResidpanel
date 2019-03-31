@@ -13,7 +13,7 @@ plot_ls <- function(model, type, smoother, theme, axis.text.size, title.text.siz
                                                                    model = model))),
                                Prediction = fitted(model))
   } else if (class(model)[1] == "glm"){
-    if(is.na(type) | type == "deviance" | type == "stand.deviance"){
+    if(is.na(type) | type == "response" | type == "deviance" | type == "stand.deviance"){
       model_values <- data.frame(Sqrt_Std_Res = sqrt(abs(helper_resid(type = "stand.deviance",
                                                                      model = model))),
                                  Prediction = fitted(model))
@@ -49,7 +49,7 @@ plot_ls <- function(model, type, smoother, theme, axis.text.size, title.text.siz
   } else if (class(model)[1] == "glm"){
 
     # Location-scale plot for glm model with deviance residuals
-    if(is.na(type) | type == "deviance" | type == "stand.deviance"){
+    if(is.na(type) | type == "response" | type == "deviance" | type == "stand.deviance"){
       plot <- ggplot(data = model_values,
                      mapping = aes_string(x = "Prediction", y = "Sqrt_Std_Res", label = "Data")) +
         geom_point() +

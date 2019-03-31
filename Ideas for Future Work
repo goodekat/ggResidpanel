@@ -32,10 +32,8 @@ Katie's Tasks:
 Katherine's Tasks:
 
 To Do
-- fix response residual issue with lev, constant lev, and ls plots
 - figure out how to adjust the size issue
 - adjust tutorial links in intro vignette and readme once tutorial is posted
-- move tutorial to new repo
 
 Ideas for Future Package Versions:
 - cleaning board game data and coach salary data to use for paper (and vignettes?)

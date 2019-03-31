@@ -46,7 +46,7 @@ plot_lev <- function(model, type, smoother, theme, axis.text.size, title.text.si
         model_values$Std_Res = helper_resid(model, type = "standardized")
       }
     } else if (class(model)[1] == "glm"){
-      if(is.na(type) | type == "deviance" | type == "stand.deviance"){
+      if(is.na(type) | type == "response" | type == "deviance" | type == "stand.deviance"){
         if (one_lev){
           model_values$Std_Res = suppressWarnings(helper_resid(model, type = "stand.deviance"))
         } else {
@@ -92,7 +92,7 @@ plot_lev <- function(model, type, smoother, theme, axis.text.size, title.text.si
     if(class(model)[1] == "lm"){
       r_label <- helper_label(type = "standardized", model)
     } else if (class(model)[1] == "glm"){
-      if(is.na(type) | type == "deviance" | type == "stand.deviance"){
+      if(is.na(type) | type == "response" | type == "deviance" | type == "stand.deviance"){
         r_label <- helper_label(type = "stand.deviance", model)
       } else if (type == "pearson" | type == "stand.pearson"){
         r_label <- helper_label(type = "stand.pearson", model)

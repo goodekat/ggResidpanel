@@ -1,6 +1,6 @@
 
-ggResidpanel <img align="right" width="120" height="135" src="./vignettes/figures/logo.png">
-============================================================================================
+ggResidpanel <img align="right" width="120" height="135" src="./man/figures/logo.png">
+======================================================================================
 
 ggResidpanel is an R package for creating panels of diagnostic plots for a model using ggplot2 and interactive versions of the plots using plotly.
 
@@ -72,7 +72,7 @@ This function creates interactive versions of residual diagnostic plot panels gi
 resid_interact(lm_model)
 ```
 
-![](./vignettes/figures/interact.gif)
+![](./man/figures/interact.gif)
 
 #### `resid_xpanel`
 
