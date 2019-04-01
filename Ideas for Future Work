@@ -3,7 +3,6 @@ Future Work
 ---------------
 
 Katie's Tasks:
-- DATA!!!!!
 - try to figure out why plotly graphs showing up horizontally (still an issue?)
 - Work on residual vignette (IN PROGRESS)
   - include a link to the residual document in the documentation
@@ -12,13 +11,16 @@ Katie's Tasks:
   - neuralnet (from neuralnet): contains 'response', 'covariates' and 'data' (class is nn)
   - nnet (from nnet): contains 'residuals' and 'fitted.values' (class is nnet)
   - svm (from e1071): contains 'fitted' and 'residuals' (class is svm)
-- test file
+- test file using testthat
   - add lmertest to test functionality on lmer objects
   - add lme examples to tests
   - NOTE:USING THE WORD plot instead of plots
   - NOTE: if plotting a panel of four plots, nrow DOES NOT USE THIRD ROW when nrow = 3
-- histogram density interactive issue - try?: style(ggplotly(p), hoverinfo = "skip", traces = 2)
-      - style not working for this: did work for cooks d plot
+- proof read tutorial and ggresidpanel vignette
+- check for density curve fit to histogram reference
+- shorten title of constant leverage plot
+- add code used to create sticker under data raw
+- round all values shown in interactive plots
 
 - Completed:
   - fix resid_interact for binomial case to be more general (Double check names with Katherine)
