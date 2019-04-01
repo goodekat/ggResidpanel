@@ -19,17 +19,14 @@ Katie's Tasks:
 - proof read tutorial and ggresidpanel vignette
 - check for density curve fit to histogram reference
 - shorten title of constant leverage plot
-- add code used to create sticker under data raw
 - round all values shown in interactive plots
 
 - Completed:
+  - add code used to create sticker under data raw (code currently not working)
+
   - fix resid_interact for binomial case to be more general (Double check names with Katherine)
-  - residual plot is still using the lowess curve (switched to "loess" using geom_smooth)
-  - plot_ls: trying to suppress "pseudoinverse" warning (Katherine figured this out)
   - make smoother tooltips consistent (Do we want observation added for smoother?)
-  - Cook's D plot includes tooltips at the y=0 location
-  - change order residuals vs leverage interactive plot does the x,y positions last instead of first
-  - switch the order of the plots in resid_compare
+
 
 
 Katherine's Tasks:
