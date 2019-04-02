@@ -12,8 +12,8 @@ Katie's Tasks:
   - nnet (from nnet): contains 'residuals' and 'fitted.values' (class is nnet)
   - svm (from e1071): contains 'fitted' and 'residuals' (class is svm)
 - test file using testthat
-  - add lmertest to test functionality on lmer objects
-  - add lme examples to tests
+  - how to add lmertest to testthat, but still test lmer as well ???
+  - Added in section for warnings and errors, tested all formatting options with 2 plots
   - NOTE:USING THE WORD plot instead of plots
   - NOTE: if plotting a panel of four plots, nrow DOES NOT USE THIRD ROW when nrow = 3
 - proof read tutorial and ggresidpanel vignette
