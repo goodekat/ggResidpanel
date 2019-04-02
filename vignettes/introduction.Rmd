@@ -179,10 +179,9 @@ resid_panel(penguin_model, plots = "all")
 
 Here is an example requesting the plot of the response variable versus the predicted values. There is a clear curving pattern in the plot.
 
-```{r}
+```{r fig.height = 3, fig.width = 4}
 resid_panel(penguin_model, plots = "yvp")
 ```
-
 
 ### Interactivity with `resid_interact`
 
@@ -246,13 +245,6 @@ A regression tree is fit to the `penguins` data below using the rpart package.
 penguin_tree <- rpart::rpart(heartrate ~ depth + duration, data = penguins)
 ```
 
-A plot of the tree is shown below.
-
-```{r fig.height = 7}
-plot(penguin_tree)
-text(penguin_tree)
-```
-
 We can extract the predicted values from the regression tree and use these to compute the residuals for the model.
 
 ```{r}
@@ -264,7 +256,7 @@ The function `resid_auxpanel` accepts the residuals and predicted values as inpu
 
 The code below takes the residuals and predicted values from `penguin_tree` and creates a panel with a `resid` and `index` plot. The residual plot shows an increase in variance, and it may be of interest to adjust for this in some way with the model. The index plot does not show any concerns.
 
-```{r}
+```{r fig.height = 3, fig.width = 6.5}
 resid_auxpanel(residuals = penguin_tree_resid, 
                predicted = penguin_tree_pred, 
                plots = c("resid", "index"))

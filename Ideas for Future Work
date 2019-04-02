@@ -27,20 +27,20 @@ Katie's Tasks:
   - fix resid_interact for binomial case to be more general (Double check names with Katherine)
   - make smoother tooltips consistent (Do we want observation added for smoother?)
 
+Katherine's Tasks
+- current:
 
-
-Katherine's Tasks:
-- figure out how to adjust the size issue
+- later:
+  - cleaning board game data and coach salary data to use for paper
+    (and vignettes?)
+  - add in links in vignettes to the residual vignette (when finished)
+  - contact Jessica Meir to ask for citation of penguin data
+  - figure out how to use the "safely" and "quietly" functions to only show     desired warnings and suppress the error:
+    grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y,  :
+      polygon edge not found
 
 
 Ideas for Future Package Versions:
-- cleaning board game data and coach salary data to use for paper (and vignettes?)
-- add in links in vignettes to the residual vignette (when finished)
-- contact Jessica Meir to ask for citation of penguin data
-- figure out how to use the "safely" and "quietly" functions to only show desired
-  warnings and suppress the error:
-    grid.Call(C_textBounds, as.graphicsAnnot(x$label), x$x, x$y,  :
-      polygon edge not found (Katherine)
 - write a function for computing standardized residuals for lmer and glmer (Katie)
 - look into testthat and vistest packages for testing
 - create an option for the user to add their own theme
