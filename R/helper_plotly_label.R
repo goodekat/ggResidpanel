@@ -17,12 +17,15 @@ if(class(model)[1]%in%c("lm", "glm")){
   #Get names of variables
   names_data <- names(model$model)
   #Get data used in model from model
-  plotly_data <- data.frame(as.matrix(model$model))
+  #plotly_data <- data.frame(as.matrix(model$model))
+
+  plotly_data <- model$model
 
   #If binomial, the response variables are two columns
   if(class(model)[1]=="glm"){
     if(model$family[[1]]=="binomial"){
-
+      plotly_data <- plotly_data[,-1]
+      plotly_data_Y <- data.frame(as.matrix(model$model))[,1:2]
       ### OLD METHOD##################### Changed 1/27/19
 
       # #The next set of code extracts the column names from the
@@ -62,8 +65,10 @@ if(class(model)[1]%in%c("lm", "glm")){
       #   names(plotly_data)[2] <- gsub(" ", "",str_sub(names_data[1], {firstc+1}, {lastp-1}))
       # }
 
-      names(plotly_data)[1] <- "Success"
-      names(plotly_data)[2] <- "Total"
+      names(plotly_data_Y)[1] <- "Success"
+      names(plotly_data_Y)[2] <- "Total"
+
+      plotly_data <- cbind(plotly_data_Y, plotly_data)
       plotly_data$Success <- as.numeric(as.character(plotly_data$Success))
       plotly_data$Total <- as.numeric(as.character(plotly_data$Total))
 
@@ -90,6 +95,12 @@ if(class(model)[1]%in%c("lm", "glm")){
   names_data<- names(plotly_data)
   #Concatonate variable name to data
   for(i in 1:ncol(plotly_data)){
+    # Check if contains a decimal (i.e. may need to be rounded)
+    if(sum(grepl(".", as.character(plotly_data[,i]))) > 0){
+      if(is.numeric(plotly_data[,i])){
+        plotly_data[,i] <- round(plotly_data[,i], 2)
+      }
+    }
     plotly_data[,i] <- paste(names_data[i],": " ,plotly_data[,i],sep="")
   }
 
@@ -104,6 +115,13 @@ if(class(model)[1]%in%c("lm", "glm")){
   #of the information
   Data <- plotly_data[,1]
   for(i in 2:ncol(plotly_data)){
+    # Check if contains a decimal (i.e. may need to be rounded)
+    if(sum(grepl(".", as.character(plotly_data[,i]))) > 0){
+      if(is.numeric(plotly_data[,i])){
+        plotly_data[,i] <- round(plotly_data[,i], 2)
+      }
+    }
+
     Data <- paste(Data, "\n", plotly_data[,{i}])
   }
   Data <- paste(Data)
@@ -111,12 +129,15 @@ if(class(model)[1]%in%c("lm", "glm")){
 
 } else if (class(model)[1]%in%c("lmerMod", "lmerModLmerTest", "glmerMod")) {
   names_data <- names(model@frame)
-  plotly_data <- data.frame(as.matrix(model@frame))
 
+  # need to create data set this way to maintain types of input variables (factor, numeric, etc)
+  plotly_data <- model@frame
   #If binomial, the response variables are two columsn
   if(class(model)[1]=="glmerMod"){
     if(model@resp$family[[1]]=="binomial"){
-
+      # Remove first column
+      plotly_data <- plotly_data[,-1]
+      plotly_data_Y <- data.frame(as.matrix(model@frame))[,1:2]
       #### OLD VERSION ##################### Changed 1/27/2019
 
       # #Find first parentheses
@@ -146,8 +167,11 @@ if(class(model)[1]%in%c("lm", "glm")){
       #   names(plotly_data)[2] <- gsub(" ", "",str_sub(names_data[1], {firstc+1}, {lastp-1}))
       # }
 
-      names(plotly_data)[1] <- "Success"
-      names(plotly_data)[2] <- "Total"
+      names(plotly_data_Y)[1] <- "Success"
+      names(plotly_data_Y)[2] <- "Total"
+      plotly_data <- cbind(plotly_data_Y, plotly_data)
+
+      # Convert to numeric
       plotly_data$Success <- as.numeric(as.character(plotly_data$Success))
       plotly_data$Total <- as.numeric(as.character(plotly_data$Total))
 
@@ -155,8 +179,17 @@ if(class(model)[1]%in%c("lm", "glm")){
 
     }
   }
+
   plotly_data$Obs <- 1:nrow(plotly_data)
 
+  for(i in 1:ncol(plotly_data)){
+    # Check if contains a decimal (i.e. may need to be rounded)
+    if(sum(grepl(".", as.character(plotly_data[,i]))) > 0){
+      if(is.numeric(plotly_data[,i])){
+        plotly_data[,i] <- round(plotly_data[,i], 2)
+      }
+    }
+  }
   plotly_data[] <- lapply(plotly_data, as.character)
   #NO LONGER NEED THIS BECAUSE DISPLAYING VERTICALLY
   #Trim variables that are numeric and contain a decimal
@@ -176,6 +209,7 @@ if(class(model)[1]%in%c("lm", "glm")){
 
   #Add name to rows
   for(i in 1:ncol(plotly_data)){
+
     plotly_data[,i] <- paste(names_data[i],": " ,plotly_data[,i], sep="")
   }
 
@@ -187,6 +221,13 @@ if(class(model)[1]%in%c("lm", "glm")){
 
   Data <- plotly_data[,1]
   for(i in 2:ncol(plotly_data)){
+    # Check if contains a decimal (i.e. may need to be rounded)
+    if(sum(grepl(".", as.character(plotly_data[,i]))) > 0){
+      if(is.numeric(plotly_data[,i])){
+        plotly_data[,i] <- round(plotly_data[,i], 2)
+      }
+    }
+
     Data <- paste(Data, "\n", plotly_data[,{i}])
   }
   Data <- paste(Data, "\n")
@@ -194,12 +235,22 @@ if(class(model)[1]%in%c("lm", "glm")){
 
 } else if (class(model)[1] == "lme") {
   names_data <- names(model$data)
-  plotly_data <- data.frame(as.matrix(model$data))
+
+  plotly_data <- model$data
+
+  # Add name to rows
+  for(i in 1:ncol(plotly_data)){
+    # Check if contains a decimal (i.e. may need to be rounded)
+    if(sum(grepl(".", as.character(plotly_data[,i]))) > 0){
+      if(is.numeric(plotly_data[,i])){
+        plotly_data[,i] <- round(plotly_data[,i], 2)
+      }
+    }
+  }
   plotly_data$Obs <- 1:nrow(plotly_data)
   plotly_data[] <- lapply(plotly_data, as.character)
   names_data <- names(plotly_data)
 
-  # Add name to rows
   for(i in 1:ncol(plotly_data)){
     plotly_data[,i] <- paste(names_data[i],": " ,plotly_data[,i], sep="")
   }
@@ -211,6 +262,13 @@ if(class(model)[1]%in%c("lm", "glm")){
 
   Data <- plotly_data[,1]
   for(i in 2:ncol(plotly_data)){
+    # Check if contains a decimal (i.e. may need to be rounded)
+    if(sum(grepl(".", as.character(plotly_data[,i]))) > 0){
+      if(is.numeric(plotly_data[,i])){
+        plotly_data[,i] <- round(plotly_data[,i], 2)
+      }
+    }
+
     Data <- paste(Data, "\n", plotly_data[,{i}])
   }
   Data <- paste(Data, "\n")
