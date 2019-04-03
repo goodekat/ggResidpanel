@@ -22,6 +22,8 @@ Katie's Tasks:
 - round all values shown in interactive plots
 
 - Completed:
+  - Rounded data tooltip to 2 decimal places if a decimal is present in any of the numbers and the variable is numeric
+      - Potential problem: data like 0.00032, 0.0056, etc.
   - add code used to create sticker under data raw (code currently not working)
 
   - fix resid_interact for binomial case to be more general (Double check names with Katherine)
