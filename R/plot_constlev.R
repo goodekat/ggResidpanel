@@ -90,7 +90,7 @@ plot_constlev <- function(model, type, theme, axis.text.size, title.text.size, t
   # and return plot
   if(title.opt == TRUE){
     plot +
-      labs(title = "Constant Leverage: Residuals vs Factor Levels") +
+      labs(title = "Constant Leverage Plot") +
       theme(plot.title = element_text(size = title.text.size, face = "bold"),
             axis.title = element_text(size = axis.text.size))
   } else if (title.opt == FALSE){

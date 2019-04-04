@@ -104,38 +104,24 @@ test_that("formatting options", {
 })
 
 #devtools::test("test-resid_interact")
-test_that("panel options", {
+test_that("panel and type options", {
 
   # model
   lm_model1 <- lm(Volume ~ Girth, data = trees)
 
   # tests for user specified panels
   expect_doppelganger(title = "panel options - plots = c(boxplot, cookd)", fig = resid_panel(lm_model1, plots = c("boxplot", "cookd")))
-  expect_doppelganger(title = "panel options - plots = c(qq, ls, index)", fig = resid_panel(lm_model1, plots = c("qq", "ls", "index")))
 
   # tests for package prespecified panels
   expect_doppelganger(title = "panel options - no plots specified", fig = resid_panel(lm_model1))
-  expect_doppelganger(title = "panel options - plots = default", fig = resid_panel(lm_model1, plots = "default"))
-  expect_doppelganger(title = "panel options - plots = SAS", fig = resid_panel(lm_model1, plots = "SAS"))
-  expect_doppelganger(title = "panel options - plots = R", fig = resid_panel(lm_model1, plots = "R"))
-  expect_doppelganger(title = "panel options - plots = all", fig = resid_panel(lm_model1, plots = "all"))
+  expect_doppelganger(title = "panel options - plots = default, pearson", fig = resid_panel(lm_model1, plots = "default", type = "pearson"))
+  expect_doppelganger(title = "panel options - plots = SAS", fig = resid_panel(lm_model1, plots = "SAS", type = "standardized"))
+  expect_doppelganger(title = "panel options - plots = R", fig = resid_panel(lm_model1, plots = "R", type = "response"))
+  expect_doppelganger(title = "panel options - plots = all", fig = resid_panel(lm_model1, plots = "all", type = "pearson"))
 
 })
 
-test_that("lm with one continuous X", {
-
-  # model
-  lm_model1 <- lm(Volume ~ Girth, data = trees)
-
-  # tests for plots
-  expect_doppelganger(title = "lm with one continuous X - plots = all", fig = resid_panel(lm_model1, plots = "all"))
-  expect_doppelganger(title = "lm with one continuous X - type = pearson", fig = resid_panel(lm_model1, plots = "all", type = "pearson"))
-  expect_doppelganger(title = "lm with one continuous X - type = response", fig = resid_panel(lm_model1, plots = "all", type = "response"))
-  expect_doppelganger(title = "lm with one continuous X - type = standardized", fig = resid_panel(lm_model1, plots = "all", type = "standardized"))
-
-})
-
-test_that("lm with one categorical X", {
+test_that("check constantlev plot", {
 
   # model
   lm_model2 <- lm(weight ~ group, data = PlantGrowth)
@@ -145,55 +131,12 @@ test_that("lm with one categorical X", {
 
   # tests for plots
   expect_doppelganger(title = "lm with one categorical X - plots = all", fig = resid_panel(lm_model2, plots = "all"))
-  expect_doppelganger(title = "lm with one categorical X - type = pearson", fig = resid_panel(lm_model2, plots = "all", type = "pearson"))
-  expect_doppelganger(title = "lm with one categorical X - type = response", fig = resid_panel(lm_model2, plots = "all", type = "response"))
-  expect_doppelganger(title = "lm with one categorical X - type = standardized", fig = resid_panel(lm_model2, plots = "all", type = "standardized"))
 
 })
 
-test_that("lm with multiple continuous/categorical X", {
 
-  # data
-  d <- ggplot2::diamonds[1:50,]
-  d <- d[-which(d$cut == "Fair"),]
-  d <- d[-which(d$color == "G"),]
-  d <- d[-which(d$clarity == "I1"),]
-  d <- d[-which(d$clarity == "VVS2"),]
-  d <- d[-which(d$clarity == "VVS1"),]
 
-  # model
-  lm_model3 <- lm(price ~ carat + cut + color + depth, data = d)
-
-  # tests for plots
-  expect_doppelganger(title = "lm with multiple continous/categorical X - plots = all", fig = resid_panel(lm_model3, plots = "all"))
-  expect_doppelganger(title = "lm with multiple continous/categorical X - type = pearson", fig = resid_panel(lm_model3, plots = "all", type = "pearson"))
-  expect_doppelganger(title = "lm with multiple continous/categorical X - type = response", fig = resid_panel(lm_model3, plots = "all", type = "response"))
-  expect_doppelganger(title = "lm with multiple continous/categorical X - type = standardized", fig = resid_panel(lm_model3, plots = "all", type = "standardized"))
-
-})
-
-test_that("lm with multiple categorical X", {
-
-  # data
-  d <- ggplot2::diamonds[1:50,]
-  d <- d[-which(d$cut == "Fair"),]
-  d <- d[-which(d$color == "G"),]
-  d <- d[-which(d$clarity == "I1"),]
-  d <- d[-which(d$clarity == "VVS2"),]
-  d <- d[-which(d$clarity == "VVS1"),]
-
-  # model
-  lm_model4 <- lm(price ~ cut + color + clarity, data = d)
-
-  # tests for plots
-  expect_doppelganger(title = "lm with multiple categorical X - plots = all", fig = resid_panel(lm_model4, plots = "all"))
-  expect_doppelganger(title = "lm with multiple categorical X - type = pearson", fig = resid_panel(lm_model4, plots = "all", type = "pearson"))
-  expect_doppelganger(title = "lm with multiple categorical X - type = response", fig = resid_panel(lm_model4, plots = "all", type = "response"))
-  expect_doppelganger(title = "lm with multiple categorical X - type = standardized", fig = resid_panel(lm_model4, plots = "all", type = "standardized"))
-
-})
-
-test_that("glm poisson", {
+test_that("glm poison", {
 
   # model
   glm_poisson_model <- glm(count ~ spray, family = "poisson", data = InsectSprays)

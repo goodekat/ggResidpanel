@@ -1763,8 +1763,8 @@
 <polyline points='612.50,352.65 612.50,213.85 ' style='stroke-width: 1.07; stroke: #EBEBEB; stroke-linecap: butt;' clip-path='url(#cpNTEwLjQ4fDcxNC41MnwzNTIuNjV8MjEzLjg1)' />
 <line x1='612.50' y1='272.00' x2='612.50' y2='220.16' style='stroke-width: 1.07; stroke: #333333; stroke-linecap: butt;' clip-path='url(#cpNTEwLjQ4fDcxNC41MnwzNTIuNjV8MjEzLjg1)' />
 <line x1='612.50' y1='309.12' x2='612.50' y2='346.34' style='stroke-width: 1.07; stroke: #333333; stroke-linecap: butt;' clip-path='url(#cpNTEwLjQ4fDcxNC41MnwzNTIuNjV8MjEzLjg1)' />
-<polygon points='569.99,272.00 569.99,309.12 655.01,309.12 655.01,272.00 569.99,272.00 ' style='stroke-width: 1.07; stroke: #333333; fill: #FFFFFF;' clip-path='url(#cpNTEwLjQ4fDcxNC41MnwzNTIuNjV8MjEzLjg1)' />
-<line x1='569.99' y1='290.75' x2='655.01' y2='290.75' style='stroke-width: 2.13; stroke: #333333; stroke-linecap: butt;' clip-path='url(#cpNTEwLjQ4fDcxNC41MnwzNTIuNjV8MjEzLjg1)' />
+<polygon points='561.49,272.00 561.49,309.12 663.51,309.12 663.51,272.00 561.49,272.00 ' style='stroke-width: 1.07; stroke: #333333; fill: #FFFFFF;' clip-path='url(#cpNTEwLjQ4fDcxNC41MnwzNTIuNjV8MjEzLjg1)' />
+<line x1='561.49' y1='290.75' x2='663.51' y2='290.75' style='stroke-width: 2.13; stroke: #333333; stroke-linecap: butt;' clip-path='url(#cpNTEwLjQ4fDcxNC41MnwzNTIuNjV8MjEzLjg1)' />
 <circle cx='612.50' cy='318.19' r='1.95pt' style='stroke-width: 0.71; stroke: none;' clip-path='url(#cpNTEwLjQ4fDcxNC41MnwzNTIuNjV8MjEzLjg1)' />
 <circle cx='612.50' cy='341.54' r='1.95pt' style='stroke-width: 0.71; stroke: none;' clip-path='url(#cpNTEwLjQ4fDcxNC41MnwzNTIuNjV8MjEzLjg1)' />
 <circle cx='612.50' cy='253.14' r='1.95pt' style='stroke-width: 0.71; stroke: none;' clip-path='url(#cpNTEwLjQ4fDcxNC41MnwzNTIuNjV8MjEzLjg1)' />
@@ -2334,5 +2334,5 @@
 <g clip-path='url(#cpMC4wMHw3MjAuMDB8NTc2LjAwfDAuMDA=)'><text x='692.09' y='555.63' style='font-size: 8.80px; fill: #4D4D4D; font-family: Liberation Sans;' textLength='5.38px' lengthAdjust='spacingAndGlyphs'>F</text></g>
 <g clip-path='url(#cpMC4wMHw3MjAuMDB8NTc2LjAwfDAuMDA=)'><text x='553.02' y='567.88' style='font-size: 10.00px; font-family: Liberation Sans;' textLength='118.95px' lengthAdjust='spacingAndGlyphs'>Factor Level Combinations</text></g>
 <g clip-path='url(#cpMC4wMHw3MjAuMDB8NTc2LjAwfDAuMDA=)'><text transform='translate(492.35,528.06) rotate(-90)' style='font-size: 10.00px; font-family: Liberation Sans;' textLength='105.62px' lengthAdjust='spacingAndGlyphs'>Standardized Residuals</text></g>
-<g clip-path='url(#cpMC4wMHw3MjAuMDB8NTc2LjAwfDAuMDA=)'><text x='510.48' y='397.73' style='font-size: 12.00px; font-weight: bold; font-family: Liberation Sans;' textLength='269.36px' lengthAdjust='spacingAndGlyphs'>Constant Leverage: Residuals vs Factor Levels</text></g>
+<g clip-path='url(#cpMC4wMHw3MjAuMDB8NTc2LjAwfDAuMDA=)'><text x='510.48' y='397.73' style='font-size: 12.00px; font-weight: bold; font-family: Liberation Sans;' textLength='134.00px' lengthAdjust='spacingAndGlyphs'>Constant Leverage Plot</text></g>
 </svg>
