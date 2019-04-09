@@ -10,6 +10,7 @@ Description: An R package for creating panels of diagnostic plots for residuals 
 License: MIT + file LICENSE
 Encoding: UTF-8
 LazyData: true
+URL: https://goodekat.github.io/ggResidpanel/
 Imports:
   cowplot,
   ggplot2,
