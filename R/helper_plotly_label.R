@@ -95,9 +95,12 @@ if(class(model)[1]%in%c("lm", "glm")){
   names_data<- names(plotly_data)
   #Concatonate variable name to data
   for(i in 1:ncol(plotly_data)){
+    # Check if is
     # Check if contains a decimal (i.e. may need to be rounded)
-    if(sum(grepl(".", as.character(plotly_data[,i]))) > 0){
-      if(is.numeric(plotly_data[,i])){
+    # Also check if has integers in front of the decimal, otherwise should not round
+    if((sum(grepl("\\.", as.character(plotly_data[,i]))) > 0)&(is.numeric(plotly_data[,i]))){
+      # Find the number of digits preceding zero, take abso value and add .001 just in case have zeros
+      if((max(floor(log10(abs(plotly_data[,i]+.001))) + 1)>0)){
         plotly_data[,i] <- round(plotly_data[,i], 2)
       }
     }
@@ -116,12 +119,11 @@ if(class(model)[1]%in%c("lm", "glm")){
   Data <- plotly_data[,1]
   for(i in 2:ncol(plotly_data)){
     # Check if contains a decimal (i.e. may need to be rounded)
-    if(sum(grepl(".", as.character(plotly_data[,i]))) > 0){
-      if(is.numeric(plotly_data[,i])){
+    if((sum(grepl("\\.", as.character(plotly_data[,i]))) > 0)&(is.numeric(plotly_data[,i]))){
+      if((max(floor(log10(abs(plotly_data[,i]+.001))) + 1)>0)){
         plotly_data[,i] <- round(plotly_data[,i], 2)
       }
     }
-
     Data <- paste(Data, "\n", plotly_data[,{i}])
   }
   Data <- paste(Data)
@@ -184,8 +186,8 @@ if(class(model)[1]%in%c("lm", "glm")){
 
   for(i in 1:ncol(plotly_data)){
     # Check if contains a decimal (i.e. may need to be rounded)
-    if(sum(grepl(".", as.character(plotly_data[,i]))) > 0){
-      if(is.numeric(plotly_data[,i])){
+    if((sum(grepl("\\.", as.character(plotly_data[,i]))) > 0)&(is.numeric(plotly_data[,i]))){
+      if((max(floor(log10(abs(plotly_data[,i]+.001))) + 1)>0)){
         plotly_data[,i] <- round(plotly_data[,i], 2)
       }
     }
@@ -222,12 +224,11 @@ if(class(model)[1]%in%c("lm", "glm")){
   Data <- plotly_data[,1]
   for(i in 2:ncol(plotly_data)){
     # Check if contains a decimal (i.e. may need to be rounded)
-    if(sum(grepl(".", as.character(plotly_data[,i]))) > 0){
-      if(is.numeric(plotly_data[,i])){
+    if((sum(grepl("\\.", as.character(plotly_data[,i]))) > 0)&(is.numeric(plotly_data[,i]))){
+      if((max(floor(log10(abs(plotly_data[,i]+.001))) + 1)>0)){
         plotly_data[,i] <- round(plotly_data[,i], 2)
       }
     }
-
     Data <- paste(Data, "\n", plotly_data[,{i}])
   }
   Data <- paste(Data, "\n")
@@ -241,8 +242,8 @@ if(class(model)[1]%in%c("lm", "glm")){
   # Add name to rows
   for(i in 1:ncol(plotly_data)){
     # Check if contains a decimal (i.e. may need to be rounded)
-    if(sum(grepl(".", as.character(plotly_data[,i]))) > 0){
-      if(is.numeric(plotly_data[,i])){
+    if((sum(grepl("\\.", as.character(plotly_data[,i]))) > 0)&(is.numeric(plotly_data[,i]))){
+      if((max(floor(log10(abs(plotly_data[,i]+.001))) + 1)>0)){
         plotly_data[,i] <- round(plotly_data[,i], 2)
       }
     }
@@ -263,8 +264,8 @@ if(class(model)[1]%in%c("lm", "glm")){
   Data <- plotly_data[,1]
   for(i in 2:ncol(plotly_data)){
     # Check if contains a decimal (i.e. may need to be rounded)
-    if(sum(grepl(".", as.character(plotly_data[,i]))) > 0){
-      if(is.numeric(plotly_data[,i])){
+    if((sum(grepl("\\.", as.character(plotly_data[,i]))) > 0)&(is.numeric(plotly_data[,i]))){
+      if((max(floor(log10(abs(plotly_data[,i]+.001))) + 1)>0)){
         plotly_data[,i] <- round(plotly_data[,i], 2)
       }
     }
