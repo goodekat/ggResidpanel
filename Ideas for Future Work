@@ -22,7 +22,7 @@ Katie's Tasks:
 
 - Completed:
   - Rounded data tooltip to 2 decimal places if a decimal is present in any of the numbers and the variable is numeric
-      - Potential problem: data like 0.00032, 0.0056, etc.
+      - Added in a check so only rounds if has integers preceding the decimal to avoid roundin 0.0023 to 0
   - add code used to create sticker under data raw (code currently not working)
   - shorten title of constant leverage plot
 
