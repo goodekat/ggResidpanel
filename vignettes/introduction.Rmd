@@ -29,7 +29,7 @@ ggResidpanel can be installed from GitHub using the command below. ggResidpanel 
 devtools::install_github("goodekat/ggResidpanel")
 ```
 
-Load the ggResidpanel library.
+After installing, load the ggResidpanel library.
 
 ```{r}
 library(ggResidpanel)
@@ -40,10 +40,10 @@ library(ggResidpanel)
 ggResidpanel has five functions:
 
 - `resid_panel`: Creates a panel of diagnostic plots of the residuals from a model
-- `resid_interact`: Creates an interactive panel of diagnostic plots of the residuals form a model
+- `resid_interact`: Creates an interactive panel of diagnostic plots of the residuals from a model
 - `resid_xpanel`: Creates a panel of diagnostic plots of the predictor variables 
 - `resid_compare`: Creates a panel of diagnostic plots from multiple models
-- `resid_auxpanel`: Creates a panel of diagnostic plots for model types not included in the package
+- `resid_auxpanel`: Creates a panel of diagnostic plots based on the predicted values and residuals from models not included in the package
 
 Currently, ggResidpanel allows the first four functions listed above to work with models fit using the functions of `lm` and `glm` from base R, `lme` from nlme, and `lmer` or `glmer` from lme4 (or fit using lmerTest).
 
@@ -64,13 +64,13 @@ There were 9 penguins included in the study with multiple observations taken fro
 str(penguins)
 ```
 
-The code below show the number of observations per penguin. Penguin number 6 has the least with only 6, and penguin number 1 has the most with 20.
+The code below shows the number of observations per penguin. Penguin number 6 has the least with only 6, and penguin number 1 has the most with 20.
 
 ```{r}
 table(penguins$bird)
 ```
 
-The figure below shows scatter plots of heart rate versus depth of a dive for each penguin. The points are colored by bird number. This data shows a decrease in heart rate as the depth of the dive increases, but the manner in which the heart rate decreases varies between penguin.
+The figure below shows scatter plots of heart rate versus depth of a dive for each penguin. The points are colored by bird number. This data shows a decrease in heart rate as the depth of the dive increases, but the manner in which the heart rate decreases varies between penguins.
 
 ```{r echo = FALSE}
 penguins %>%
@@ -138,7 +138,7 @@ The first assumption can only be checked by considering the study design. In our
 
 - **Normal Quantile Plot** (upper right): Also known as a qq-plot, this plot allows us to assess the normality assumption. There appears to be a deviation from normality in the upper end of the residuals from the `penguin_model`, but this is not as much of a concern as linearity and constant variance issues.
 
-- **Histogram** (lower right): This is a histogram of the residuals with a normal density with mean and standard deviation computed from the residuals overlaid. It provides an additional way to check the normality assumption. This plot makes it clear that there is a slight right skew in the residuals from the `penguin_model`.
+- **Histogram** (lower right): This is a histogram of the residuals with a overlaid normal density curve with mean and standard deviation computed from the residuals. It provides an additional way to check the normality assumption. This plot makes it clear that there is a slight right skew in the residuals from the `penguin_model`.
 
 - **Index Plot** (lower left): This is a plot of the residuals versus the observation numbers. It can help to find patterns related to the way that the data has been ordered, which may provide insights into additional trends in the data that have not been accounted for in the model. There is no obvious trend in the `penguin_model` index plot.
 
@@ -220,7 +220,7 @@ penguin_model_log2 <- lmer(log(heartrate) ~ depth + duration + I(duration^2) + (
                        data = penguins)
 ```
 
-The function `resid_compare` allows the residual plots from multiple models to be compared side by side. The first argument in `resid_compare` is a list of the models to compare. In the code below, the four models fit to the `penguin` data are included in the list, and the `resid`, `qq`, and `yvp` plots are selected to be included in the panel assess the linearity, constant variance, and normality assumptions. Some additional options have also been specified, which are available in other functions of the package as well. The option of `smoother = TRUE` add a smoother to the residual plots, and `qqbands = TRUE` adds a 95% confidence interval to the qq-plot. The option of `title.opt = FALSE` removes the titles from the plots. The resulting panel includes 8 plots where each column contains the plots associated with one of the models. The plots are ordered from left to right following the order the models were specified in the list. 
+The function `resid_compare` allows the residual plots from multiple models to be compared side by side. The first argument in `resid_compare` is a list of the models to compare. In the code below, the four models fit to the `penguin` data are included in the list, and the `resid`, `qq`, and `yvp` plots are selected to be included in the panel to assess the linearity, constant variance, and normality assumptions. Some additional options have also been specified, which are available in other functions of the package as well. The option of `smoother = TRUE` adds a smoother to the residual plots, and `qqbands = TRUE` adds a 95% confidence interval to the qq-plot. The option of `title.opt = FALSE` removes the titles from the plots. The resulting panel includes 8 plots where each column contains the plots associated with one of the models. The plots are ordered from left to right following the order the models were specified in the list. 
 
 These plots show that there is still a non-constant variance issue with the model with the quadratic term for duration and a linearity problem with the model with the log transformation. Both of these models also still show some skewness in the qq-plots. However, the model with both the log transformation and a quadratic term for duration appears to meet all of the assumptions. The `yvp` plot also shows a nice linear relationship between the response and predicted values.
 

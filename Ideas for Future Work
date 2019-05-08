@@ -17,6 +17,9 @@ Katie's Tasks:
   - NOTE:USING THE WORD plot instead of plots
   - NOTE: if plotting a panel of four plots, nrow DOES NOT USE THIRD ROW when nrow = 3
 - proof read tutorial and ggresidpanel vignette
+    -introduction:
+        + menion that is not on CRAN yet, will need to change soon
+        + leave Github installatin instructions, but mention to check github for working version?
 - check for density curve fit to histogram reference
 - round all values shown in interactive plots
 
