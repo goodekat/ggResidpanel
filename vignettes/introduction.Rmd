@@ -142,7 +142,7 @@ The first assumption can only be checked by considering the study design. In our
 
 - **Index Plot** (lower left): This is a plot of the residuals versus the observation numbers. It can help to find patterns related to the way that the data has been ordered, which may provide insights into additional trends in the data that have not been accounted for in the model. There is no obvious trend in the `penguin_model` index plot.
 
-```{r}
+```{r fig.height = 3, fig.width = 5}
 resid_panel(penguin_model)
 ```
 
@@ -173,7 +173,7 @@ Note that the `"R"` option can only be used with models fit using `lm` and `glm`
 
 Here is an example requesting a panel with all plots available for a model fit using `lmer`.
 
-```{r}
+```{r fig.height = 3, fig.width = 6}
 resid_panel(penguin_model, plots = "all")
 ```
 
@@ -181,7 +181,7 @@ resid_panel(penguin_model, plots = "all")
 
 The static panel of plots does not allow one to easily identify an observation associated with a point of interest. The function `resid_interact` allows users to interact with the plots thanks to plotly. The code below creates a panel with a residual plot and qq-plot with interactivity. When the cursor is hovered over a point, a tooltip appears with the x and y location of the point, the observed values from variables included in the model associated with the point, and the observation number. This function is meant to help users identify outliers and points of interest in the plot.
 
-```{r fig.height = 3}
+```{r fig.height = 2}
 resid_interact(penguin_model, plots = c("resid", "qq"))
 ```
 
@@ -191,36 +191,33 @@ To further assess the issues with a model, it may be helpful to look at plots of
 
 The code below creates a panel with a plot included for each predictor variable in the `penguin_model`. That is, three plots are created for the variables of depth, duration, and bird. Pearson residuals are plotted on the y-axis for each of the plots. These plots show a clear decrease in variation of the residuals as the value of depth increases, and the nonlinear relationship appears to be related to the variable of duration. The plot of residuals versus bird shows no obvious trend and relatively constant variance across the penguins.
 
-```{r}
+```{r fig.height = 3, fig.width = 5}
 resid_xpanel(penguin_model)
 ```
 
 The function `resid_xpanel` has the option to plot the response variable on the y-axis by setting `yvar = "response"`. The updated code and resulting panel of plots is shown below. The plot of heart rate versus duration suggests that including a quadratic term for duration may help improve the model fit.
 
-```{r}
+```{r fig.height = 3, fig.width = 5}
 resid_xpanel(penguin_model, yvar = "response")
 ```
 
 ### Model Comparisons with `resid_compare`
 
-To deal with the violations of the model assumptions in the `penguin_model`, three new models are fit. The first (`penguin_model_2`) adds a quadratic duration term, the second (`penguin_model_log`) uses a log transformation of the heart rate as the response, and the third model `penguin_model_log2` uses both a log transformation of the response and a quadratic term for duration.
+To deal with the violations of the model assumptions in the `penguin_model`, two new models are fit. The first (`penguin_model_log`) uses a log transformation of the heart rate as the response, and the second model `penguin_model_log2` uses both a log transformation of the response and a quadratic term for duration.
 
 ```{r}
-penguin_model_2 <- lmer(heartrate ~ depth + duration + I(duration^2) + (1|bird), 
-                       data = penguins)
 penguin_model_log <- lmer(log(heartrate) ~ depth + duration + (1|bird), 
                        data = penguins)
 penguin_model_log2 <- lmer(log(heartrate) ~ depth + duration + I(duration^2) + (1|bird), 
                        data = penguins)
 ```
 
-The function `resid_compare` allows the residual plots from multiple models to be compared side by side. The first argument in `resid_compare` is a list of the models to compare. In the code below, the four models fit to the `penguin` data are included in the list, and the `resid`, `qq`, and `yvp` plots are selected to be included in the panel to assess the linearity, constant variance, and normality assumptions. Some additional options have also been specified, which are available in other functions of the package as well. The option of `smoother = TRUE` adds a smoother to the residual plots, and `qqbands = TRUE` adds a 95% confidence interval to the qq-plot. The option of `title.opt = FALSE` removes the titles from the plots. The resulting panel includes 8 plots where each column contains the plots associated with one of the models. The plots are ordered from left to right following the order the models were specified in the list. 
+The function `resid_compare` allows the residual plots from multiple models to be compared side by side. The first argument in `resid_compare` is a list of the models to compare. In the code below, the models fit to the `penguin` data are included in the list, and the `resid`, and `qq` plots are selected to be included in the panel to assess the linearity, constant variance, and normality assumptions. Some additional options have also been specified, which are available in other functions of the package as well. The option of `smoother = TRUE` adds a smoother to the residual plots, and `qqbands = TRUE` adds a 95% confidence interval to the qq-plot. The option of `title.opt = FALSE` removes the titles from the plots. The resulting panel includes plots where each column contains the plots associated with one of the models. The plots are ordered from left to right following the order the models were specified in the list. 
 
-These plots show that there is still a non-constant variance issue with the model with the quadratic term for duration and a linearity problem with the model with the log transformation. Both of these models also still show some skewness in the qq-plots. However, the model with both the log transformation and a quadratic term for duration appears to meet all of the assumptions.
+The log transformed model still shows some curvature in the residual plot and skewness in the normal quantile plot. However, the model with both the log transformation and a quadratic term for duration appears to meet all of the assumptions.
 
-```{r fig.width = 7, fig.height = 4}
+```{r fig.width = 5, fig.height = 3}
 resid_compare(models = list(penguin_model, 
-                            penguin_model_2, 
                             penguin_model_log, 
                             penguin_model_log2),
               plots = c("resid", "qq"),
