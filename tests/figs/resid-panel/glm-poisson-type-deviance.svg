@@ -2334,5 +2334,5 @@
 <g clip-path='url(#cpMC4wMHw3MjAuMDB8NTc2LjAwfDAuMDA=)'><text x='692.09' y='555.63' style='font-size: 8.80px; fill: #4D4D4D; font-family: Liberation Sans;' textLength='5.38px' lengthAdjust='spacingAndGlyphs'>F</text></g>
 <g clip-path='url(#cpMC4wMHw3MjAuMDB8NTc2LjAwfDAuMDA=)'><text x='553.02' y='567.88' style='font-size: 10.00px; font-family: Liberation Sans;' textLength='118.95px' lengthAdjust='spacingAndGlyphs'>Factor Level Combinations</text></g>
 <g clip-path='url(#cpMC4wMHw3MjAuMDB8NTc2LjAwfDAuMDA=)'><text transform='translate(492.35,528.06) rotate(-90)' style='font-size: 10.00px; font-family: Liberation Sans;' textLength='105.62px' lengthAdjust='spacingAndGlyphs'>Standardized Residuals</text></g>
-<g clip-path='url(#cpMC4wMHw3MjAuMDB8NTc2LjAwfDAuMDA=)'><text x='510.48' y='397.73' style='font-size: 12.00px; font-weight: bold; font-family: Liberation Sans;' textLength='269.36px' lengthAdjust='spacingAndGlyphs'>Constant Leverage: Residuals vs Factor Levels</text></g>
+<g clip-path='url(#cpMC4wMHw3MjAuMDB8NTc2LjAwfDAuMDA=)'><text x='510.48' y='397.73' style='font-size: 12.00px; font-weight: bold; font-family: Liberation Sans;' textLength='134.00px' lengthAdjust='spacingAndGlyphs'>Constant Leverage Plot</text></g>
 </svg>

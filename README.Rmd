@@ -131,3 +131,7 @@ resid_auxpanel(residuals = penguin_tree_resid,
                plots = c("resid", "index"))
 ```
 
+```{r echo = FALSE, results = FALSE}
+# copy static figures to docs folder
+file.copy("./figures", "./docs", overwrite = TRUE, recursive = TRUE)
+```
