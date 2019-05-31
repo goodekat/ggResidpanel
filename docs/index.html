@@ -88,10 +88,10 @@
 <a href="#installation" class="anchor"></a>Installation</h2>
 <p>Follow these instructions to install ggResidpanel from the GitHub repository. (ggResidpanel is not currently available on CRAN.)</p>
 <p>Install ggResidpanel from the GitHub repository using the devtools package.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">devtools<span class="op">::</span><span class="kw"><a href="https://www.rdocumentation.org/packages/devtools/topics/reexports">install_github</a></span>(<span class="st">"goodekat/ggResidpanel"</span>)</code></pre></div>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb1-1" data-line-number="1">devtools<span class="op">::</span><span class="kw"><a href="https://www.rdocumentation.org/packages/devtools/topics/reexports">install_github</a></span>(<span class="st">"goodekat/ggResidpanel"</span>)</a></code></pre></div>
 <p>Load the ggResidpanel library.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Load the library</span>
-<span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/library">library</a></span>(ggResidpanel)</code></pre></div>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb2-1" data-line-number="1"><span class="co"># Load the library</span></a>
+<a class="sourceLine" id="cb2-2" data-line-number="2"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/library">library</a></span>(ggResidpanel)</a></code></pre></div>
 </div>
 <div id="learn-more" class="section level2">
 <h2 class="hasAnchor">
@@ -120,7 +120,7 @@
 </ul>
 <p>Currently, ggResidpanel allows the first four functions listed above to work with models fit using the functions of <code>lm</code>, <code>glm</code>, <code>lme</code> (from nlme), and <code>lmer</code> or <code>glmer</code> (from lme4 or fit using lmerTest). Each of these functions is applied below to show the panel that is output from the function. The functions have multiple input options such as the formatting options of <code>scale</code>, <code>theme</code>, <code>axis.text.size</code>, <code>title.text.size</code>, and <code>title.opt</code>.</p>
 <p>The <code>penguins</code> data used in the examples below is included in ggResidpanel.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw"><a href="https://www.rdocumentation.org/packages/utils/topics/str">str</a></span>(penguins)</code></pre></div>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb3-1" data-line-number="1"><span class="kw"><a href="https://www.rdocumentation.org/packages/utils/topics/str">str</a></span>(penguins)</a></code></pre></div>
 <pre><code>## 'data.frame':    125 obs. of  4 variables:
 ##  $ heartrate: num  88.8 103.4 97.4 85.3 60.6 ...
 ##  $ depth    : num  5 9 22 25.5 30.5 32.5 38 32 6 10.5 ...
@@ -131,19 +131,19 @@
 <a href="#resid_panel" class="anchor"></a><code>resid_panel</code>
 </h4>
 <p>This function creates a panel of residual diagnostic plots given a model. It allows the user to select a panel of plots from the options in the package or create their own panel by selecting from the plots available for this function.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Fit a model</span>
-penguin_model &lt;-<span class="st"> </span>lme4<span class="op">::</span><span class="kw"><a href="https://www.rdocumentation.org/packages/lme4/topics/lmer">lmer</a></span>(heartrate <span class="op">~</span><span class="st"> </span>depth <span class="op">+</span><span class="st"> </span>duration <span class="op">+</span><span class="st"> </span>(<span class="dv">1</span><span class="op">|</span>bird), <span class="dt">data =</span> penguins)
-
-<span class="co"># Create the default panel of plots</span>
-<span class="kw"><a href="reference/resid_panel.html">resid_panel</a></span>(penguin_model)</code></pre></div>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb5-1" data-line-number="1"><span class="co"># Fit a model</span></a>
+<a class="sourceLine" id="cb5-2" data-line-number="2">penguin_model &lt;-<span class="st"> </span>lme4<span class="op">::</span><span class="kw"><a href="https://www.rdocumentation.org/packages/lme4/topics/lmer">lmer</a></span>(heartrate <span class="op">~</span><span class="st"> </span>depth <span class="op">+</span><span class="st"> </span>duration <span class="op">+</span><span class="st"> </span>(<span class="dv">1</span><span class="op">|</span>bird), <span class="dt">data =</span> penguins)</a>
+<a class="sourceLine" id="cb5-3" data-line-number="3"></a>
+<a class="sourceLine" id="cb5-4" data-line-number="4"><span class="co"># Create the default panel of plots</span></a>
+<a class="sourceLine" id="cb5-5" data-line-number="5"><span class="kw"><a href="reference/resid_panel.html">resid_panel</a></span>(penguin_model)</a></code></pre></div>
 <p><img src="index_files/figure-html/unnamed-chunk-4-1.png" width="700"></p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Create a pancel with residual, qq, and yvp plots, add 95% confidence interval </span>
-<span class="co"># bands to the qq-plot, and change the theme to classic</span>
-<span class="kw"><a href="reference/resid_panel.html">resid_panel</a></span>(penguin_model, <span class="dt">plots =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="st">"resid"</span>, <span class="st">"qq"</span>, <span class="st">"yvp"</span>), 
-            <span class="dt">qqbands =</span> <span class="ot">TRUE</span>, <span class="dt">theme =</span> <span class="st">"classic"</span>)</code></pre></div>
+<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb6-1" data-line-number="1"><span class="co"># Create a pancel with residual, qq, and yvp plots, add 95% confidence interval </span></a>
+<a class="sourceLine" id="cb6-2" data-line-number="2"><span class="co"># bands to the qq-plot, and change the theme to classic</span></a>
+<a class="sourceLine" id="cb6-3" data-line-number="3"><span class="kw"><a href="reference/resid_panel.html">resid_panel</a></span>(penguin_model, <span class="dt">plots =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="st">"resid"</span>, <span class="st">"qq"</span>, <span class="st">"yvp"</span>), </a>
+<a class="sourceLine" id="cb6-4" data-line-number="4">            <span class="dt">qqbands =</span> <span class="ot">TRUE</span>, <span class="dt">theme =</span> <span class="st">"classic"</span>)</a></code></pre></div>
 <p><img src="index_files/figure-html/unnamed-chunk-4-2.png" width="700"></p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Create a panel with all plots available for a model fit using lmer</span>
-<span class="kw"><a href="reference/resid_panel.html">resid_panel</a></span>(penguin_model, <span class="dt">plots =</span> <span class="st">"all"</span>)</code></pre></div>
+<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb7-1" data-line-number="1"><span class="co"># Create a panel with all plots available for a model fit using lmer</span></a>
+<a class="sourceLine" id="cb7-2" data-line-number="2"><span class="kw"><a href="reference/resid_panel.html">resid_panel</a></span>(penguin_model, <span class="dt">plots =</span> <span class="st">"all"</span>)</a></code></pre></div>
 <p><img src="index_files/figure-html/unnamed-chunk-4-3.png" width="700"></p>
 </div>
 <div id="resid_interact" class="section level4">
@@ -151,22 +151,20 @@ penguin_model &lt;-<span class="st"> </span>lme4<span class="op">::</span><span 
 <a href="#resid_interact" class="anchor"></a><code>resid_interact</code>
 </h4>
 <p>This function creates interactive versions of residual diagnostic plot panels given a model. Similar to <code>resid_panel</code>, it allows the user to select a panel of plots from the options in the package or to create their own panel by selecting from the plots available for this function.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Create an interactive panel of the default diagnostic plots</span>
-<span class="kw"><a href="reference/resid_interact.html">resid_interact</a></span>(penguin_model)</code></pre></div>
-<div class="figure">
-<img src="figures/interact.gif">
-</div>
+<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb8-1" data-line-number="1"><span class="co"># Create an interactive panel of the default diagnostic plots</span></a>
+<a class="sourceLine" id="cb8-2" data-line-number="2"><span class="kw"><a href="reference/resid_interact.html">resid_interact</a></span>(penguin_model)</a></code></pre></div>
+<p><img src="figures/interact.gif"></p>
 </div>
 <div id="resid_xpanel" class="section level4">
 <h4 class="hasAnchor">
 <a href="#resid_xpanel" class="anchor"></a><code>resid_xpanel</code>
 </h4>
 <p>This function creates a panel of plots of the residuals or response variable versus the predictor (x) variables in the model.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Create a panel of plots of the residuals versus the predictor variables</span>
-<span class="kw"><a href="reference/resid_xpanel.html">resid_xpanel</a></span>(penguin_model)</code></pre></div>
+<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb9-1" data-line-number="1"><span class="co"># Create a panel of plots of the residuals versus the predictor variables</span></a>
+<a class="sourceLine" id="cb9-2" data-line-number="2"><span class="kw"><a href="reference/resid_xpanel.html">resid_xpanel</a></span>(penguin_model)</a></code></pre></div>
 <p><img src="index_files/figure-html/unnamed-chunk-6-1.png" width="700"></p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Create a panel of plots of the response variable versus the predictor variables</span>
-<span class="kw"><a href="reference/resid_xpanel.html">resid_xpanel</a></span>(penguin_model, <span class="dt">yvar =</span> <span class="st">"response"</span>)</code></pre></div>
+<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb10-1" data-line-number="1"><span class="co"># Create a panel of plots of the response variable versus the predictor variables</span></a>
+<a class="sourceLine" id="cb10-2" data-line-number="2"><span class="kw"><a href="reference/resid_xpanel.html">resid_xpanel</a></span>(penguin_model, <span class="dt">yvar =</span> <span class="st">"response"</span>)</a></code></pre></div>
 <p><img src="index_files/figure-html/unnamed-chunk-6-2.png" width="700"></p>
 </div>
 <div id="resid_compare" class="section level4">
@@ -174,13 +172,13 @@ penguin_model &lt;-<span class="st"> </span>lme4<span class="op">::</span><span 
 <a href="#resid_compare" class="anchor"></a><code>resid_compare</code>
 </h4>
 <p>This function creates a panel of residual diagnostic plots given a list of models. This allows the user to compare the diagnostic plots from multiple models.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Fit the model with a log transformation of the response variable and a </span>
-<span class="co"># quadratic term for duration</span>
-penguin_model_log2 &lt;-<span class="st"> </span>lme4<span class="op">::</span><span class="kw"><a href="https://www.rdocumentation.org/packages/lme4/topics/lmer">lmer</a></span>(<span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/Log">log</a></span>(heartrate) <span class="op">~</span><span class="st"> </span>depth <span class="op">+</span><span class="st"> </span>duration <span class="op">+</span><span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/AsIs">I</a></span>(duration<span class="op">^</span><span class="dv">2</span>) <span class="op">+</span><span class="st"> </span>(<span class="dv">1</span><span class="op">|</span>bird), 
-                                 <span class="dt">data =</span> penguins)
-
-<span class="co"># Plot the residual and normal quantile plots for the two models</span>
-<span class="kw"><a href="reference/resid_compare.html">resid_compare</a></span>(<span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/list">list</a></span>(penguin_model, penguin_model_log2), <span class="dt">plots =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="st">"resid"</span>, <span class="st">"qq"</span>))</code></pre></div>
+<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb11-1" data-line-number="1"><span class="co"># Fit the model with a log transformation of the response variable and a </span></a>
+<a class="sourceLine" id="cb11-2" data-line-number="2"><span class="co"># quadratic term for duration</span></a>
+<a class="sourceLine" id="cb11-3" data-line-number="3">penguin_model_log2 &lt;-<span class="st"> </span>lme4<span class="op">::</span><span class="kw"><a href="https://www.rdocumentation.org/packages/lme4/topics/lmer">lmer</a></span>(<span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/Log">log</a></span>(heartrate) <span class="op">~</span><span class="st"> </span>depth <span class="op">+</span><span class="st"> </span>duration <span class="op">+</span><span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/AsIs">I</a></span>(duration<span class="op">^</span><span class="dv">2</span>) <span class="op">+</span><span class="st"> </span>(<span class="dv">1</span><span class="op">|</span>bird), </a>
+<a class="sourceLine" id="cb11-4" data-line-number="4">                                 <span class="dt">data =</span> penguins)</a>
+<a class="sourceLine" id="cb11-5" data-line-number="5"></a>
+<a class="sourceLine" id="cb11-6" data-line-number="6"><span class="co"># Plot the residual and normal quantile plots for the two models</span></a>
+<a class="sourceLine" id="cb11-7" data-line-number="7"><span class="kw"><a href="reference/resid_compare.html">resid_compare</a></span>(<span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/list">list</a></span>(penguin_model, penguin_model_log2), <span class="dt">plots =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="st">"resid"</span>, <span class="st">"qq"</span>))</a></code></pre></div>
 <p><img src="index_files/figure-html/unnamed-chunk-7-1.png" width="700"></p>
 </div>
 <div id="resid_auxpanel" class="section level4">
@@ -188,19 +186,19 @@ penguin_model_log2 &lt;-<span class="st"> </span>lme4<span class="op">::</span><
 <a href="#resid_auxpanel" class="anchor"></a><code>resid_auxpanel</code>
 </h4>
 <p>This function creates a panel of residual diagnostic plots given inputs of residuals and fitted values to use for models not accepted by <code>resid_panel</code>. Users can select from panel options in the package or create their own panel from the plots available for this function.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Fit a regression tree to the penguins data</span>
-penguin_tree &lt;-<span class="st"> </span>rpart<span class="op">::</span><span class="kw"><a href="https://www.rdocumentation.org/packages/rpart/topics/rpart">rpart</a></span>(heartrate <span class="op">~</span><span class="st"> </span>depth <span class="op">+</span><span class="st"> </span>duration, <span class="dt">data =</span> penguins)
-
-<span class="co"># Obtain the predictions from the model on the observed data</span>
-penguin_tree_pred &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/stats/topics/predict">predict</a></span>(penguin_tree)
-
-<span class="co"># Obtain the residuals from the model</span>
-penguin_tree_resid &lt;-<span class="st"> </span>penguins<span class="op">$</span>heartrate <span class="op">-</span><span class="st"> </span>penguin_tree_pred
-
-<span class="co"># Create a panel with the residual and index plot</span>
-<span class="kw"><a href="reference/resid_auxpanel.html">resid_auxpanel</a></span>(<span class="dt">residuals =</span> penguin_tree_resid, 
-               <span class="dt">predicted =</span> penguin_tree_pred, 
-               <span class="dt">plots =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="st">"resid"</span>, <span class="st">"index"</span>))</code></pre></div>
+<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb12-1" data-line-number="1"><span class="co"># Fit a regression tree to the penguins data</span></a>
+<a class="sourceLine" id="cb12-2" data-line-number="2">penguin_tree &lt;-<span class="st"> </span>rpart<span class="op">::</span><span class="kw"><a href="https://www.rdocumentation.org/packages/rpart/topics/rpart">rpart</a></span>(heartrate <span class="op">~</span><span class="st"> </span>depth <span class="op">+</span><span class="st"> </span>duration, <span class="dt">data =</span> penguins)</a>
+<a class="sourceLine" id="cb12-3" data-line-number="3"></a>
+<a class="sourceLine" id="cb12-4" data-line-number="4"><span class="co"># Obtain the predictions from the model on the observed data</span></a>
+<a class="sourceLine" id="cb12-5" data-line-number="5">penguin_tree_pred &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/stats/topics/predict">predict</a></span>(penguin_tree)</a>
+<a class="sourceLine" id="cb12-6" data-line-number="6"></a>
+<a class="sourceLine" id="cb12-7" data-line-number="7"><span class="co"># Obtain the residuals from the model</span></a>
+<a class="sourceLine" id="cb12-8" data-line-number="8">penguin_tree_resid &lt;-<span class="st"> </span>penguins<span class="op">$</span>heartrate <span class="op">-</span><span class="st"> </span>penguin_tree_pred</a>
+<a class="sourceLine" id="cb12-9" data-line-number="9"></a>
+<a class="sourceLine" id="cb12-10" data-line-number="10"><span class="co"># Create a panel with the residual and index plot</span></a>
+<a class="sourceLine" id="cb12-11" data-line-number="11"><span class="kw"><a href="reference/resid_auxpanel.html">resid_auxpanel</a></span>(<span class="dt">residuals =</span> penguin_tree_resid, </a>
+<a class="sourceLine" id="cb12-12" data-line-number="12">               <span class="dt">predicted =</span> penguin_tree_pred, </a>
+<a class="sourceLine" id="cb12-13" data-line-number="13">               <span class="dt">plots =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="st">"resid"</span>, <span class="st">"index"</span>))</a></code></pre></div>
 <p><img src="index_files/figure-html/unnamed-chunk-8-1.png" width="700"></p>
 </div>
 </div>

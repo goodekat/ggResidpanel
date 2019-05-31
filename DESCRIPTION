@@ -27,10 +27,13 @@ Suggests:
   forcats,
   knitr,
   lme4,
+  lmerTest,
+  nlme,
   randomForest,
   rmarkdown,
   rpart,
   testthat,
+  vdiffr,
   wesanderson
 VignetteBuilder: knitr
 Depends:R (>= 3.0.0)

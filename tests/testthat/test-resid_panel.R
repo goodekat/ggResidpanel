@@ -184,7 +184,8 @@ test_that("lmer", {
 test_that("lmerTest", {
 
   # model
-  lmerTest_model <- lmerTest::lmer(weight ~ Time + Diet + Time*Diet + (1|Chick), data = ChickWeight)
+  library(lmerTest)
+  lmerTest_model <- lmer(weight ~ Time + Diet + Time*Diet + (1|Chick), data = ChickWeight)
 
   # tests for plots
   expect_doppelganger(title = "lmerTest - plots = all", fig = resid_panel(lmerTest_model, plots = "all"))

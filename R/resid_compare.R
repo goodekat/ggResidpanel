@@ -106,7 +106,7 @@
 #' \item \code{"response"}: The raw residuals
 #' } }
 #'
-#' Note: The plots of \code{"ls"} and \code{"lev"} only accept standarized residuals.
+#' Note: The plots of \code{"ls"} and \code{"lev"} only accept standardized residuals.
 #'
 #' \strong{Details on the Creation of Plots}
 #'
@@ -117,7 +117,7 @@
 #' highly influential points. The horizontal line is placed at 4/n where n is
 #' the number of data points used in the \code{model}.}
 #'
-#' \item{Histogram (\code{hist})}{Plots a historgram of the residuals. The density
+#' \item{Histogram (\code{hist})}{Plots a histogram of the residuals. The density
 #' curve overlaid has mean equal to zero and standard deviation equal to the
 #' standard deviation of the residuals.}
 #'
