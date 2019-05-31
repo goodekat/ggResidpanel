@@ -215,16 +215,9 @@ the panel. Specify TRUE or FALSE. Default is set to TRUE.</p></td>
 <span class='co'># Create the default interactive panel</span>
 <span class='fu'>resid_interact</span>(<span class='no'>penguin_model</span>)
 
-<span class='co'># Select all plots to include in the panel and set the smoother option to TRUE</span>
-<span class='fu'>resid_interact</span>(<span class='no'>penguin_model</span>, <span class='kw'>plots</span> <span class='kw'>=</span> <span class='st'>"all"</span>, <span class='kw'>smoother</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)
-
-<span class='co'># Select only the residual plot and qq-plot to be included in the panel and</span>
-<span class='co'># set the number of rows to 2</span>
-<span class='fu'>resid_interact</span>(<span class='no'>penguin_model</span>, <span class='kw'>plots</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='st'>"resid"</span>, <span class='st'>"qq"</span>), <span class='kw'>nrow</span> <span class='kw'>=</span> <span class='fl'>2</span>)
-
-<span class='co'># Choose the SAS panel of plots, change the theme to classic, and remove the</span>
-<span class='co'># titles of the plots</span>
-<span class='fu'>resid_interact</span>(<span class='no'>penguin_model</span>, <span class='kw'>plots</span> <span class='kw'>=</span> <span class='st'>"SAS"</span>, <span class='kw'>theme</span> <span class='kw'>=</span> <span class='st'>"classic"</span>, <span class='kw'>title.opt</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)</div></pre>
+<span class='co'># Select only the residual plot and qq-plot to be included in the panel,</span>
+<span class='co'># set the number of rows to 2, change the theme to classic</span>
+<span class='fu'>resid_interact</span>(<span class='no'>penguin_model</span>, <span class='kw'>plots</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='st'>"resid"</span>, <span class='st'>"qq"</span>), <span class='kw'>nrow</span> <span class='kw'>=</span> <span class='fl'>2</span>, <span class='kw'>theme</span> <span class='kw'>=</span> <span class='st'>"classic"</span>)</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>

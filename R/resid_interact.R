@@ -49,17 +49,10 @@
 #'
 #' # Create the default interactive panel
 #' resid_interact(penguin_model)
-#'
-#' # Select all plots to include in the panel and set the smoother option to TRUE
-#' resid_interact(penguin_model, plots = "all", smoother = TRUE)
-#'
-#' # Select only the residual plot and qq-plot to be included in the panel and
-#' # set the number of rows to 2
-#' resid_interact(penguin_model, plots = c("resid", "qq"), nrow = 2)
-#'
-#' # Choose the SAS panel of plots, change the theme to classic, and remove the
-#' # titles of the plots
-#' resid_interact(penguin_model, plots = "SAS", theme = "classic", title.opt = FALSE)
+#' 
+#' # Select only the residual plot and qq-plot to be included in the panel,
+#' # set the number of rows to 2, change the theme to classic
+#' resid_interact(penguin_model, plots = c("resid", "qq"), nrow = 2, theme = "classic")
 
 resid_interact <- function(model, plots = "default", type = NA, bins = 30,
                            smoother = FALSE, qqline = TRUE, scale = 0.9,
