@@ -3,7 +3,6 @@ Future Work
 ---------------
 
 Katie's Tasks:
-- try to figure out why plotly graphs showing up horizontally (still an issue?)
 - Work on residual vignette (IN PROGRESS)
   - include a link to the residual document in the documentation
 - modify so works for predictive models (Research at least)(NOT FOR CRAN)
@@ -16,9 +15,8 @@ Katie's Tasks:
   - Added in section for warnings and errors, tested all formatting options with 2 plots
   - NOTE:USING THE WORD plot instead of plots
   - NOTE: if plotting a panel of four plots, nrow DOES NOT USE THIRD ROW when nrow = 3
-- proof read tutorial and ggresidpanel vignette
-  - check for density curve fit to histogram reference
 - round all values shown in interactive plots
+  - Check resid and predicted
 
 - Completed:
   - Rounded data tooltip to 2 decimal places if a decimal is present in any of the numbers and the variable is numeric
