@@ -7,7 +7,7 @@ always_allow_html: yes
 knitr::opts_chunk$set(echo = TRUE, warning = FALSE, message = FALSE)
 ```
 
-# ggResidpanel <img align="right" width="120" height="135" src="./figures/logo.png">
+# ggResidpanel <img align="right" width="120" height="135" src="./README_files/figure-static/logo.png">
 
 ggResidpanel is an R package for creating panels of diagnostic plots for a model using ggplot2 and interactive versions of the plots using plotly.
 
@@ -83,7 +83,7 @@ This function creates interactive versions of residual diagnostic plot panels gi
 resid_interact(penguin_model)
 ```
 
-![](./figures/interact.gif)
+![](./README_files/figure-static/interact.gif)
 
 #### `resid_xpanel`
 
@@ -133,5 +133,5 @@ resid_auxpanel(residuals = penguin_tree_resid,
 
 ```{r echo = FALSE, results = FALSE}
 # copy static figures to docs folder
-file.copy("./figures", "./docs", overwrite = TRUE, recursive = TRUE)
+file.copy("./README_files/", "./docs", overwrite = TRUE, recursive = TRUE)
 ```
