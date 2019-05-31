@@ -17,49 +17,64 @@ if(class(model)[1]%in%c("lm", "glm")){
   #Get names of variables
   names_data <- names(model$model)
   #Get data used in model from model
-  plotly_data <- data.frame(as.matrix(model$model))
+  #plotly_data <- data.frame(as.matrix(model$model))
+
+  plotly_data <- model$model
 
   #If binomial, the response variables are two columns
   if(class(model)[1]=="glm"){
     if(model$family[[1]]=="binomial"){
+      plotly_data <- plotly_data[,-1]
+      plotly_data_Y <- data.frame(as.matrix(model$model))[,1:2]
+      ### OLD METHOD##################### Changed 1/27/19
 
-      #The next set of code extracts the column names from the
-      #cbind statement used to create the number of successes and
-      #number of failures
+      # #The next set of code extracts the column names from the
+      # #cbind statement used to create the number of successes and
+      # #number of failures
+      #
+      # #Find first parentheses
+      # firstp <- as.numeric(gregexpr(pattern ='\\(',names_data[1])[1])
+      # #Find end parentheses
+      # lastp <- as.numeric(gregexpr(pattern ='\\)',names_data[1])[1])
+      # #Find first comma
+      # firstc <- as.numeric(gregexpr(pattern ='\\,',names_data[1])[1])
+      # #Grab the name of the number of successes which is between the
+      # #first parentheses and the comma
+      # names(plotly_data)[1] <- str_sub(names_data[1], {firstp+1}, {firstc-1})
+      #
+      # #Check if the person gave the number of failures or calculated the number
+      # #of failures
+      # if (grepl("\\-", names_data[1])){
+      #   #Find the '-' sign: the name of the number of trials will preceed it
+      #   firstm <- as.numeric(gregexpr(pattern ='\\-',names_data[1])[1])
+      #   #Set the name of the trials by extracting everything from the comma
+      #   #to the minus sign and remove extra blanks
+      #   names(plotly_data)[2] <- gsub(" ", "",str_sub(names_data[1], {firstc+1}, {firstm-1}))
+      #
+      #   #Make sure are numeric (I no longer need these so commented out)
+      #   plotly_data[,1] <- as.numeric(as.character(plotly_data[,1]))
+      #   plotly_data[,2] <- as.numeric(as.character(plotly_data[,2]))
+      #
+      #   #Second column needs to contain total so add first two
+      #   plotly_data[,2] <- plotly_data[,1]+plotly_data[,2]
+      # }else{
+      #   #if the second column does not contain a minus, the user ented the number
+      #   #of failures so don't add the first two together and grab the name
+      #   #of the failures between the comma and the end parentheses and removed extra
+      #   #blanks
+      #   names(plotly_data)[2] <- gsub(" ", "",str_sub(names_data[1], {firstc+1}, {lastp-1}))
+      # }
 
-      #Find first parentheses
-      firstp <- as.numeric(gregexpr(pattern ='\\(',names_data[1])[1])
-      #Find end parentheses
-      lastp <- as.numeric(gregexpr(pattern ='\\)',names_data[1])[1])
-      #Find first comma
-      firstc <- as.numeric(gregexpr(pattern ='\\,',names_data[1])[1])
-      #Grab the name of the number of successes which is between the
-      #first parentheses and the comma
-      names(plotly_data)[1] <- str_sub(names_data[1], {firstp+1}, {firstc-1})
+      names(plotly_data_Y)[1] <- "Success"
+      names(plotly_data_Y)[2] <- "Total"
 
-      #Check if the person gave the number of failures or calculated the number
-      #of failures
-      if (grepl("\\-", names_data[1])){
-        #Find the '-' sign: the name of the number of trials will preceed it
-        firstm <- as.numeric(gregexpr(pattern ='\\-',names_data[1])[1])
-        #Set the name of the trials by extracting everything from the comma
-        #to the minus sign and remove extra blanks
-        names(plotly_data)[2] <- gsub(" ", "",str_sub(names_data[1], {firstc+1}, {firstm-1}))
+      plotly_data <- cbind(plotly_data_Y, plotly_data)
+      plotly_data$Success <- as.numeric(as.character(plotly_data$Success))
+      plotly_data$Total <- as.numeric(as.character(plotly_data$Total))
 
-        #Make sure are numeric (I no longer need these so commented out)
-        plotly_data[,1] <- as.numeric(as.character(plotly_data[,1]))
-        plotly_data[,2] <- as.numeric(as.character(plotly_data[,2]))
+      plotly_data$Total <- plotly_data$Total+plotly_data$Success
 
-        #Second column needs to contain total so add first two
-        plotly_data[,2] <- plotly_data[,1]+plotly_data[,2]
-      }else{
-        #if the second column does not contain a minus, the user ented the number
-        #of failures so don't add the first two together and grab the name
-        #of the failures between the comma and the end parentheses and removed extra
-        #blanks
-        names(plotly_data)[2] <- gsub(" ", "",str_sub(names_data[1], {firstc+1}, {lastp-1}))
       }
-    }
   }
   #Create a variable containing the observation number
   plotly_data$Obs <- 1:nrow(plotly_data)
@@ -80,6 +95,15 @@ if(class(model)[1]%in%c("lm", "glm")){
   names_data<- names(plotly_data)
   #Concatonate variable name to data
   for(i in 1:ncol(plotly_data)){
+    # Check if is
+    # Check if contains a decimal (i.e. may need to be rounded)
+    # Also check if has integers in front of the decimal, otherwise should not round
+    if((sum(grepl("\\.", as.character(plotly_data[,i]))) > 0)&(is.numeric(plotly_data[,i]))){
+      # Find the number of digits preceding zero, take abso value and add .001 just in case have zeros
+      if((max(floor(log10(abs(plotly_data[,i]+.001))) + 1)>0)){
+        plotly_data[,i] <- round(plotly_data[,i], 2)
+      }
+    }
     plotly_data[,i] <- paste(names_data[i],": " ,plotly_data[,i],sep="")
   }
 
@@ -94,49 +118,80 @@ if(class(model)[1]%in%c("lm", "glm")){
   #of the information
   Data <- plotly_data[,1]
   for(i in 2:ncol(plotly_data)){
+    # Check if contains a decimal (i.e. may need to be rounded)
+    if((sum(grepl("\\.", as.character(plotly_data[,i]))) > 0)&(is.numeric(plotly_data[,i]))){
+      if((max(floor(log10(abs(plotly_data[,i]+.001))) + 1)>0)){
+        plotly_data[,i] <- round(plotly_data[,i], 2)
+      }
+    }
     Data <- paste(Data, "\n", plotly_data[,{i}])
   }
   Data <- paste(Data)
   Data <- paste("\n",Data)
 
-}else if (class(model)[1]%in%c("lmerMod", "lmerModLmerTest", "glmerMod")) {
+} else if (class(model)[1]%in%c("lmerMod", "lmerModLmerTest", "glmerMod")) {
   names_data <- names(model@frame)
-  plotly_data <- data.frame(as.matrix(model@frame))
 
+  # need to create data set this way to maintain types of input variables (factor, numeric, etc)
+  plotly_data <- model@frame
   #If binomial, the response variables are two columsn
   if(class(model)[1]=="glmerMod"){
     if(model@resp$family[[1]]=="binomial"){
+      # Remove first column
+      plotly_data <- plotly_data[,-1]
+      plotly_data_Y <- data.frame(as.matrix(model@frame))[,1:2]
+      #### OLD VERSION ##################### Changed 1/27/2019
 
-      #Find first parentheses
-      firstp <- as.numeric(gregexpr(pattern ='\\(',names_data[1])[1])
-      #Find end parentheses
-      lastp <- as.numeric(gregexpr(pattern ='\\)',names_data[1])[1])
-      #Find first comma
-      firstc <- as.numeric(gregexpr(pattern ='\\,',names_data[1])[1])
-      #Grab the name of the number of successes
-      names(plotly_data)[1] <- str_sub(names_data[1], {firstp+1}, {firstc-1})
+      # #Find first parentheses
+      # firstp <- as.numeric(gregexpr(pattern ='\\(',names_data[1])[1])
+      # #Find end parentheses
+      # lastp <- as.numeric(gregexpr(pattern ='\\)',names_data[1])[1])
+      # #Find first comma
+      # firstc <- as.numeric(gregexpr(pattern ='\\,',names_data[1])[1])
+      # #Grab the name of the number of successes
+      # names(plotly_data)[1] <- str_sub(names_data[1], {firstp+1}, {firstc-1})
+      #
+      # #Check if the person gave the number of failures or calculated the number
+      # #of failures
+      # if (grepl("\\-", names_data[1])){
+      #   #First the '-' sign
+      #   firstm <- as.numeric(gregexpr(pattern ='\\-',names_data[1])[1])
+      #   #Set the name of the total
+      #   names(plotly_data)[2] <- gsub(" ", "",str_sub(names_data[1], {firstc+1}, {firstm-1}))
+      #
+      #   #Make sure are numeric (don't need these lines anymore)
+      #   plotly_data[,1] <- as.numeric(as.character(plotly_data[,1]))
+      #   plotly_data[,2] <- as.numeric(as.character(plotly_data[,2]))
+      #
+      #   #Second column needs to contain total so add first two
+      #   plotly_data[,2] <- plotly_data[,1]+plotly_data[,2]
+      # }else{
+      #   names(plotly_data)[2] <- gsub(" ", "",str_sub(names_data[1], {firstc+1}, {lastp-1}))
+      # }
 
-      #Check if the person gave the number of failures or calculated the number
-      #of failures
-      if (grepl("\\-", names_data[1])){
-        #First the '-' sign
-        firstm <- as.numeric(gregexpr(pattern ='\\-',names_data[1])[1])
-        #Set the name of the total
-        names(plotly_data)[2] <- gsub(" ", "",str_sub(names_data[1], {firstc+1}, {firstm-1}))
+      names(plotly_data_Y)[1] <- "Success"
+      names(plotly_data_Y)[2] <- "Total"
+      plotly_data <- cbind(plotly_data_Y, plotly_data)
 
-        #Make sure are numeric (don't need these lines anymore)
-        plotly_data[,1] <- as.numeric(as.character(plotly_data[,1]))
-        plotly_data[,2] <- as.numeric(as.character(plotly_data[,2]))
+      # Convert to numeric
+      plotly_data$Success <- as.numeric(as.character(plotly_data$Success))
+      plotly_data$Total <- as.numeric(as.character(plotly_data$Total))
 
-        #Second column needs to contain total so add first two
-        plotly_data[,2] <- plotly_data[,1]+plotly_data[,2]
-      }else{
-        names(plotly_data)[2] <- gsub(" ", "",str_sub(names_data[1], {firstc+1}, {lastp-1}))
+      plotly_data$Total <- plotly_data$Total+plotly_data$Success
+
+    }
+  }
+
+  plotly_data$Obs <- 1:nrow(plotly_data)
+
+  for(i in 1:ncol(plotly_data)){
+    # Check if contains a decimal (i.e. may need to be rounded)
+    if((sum(grepl("\\.", as.character(plotly_data[,i]))) > 0)&(is.numeric(plotly_data[,i]))){
+      if((max(floor(log10(abs(plotly_data[,i]+.001))) + 1)>0)){
+        plotly_data[,i] <- round(plotly_data[,i], 2)
       }
     }
   }
-  plotly_data$Obs <- 1:nrow(plotly_data)
-
   plotly_data[] <- lapply(plotly_data, as.character)
   #NO LONGER NEED THIS BECAUSE DISPLAYING VERTICALLY
   #Trim variables that are numeric and contain a decimal
@@ -156,6 +211,7 @@ if(class(model)[1]%in%c("lm", "glm")){
 
   #Add name to rows
   for(i in 1:ncol(plotly_data)){
+
     plotly_data[,i] <- paste(names_data[i],": " ,plotly_data[,i], sep="")
   }
 
@@ -167,12 +223,59 @@ if(class(model)[1]%in%c("lm", "glm")){
 
   Data <- plotly_data[,1]
   for(i in 2:ncol(plotly_data)){
+    # Check if contains a decimal (i.e. may need to be rounded)
+    if((sum(grepl("\\.", as.character(plotly_data[,i]))) > 0)&(is.numeric(plotly_data[,i]))){
+      if((max(floor(log10(abs(plotly_data[,i]+.001))) + 1)>0)){
+        plotly_data[,i] <- round(plotly_data[,i], 2)
+      }
+    }
     Data <- paste(Data, "\n", plotly_data[,{i}])
   }
   Data <- paste(Data, "\n")
   Data <- paste("\n",Data)
 
-}
+} else if (class(model)[1] == "lme") {
+  names_data <- names(model$data)
+
+  plotly_data <- model$data
+
+  # Add name to rows
+  for(i in 1:ncol(plotly_data)){
+    # Check if contains a decimal (i.e. may need to be rounded)
+    if((sum(grepl("\\.", as.character(plotly_data[,i]))) > 0)&(is.numeric(plotly_data[,i]))){
+      if((max(floor(log10(abs(plotly_data[,i]+.001))) + 1)>0)){
+        plotly_data[,i] <- round(plotly_data[,i], 2)
+      }
+    }
+  }
+  plotly_data$Obs <- 1:nrow(plotly_data)
+  plotly_data[] <- lapply(plotly_data, as.character)
+  names_data <- names(plotly_data)
+
+  for(i in 1:ncol(plotly_data)){
+    plotly_data[,i] <- paste(names_data[i],": " ,plotly_data[,i], sep="")
+  }
+
+  # Limit to 20 variables showing
+  if(ncol(plotly_data) > 20){
+    plotly_data <- plotly_data[,c(1:9, ncol(plotly_data))]
+  }
+
+  Data <- plotly_data[,1]
+  for(i in 2:ncol(plotly_data)){
+    # Check if contains a decimal (i.e. may need to be rounded)
+    if((sum(grepl("\\.", as.character(plotly_data[,i]))) > 0)&(is.numeric(plotly_data[,i]))){
+      if((max(floor(log10(abs(plotly_data[,i]+.001))) + 1)>0)){
+        plotly_data[,i] <- round(plotly_data[,i], 2)
+      }
+    }
+
+    Data <- paste(Data, "\n", plotly_data[,{i}])
+  }
+  Data <- paste(Data, "\n")
+  Data <- paste("\n",Data)
+
+  }
 return(Data)
 #################################################################
 

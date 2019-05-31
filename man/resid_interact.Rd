@@ -2,30 +2,39 @@
 % Please edit documentation in R/resid_interact.R
 \name{resid_interact}
 \alias{resid_interact}
-\title{Interaction Versions of Residual Diagnostics Plots.}
+\title{Panel of Interactive Versions of Diagnostic Residual Plots.}
 \usage{
-resid_interact(model, plot = "resid", type = NA, bins = NA,
-  smoother = FALSE, qqline = TRUE, theme = "bw",
-  axis.text.size = 10, title.text.size = 12, title.opt = TRUE)
+resid_interact(model, plots = "default", type = NA, bins = 30,
+  smoother = FALSE, qqline = TRUE, scale = 0.9, theme = "bw",
+  axis.text.size = 10, title.text.size = 12, title.opt = TRUE,
+  nrow = NULL)
 }
 \arguments{
 \item{model}{Model fit using either \code{lm}, \code{glm}, \code{lmer},
-\code{lmerTest}, or \code{glmer}.}
+\code{lmerTest}, \code{lme}, or \code{glmer}.}
 
-\item{plot}{Specify plot to create an interactive version. (See details for
-options.)}
+\item{plots}{Plots chosen to include in the panel of plots. The default panel
+includes a residual plot, a normal quantile plot, an index plot,
+and a histogram of the residuals. (See details in the help file
+for \code{resid_panel} for the options available.)}
 
-\item{type}{The user may specify a type of residuals to use. Otherwise, the
-default residual type for each model is used. (See details in the help file
-for \code{resid_panel} for options.)}
+\item{type}{Type of residuals to use in the plot. If not specified, the
+default residual type for each model type is used. (See details in the help file
+for \code{resid_panel} for the options available.)}
 
-\item{bins}{Number of bins to use when creating a histogram of the residuals.}
+\item{bins}{Number of bins to use when creating a histogram of the residuals.
+Default is set to 30.}
 
-\item{smoother}{Indicates whether or not to include a smoother on the
-residual plot. Specify TRUE or FALSE. Default is set to FALSE.}
+\item{smoother}{Indicates whether or not to include a smoother on the index,
+residual-leverage, location-scale, and residual plots. Specify TRUE or FALSE.
+Default is set to FALSE.}
 
 \item{qqline}{Indicates whether to include a 1-1 line on the qq-plot. Specify
-TRUE or FALSE. Default is set to TRUE.}
+TRUE or FALSE. Default is set to TRUE. (The option of \code{qqbands} has not
+been implemented in plotly, so it is not available as an option with
+\code{resid_interact}.)}
+
+\item{scale}{Scales the size of the graphs in the panel. Takes values in (0,1].}
 
 \item{theme}{ggplot2 theme to be used. Current options are \code{"bw"},
 \code{"classic"}, and \code{"grey"} (or \code{"gray"}). Default is
@@ -39,94 +48,36 @@ plots in the panel.}
 
 \item{title.opt}{Indicates whether or not to include a title on the plots in
 the panel. Specify TRUE or FALSE. Default is set to TRUE.}
+
+\item{nrow}{Sets the number of rows in the panel.}
 }
 \value{
-The interactive residual diagnostic plot specified.
+A panel of interactive residual diagnostic plots containing plots specified.
 }
 \description{
-Creates interactive versions of all residual diagnostic plots given a model.
-Currently accepts models of type "lm", "glm", "lmerMod", "lmerModLmerTest", and "glmerMod".
+Creates a panel of interactive residual diagnostic plots given a model. Currently
+accepts models of type "lm", "glm", "lmerMod", "lmerModLmerTest", "lme", and "glmerMod".
 }
 \details{
-Currently, only one plot can be made interactive at a time. The
-  options are as follows.
-  \itemize{
-  \item \code{"boxplot"}: A boxplot of residuals
-  \item \code{"cookd"}: A plot of Cook's D values versus observation numbers
-  \item \code{"hist"}: A histogram of residuals
-  \item \code{"index"}: A plot of residuals versus observation numbers
-  \item \code{"ls"}: A location scale plot of the residuals
-  \item \code{"qq"}: A normal quantile plot of residuals
-  \item \code{"lev"}: A plot of leverage values versus residuals
-  \item \code{"resid"}: A plot of residuals versus predicted values
-  \item \code{"yvp":}: A plot of observed response values versus predicted values
-  }
-
-  Note: \code{"cookd"}, \code{"ls"}, and \code{"lev"} are not available for "
-  lmer", "lmerTest", and "glmer" models.
-
-  Details on the creation of the plots can be found in the details section of
+Details on the creation of the plots can be found in the details section of
   the help file for \code{resid_panel}.
 }
 \examples{
-## --------------------------------------------------------------------------------
-## Linear Regression Models
-## --------------------------------------------------------------------------------
 
-# Fit a linear regression model to predict the volume of a tree based on the
-# girth of a tree using the R "trees" data
-lm_model1 <- lm(Volume ~ Girth, data = trees)
+# Fit a model to the penguin data
+penguin_model <- lme4::lmer(heartrate ~ depth + duration + (1|bird), data = penguins)
 
-# Create an interactive Cook's D plot
-resid_interact(lm_model1, plot = "cookd")
+# Create the default interactive panel
+resid_interact(penguin_model)
 
-# Fit a linear model to compare the weights of plants bewteen different
-# treatment groups using the R "PlantGrowth" data
-lm_model2 <- lm(weight ~ group, data = PlantGrowth)
+# Select all plots to include in the panel and set the smoother option to TRUE
+resid_interact(penguin_model, plots = "all", smoother = TRUE)
 
-# Create an interactive location-scale plot with them classic theme
-resid_interact(lm_model2, plot = "ls", theme = "classic")
+# Select only the residual plot and qq-plot to be included in the panel and
+# set the number of rows to 2
+resid_interact(penguin_model, plots = c("resid", "qq"), nrow = 2)
 
-## --------------------------------------------------------------------------------
-## Generalized Linear Regression Models
-## --------------------------------------------------------------------------------
-
-# Fit a generalized linear regression model using a Poisson family to compare
-# the insect counts between different sprays from the R "InsectSprays" data
-glm_model <- glm(count ~ spray, family = "poisson", data = InsectSprays)
-
-# Create an interactive residual plot with a smoother
-resid_interact(glm_model, plot = "resid", smoother = TRUE)
-
-## --------------------------------------------------------------------------------
-## Linear Mixed Effects Models
-## --------------------------------------------------------------------------------
-
-# Load the lme4 package
-library(lme4)
-
-# Fit a linear mixed effect model to compare weights of chicks between diets using
-# the R "ChickWeight" data and including chick as a random effect to account for the
-# multiple measurements over time
-lmer_model <- lmer(weight ~ Time + Diet + Time*Diet + (1|Chick), data = ChickWeight)
-
-# Create an interactive qq-plot without a title
-resid_interact(lmer_model, plot = "hist", title.opt = FALSE)
-
-## --------------------------------------------------------------------------------
-## Generalized Linear Mixed Effects Models
-## --------------------------------------------------------------------------------
-
-# Generate Poisson data
-example_data <- data.frame(y = rpois(54, 3),
-                           trt = rep(c("A", "B"), each = 27),
-                           subject = rep(1:18, each = 3))
-
-# Fit a generalized linear mixed effects model with a Poisson family to compare
-# the response between the treatments with a random effect for subject to
-# account for the dependence within a subject
-glmer_model <- glmer(y ~ trt + (1|subject), family = "poisson", data = example_data)
-
-# Create an interactive residual plot with the Pearson residuals
-resid_interact(glmer_model, plot = "resid", type = "pearson")
+# Choose the SAS panel of plots, change the theme to classic, and remove the
+# titles of the plots
+resid_interact(penguin_model, plots = "SAS", theme = "classic", title.opt = FALSE)
 }

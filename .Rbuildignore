@@ -1,2 +1,11 @@
 ^.*\.Rproj$
 ^\.Rproj\.user$
+^data-raw$
+^docs$
+^figures$
+^Ideas for Future Work$
+^NEWS.md$
+^README_files$
+^README\.Rmd$
+^residuals.Rmd$
+^tests.R$

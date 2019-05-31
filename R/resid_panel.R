@@ -1,69 +1,74 @@
 #' Panel of Diagnostic Residual Plots.
 #'
 #' Creates a panel of residual diagnostic plots given a model. Currently accepts
-#' models of type "lm", "glm", "lmerMod", "lmerModLmerTest", and "glmerMod".
+#' models of type "lm", "glm", "lmerMod", "lmerModLmerTest", "lme", and "glmerMod".
 #'
 #' @param model Model fit using either \code{lm}, \code{glm}, \code{lmer},
-#'   \code{lmerTest}, or \code{glmer}.
-#' @param plots Plots chosen to include in the panel of plots. Default is set to
-#'   "SAS". (See details for options.)
-#' @param type The user may specify a type of residuals to use. Otherwise, the
-#'   default residual type for each model is used. (See details for options.)
+#'   \code{lmerTest}, \code{lme}, or \code{glmer}.
+#' @param plots Plots chosen to include in the panel of plots. The default panel
+#'   includes a residual plot, a normal quantile plot, an index plot,
+#'   and a histogram of the residuals. (See details for the options available.)
+#' @param type Type of residuals to use in the plot. If not specified, the
+#'   default residual type for each model type is used. (See details for the
+#'   options available.)
 #' @param bins Number of bins to use when creating a histogram of the residuals.
-#' @param smoother Indicates whether or not to include a smoother on the
-#'   residual plot. Specify TRUE or FALSE. Default is set to FALSE.
+#'   Default is set to 30.
+#' @param smoother Indicates whether or not to include a smoother on the index,
+#'   residual-leverage, location-scale, and residual plots. Specify TRUE or FALSE.
+#'   Default is set to FALSE.
 #' @param qqline Indicates whether to include a 1-1 line on the qq-plot. Specify
 #'   TRUE or FALSE. Default is set to TRUE.
 #' @param qqbands Indicates whether to include confidence bands on the qq-plot.
 #'   Specify TRUE or FALSE. Default is set to FALSE.
-#' @param scale Scales the size of the graphs in a panel. Takes values in (0,1].
+#' @param scale Scales the size of the graphs in the panel. Takes values in (0,1].
+#' @param theme ggplot2 theme to be used. Current options are \code{"bw"},
+#'   \code{"classic"}, and \code{"grey"} (or \code{"gray"}). Default is
+#'   \code{"bw"}.
 #' @param axis.text.size Specifies the size of the text for the axis labels of
 #'   all plots in the panel.
 #' @param title.text.size Specifies the size of the text for the titles of all
 #'   plots in the panel.
 #' @param title.opt Indicates whether or not to include a title on the plots in
 #'   the panel. Specify TRUE or FALSE. Default is set to TRUE.
-#' @param theme ggplot2 theme to be used. Current options are \code{"bw"},
-#'   \code{"classic"}, and \code{"grey"} (or \code{"gray"}). Default is
-#'   \code{"bw"}.
-#' @param ind.ncol When a vector of individual plots has been requested, this
-#'   specifies the number of columns in the panel. Default is set to 2 columns.
+#' @param nrow Sets the number of rows in the panel.
 #'
-#' @export
+#' @export resid_panel
 #'
-#' @importFrom ggplot2 ggplot aes geom_point geom_abline labs theme_bw theme
+#' @importFrom cowplot plot_grid ggdraw draw_label
+#' @importFrom ggplot2 ggplot aes aes_string geom_point geom_abline labs theme_bw theme
 #'   geom_histogram stat_function xlim geom_boxplot expand_limits geom_smooth
 #'   element_text ggplotGrob geom_vline theme_classic geom_hline geom_segment
 #'   geom_line scale_x_continuous scale_y_continuous theme_grey ggplot_build xlab ylab
-#' @importFrom cowplot plot_grid
-#' @importFrom gridExtra grid.arrange tableGrob ttheme_minimal
+#'   geom_text element_blank
+#' @importFrom grDevices extendrange
 #' @importFrom MASS stdres
 #' @importFrom qqplotr stat_qq_point stat_qq_line stat_qq_band
+#' @importFrom stats cooks.distance dnorm fitted hatvalues lowess model.frame resid sd
 #' @importFrom stringr str_sub
 #'
 #' @details
 #'
 #' The first two sections below contain information on the available input
 #' options for the \code{plots} and \code{type} arguments in \code{resid_panel}.
-#' The third section contains information on the details relating to the
-#' creation of the plots.
+#' The third section contains details relating to the creation of the plots.
 #'
-#' \strong{Options for} \code{plots}
+#' \strong{Options for Plots}
 #'
 #' The following options can be chosen for the \code{plots} argument.
 #' \itemize{
 #' \item "all": This creates a panel of all plot types included in the package
-#' that are available for the model type input into \code{residpanel}. (See note
+#' that are available for the model type input into \code{resid_panel}. (See note
 #' below.)
+#' \item "default": This creates a panel with a residual plot, a normal quantile plot
+#' of the residuals, an index plot of the residuals, and a histogram of the residuals.
 #' \item "R": This creates a panel with a residual plot, a normal
-#' quantile plot of the residuals, a location-scale plot, and a leverage versus
-#' residuals plot. This was modeled after the plots shown in R if the
-#' \code{plot()} base function is applied to an \code{lm} model. This option can
-#' only be used with an \code{lm} or \code{glm} model.
-#' \item "SAS": This is the default option. It creates a panel with a residual plot,
-#' a normal quantile plot of the residuals, a histogram of the residuals, and a boxplot
-#' of the residuals. This was modeled after the residpanel option in proc mixed from
-#' SAS version 9.4.
+#' quantile plot of the residuals, a location-scale plot, and a residuals versus leverage
+#' plot. This was modeled after the plots shown in R if the \code{plot()} base function
+#' is applied to an \code{lm} model. This option can only be used with an \code{lm} or
+#' \code{glm} model.
+#' \item "SAS": This creates a panel with a residual plot, a normal quantile plot of
+#' the residuals, a histogram of the residuals, and a boxplot of the residuals.
+#' This was modeled after the residualpanel option in proc mixed from SAS version 9.4.
 #' \item A vector of individual plots can also be specified.
 #' For example, one can specify \code{plots = c("boxplot", "hist")} or
 #' \code{plots = "qq"}. The individual plot options are as follows.
@@ -74,15 +79,15 @@
 #' \item \code{"index"}: A plot of residuals versus observation numbers
 #' \item \code{"ls"}: A location scale plot of the residuals
 #' \item \code{"qq"}: A normal quantile plot of residuals
-#' \item \code{"lev"}: A plot of leverage values versus residuals
+#' \item \code{"lev"}: A plot of standardized residuals versus leverage values
 #' \item \code{"resid"}: A plot of residuals versus predicted values
 #' \item \code{"yvp":}: A plot of observed response values versus predicted values
 #' } }
 #'
-#' Note: \code{"cookd"}, \code{"ls"}, and \code{"lev"} are not available for
-#' "lmer", "lmerTest", and "glmer" models.
+#' Note: \code{"cookd"}, \code{"ls"}, and \code{"lev"} are only available for "lm" and
+#' "glm" models.
 #'
-#' \strong{Options for} \code{type}
+#' \strong{Options for Type}
 #'
 #' Several residual types are available to be requested based on the model type
 #' that is input into \code{resid_panel}. These currently are as follows.
@@ -101,9 +106,9 @@
 #' \item \code{"stand.deviance"}: The standardized deviance residuals
 #' \item \code{"stand.pearson"}: The standardized Pearson residuals
 #' }
-#' \item \code{lmer} and \code{lmerTest} residual options
+#' \item \code{lmer}, \code{lmerTest}, and \code{lme} residual options
 #' \itemize{
-#' \item \code{"pearson"}: The Pearson residuals (Default for "lmer" and "lmerTest")
+#' \item \code{"pearson"}: The Pearson residuals (Default for "lmer", "lmerTest", and "lme")
 #' \item \code{"response"}: The raw residuals
 #' }
 #' \item \code{glmer} residual options
@@ -131,14 +136,15 @@
 #' \item{Index Plot (\code{index})}{Plots the residuals on the y-axis and the observation
 #' number associated with the residual on the x-axis.}
 #'
-#' \item{Leverage Plot (\code{lev})}{Plots the standardized residuals on the y-axis
-#' and the leverage values on the x-axis. A lowess curve is overlaid, and Cook's
-#' D contours are included for \eqn{\alpha = 0.5} and \eqn{\alpha = 1}.}
+#' \item{Residual-Leverage Plot (\code{lev})}{Plots the standardized residuals on the
+#' y-axis and the leverage values on the x-axis with a loess curve is overlaid. Cook's
+#' D contour lines (which are a function of leverage and standardized residuals) are plotted
+#' as the red dashed lines for Cook's D values of 0.5 and 1.}
 #'
 #' \item{Location-Scale Plot (\code{ls})}{Plots the square root of the absolute value
 #' of the standardized residuals on the y-axis and the predicted values on the
 #' x-axis. The predicted values are plotted on the original scale for \code{glm}
-#' and \code{glmer} models. A lowess curve is overlaid.}
+#' and \code{glmer} models. A loess curve is overlaid.}
 #'
 #' \item{QQ Plot (\code{qq})}{Makes use of the \code{R} package \code{qqplotr} for
 #' creating a normal quantile plot of the residuals.}
@@ -156,321 +162,168 @@
 #' @return A panel of residual diagnostic plots containing plots specified.
 #'
 #' @examples
-#' ## --------------------------------------------------------------------------------
-#' ## Linear Regression Models
-#' ## --------------------------------------------------------------------------------
 #'
-#' # Fit a linear regression model to predict the volume of a tree based on the
-#' # girth of a tree using the R "trees" data
-#' lm_model1 <- lm(Volume ~ Girth, data = trees)
+#' # Fit a model to the penguin data
+#' penguin_model <- lme4::lmer(heartrate ~ depth + duration + (1|bird), data = penguins)
 #'
-#' # Plot the residuals using the default panel
-#' resid_panel(lm_model1, bins = 30)
+#' # Create the default panel
+#' resid_panel(penguin_model)
 #'
-#' # Create a panel of all diagnostic plot options and add a smoother to the
-#' # residual plot
-#' resid_panel(lm_model1, bins = 30, plots = "all", smoother = TRUE)
+#' # Select all plots to include in the panel and set the smoother option to TRUE
+#' resid_panel(penguin_model, plots = "all", smoother = TRUE)
 #'
-#' # Fit a linear model to compare the weights of plants bewteen different
-#' # treatment groups using the R "PlantGrowth" data
-#' lm_model2 <- lm(weight ~ group, data = PlantGrowth)
+#' # Select only the residual plot and qq-plot to be included in the panel,
+#' # request confidence bands on the qq plot, and set the number of rows to 2
+#' resid_panel(penguin_model, plots = c("resid", "qq"), qqbands = TRUE, nrow = 2)
 #'
-#' # Create a panel of the residual plot, the histogram, and the location-scale plot for
-#' #"lm" models using the classic theme with three columns
-#' resid_panel(lm_model2, plots = c("resid", "hist", "ls"), theme = "classic", ind.ncol=3)
-#'
-#' ## --------------------------------------------------------------------------------
-#' ## Generalized Linear Regression Models
-#' ## --------------------------------------------------------------------------------
-#'
-#' # Fit a generalized linear regression model using a Poisson family to compare
-#' # the insect counts between different sprays from the R "InsectSprays" data
-#' glm_model1 <- glm(count ~ spray, family = "poisson", data = InsectSprays)
-#'
-#' # Plot the residuals using the default panel without titles and with a gray theme
-#' resid_panel(glm_model1, bins = 30, title.opt = FALSE, theme = "gray")
-#'
-#' # Plot the residuals using the default panel with standarized deviance residuals
-#' # and use a smaller scaling of the plots
-#' resid_panel(glm_model1, type = "stand.deviance", scale = 0.9)
-#'
-#' #Generate binomial data
-#' total <- c(rpois(45,20))+1
-#' example_data1 <- data.frame(success = rbinom(45, total,.56),
-#' trt = rep(c("A", "B", "C"), each = 15))
-#'
-#' # Fit a generalized lineaer regression model using a binomial family to compare
-#' # across treatments
-#' glm_model2 <- glm(cbind(success, total-success) ~ trt, family = "binomial", data = example_data1)
-#'
-#' #Plot all residual plots with Pearson residuals
-#' resid_panel(glm_model2, plot = "all", type = "pearson")
-#'
-#' ## --------------------------------------------------------------------------------
-#' ## Linear Mixed Effects Models
-#' ## --------------------------------------------------------------------------------
-#'
-#' # Load the lme4 package
-#' library(lme4)
-#'
-#' # Fit a linear mixed effect model to compare weights of chicks between diets using
-#' # the R "ChickWeight" data and including chick as a random effect to account for the
-#' # multiple measurements over time
-#' lmer_model <- lmer(weight ~ Time + Diet + Time*Diet + (1|Chick), data = ChickWeight)
-#'
-#' # Create a panel of the residual plot and the normal quantile plot with
-#' # confidence bands
-#' resid_panel(lmer_model, plots = c("resid", "qq"), qqbands = TRUE)
-#'
-#' ## --------------------------------------------------------------------------------
-#' ## Generalized Linear Mixed Effects Models
-#' ## --------------------------------------------------------------------------------
-#'
-#' # Generate Poisson data
-#' example_data2 <- data.frame(y = rpois(54, 3),
-#'                            trt = rep(c("A", "B"), each = 27),
-#'                            subject = rep(1:18, each = 3))
-#'
-#' # Fit a generalized linear mixed effects model with a Poisson family to compare
-#' # the response between the treatments with a random effect for subject to
-#' # account for the dependence within a subject
-#' glmer_model <- glmer(y ~ trt + (1|subject), family = "poisson", data = example_data2)
-#'
-#' # Plot the residual plot with the size of the title and axis lables increased
-#' resid_panel(glmer_model, plots = "resid", title.text.size = 14, axis.text.size = 12)
-#'
-#' # Plot the residual plot using the Pearson residuals
-#' resid_panel(glmer_model, plots = "resid", type = "pearson")
+#' # Choose the SAS panel of plots, change the theme to classic, and remove the
+#' # titles of the plots
+#' resid_panel(penguin_model, plots = "SAS", theme = "classic", title.opt = FALSE)
 
-resid_panel <- function(model, plots = "default", type = NA, bins = NA,
+resid_panel <- function(model, plots = "default", type = NA, bins = 30,
                         smoother = FALSE, qqline = TRUE, qqbands = FALSE,
                         scale = 1, theme = "bw", axis.text.size = 10,
-                        title.text.size = 12, title.opt = TRUE,
-                        ind.ncol = 2){
+                        title.text.size = 12, title.opt = TRUE, nrow = NULL){
 
   ## Errors and Warnings -------------------------------------------------------
 
-  # Return an error if an acceptable model type is not entered in the function
-  if(!(class(model)[1] %in% c("lm", "glm", "lmerMod", "glmerMod", "lmerModLmerTest")))
-    stop("The updated version of resid_panel requires a model to be input to the functions.
-         Accepted models currently are 'lm', 'glm', 'lmer', 'glmer', and 'lmerTest'. If
-         using residuals from a different model type, use the new function resid_auxpanel
-         to create a panel using vectors of the residuals and fitted values.")
+  # Checks that return an error
+  check_modeltype(model = model)
+  check_residualtype(model = model, type = type)
+  check_standardized(model = model, plots = plots)
+  check_cooksd(model = model, plots = plots)
 
-  # Return an error if the requested residual type is not available for the model type
-  type <- tolower(type)
-  if(!is.na(type)){
-    if(class(model)[1] == "lm"){
-      if(!(type %in% c("response", "pearson", "standardized"))){
-        stop("The requested residual type is not available for an 'lm' model. Please select
-             from the following options for an 'lm' model: response, pearson, or standardized.")
-      }
-    } else if(class(model)[1] == "glm"){
-      if(!(type %in% c("response", "pearson", "deviance", "stand.pearson", "stand.deviance"))){
-        stop("The requested residual type is not available for a 'glm' model. Please select
-             from the following options for a 'glm' model: response, pearson, deviance,
-             stand.deviance, or stand.pearson.")
-      }
-    } else if(class(model)[1] == "lmerMod"){
-      if(!(type %in% c("response", "pearson"))){
-        stop("The requested residual type is not available for an 'lmer' model. Please select
-             from the following options for an 'lmer' model: response or pearson.")
-      }
-    } else if(class(model)[1] == "lmerModLmerTest"){
-      if(!(type %in% c("response", "pearson"))){
-        stop("The requested residual type is not available for an 'lmerTest' model. Please select
-             from the following options for an 'lmerTest' model: response or pearson.")
-      }
-    } else if(class(model)[1] == "glmerMod"){
-      if(!(type %in% c("response", "pearson", "deviance"))){
-        stop("The requested residual type is not available for a 'glmer' model. Please select
-             from the following options for a 'glmer' model: response, pearson, or deviance.")
-      }
-    }
-  }
-
-  # Return an error if the requested plots involve standardizing residuals for an 'lmer' or
-  # a 'glmer' model
-  if(class(model)[1] %in% c("lmerMod", "lmerModLmerTest", "glmerMod")){
-    if("ls" %in% plots |"lev" %in% plots | "R" %in% plots){
-      stop("The requested plot or panel uses standardized residuals, which are not
-           currently available for 'lmer', 'lmerTest', or 'glmer' models.")
-    }
-  }
-
-  # Return an error if Cook's D plot is requested for an 'lmer' or 'glmer' model
-  if(class(model)[1] %in% c("lmerMod", "lmerModLmerTest", "glmerMod")){
-    if("cookd" %in% plots){
-      stop("The Cook's D plot is unavailable for 'lmer', 'lmerTest', and 'glmer' models.")
-    }
-  }
-
-  # Return a warning if the smoother option is not specified correctly
-  if(smoother == TRUE | smoother == FALSE){
-  } else{
-    smoother <- FALSE
-    warning("The smoother option for residual plot not was specified correctly.
-            The default option will be used. Accepted options are TRUE or FALSE.")
-  }
-
-  # Return a warning if the theme is not specified correctly
-  if(theme == "bw" | theme == "classic" | theme == "grey" | theme == "gray"){
-  } else{
-    theme <- "bw"
-    warning("The theme option was not specified correctly. The default theme
-            will be used. Accepted themes are 'bw', 'classic', and 'grey' (or 'gray').")
-  }
-
-  # Return a warning if the title option is not specified correctly
-  if(title.opt == TRUE | title.opt == FALSE){
-  } else{
-    title.opt <- TRUE
-    warning("The title option was not specified correctly. The default title
-            option will be used. Accepted options are TRUE or FALSE.")
-  }
-
-  # Return a warning about choosing the number of bins if a histogram is included
-  # and the number of bins has not been specified
-  if("default" %in% plots | "SAS" %in% plots | "all" %in% plots | "hist" %in% plots){
-    if(is.na(bins)){
-      bins = 30
-      warning("By default, bins = 30 in the histogram of residuals. If necessary,
-              specify an appropriate number of bins.")
-    }
-  }
-
-  # Return warning if consant leverage
-  if("all" %in% plots | "R" %in% plots | "lev" %in% plots){
-    leverage_val <- hatvalues(model)
-    zero_range <- function(x, tol = .Machine$double.eps ^ 0.5) {
-      if (length(x) == 1) return(TRUE)
-      x <- range(x) / mean(x)
-      isTRUE(all.equal(x[1], x[2], tolerance = tol))
-    }
-
-    if(zero_range(leverage_val)==TRUE){
-      warning("Note that this model has constant leverage.")
-    }
-
-  }
+  # Checks that return a warning
+  smoother <- check_smoother(smoother = smoother)
+  theme <- check_theme(theme = theme)
+  title.opt <- check_title(title.opt = title.opt)
+  check_leverage(model = model, plots = plots)
 
   ## Creation of plots ---------------------------------------------------------
 
   # Create a boxplot of the residuals if selected in plots otherwise set as NULL
   if("boxplot" %in% plots | "SAS" %in% plots | "all" %in% plots){
-    boxplot <- resid_boxplot(type = type,
-                             model = model,
-                             theme = theme,
-                             axis.text.size = axis.text.size,
-                             title.text.size = title.text.size,
-                             title.opt = title.opt)
+    boxplot <- plot_boxplot(type = type,
+                            model = model,
+                            theme = theme,
+                            axis.text.size = axis.text.size,
+                            title.text.size = title.text.size,
+                            title.opt = title.opt)
   } else{
     boxplot <- NULL
   }
 
   # Create a Cook's D plot if selected in plots otherwise set as NULL
   if("cookd" %in% plots){
-    cookd <- resid_cookd(model = model,
-                         theme = theme,
-                         axis.text.size = axis.text.size,
-                         title.text.size = title.text.size,
-                         title.opt = title.opt)
-  } else if("all" %in% plots & !(class(model)[1] %in% c("lmerMod", "lmerModLmerTest", "glmerMod"))){
-    cookd <- resid_cookd(model = model,
-                         theme = theme,
-                         axis.text.size = axis.text.size,
-                         title.text.size = title.text.size,
-                         title.opt = title.opt)
+    cookd <- plot_cookd(model = model,
+                        theme = theme,
+                        axis.text.size = axis.text.size,
+                        title.text.size = title.text.size,
+                        title.opt = title.opt)
+  } else if("all" %in% plots &
+            !(class(model)[1] %in% c("lme", "lmerMod", "lmerModLmerTest", "glmerMod"))){
+    cookd <- plot_cookd(model = model,
+                        theme = theme,
+                        axis.text.size = axis.text.size,
+                        title.text.size = title.text.size,
+                        title.opt = title.opt)
   } else{
     cookd <- NULL
   }
 
   # Create a histogram of the residuals if selected in plots otherwise set as NULL
   if("hist" %in% plots | "default" %in% plots | "SAS" %in% plots | "all" %in% plots){
-    hist <- resid_hist(model = model,
-                       type = type,
-                       bins = bins,
-                       theme = theme,
-                       axis.text.size = axis.text.size,
-                       title.text.size = title.text.size,
-                       title.opt = title.opt)
+    hist <- plot_hist(model = model,
+                      type = type,
+                      bins = bins,
+                      theme = theme,
+                      axis.text.size = axis.text.size,
+                      title.text.size = title.text.size,
+                      title.opt = title.opt)
   } else{
     hist <- NULL
   }
 
   # Create an index plot of the residuals if selected in plots otherwise set as NULL
   if("index" %in% plots | "default" %in% plots | "all" %in% plots){
-    index <- resid_index(model = model,
-                         type = type,
-                         theme = theme,
-                         axis.text.size = axis.text.size,
-                         title.text.size = title.text.size,
-                         title.opt = title.opt)
+    index <- plot_index(model = model,
+                        type = type,
+                        smoother = smoother,
+                        theme = theme,
+                        axis.text.size = axis.text.size,
+                        title.text.size = title.text.size,
+                        title.opt = title.opt)
   } else{
     index <- NULL
   }
 
+  # Create a residual-leverage plot if selected in plots otherwise set as NULL
+  if("lev" %in% plots | "R" %in% plots){
+    lev <- plot_lev(model = model,
+                    type = type,
+                    smoother = smoother,
+                    theme = theme,
+                    axis.text.size = axis.text.size,
+                    title.text.size = title.text.size,
+                    title.opt = title.opt)
+  } else if("all" %in% plots &
+            !(class(model)[1] %in% c("lme", "lmerMod", "lmerModLmerTest", "glmerMod"))){
+    lev <- plot_lev(model = model,
+                    type = type,
+                    smoother = smoother,
+                    theme = theme,
+                    axis.text.size = axis.text.size,
+                    title.text.size = title.text.size,
+                    title.opt = title.opt)
+  } else{
+    lev <- NULL
+  }
+
   # Create a location-scale plot if selected in plots otherwise set as NULL
   if("ls" %in% plots | "R" %in% plots){
-    ls <- resid_ls(model = model,
-                   type = type,
-                   theme = theme,
-                   axis.text.size = axis.text.size,
-                   title.text.size = title.text.size,
-                   title.opt = title.opt)
-  } else if("all" %in% plots & !(class(model)[1] %in% c("lmerMod", "lmerModLmerTest", "glmerMod"))){
-    ls <- resid_ls(model = model,
-                   type = type,
-                   theme = theme,
-                   axis.text.size = axis.text.size,
-                   title.text.size = title.text.size,
-                   title.opt = title.opt)
+    ls <- plot_ls(model = model,
+                  type = type,
+                  smoother = smoother,
+                  theme = theme,
+                  axis.text.size = axis.text.size,
+                  title.text.size = title.text.size,
+                  title.opt = title.opt)
+  } else if("all" %in% plots &
+            !(class(model)[1] %in% c("lme", "lmerMod", "lmerModLmerTest", "glmerMod"))){
+    ls <- plot_ls(model = model,
+                  type = type,
+                  smoother = smoother,
+                  theme = theme,
+                  axis.text.size = axis.text.size,
+                  title.text.size = title.text.size,
+                  title.opt = title.opt)
   } else{
     ls <- NULL
   }
 
   # Create a q-q plot of the residuals if selected in plots otherwise set as NULL
   if("qq" %in% plots | "default" %in% plots | "SAS" %in% plots | "R" %in% plots | "all" %in% plots){
-    qq <- resid_qq(model = model,
-                   type = type,
-                   theme = theme,
-                   axis.text.size = axis.text.size,
-                   title.text.size = title.text.size,
-                   title.opt = title.opt,
-                   qqline = qqline,
-                   qqbands = qqbands)
+    qq <- plot_qq(model = model,
+                  type = type,
+                  theme = theme,
+                  axis.text.size = axis.text.size,
+                  title.text.size = title.text.size,
+                  title.opt = title.opt,
+                  qqline = qqline,
+                  qqbands = qqbands)
   } else{
     qq <- NULL
   }
 
-  # Create a residual-leverage plot if selected in plots otherwise set as NULL
-  if("lev" %in% plots | "R" %in% plots){
-    lev <- resid_lev(model = model,
-                          type = type,
-                          theme = theme,
-                          axis.text.size = axis.text.size,
-                          title.text.size = title.text.size,
-                          title.opt = title.opt)
-  } else if("all" %in% plots & !(class(model)[1] %in% c("lmerMod", "lmerModLmerTest", "glmerMod"))){
-    lev <- resid_lev(model = model,
-                          type = type,
-                          theme = theme,
-                          axis.text.size = axis.text.size,
-                          title.text.size = title.text.size,
-                          title.opt = title.opt)
-  } else{
-    lev <- NULL
-  }
-
   # Create a residual plot if selected in plots otherwise set as NULL
   if("resid" %in% plots | "default" %in% plots | "SAS" %in% plots | "R" %in% plots | "all" %in% plots){
-    resid <- resid_plot(model = model,
-                            type = type,
-                            smoother = smoother,
-                            theme = theme,
-                            axis.text.size = axis.text.size,
-                            title.text.size = title.text.size,
-                            title.opt = title.opt)
+    resid <- plot_resid(model = model,
+                        type = type,
+                        smoother = smoother,
+                        theme = theme,
+                        axis.text.size = axis.text.size,
+                        title.text.size = title.text.size,
+                        title.opt = title.opt)
   } else{
     resid <- NULL
   }
@@ -478,11 +331,11 @@ resid_panel <- function(model, plots = "default", type = NA, bins = NA,
   # Create a plot of the response variable vs the predicted values if selected
   # in plots otherwise set as NULL
   if("yvp" %in% plots | "all" %in% plots){
-    yvp <- resid_yvp(model = model,
-                             theme = theme,
-                             axis.text.size = axis.text.size,
-                             title.text.size = title.text.size,
-                             title.opt = title.opt)
+    yvp <- plot_yvp(model = model,
+                    theme = theme,
+                    axis.text.size = axis.text.size,
+                    title.text.size = title.text.size,
+                    title.opt = title.opt)
   } else{
     yvp <- NULL
   }
@@ -507,26 +360,37 @@ resid_panel <- function(model, plots = "default", type = NA, bins = NA,
   if (plots == "default"){
 
     # Create grid of the default plots
-    plot_grid(resid, qq, index, hist, scale = scale)
+    suppressWarnings(plot_grid(resid, qq, index, hist,
+                               scale = scale, nrow = nrow))
 
   } else if (plots == "SAS"){
 
     # Create grid of SAS plots
-    plot_grid(resid, hist, qq, boxplot, scale = scale)
+    suppressWarnings(plot_grid(resid, hist, qq, boxplot,
+                               scale = scale, nrow = nrow))
 
   } else if (plots == "R") {
 
     # Create grid of R plots
-    plot_grid(resid, qq, ls, lev, scale = scale)
+    suppressWarnings(plot_grid(resid, qq, ls, lev,
+                               scale = scale, nrow = nrow))
 
   } else if (plots == "all") {
 
     # Create grid of all plots
     if(class(model)[1] == "lm" | class(model)[1] == "glm"){
-      plot_grid(resid, hist, qq, boxplot, cookd, ls, lev, yvp, index,
-                scale = scale)
+
+      # Create the grid
+      suppressWarnings(plot_grid(resid, index, yvp,
+                                 qq, hist, boxplot,
+                                 cookd, ls, lev,
+                                 scale = scale, nrow = nrow))
     } else{
-      plot_grid(resid, hist, qq, boxplot, yvp, index, scale = scale)
+
+      # Create the grid
+      suppressWarnings(plot_grid(resid, index, yvp,
+                                 qq, hist, boxplot,
+                                 scale = scale, nrow = nrow))
     }
 
   } else if (plots == "individual") {
@@ -545,14 +409,8 @@ resid_panel <- function(model, plots = "default", type = NA, bins = NA,
     # Select the chosen plots
     individual_plots <- individual_plots[chosen]
 
-    # Turn the list of plots into a grob
-    my_grobs = lapply(individual_plots, ggplotGrob)
-
-    # Specify number of columns for grid of plots based on number of plots specified
-    ifelse(length(individual_plots) == 1, grid_col <- 1, grid_col <- ind.ncol)
-
-    # Create grid of individual plots specified
-    grid.arrange(grobs = my_grobs, ncol = grid_col, scale = scale)
+    # Create grid of individual plots specified and suppress any warnings
+    suppressWarnings(plot_grid(plotlist = individual_plots, scale = scale, nrow = nrow))
 
   }
 

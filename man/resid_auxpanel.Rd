@@ -4,19 +4,24 @@
 \alias{resid_auxpanel}
 \title{Panel of Diagnostic Residual Plots.}
 \usage{
-resid_auxpanel(residuals, predicted, plots = "default", bins = NA,
+resid_auxpanel(residuals, predicted, plots = "default", bins = 30,
   smoother = FALSE, qqline = TRUE, qqbands = FALSE, scale = 1,
   theme = "bw", axis.text.size = 10, title.text.size = 12,
-  title.opt = TRUE, ind.ncol = 2)
+  title.opt = TRUE, nrow = NULL)
 }
 \arguments{
-\item{plots}{Plots chosen to include in the panel of plots. (See details for
-options.)}
+\item{residuals}{The residuals from the model.}
 
-\item{bins}{Number of bins for histogram of the residuals.}
+\item{predicted}{The fitted values from the model.}
+
+\item{plots}{Plots chosen to include in the panel of plots. The default panel
+includes a residual plot, a normal quantile plot, an index plot,
+and a histogram of the residuals. (See details for the options available.)}
+
+\item{bins}{Number of bins for histogram of the residuals. Default is set to 30.}
 
 \item{smoother}{Indicates whether or not to include a smoother on the
-residual plot. Specify TRUE or FALSE. Default is set to FALSE.}
+residual plot and/or index plot. Specify TRUE or FALSE. Default is set to FALSE.}
 
 \item{qqline}{Indicates whether to include a 1-1 line on the qq-plot. Specify
 TRUE or FALSE. Default is set to TRUE.}
@@ -39,12 +44,7 @@ plots.}
 \item{title.opt}{Indicates whether or not to include a title on the plots.
 Specify TRUE or FALSE. Default is set to TRUE.}
 
-\item{ind.ncol}{Sets the number of columns in the panel when more than one
-individual plot has been specified. Default is set to 2 columns.}
-
-\item{resid}{The residuals from the model.}
-
-\item{pred}{The fitted values from the model.}
+\item{nrow}{Sets the number of rows in the panel.}
 }
 \value{
 A panel of residual diagnostic plots containing plots specified.
@@ -60,9 +60,10 @@ The following grid options can be chosen for the \code{plots}
   \item "all": This creates a panel of all plot types included in the package
   that are available for \code{resid_auxpanel}. (See plot descriptions under
   individual options.)
-  \item "SAS": This is the default option. It creates a
-  panel of a residual plot, a normal quantile plot of the residuals, a
-  histogram of the residuals, and a boxplot of the residuals. This was
+  \item "default": This creates a panel with a residual plot, a normal quantile plot
+  of the residuals, an index plot of the residuals, and a histogram of the residuals.
+  \item "SAS": This creates a panel of a residual plot, a normal quantile plot of the
+  residuals, a histogram of the residuals, and a boxplot of the residuals. This was
   modeled after the residpanel option in proc mixed from SAS version 9.4.
   \item A vector of individual plots can also be specified. For example, one
   can specify \code{plots = c("boxplot", "hist")} or \code{plots = "qq"}. The
@@ -79,22 +80,18 @@ The following grid options can be chosen for the \code{plots}
   the help file for \code{resid_panel}.
 }
 \examples{
-# Fit a linear regression model to predict the volume of a tree based on the
-# girth of a tree using the R "trees" data
-lm_model1 <- lm(Volume ~ Girth, data = trees)
 
-# Plot the residuals using the default panel
-resid_auxpanel(resid(lm_model1), fitted(lm_model1), bins = 30)
-
-# Fit a random forest model to the mtcars data to predict the mpg
-rf_model <- randomForest::randomForest(x = mtcars[,2:11], y = mtcars[,1])
+# Fit a regression tree to the penguins data
+penguin_tree <- rpart::rpart(heartrate ~ depth + duration, data = penguins)
 
 # Obtain the predictions from the model on the observed data
-rf_pred <- predict(rf_model, mtcars[,2:11])
+penguin_tree_pred <- predict(penguin_tree)
 
 # Obtain the residuals from the model
-rf_resid <- mtcars[,1] - rf_pred
+penguin_tree_resid <- penguins$heartrate - penguin_tree_pred
 
 # Create a panel with the residual and index plot
-resid_auxpanel(rf_resid, rf_pred, plots = c("resid", "index"), theme = "classic")
+resid_auxpanel(residuals = penguin_tree_resid,
+             predicted = penguin_tree_pred,
+             plots = c("resid", "index", "yvp"))
 }

@@ -4,25 +4,29 @@
 \alias{resid_panel}
 \title{Panel of Diagnostic Residual Plots.}
 \usage{
-resid_panel(model, plots = "default", type = NA, bins = NA,
+resid_panel(model, plots = "default", type = NA, bins = 30,
   smoother = FALSE, qqline = TRUE, qqbands = FALSE, scale = 1,
   theme = "bw", axis.text.size = 10, title.text.size = 12,
-  title.opt = TRUE, ind.ncol = 2)
+  title.opt = TRUE, nrow = NULL)
 }
 \arguments{
 \item{model}{Model fit using either \code{lm}, \code{glm}, \code{lmer},
-\code{lmerTest}, or \code{glmer}.}
+\code{lmerTest}, \code{lme}, or \code{glmer}.}
 
-\item{plots}{Plots chosen to include in the panel of plots. Default is set to
-"SAS". (See details for options.)}
+\item{plots}{Plots chosen to include in the panel of plots. The default panel
+includes a residual plot, a normal quantile plot, an index plot,
+and a histogram of the residuals. (See details for the options available.)}
 
-\item{type}{The user may specify a type of residuals to use. Otherwise, the
-default residual type for each model is used. (See details for options.)}
+\item{type}{Type of residuals to use in the plot. If not specified, the
+default residual type for each model type is used. (See details for the
+options available.)}
 
-\item{bins}{Number of bins to use when creating a histogram of the residuals.}
+\item{bins}{Number of bins to use when creating a histogram of the residuals.
+Default is set to 30.}
 
-\item{smoother}{Indicates whether or not to include a smoother on the
-residual plot. Specify TRUE or FALSE. Default is set to FALSE.}
+\item{smoother}{Indicates whether or not to include a smoother on the index,
+residual-leverage, location-scale, and residual plots. Specify TRUE or FALSE.
+Default is set to FALSE.}
 
 \item{qqline}{Indicates whether to include a 1-1 line on the qq-plot. Specify
 TRUE or FALSE. Default is set to TRUE.}
@@ -30,7 +34,7 @@ TRUE or FALSE. Default is set to TRUE.}
 \item{qqbands}{Indicates whether to include confidence bands on the qq-plot.
 Specify TRUE or FALSE. Default is set to FALSE.}
 
-\item{scale}{Scales the size of the graphs in a panel. Takes values in (0,1].}
+\item{scale}{Scales the size of the graphs in the panel. Takes values in (0,1].}
 
 \item{theme}{ggplot2 theme to be used. Current options are \code{"bw"},
 \code{"classic"}, and \code{"grey"} (or \code{"gray"}). Default is
@@ -45,38 +49,37 @@ plots in the panel.}
 \item{title.opt}{Indicates whether or not to include a title on the plots in
 the panel. Specify TRUE or FALSE. Default is set to TRUE.}
 
-\item{ind.ncol}{When a vector of individual plots has been requested, this
-specifies the number of columns in the panel. Default is set to 2 columns.}
+\item{nrow}{Sets the number of rows in the panel.}
 }
 \value{
 A panel of residual diagnostic plots containing plots specified.
 }
 \description{
 Creates a panel of residual diagnostic plots given a model. Currently accepts
-models of type "lm", "glm", "lmerMod", "lmerModLmerTest", and "glmerMod".
+models of type "lm", "glm", "lmerMod", "lmerModLmerTest", "lme", and "glmerMod".
 }
 \details{
 The first two sections below contain information on the available input
 options for the \code{plots} and \code{type} arguments in \code{resid_panel}.
-The third section contains information on the details relating to the
-creation of the plots.
+The third section contains details relating to the creation of the plots.
 
-\strong{Options for} \code{plots}
+\strong{Options for Plots}
 
 The following options can be chosen for the \code{plots} argument.
 \itemize{
 \item "all": This creates a panel of all plot types included in the package
-that are available for the model type input into \code{residpanel}. (See note
+that are available for the model type input into \code{resid_panel}. (See note
 below.)
+\item "default": This creates a panel with a residual plot, a normal quantile plot
+of the residuals, an index plot of the residuals, and a histogram of the residuals.
 \item "R": This creates a panel with a residual plot, a normal
-quantile plot of the residuals, a location-scale plot, and a leverage versus
-residuals plot. This was modeled after the plots shown in R if the
-\code{plot()} base function is applied to an \code{lm} model. This option can
-only be used with an \code{lm} or \code{glm} model.
-\item "SAS": This is the default option. It creates a panel with a residual plot,
-a normal quantile plot of the residuals, a histogram of the residuals, and a boxplot
-of the residuals. This was modeled after the residpanel option in proc mixed from
-SAS version 9.4.
+quantile plot of the residuals, a location-scale plot, and a residuals versus leverage
+plot. This was modeled after the plots shown in R if the \code{plot()} base function
+is applied to an \code{lm} model. This option can only be used with an \code{lm} or
+\code{glm} model.
+\item "SAS": This creates a panel with a residual plot, a normal quantile plot of
+the residuals, a histogram of the residuals, and a boxplot of the residuals.
+This was modeled after the residualpanel option in proc mixed from SAS version 9.4.
 \item A vector of individual plots can also be specified.
 For example, one can specify \code{plots = c("boxplot", "hist")} or
 \code{plots = "qq"}. The individual plot options are as follows.
@@ -87,15 +90,15 @@ For example, one can specify \code{plots = c("boxplot", "hist")} or
 \item \code{"index"}: A plot of residuals versus observation numbers
 \item \code{"ls"}: A location scale plot of the residuals
 \item \code{"qq"}: A normal quantile plot of residuals
-\item \code{"lev"}: A plot of leverage values versus residuals
+\item \code{"lev"}: A plot of standardized residuals versus leverage values
 \item \code{"resid"}: A plot of residuals versus predicted values
 \item \code{"yvp":}: A plot of observed response values versus predicted values
 } }
 
-Note: \code{"cookd"}, \code{"ls"}, and \code{"lev"} are not available for
-"lmer", "lmerTest", and "glmer" models.
+Note: \code{"cookd"}, \code{"ls"}, and \code{"lev"} are only available for "lm" and
+"glm" models.
 
-\strong{Options for} \code{type}
+\strong{Options for Type}
 
 Several residual types are available to be requested based on the model type
 that is input into \code{resid_panel}. These currently are as follows.
@@ -114,9 +117,9 @@ that is input into \code{resid_panel}. These currently are as follows.
 \item \code{"stand.deviance"}: The standardized deviance residuals
 \item \code{"stand.pearson"}: The standardized Pearson residuals
 }
-\item \code{lmer} and \code{lmerTest} residual options
+\item \code{lmer}, \code{lmerTest}, and \code{lme} residual options
 \itemize{
-\item \code{"pearson"}: The Pearson residuals (Default for "lmer" and "lmerTest")
+\item \code{"pearson"}: The Pearson residuals (Default for "lmer", "lmerTest", and "lme")
 \item \code{"response"}: The raw residuals
 }
 \item \code{glmer} residual options
@@ -144,14 +147,15 @@ standard deviation of the residuals.}
 \item{Index Plot (\code{index})}{Plots the residuals on the y-axis and the observation
 number associated with the residual on the x-axis.}
 
-\item{Leverage Plot (\code{lev})}{Plots the standardized residuals on the y-axis
-and the leverage values on the x-axis. A lowess curve is overlaid, and Cook's
-D contours are included for \eqn{\alpha = 0.5} and \eqn{\alpha = 1}.}
+\item{Residual-Leverage Plot (\code{lev})}{Plots the standardized residuals on the
+y-axis and the leverage values on the x-axis with a loess curve is overlaid. Cook's
+D contour lines (which are a function of leverage and standardized residuals) are plotted
+as the red dashed lines for Cook's D values of 0.5 and 1.}
 
 \item{Location-Scale Plot (\code{ls})}{Plots the square root of the absolute value
 of the standardized residuals on the y-axis and the predicted values on the
 x-axis. The predicted values are plotted on the original scale for \code{glm}
-and \code{glmer} models. A lowess curve is overlaid.}
+and \code{glmer} models. A loess curve is overlaid.}
 
 \item{QQ Plot (\code{qq})}{Makes use of the \code{R} package \code{qqplotr} for
 creating a normal quantile plot of the residuals.}
@@ -167,89 +171,21 @@ variable and predicted values are plotted on the original scale for
 }
 }
 \examples{
-## --------------------------------------------------------------------------------
-## Linear Regression Models
-## --------------------------------------------------------------------------------
 
-# Fit a linear regression model to predict the volume of a tree based on the
-# girth of a tree using the R "trees" data
-lm_model1 <- lm(Volume ~ Girth, data = trees)
+# Fit a model to the penguin data
+penguin_model <- lme4::lmer(heartrate ~ depth + duration + (1|bird), data = penguins)
 
-# Plot the residuals using the default panel
-resid_panel(lm_model1, bins = 30)
+# Create the default panel
+resid_panel(penguin_model)
 
-# Create a panel of all diagnostic plot options and add a smoother to the
-# residual plot
-resid_panel(lm_model1, bins = 30, plots = "all", smoother = TRUE)
+# Select all plots to include in the panel and set the smoother option to TRUE
+resid_panel(penguin_model, plots = "all", smoother = TRUE)
 
-# Fit a linear model to compare the weights of plants bewteen different
-# treatment groups using the R "PlantGrowth" data
-lm_model2 <- lm(weight ~ group, data = PlantGrowth)
+# Select only the residual plot and qq-plot to be included in the panel,
+# request confidence bands on the qq plot, and set the number of rows to 2
+resid_panel(penguin_model, plots = c("resid", "qq"), qqbands = TRUE, nrow = 2)
 
-# Create a panel of the residual plot, the histogram, and the location-scale plot for
-#"lm" models using the classic theme with three columns
-resid_panel(lm_model2, plots = c("resid", "hist", "ls"), theme = "classic", ind.ncol=3)
-
-## --------------------------------------------------------------------------------
-## Generalized Linear Regression Models
-## --------------------------------------------------------------------------------
-
-# Fit a generalized linear regression model using a Poisson family to compare
-# the insect counts between different sprays from the R "InsectSprays" data
-glm_model1 <- glm(count ~ spray, family = "poisson", data = InsectSprays)
-
-# Plot the residuals using the default panel without titles and with a gray theme
-resid_panel(glm_model1, bins = 30, title.opt = FALSE, theme = "gray")
-
-# Plot the residuals using the default panel with standarized deviance residuals
-# and use a smaller scaling of the plots
-resid_panel(glm_model1, type = "stand.deviance", scale = 0.9)
-
-#Generate binomial data
-total <- c(rpois(45,20))+1
-example_data1 <- data.frame(success = rbinom(45, total,.56),
-trt = rep(c("A", "B", "C"), each = 15))
-
-# Fit a generalized lineaer regression model using a binomial family to compare
-# across treatments
-glm_model2 <- glm(cbind(success, total-success) ~ trt, family = "binomial", data = example_data1)
-
-#Plot all residual plots with Pearson residuals
-resid_panel(glm_model2, plot = "all", type = "pearson")
-
-## --------------------------------------------------------------------------------
-## Linear Mixed Effects Models
-## --------------------------------------------------------------------------------
-
-# Load the lme4 package
-library(lme4)
-
-# Fit a linear mixed effect model to compare weights of chicks between diets using
-# the R "ChickWeight" data and including chick as a random effect to account for the
-# multiple measurements over time
-lmer_model <- lmer(weight ~ Time + Diet + Time*Diet + (1|Chick), data = ChickWeight)
-
-# Create a panel of the residual plot and the normal quantile plot with
-# confidence bands
-resid_panel(lmer_model, plots = c("resid", "qq"), qqbands = TRUE)
-
-## --------------------------------------------------------------------------------
-## Generalized Linear Mixed Effects Models
-## --------------------------------------------------------------------------------
-
-# Generate Poisson data
-example_data2 <- data.frame(y = rpois(54, 3),
-                           trt = rep(c("A", "B"), each = 27),
-                           subject = rep(1:18, each = 3))
-
-# Fit a generalized linear mixed effects model with a Poisson family to compare
-# the response between the treatments with a random effect for subject to
-# account for the dependence within a subject
-glmer_model <- glmer(y ~ trt + (1|subject), family = "poisson", data = example_data2)
-
-# Plot the residual plot with the size of the title and axis lables increased
-resid_panel(glmer_model, plots = "resid", title.text.size = 14, axis.text.size = 12)
-
-# Plot the residual plot using the Pearson residuals
-resid_panel(glmer_model, plots = "resid", type = "pearson")
+# Choose the SAS panel of plots, change the theme to classic, and remove the
+# titles of the plots
+resid_panel(penguin_model, plots = "SAS", theme = "classic", title.opt = FALSE)
 }

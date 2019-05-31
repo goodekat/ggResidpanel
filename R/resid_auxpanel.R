@@ -3,13 +3,14 @@
 #' Creates a panel of residual diagnostic plots given inputs of residuals and
 #' fitted values.
 #'
-#' @param resid The residuals from the model.
-#' @param pred The fitted values from the model.
-#' @param plots Plots chosen to include in the panel of plots. (See details for
-#'   options.)
-#' @param bins Number of bins for histogram of the residuals.
+#' @param residuals The residuals from the model.
+#' @param predicted The fitted values from the model.
+#' @param plots Plots chosen to include in the panel of plots. The default panel
+#'   includes a residual plot, a normal quantile plot, an index plot,
+#'   and a histogram of the residuals. (See details for the options available.)
+#' @param bins Number of bins for histogram of the residuals. Default is set to 30.
 #' @param smoother Indicates whether or not to include a smoother on the
-#'   residual plot. Specify TRUE or FALSE. Default is set to FALSE.
+#'   residual plot and/or index plot. Specify TRUE or FALSE. Default is set to FALSE.
 #' @param qqline Indicates whether to include a 1-1 line on the qq-plot. Specify
 #'   TRUE or FALSE. Default is set to TRUE.
 #' @param qqbands Indicates whether to include confidence bands on the qq-plot.
@@ -24,10 +25,9 @@
 #'   plots.
 #' @param title.opt Indicates whether or not to include a title on the plots.
 #'   Specify TRUE or FALSE. Default is set to TRUE.
-#' @param ind.ncol Sets the number of columns in the panel when more than one
-#'   individual plot has been specified. Default is set to 2 columns.
+#' @param nrow Sets the number of rows in the panel.
 #'
-#' @export
+#' @export resid_auxpanel
 #'
 #' @details The following grid options can be chosen for the \code{plots}
 #'   argument.
@@ -35,9 +35,10 @@
 #'   \item "all": This creates a panel of all plot types included in the package
 #'   that are available for \code{resid_auxpanel}. (See plot descriptions under
 #'   individual options.)
-#'   \item "SAS": This is the default option. It creates a
-#'   panel of a residual plot, a normal quantile plot of the residuals, a
-#'   histogram of the residuals, and a boxplot of the residuals. This was
+#'   \item "default": This creates a panel with a residual plot, a normal quantile plot
+#'   of the residuals, an index plot of the residuals, and a histogram of the residuals.
+#'   \item "SAS": This creates a panel of a residual plot, a normal quantile plot of the
+#'   residuals, a histogram of the residuals, and a boxplot of the residuals. This was
 #'   modeled after the residpanel option in proc mixed from SAS version 9.4.
 #'   \item A vector of individual plots can also be specified. For example, one
 #'   can specify \code{plots = c("boxplot", "hist")} or \code{plots = "qq"}. The
@@ -56,29 +57,25 @@
 #' @return A panel of residual diagnostic plots containing plots specified.
 #'
 #' @examples
-#' # Fit a linear regression model to predict the volume of a tree based on the
-#' # girth of a tree using the R "trees" data
-#' lm_model1 <- lm(Volume ~ Girth, data = trees)
 #'
-#' # Plot the residuals using the default panel
-#' resid_auxpanel(resid(lm_model1), fitted(lm_model1), bins = 30)
+#'# Fit a regression tree to the penguins data
+#'penguin_tree <- rpart::rpart(heartrate ~ depth + duration, data = penguins)
 #'
-#' # Fit a random forest model to the mtcars data to predict the mpg
-#' rf_model <- randomForest::randomForest(x = mtcars[,2:11], y = mtcars[,1])
+#'# Obtain the predictions from the model on the observed data
+#'penguin_tree_pred <- predict(penguin_tree)
 #'
-#' # Obtain the predictions from the model on the observed data
-#' rf_pred <- predict(rf_model, mtcars[,2:11])
+#'# Obtain the residuals from the model
+#'penguin_tree_resid <- penguins$heartrate - penguin_tree_pred
 #'
-#' # Obtain the residuals from the model
-#' rf_resid <- mtcars[,1] - rf_pred
-#'
-#' # Create a panel with the residual and index plot
-#' resid_auxpanel(rf_resid, rf_pred, plots = c("resid", "index"), theme = "classic")
+#'# Create a panel with the residual and index plot
+#'resid_auxpanel(residuals = penguin_tree_resid,
+#'              predicted = penguin_tree_pred,
+#'              plots = c("resid", "index", "yvp"))
 
-resid_auxpanel <- function(residuals, predicted, plots = "default", bins = NA,
+resid_auxpanel <- function(residuals, predicted, plots = "default", bins = 30,
                            smoother = FALSE, qqline = TRUE, qqbands = FALSE,
                            scale = 1, theme = "bw", axis.text.size = 10,
-                           title.text.size = 12, title.opt = TRUE, ind.ncol = 2){
+                           title.text.size = 12, title.opt = TRUE, nrow = NULL){
 
   ## Errors and Warnings -------------------------------------------------------
 
@@ -88,68 +85,41 @@ resid_auxpanel <- function(residuals, predicted, plots = "default", bins = NA,
          'resid_panel' to input a model.")
   }
 
-  # Return a warning if the smoother option is not specified correctly
-  if(smoother == TRUE | smoother == FALSE){
-  } else{
-    smoother <- FALSE
-    warning("The smoother option for residual plot not was specified correctly.
-            The default option will be used. Accepted options are TRUE or FALSE.")
-  }
-
-  # Return a warning if the theme is not specified correctly
-  if(theme == "bw" | theme == "classic" | theme == "grey" | theme == "gray"){
-  } else{
-    theme <- "bw"
-    warning("The theme option was not specified correctly. The default theme
-            will be used. Accepted themes are 'bw', 'classic', and 'grey' (or 'gray').")
-  }
-
-  # Return a warning if the title option is not specified correctly
-  if(title.opt == TRUE | title.opt == FALSE){
-  } else{
-    title.opt <- TRUE
-    warning("The title option was not specified correctly. The default title
-            option will be used. Accepted options are TRUE or FALSE.")
-  }
-
-  # Return a warning about choosing number of bins if a histogram is included
-  if("SAS" %in% plots | "hist" %in% plots){
-    if(is.na(bins)){
-      bins = 30
-      warning("By default, bins = 30 in the histogram of residuals. If necessary, specify
-              an appropriate number of bins.")
-    }
-  }
+  # Checks that return a warning
+  smoother <- check_smoother(smoother = smoother)
+  theme <- check_theme(theme = theme)
+  title.opt <- check_title(title.opt = title.opt)
 
   ## Creation of plots ---------------------------------------------------------
 
   # Create a boxplot of the residuals if selected in plots otherwise set as NULL
   if("boxplot" %in% plots | "SAS" %in% plots | "all" %in% plots){
-    boxplot <- resid_auxboxplot(residuals,
-                                theme = theme,
-                                axis.text.size = axis.text.size,
-                                title.text.size = title.text.size,
-                                title.opt = title.opt)
+    boxplot <- plot_auxboxplot(residuals,
+                               theme = theme,
+                               axis.text.size = axis.text.size,
+                               title.text.size = title.text.size,
+                               title.opt = title.opt)
   } else{
     boxplot <- NULL
   }
 
   # Create a histogram of the residuals if selected in plots otherwise set as NULL
   if("hist" %in% plots | "default" %in% plots | "SAS" %in% plots | "all" %in% plots){
-    hist <- resid_auxhist(residuals,
-                          bins = bins,
-                          theme = theme,
-                          axis.text.size = axis.text.size,
-                          title.text.size = title.text.size,
-                          title.opt = title.opt)
+    hist <- plot_auxhist(residuals,
+                         bins = bins,
+                         theme = theme,
+                         axis.text.size = axis.text.size,
+                         title.text.size = title.text.size,
+                         title.opt = title.opt)
   } else{
     hist <- NULL
   }
 
   # Create an index plot of the residuals if selected in plots otherwise set as NULL
   if("index" %in% plots | "default" %in% plots | "all" %in% plots){
-    index <- resid_auxindex(residuals,
+    index <- plot_auxindex(residuals,
                            theme = theme,
+                           smoother = smoother,
                            axis.text.size = axis.text.size,
                            title.text.size = title.text.size,
                            title.opt = title.opt)
@@ -160,7 +130,7 @@ resid_auxpanel <- function(residuals, predicted, plots = "default", bins = NA,
 
   # Create a q-q plot of the residuals if selected in plots otherwise set as NULL
   if("qq" %in% plots | "default" %in% plots | "SAS" %in% plots | "all" %in% plots){
-    qq <- resid_auxqq(residuals,
+    qq <- plot_auxqq(residuals,
                       theme = theme,
                       axis.text.size = axis.text.size,
                       title.text.size = title.text.size,
@@ -173,7 +143,7 @@ resid_auxpanel <- function(residuals, predicted, plots = "default", bins = NA,
 
   # Create a residual plot if selected in plots otherwise set as NULL
   if("resid" %in% plots | "default" %in% plots | "SAS" %in% plots | "all" %in% plots){
-    resid <- resid_auxplot(residuals,
+    resid <- plot_auxresid(residuals,
                            predicted,
                            smoother = smoother,
                            theme = theme,
@@ -202,17 +172,20 @@ resid_auxpanel <- function(residuals, predicted, plots = "default", bins = NA,
   if (plots == "default"){
 
     # Create grid of default plots
-    plot_grid(resid, qq, index, hist, scale = scale)
+    plot_grid(resid, qq, index, hist,
+              scale = scale, nrow = nrow)
 
   } else if (plots == "SAS"){
 
     # Create grid of SAS plots
-    plot_grid(resid, hist, qq, boxplot, scale = scale)
+    plot_grid(resid, hist, qq, boxplot,
+              scale = scale, nrow = nrow)
 
   } else if (plots == "all"){
 
     # Create grid of all plots
-    plot_grid(resid, hist, qq, boxplot, index, scale = scale)
+    plot_grid(resid, qq, hist, index, boxplot,
+              scale = scale, nrow = nrow)
 
   } else if (plots == "individual") {
 
@@ -226,14 +199,8 @@ resid_auxpanel <- function(residuals, predicted, plots = "default", bins = NA,
     # Select the chosen plots
     individual_plots <- individual_plots[chosen]
 
-    # Turn the list of plots into a grob
-    my_grobs = lapply(individual_plots, ggplotGrob)
-
-    # Specify number of columns for grid of plots based on number of plots specified
-    ifelse(length(individual_plots) == 1, grid_col <- 1, grid_col <- ind.ncol)
-
     # Create grid of individual plots specified
-    grid.arrange(grobs = my_grobs, ncol = grid_col, scale = scale)
+    plot_grid(plotlist = individual_plots, scale = scale, nrow = nrow)
 
   }
 
