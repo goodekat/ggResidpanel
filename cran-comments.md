@@ -1,7 +1,7 @@
 ## Test environments
 * local OS X (x86_64-apple-darwin15.6.0 (64-bit)), R 3.6.0
 * Fedora Linux, R-devel, clang, gfortran (R-hub)
-* win-builder
+* win-builder (devel)
 
 ## R CMD check results
 There were no ERRORs or WARNINGs. 
