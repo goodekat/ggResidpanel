@@ -18,7 +18,7 @@ Minor:
 - rounded number in tool tip in resid_interact
 - fixed some bugs in the code
 
-### 0.1.2 and earlier
+### 0.2.0 and earlier
 
 - first versions of ggResidpanel (the progression was not documented)
 - introduced the functions of resid_panel, resid_interact, and resid_auxpanel
