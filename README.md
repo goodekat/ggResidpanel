@@ -19,7 +19,7 @@ install.packages("ggResidpanel")
 devtools::install_github("goodekat/ggResidpanel")
 ```
 
-Load the ggResidpanel library.
+Load the ggResidpanel package.
 
 ``` r
 # Load the library
