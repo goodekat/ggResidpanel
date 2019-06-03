@@ -7,13 +7,15 @@ plotly.
 
 ## Installation
 
-Follow these instructions to install ggResidpanel from the GitHub
-repository. (ggResidpanel is not currently available on CRAN.)
-
-Install ggResidpanel from the GitHub repository using the devtools
-package.
+The code below shows how ggResidpanel can be installed from CRAN. If
+desired, the development version of ggResidpanel can be installed from
+GitHub.
 
 ``` r
+# Installs ggResidpanel from CRAN
+install.packages("ggResidpanel")
+
+# Installs the development version of ggResidpanel from GitHub
 devtools::install_github("goodekat/ggResidpanel")
 ```
 
