@@ -13,27 +13,7 @@ knitr::opts_chunk$set(collapse = TRUE, comment = "#>", fig.align = "center",
                       message = FALSE, fig.height = 4, fig.width = 6)
 ```
 
-```{r echo = FALSE}
-# Load libraries
-library(dplyr)
-library(ggplot2)
-```
-
 ggResidpanel was developed with the intention of providing an easier way to both create and view diagnostic plots for models in R. The graphics are created using ggplot2, and interactive versions of the plots are rendered using plotly. This vignette provides a brief introduction to ggResidpanel with information on how to install the package, a description of the functions included in the package, and examples. To learn more about ggResidpanel, read through the [ggResidpanel Tutorial and User Manual](https://goodekat.github.io/ggResidpanel-tutorial/tutorial.html), which contains the details for all of the functions in the package and demonstrates how to use them.
-
-## Installation
-
-ggResidpanel can be installed from GitHub using the command below. ggResidpanel is not available on CRAN yet.
-
-```{r, eval = FALSE}
-devtools::install_github("goodekat/ggResidpanel")
-```
-
-After installing, load the ggResidpanel library.
-
-```{r}
-library(ggResidpanel)
-```
 
 ## Functions
 
@@ -48,6 +28,12 @@ ggResidpanel has five functions:
 Currently, ggResidpanel allows the first four functions listed above to work with models fit using the functions of `lm` and `glm` from base R, `lme` from nlme, and `lmer` or `glmer` from lme4 (or fit using lmerTest).
 
 ## Examples
+
+```{r}
+library(dplyr)
+library(ggplot2)
+library(ggResidpanel)
+```
 
 Emperor penguins are able to dive under the water for long periods of time. The dataset `penguins` included in ggResidpanel contains information from a study done on the dives of emperor penguins. The scientists who conducted the study were interested in understanding how the heart rate of the penguins related to the depth and duration of the dives. A device was attached to penguins that recorded the heart rate of the bird during a dive.
 
