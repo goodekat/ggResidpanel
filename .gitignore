@@ -3,4 +3,4 @@
 .Rhistory
 .RData
 .Ruserdata
-github-repo.Rproj
+*.Rproj$

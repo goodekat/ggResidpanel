@@ -54,3 +54,4 @@ Ideas for Future Package Versions:
   - maybe add an option in each of the functions for an interactive version
 - option to color residuals by predictor variables?
 - add a resid versus y plot
+- read about mixed model influence diagnostics in SAS for mixed models (Stroup 2018)
