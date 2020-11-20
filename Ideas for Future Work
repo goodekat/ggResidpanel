@@ -37,7 +37,7 @@ Evaluation error: there is no package called 'forcats'."
 
 Katherine's Tasks
 - current:
-
+  - add the detrend option to qqplot
 - later:
   - cleaning board game data and coach salary data to use for paper
     (and vignettes?)
