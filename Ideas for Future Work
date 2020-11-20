@@ -60,3 +60,4 @@ Ideas for Future Package Versions:
 - add a resid versus y plot
 - read about mixed model influence diagnostics in SAS for mixed models (Stroup 2018)
 - nested residuals/plots for assessing random effects
+- extend to work with brms models (see email from Tiny)
