@@ -37,6 +37,7 @@ Evaluation error: there is no package called 'forcats'."
 
 Katherine's Tasks
 - current:
+  - read about using github action: https://www.r-bloggers.com/2020/12/migrating-from-travisci-to-github-actions-for-r-packages/?utm_source=feedburner&utm_medium=email&utm_campaign=Feed%3A+RBloggers+%28R+bloggers%29
   - add the detrend option to qqplot
 - later:
   - cleaning board game data and coach salary data to use for paper
