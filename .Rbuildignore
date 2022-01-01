@@ -1,12 +1,14 @@
 ^.*\.Rproj$
 ^\.Rproj\.user$
 ^cran-comments.md$
+^CRAN-RELEASE$
+^doc$
 ^docs$
 ^figures$
 ^Ideas for Future Work$
-^inst$
+^Meta$
+^pkgdown$
 ^README_files$
 ^README\.Rmd$
 ^residuals.Rmd$
 ^tests.R$
-^CRAN-RELEASE$

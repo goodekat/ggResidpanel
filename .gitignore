@@ -5,3 +5,5 @@
 .Ruserdata
 *.Rproj
 *.DS_Store
+doc
+Meta

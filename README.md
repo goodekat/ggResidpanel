@@ -1,5 +1,5 @@
 
-# ggResidpanel <img align="right" width="120" height="135" src="./inst/logo.png">
+# ggResidpanel <img align="right" width="120" height="135" src="man/figures/logo.png">
 
 ggResidpanel is an R package for creating panels of diagnostic plots for
 a model using ggplot2 and interactive versions of the plots using
@@ -87,7 +87,7 @@ penguin_model <- lme4::lmer(heartrate ~ depth + duration + (1|bird), data = peng
 resid_panel(penguin_model)
 ```
 
-![](README_files/figure-gfm/unnamed-chunk-4-1.png)<!-- -->
+![](man/figures/readme-unnamed-chunk-4-1.png)<!-- -->
 
 ``` r
 # Create a pancel with residual, qq, and yvp plots, add 95% confidence interval 
@@ -96,14 +96,14 @@ resid_panel(penguin_model, plots = c("resid", "qq", "yvp"),
             qqbands = TRUE, theme = "classic")
 ```
 
-![](README_files/figure-gfm/unnamed-chunk-4-2.png)<!-- -->
+![](man/figures/readme-unnamed-chunk-4-2.png)<!-- -->
 
 ``` r
 # Create a panel with all plots available for a model fit using lmer
 resid_panel(penguin_model, plots = "all")
 ```
 
-![](README_files/figure-gfm/unnamed-chunk-4-3.png)<!-- -->
+![](man/figures/readme-unnamed-chunk-4-3.png)<!-- -->
 
 #### `resid_interact`
 
@@ -117,7 +117,7 @@ their own panel by selecting from the plots available for this function.
 resid_interact(penguin_model)
 ```
 
-![](./inst/interact.gif)
+![](man/figures/interact.gif)
 
 #### `resid_xpanel`
 
@@ -129,14 +129,14 @@ variable versus the predictor (x) variables in the model.
 resid_xpanel(penguin_model)
 ```
 
-![](README_files/figure-gfm/unnamed-chunk-6-1.png)<!-- -->
+![](man/figures/readme-unnamed-chunk-6-1.png)<!-- -->
 
 ``` r
 # Create a panel of plots of the response variable versus the predictor variables
 resid_xpanel(penguin_model, yvar = "response")
 ```
 
-![](README_files/figure-gfm/unnamed-chunk-6-2.png)<!-- -->
+![](man/figures/readme-unnamed-chunk-6-2.png)<!-- -->
 
 #### `resid_compare`
 
@@ -154,7 +154,7 @@ penguin_model_log2 <- lme4::lmer(log(heartrate) ~ depth + duration + I(duration^
 resid_compare(list(penguin_model, penguin_model_log2), plots = c("resid", "qq"))
 ```
 
-![](README_files/figure-gfm/unnamed-chunk-7-1.png)<!-- -->
+![](man/figures/readme-unnamed-chunk-7-1.png)<!-- -->
 
 #### `resid_auxpanel`
 
@@ -179,4 +179,4 @@ resid_auxpanel(residuals = penguin_tree_resid,
                plots = c("resid", "index"))
 ```
 
-![](README_files/figure-gfm/unnamed-chunk-8-1.png)<!-- -->
+![](man/figures/readme-unnamed-chunk-8-1.png)<!-- -->
