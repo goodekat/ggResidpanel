@@ -4,10 +4,21 @@
 \alias{resid_compare}
 \title{Panel of Diagnostic Residual Plots Across Multiple Models.}
 \usage{
-resid_compare(models, plots = "default", type = NA, bins = 30,
-  smoother = FALSE, qqline = TRUE, qqbands = FALSE, scale = 1,
-  theme = "bw", axis.text.size = 10, title.text.size = 12,
-  title.opt = TRUE, nrow = NULL)
+resid_compare(
+  models,
+  plots = "default",
+  type = NA,
+  bins = 30,
+  smoother = FALSE,
+  qqline = TRUE,
+  qqbands = FALSE,
+  scale = 1,
+  theme = "bw",
+  axis.text.size = 10,
+  title.text.size = 12,
+  title.opt = TRUE,
+  nrow = NULL
+)
 }
 \arguments{
 \item{models}{List of models fit using either \code{lm}, \code{glm}, \code{lmer},

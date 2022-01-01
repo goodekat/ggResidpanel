@@ -4,9 +4,18 @@
 \alias{resid_xpanel}
 \title{Panel of Plots of Residuals or Response Variable versus Predictor Variables.}
 \usage{
-resid_xpanel(model, yvar = "residual", type = NA, smoother = FALSE,
-  scale = 1, theme = "bw", axis.text.size = 10,
-  title.text.size = 12, title.opt = TRUE, nrow = NULL)
+resid_xpanel(
+  model,
+  yvar = "residual",
+  type = NA,
+  smoother = FALSE,
+  scale = 1,
+  theme = "bw",
+  axis.text.size = 10,
+  title.text.size = 12,
+  title.opt = TRUE,
+  nrow = NULL
+)
 }
 \arguments{
 \item{model}{Model fit using either \code{lm}, \code{glm}, \code{lmer},

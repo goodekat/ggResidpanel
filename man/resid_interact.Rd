@@ -4,10 +4,20 @@
 \alias{resid_interact}
 \title{Panel of Interactive Versions of Diagnostic Residual Plots.}
 \usage{
-resid_interact(model, plots = "default", type = NA, bins = 30,
-  smoother = FALSE, qqline = TRUE, scale = 0.9, theme = "bw",
-  axis.text.size = 10, title.text.size = 12, title.opt = TRUE,
-  nrow = NULL)
+resid_interact(
+  model,
+  plots = "default",
+  type = NA,
+  bins = 30,
+  smoother = FALSE,
+  qqline = TRUE,
+  scale = 0.9,
+  theme = "bw",
+  axis.text.size = 10,
+  title.text.size = 12,
+  title.opt = TRUE,
+  nrow = NULL
+)
 }
 \arguments{
 \item{model}{Model fit using either \code{lm}, \code{glm}, \code{lmer},

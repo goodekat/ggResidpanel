@@ -68,7 +68,6 @@ test_that("warnings", {
   # check_leverage
   expect_warning(resid_panel(lm_model2, plots = "R"), label = "warning - check_leverage")
 
-
 })
 
 test_that("formatting options", {
