@@ -1,10 +1,10 @@
 ^.*\.Rproj$
 ^\.Rproj\.user$
 ^cran-comments.md$
-^data-raw$
 ^docs$
 ^figures$
 ^Ideas for Future Work$
+^inst$
 ^README_files$
 ^README\.Rmd$
 ^residuals.Rmd$
