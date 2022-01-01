@@ -1,5 +1,5 @@
 
-# ggResidpanel <img align="right" width="120" height="135" src="./README_files/figure-static/logo.png">
+# ggResidpanel <img align="right" width="120" height="135" src="./inst/logo.png">
 
 ggResidpanel is an R package for creating panels of diagnostic plots for
 a model using ggplot2 and interactive versions of the plots using
@@ -30,9 +30,9 @@ library(ggResidpanel)
 
 Here are some resources for learning how to use ggResidpanel:
 
-  - [Introduction
+-   [Introduction
     Vignette](https://goodekat.github.io/ggResidpanel/articles/introduction.html)
-  - [Tutorial and User
+-   [Tutorial and User
     Manual](https://goodekat.github.io/ggResidpanel-tutorial/tutorial.html)
 
 ## Overview and Examples
@@ -40,15 +40,15 @@ Here are some resources for learning how to use ggResidpanel:
 The package provides five functions that allow the user to assess
 diagnostic plots from a model. These functions are:
 
-  - `resid_panel`: Creates a panel of diagnostic plots of the residuals
+-   `resid_panel`: Creates a panel of diagnostic plots of the residuals
     from a model
-  - `resid_interact`: Creates an interactive panel of diagnostic plots
+-   `resid_interact`: Creates an interactive panel of diagnostic plots
     of the residuals form a model
-  - `resid_xpanel`: Creates a panel of diagnostic plots of the predictor
+-   `resid_xpanel`: Creates a panel of diagnostic plots of the predictor
     variables
-  - `resid_compare`: Creates a panel of diagnostic plots from multiple
+-   `resid_compare`: Creates a panel of diagnostic plots from multiple
     models
-  - `resid_auxpanel`: Creates a panel of diagnostic plots for model
+-   `resid_auxpanel`: Creates a panel of diagnostic plots for model
     types not included in the package
 
 Currently, ggResidpanel allows the first four functions listed above to
@@ -117,13 +117,12 @@ their own panel by selecting from the plots available for this function.
 resid_interact(penguin_model)
 ```
 
-![](./README_files/figure-static/interact.gif)
+![](./inst/interact.gif)
 
 #### `resid_xpanel`
 
 This function creates a panel of plots of the residuals or response
-variable versus the predictor (x) variables in the
-model.
+variable versus the predictor (x) variables in the model.
 
 ``` r
 # Create a panel of plots of the residuals versus the predictor variables
@@ -143,8 +142,7 @@ resid_xpanel(penguin_model, yvar = "response")
 
 This function creates a panel of residual diagnostic plots given a list
 of models. This allows the user to compare the diagnostic plots from
-multiple
-models.
+multiple models.
 
 ``` r
 # Fit the model with a log transformation of the response variable and a 
