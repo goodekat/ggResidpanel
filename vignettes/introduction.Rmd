@@ -184,13 +184,13 @@ To further assess the issues with a model, it may be helpful to look at plots of
 The code below creates a panel with a plot included for each predictor variable in the `penguin_model`. That is, three plots are created for the variables of depth, duration, and bird. Pearson residuals are plotted on the y-axis for each of the plots. These plots show a clear decrease in variation of the residuals as the value of depth increases, and the nonlinear relationship appears to be related to the variable of duration. The plot of residuals versus bird shows no obvious trend and relatively constant variance across the penguins.
 
 ```{r fig.height = 3, fig.width = 5}
-resid_xpanel(penguin_model)
+resid_xpanel(penguin_model, jitter.width = 0.1)
 ```
 
 The function `resid_xpanel` has the option to plot the response variable on the y-axis by setting `yvar = "response"`. The updated code and resulting panel of plots is shown below. The plot of heart rate versus duration suggests that including a quadratic term for duration may help improve the model fit.
 
 ```{r fig.height = 3, fig.width = 5}
-resid_xpanel(penguin_model, yvar = "response")
+resid_xpanel(penguin_model, yvar = "response", jitter.width = 0.1)
 ```
 
 ### Model Comparisons with `resid_compare`

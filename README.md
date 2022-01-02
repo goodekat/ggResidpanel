@@ -126,14 +126,14 @@ variable versus the predictor (x) variables in the model.
 
 ``` r
 # Create a panel of plots of the residuals versus the predictor variables
-resid_xpanel(penguin_model)
+resid_xpanel(penguin_model, jitter.width = 0.1)
 ```
 
 ![](man/figures/readme-unnamed-chunk-6-1.png)<!-- -->
 
 ``` r
 # Create a panel of plots of the response variable versus the predictor variables
-resid_xpanel(penguin_model, yvar = "response")
+resid_xpanel(penguin_model, yvar = "response", jitter.width = 0.1)
 ```
 
 ![](man/figures/readme-unnamed-chunk-6-2.png)<!-- -->

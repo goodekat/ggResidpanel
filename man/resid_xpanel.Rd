@@ -14,7 +14,8 @@ resid_xpanel(
   axis.text.size = 10,
   title.text.size = 12,
   title.opt = TRUE,
-  nrow = NULL
+  nrow = NULL,
+  jitter.width = 0
 )
 }
 \arguments{
@@ -47,10 +48,12 @@ plots in the panel.}
 the panel. Specify TRUE or FALSE. Default is set to TRUE.}
 
 \item{nrow}{Sets the number of rows in the panel.}
+
+\item{jitter.width}{Specifies the amount of jitter to add in the plots of categorical variables. (Default is 0.)}
 }
 \value{
 A panel of plots of the residuals or response variable versus the
-predictor variables.
+predictor variables. Violin plots are included with categorical variables.
 }
 \description{
 Creates a panel of plots of the residuals or response variable versus the
@@ -70,8 +73,15 @@ is fit.
 penguin_model <- lme4::lmer(heartrate ~ depth + duration + (1|bird), data = penguins)
 
 # Create plots of the residuals versus the predictor variables
-resid_xpanel(penguin_model, theme = "classic")
+resid_xpanel(penguin_model, theme = "classic", jitter.width = 0.1)
 
 # Create plots of the response variable versus the predictor variables
-resid_xpanel(penguin_model, yvar = "response", theme = "classic", smoother = TRUE)
+resid_xpanel(
+     model = penguin_model, 
+     yvar = "response", 
+     theme = "classic",
+      smoother = TRUE, 
+      jitter.width = 0.1
+)
+
 }

@@ -98,10 +98,10 @@ This function creates a panel of plots of the residuals or response variable ver
 
 ```{r}
 # Create a panel of plots of the residuals versus the predictor variables
-resid_xpanel(penguin_model)
+resid_xpanel(penguin_model, jitter.width = 0.1)
 
 # Create a panel of plots of the response variable versus the predictor variables
-resid_xpanel(penguin_model, yvar = "response")
+resid_xpanel(penguin_model, yvar = "response", jitter.width = 0.1)
 ```
 
 #### `resid_compare`

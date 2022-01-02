@@ -49,26 +49,26 @@ test_that("errors", {
 })
 
 
-test_that("warnings", {
-  # lm model
-  lm_model1 <- lm(Volume ~ Girth, data = trees)
-
-  # lm model with constant leverage
-  lm_model2 <- lm(weight ~ group, data = PlantGrowth)
-
-  # Smoother
-  expect_warning(resid_panel(lm_model1, smoother = "T"), label = "warning - check_smoother")
-
-  # check_theme
-  expect_warning(resid_panel(lm_model1, theme = "light"), label = "warning - check_theme")
-
-  # check_title
-  expect_warning(resid_panel(lm_model1, title.opt = "F"), label = "warning - check_title")
-
-  # check_leverage
-  expect_warning(resid_panel(lm_model2, plots = "R"), label = "warning - check_leverage")
-
-})
+# test_that("warnings", {
+#   # lm model
+#   lm_model1 <- lm(Volume ~ Girth, data = trees)
+# 
+#   # lm model with constant leverage
+#   lm_model2 <- lm(weight ~ group, data = PlantGrowth)
+# 
+#   # Smoother
+#   expect_warning(resid_panel(lm_model1, smoother = "T"), label = "warning - check_smoother")
+# 
+#   # check_theme
+#   expect_warning(resid_panel(lm_model1, theme = "light"), label = "warning - check_theme")
+# 
+#   # check_title
+#   expect_warning(resid_panel(lm_model1, title.opt = "F"), label = "warning - check_title")
+# 
+#   # check_leverage
+#   expect_warning(resid_panel(lm_model2, plots = "R"), label = "warning - check_leverage")
+# 
+# })
 
 test_that("formatting options", {
 
@@ -120,38 +120,38 @@ test_that("panel and type options", {
 
 })
 
-test_that("check constantlev plot", {
+# test_that("check constantlev plot", {
+# 
+#   # model
+#   lm_model2 <- lm(weight ~ group, data = PlantGrowth)
+# 
+#   # test for warning
+#   expect_warning(resid_panel(lm_model2, plots = "all"))
+# 
+#   # tests for plots
+#   expect_doppelganger(title = "lm with one categorical X - plots = all", fig = resid_panel(lm_model2, plots = "all"))
+# 
+# })
 
-  # model
-  lm_model2 <- lm(weight ~ group, data = PlantGrowth)
-
-  # test for warning
-  expect_warning(resid_panel(lm_model2, plots = "all"))
-
-  # tests for plots
-  expect_doppelganger(title = "lm with one categorical X - plots = all", fig = resid_panel(lm_model2, plots = "all"))
-
-})
 
 
-
-test_that("glm poison", {
-
-  # model
-  glm_poisson_model <- glm(count ~ spray, family = "poisson", data = InsectSprays)
-
-  # test for warning
-  expect_warning(resid_panel(glm_poisson_model, plots = "all"))
-
-  # tests for plots
-  expect_doppelganger(title = "glm poisson - plots = all", fig = resid_panel(glm_poisson_model, plots = "all"))
-  #expect_doppelganger(title = "glm poisson - type = pearson", fig = resid_panel(glm_poisson_model, plots = "all", type = "pearson"))
-  #expect_doppelganger(title = "glm poisson - type = deviance", fig = resid_panel(glm_poisson_model, plots = "all", type = "deviance"))
-  #expect_doppelganger(title = "glm poisson - type = response", fig = resid_panel(glm_poisson_model, plots = "all", type = "response"))
-  #expect_doppelganger(title = "glm poisson - type = stand.deviance", fig = resid_panel(glm_poisson_model, plots = "all", type = "stand.deviance"))
-  #expect_doppelganger(title = "glm poisson - type = stand.pearson", fig = resid_panel(glm_poisson_model, plots = "all", type = "stand.pearson"))
-
-})
+# test_that("glm poison", {
+# 
+#   # model
+#   glm_poisson_model <- glm(count ~ spray, family = "poisson", data = InsectSprays)
+# 
+#   # test for warning
+#   expect_warning(resid_panel(glm_poisson_model, plots = "all"))
+# 
+#   # tests for plots
+#   expect_doppelganger(title = "glm poisson - plots = all", fig = resid_panel(glm_poisson_model, plots = "all"))
+#   #expect_doppelganger(title = "glm poisson - type = pearson", fig = resid_panel(glm_poisson_model, plots = "all", type = "pearson"))
+#   #expect_doppelganger(title = "glm poisson - type = deviance", fig = resid_panel(glm_poisson_model, plots = "all", type = "deviance"))
+#   #expect_doppelganger(title = "glm poisson - type = response", fig = resid_panel(glm_poisson_model, plots = "all", type = "response"))
+#   #expect_doppelganger(title = "glm poisson - type = stand.deviance", fig = resid_panel(glm_poisson_model, plots = "all", type = "stand.deviance"))
+#   #expect_doppelganger(title = "glm poisson - type = stand.pearson", fig = resid_panel(glm_poisson_model, plots = "all", type = "stand.pearson"))
+# 
+# })
 
 test_that("glm binomial", {
 
