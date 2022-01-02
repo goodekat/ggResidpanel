@@ -25,10 +25,12 @@
 #' @param title.opt Indicates whether or not to include a title on the plots in
 #'   the panel. Specify TRUE or FALSE. Default is set to TRUE.
 #' @param nrow Sets the number of rows in the panel.
+#' @param jitter.width Specifies the amount of jitter to add in the plots of categorical variables. (Default is 0.)
 #'
 #' @export resid_xpanel
 #'
 #' @importFrom grid textGrob gpar
+#' @importFrom ggplot2 geom_jitter geom_violin
 #'
 #' @details Note that for x variables that are factors, the levels shown on the
 #' x-axis will be in the order that the levels are ordered in the dataframe.
@@ -36,7 +38,7 @@
 #' is fit.
 #'
 #' @return A panel of plots of the residuals or response variable versus the
-#' predictor variables.
+#' predictor variables. Violin plots are included with categorical variables. 
 #'
 #' @examples
 #'
@@ -44,15 +46,22 @@
 #' penguin_model <- lme4::lmer(heartrate ~ depth + duration + (1|bird), data = penguins)
 #'
 #' # Create plots of the residuals versus the predictor variables
-#' resid_xpanel(penguin_model, theme = "classic")
+#' resid_xpanel(penguin_model, theme = "classic", jitter.width = 0.1)
 #'
 #' # Create plots of the response variable versus the predictor variables
-#' resid_xpanel(penguin_model, yvar = "response", theme = "classic", smoother = TRUE)
+#' resid_xpanel(
+#'      model = penguin_model, 
+#'      yvar = "response", 
+#'      theme = "classic",
+#'       smoother = TRUE, 
+#'       jitter.width = 0.1
+#' )
+#' 
 
 resid_xpanel <- function(model, yvar = "residual", type = NA,
                          smoother = FALSE, scale = 1, theme = "bw",
                          axis.text.size = 10, title.text.size = 12,
-                         title.opt = TRUE, nrow = NULL){
+                         title.opt = TRUE, nrow = NULL, jitter.width = 0){
 
   ## Errors and Warnings -------------------------------------------------------
 
@@ -118,7 +127,8 @@ resid_xpanel <- function(model, yvar = "residual", type = NA,
                             model = model,
                             smoother = smoother,
                             theme = theme,
-                            axis.text.size = axis.text.size)
+                            axis.text.size = axis.text.size, 
+                            jitter.width = jitter.width)
 
   # Create the panel of the predictor plots
   predictor_panel <- suppressWarnings(plot_grid(plotlist = predictor_plots, scale = scale, nrow = nrow))
@@ -149,7 +159,7 @@ resid_xpanel <- function(model, yvar = "residual", type = NA,
 # Function for creating a scatter plot of the chosen yvar vs a predictor variable
 create_predictor_plots <- function(x_column_number, y_column_number,
                                    data, type, model, smoother, theme,
-                                   axis.text.size){
+                                   axis.text.size, jitter.width){
 
   # Create axis labels
   xlab <- names(data)[x_column_number]
@@ -163,18 +173,23 @@ create_predictor_plots <- function(x_column_number, y_column_number,
   data_sub <- data.frame(y = data[,y_column_number],
                          x = data[,x_column_number])
 
-  # Create the plot
-  if(y_column_number == 1){
+  # Create the plot (use violin plot if variable is a factor/character)
+  if (is.factor(data[,x_column_number]) | is.character(data[,x_column_number])) {
+    plot <- ggplot(data_sub, aes(x = data_sub$x, y = data_sub$y)) +
+      geom_violin() +
+      geom_jitter(width = jitter.width) +
+      theme_bw() +
+      labs(x = xlab, y = ylab) 
+  } else {
     plot <- ggplot(data_sub, aes(x = data_sub$x, y = data_sub$y)) +
       geom_point() +
-      geom_hline(yintercept = 0, color = "blue") +
       theme_bw() +
       labs(x = xlab, y = ylab)
-  } else if (y_column_number == 2){
-    plot <- ggplot(data_sub, aes(x = data_sub$x, y = data_sub$y)) +
-      geom_point() +
-      theme_bw() +
-      labs(x = xlab, y = ylab)
+  }
+  
+  # Add a horizontal line if plotting residuals
+  if (y_column_number == 1){
+    plot <- plot + geom_hline(yintercept = 0, color = "blue")
   }
 
   # Add a smoother to the plots if requested

@@ -4,7 +4,9 @@
 \name{penguins}
 \alias{penguins}
 \title{Penguins Dataset}
-\format{A data.frame.}
+\format{
+A data.frame.
+}
 \source{
 \url{https://dasl.datadescription.com/datafile/penguins/?_sfm_methods=Regression&_sfm_cases=4+59943&sf_paged=9}
 }

@@ -20,7 +20,7 @@ Imports:
   qqplotr,
   stats,
   stringr
-RoxygenNote: 6.1.1
+RoxygenNote: 7.1.1
 Suggests: 
   dplyr,
   forcats,
@@ -35,5 +35,4 @@ Suggests:
   vdiffr,
   wesanderson
 VignetteBuilder: knitr
-Depends:R (>= 3.0.0)
-
+Depends: R (>= 3.0.0)
