@@ -60,7 +60,7 @@ plot_hist <- function(model, type, bins, theme, axis.text.size, title.text.size,
   plot <- ggplot(model_values, aes_string(x = "Residual")) +
     geom_point(aes_string(x = "Resid", y = "y", group = "Data"), alpha = 0)+
     labs(x = r_label, y = "Density")+
-      geom_histogram(aes_string(y = "..density..", fill = "..count.."),
+      geom_histogram(aes_string(y = "after_stat(density)", fill = "after_stat(count)"),
                      color = "black", fill = "grey82", bins = bins) +
       stat_function(fun = dnorm, color = "blue",
                     args = list(mean = 0, sd = sd_resid)) +

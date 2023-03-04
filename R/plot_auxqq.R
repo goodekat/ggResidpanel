@@ -1,7 +1,7 @@
 # Q-Q Plot.
 
 # Creates a Q-Q plot from the input residuals
-plot_auxqq <- function(resid, theme, axis.text.size, title.text.size, title.opt, qqline, qqbands){
+plot_auxqq <- function(resid, theme, axis.text.size, title.text.size, title.opt, qqline, qqbands, alpha){
 
   ## Creation of Values to Plot -----------------------------------------------------
 
@@ -16,14 +16,14 @@ plot_auxqq <- function(resid, theme, axis.text.size, title.text.size, title.opt,
     # Add bands if requested
     plot <- ggplot(data = model_values, mapping = aes_string(sample = "Residual")) +
       stat_qq_band() +
-      stat_qq_point() +
+      stat_qq_point(alpha = alpha) +
       labs(x = "Theoretical Quantiles", y = "Sample Quantiles")
 
   } else{
 
     # Don't add bands
     plot <- ggplot(data = model_values, mapping = aes_string(sample = "Residual")) +
-      stat_qq_point() +
+      stat_qq_point(alpha = alpha) +
       labs(x = "Theoretical Quantiles", y = "Sample Quantiles")
 
   }

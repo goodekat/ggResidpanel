@@ -2,7 +2,7 @@
 
 # Creates a residual plot with residuals versus predicted values from a model
 plot_resid <- function(model, type, smoother, theme, axis.text.size,
-                       title.text.size, title.opt){
+                       title.text.size, title.opt, alpha){
 
   ## Creation of Values to Plot -----------------------------------------------------
 
@@ -32,7 +32,7 @@ plot_resid <- function(model, type, smoother, theme, axis.text.size,
   # Create the residual plot
   plot <- ggplot(data = model_values,
                  mapping = aes_string(x = "Prediction", y = "Residual", label = "Data")) +
-    geom_point() +
+    geom_point(alpha = alpha) +
     geom_abline(slope = 0, intercept = 0, color = "blue") +
     labs(x = "Predicted Values", y = r_label)
 

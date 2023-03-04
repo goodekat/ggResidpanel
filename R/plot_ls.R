@@ -2,7 +2,7 @@
 
 # Creates a location-scale plot with the square root of the standardized residuals
 # versus predicted values from a model
-plot_ls <- function(model, type, smoother, theme, axis.text.size, title.text.size, title.opt){
+plot_ls <- function(model, type, smoother, theme, axis.text.size, title.text.size, title.opt, alpha){
 
   ## Creation of Values to Plot -----------------------------------------------------
 
@@ -42,7 +42,7 @@ plot_ls <- function(model, type, smoother, theme, axis.text.size, title.text.siz
     # Location-scale plot for lm model
     plot <- ggplot(data = model_values,
                    mapping = aes_string(x = "Prediction", y = "Sqrt_Std_Res", label = "Data")) +
-      geom_point() +
+      geom_point(alpha = alpha) +
       labs(x = "Predicted Values", y = expression(sqrt(abs(" Standardized Residuals ")))) +
       expand_limits(y = 0)
 
@@ -52,7 +52,7 @@ plot_ls <- function(model, type, smoother, theme, axis.text.size, title.text.siz
     if(is.na(type) | type == "response" | type == "deviance" | type == "stand.deviance"){
       plot <- ggplot(data = model_values,
                      mapping = aes_string(x = "Prediction", y = "Sqrt_Std_Res", label = "Data")) +
-        geom_point() +
+        geom_point(alpha = alpha) +
         labs(x = "Predicted Values",
              y = expression(sqrt(abs(" Standardized Deviance Residuals ")))) +
         expand_limits(y = 0)
@@ -61,7 +61,7 @@ plot_ls <- function(model, type, smoother, theme, axis.text.size, title.text.siz
     } else if(type == "pearson" | type == "stand.pearson"){
       plot <- ggplot(data = model_values,
                      mapping = aes_string(x = "Prediction", y = "Sqrt_Std_Res", label = "Data")) +
-        geom_point() +
+        geom_point(alpha = alpha) +
         labs(x = "Predicted Values",
              y = expression(sqrt(abs(" Standardized Pearson Residuals ")))) +
         expand_limits(y = 0)

@@ -2,7 +2,7 @@
 
 # Creates a Q-Q plot on the residuals from a model
 plot_qq <- function(model, type, theme, axis.text.size, title.text.size, title.opt,
-                     qqline, qqbands){
+                     qqline, qqbands, alpha){
 
   ## Creation of Values to Plot -----------------------------------------------------
 
@@ -30,7 +30,7 @@ plot_qq <- function(model, type, theme, axis.text.size, title.text.size, title.o
   model_values <- model_values[order(model_values$Residual),]
   plot <- ggplot(data = model_values,
                  mapping = aes_string(sample = "Residual", label = "Data")) +
-    stat_qq_point()+
+    stat_qq_point(alpha = alpha)+
     labs(x = "Theoretical Quantiles", y = "Sample Quantiles")
 
   plot_data <- ggplot_build(plot)
@@ -45,7 +45,7 @@ plot_qq <- function(model, type, theme, axis.text.size, title.text.size, title.o
     plot <- ggplot(data = model_values,
                    mapping = aes_string(sample = "Residual_Plot", label = "Data")) +
       stat_qq_band() +
-      stat_qq_point() +
+      stat_qq_point(alpha = alpha) +
       labs(x = "Theoretical Quantiles", y = "Sample Quantiles")
 
   } else{
@@ -53,8 +53,8 @@ plot_qq <- function(model, type, theme, axis.text.size, title.text.size, title.o
     # Don't add bands
     plot <- ggplot(data = model_values,
                    mapping = aes_string(sample = "Residual_Plot", label = "Data")) +
-      stat_qq_point()+
-      geom_point(mapping = aes_string(x = "Theoretical", y = "Residual"))+
+      stat_qq_point(alpha = alpha)+
+      geom_point(mapping = aes_string(x = "Theoretical", y = "Residual"), alpha = alpha)+
       labs(x = "Theoretical Quantiles", y = "Sample Quantiles")
 
   }

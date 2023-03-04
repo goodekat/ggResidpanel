@@ -17,7 +17,8 @@ resid_panel(
   axis.text.size = 10,
   title.text.size = 12,
   title.opt = TRUE,
-  nrow = NULL
+  nrow = NULL,
+  alpha = 0.6
 )
 }
 \arguments{
@@ -61,6 +62,8 @@ plots in the panel.}
 the panel. Specify TRUE or FALSE. Default is set to TRUE.}
 
 \item{nrow}{Sets the number of rows in the panel.}
+
+\item{alpha}{Sets the alpha level for displays with points. Default is set to 0.6.}
 }
 \value{
 A panel of residual diagnostic plots containing plots specified.
