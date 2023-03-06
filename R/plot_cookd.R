@@ -10,8 +10,8 @@ plot_cookd <- function(model, theme, axis.text.size, title.text.size, title.opt,
                              Obs = 1:length(resid(model)))
 
   # Create the cutoff SAS uses with Cook's D
-  cutoff <- 4 / length(resid(model))
-
+  cutoff_cookd <- 4 / length(resid(model))
+  
   # Obtain the leverage values
   Leverage <- hatvalues(model)
   
@@ -41,19 +41,35 @@ plot_cookd <- function(model, theme, axis.text.size, title.text.size, title.opt,
   if(one_lev){
     warning("Observation(s) with a leverage value of 1 are present. Point(s) have
             infinite Cook's D.")
-    plot <- ggplot(model_values, aes_string(x = "Obs", y = "CooksD", label = "Data")) +
+    plot <- ggplot(model_values, aes_string(x = "Obs", y = "CooksD", color = "CooksD", label = "Data")) +
       geom_point(alpha = alpha) +
+      scale_color_gradient2(low = "#56B4E9", 
+                            mid = "#F0E442", 
+                            high = "#D55E00", 
+                            na.value = "#D55E00", 
+                            limits = c(0, 1), 
+                            midpoint = cutoff_cookd, 
+                            breaks = sort(c(0, cutoff_cookd, 0.5, 1)), 
+                            labels = c(0, "4/n", 0.5, "1 or more")) + #Wrong label for rare case of n < 8 
       geom_segment(aes_string(xend = "Obs", yend = 0), color = "blue") +
-      labs(x = "Observation Number", y = "Cook's D") +
-      geom_hline(yintercept = cutoff, colour = "blue", linetype = 5) +
+      labs(x = "Observation Number", y = "Cook's D", colour = "Cook's D") +
+      geom_hline(yintercept = cutoff_cookd, colour = "blue", linetype = 5) +
       geom_hline(yintercept = 0, colour = "black") +
-      geom_vline(xintercept = IDs, colour = "red", linetype = 2)
+      geom_vline(xintercept = IDs, colour = "#D55E00", linetype = 2) 
   } else{
-  plot <- ggplot(model_values, aes_string(x = "Obs", y = "CooksD", label = "Data")) +
+  plot <- ggplot(model_values, aes_string(x = "Obs", y = "CooksD", color = "CooksD", label = "Data")) +
     geom_point(alpha = alpha) +
+    scale_color_gradient2(low = "#56B4E9", 
+                          mid = "#F0E442", 
+                          high = "#D55E00", 
+                          na.value = "#D55E00", 
+                          limits = c(0, 1), 
+                          midpoint = cutoff_cookd, 
+                          breaks = sort(c(0, cutoff_cookd, 0.5, 1)), 
+                          labels = c(0, "4/n", 0.5, "1 or more")) + #Wrong label for rare case of n < 8
     geom_segment(aes_string(xend = "Obs", yend = 0), color = "blue") +
     labs(x = "Observation Number", y = "Cook's D") +
-    geom_hline(yintercept = cutoff, colour = "blue", linetype = 5) +
+    geom_hline(yintercept = cutoff_cookd, colour = "blue", linetype = 5) +
     geom_hline(yintercept = 0, colour = "black")
   }
 
@@ -67,14 +83,16 @@ plot_cookd <- function(model, theme, axis.text.size, title.text.size, title.opt,
   }
 
   # Set text size of title and axis lables, determine whether to include a title,
-  # and return plot
+  # and return plot without Cook's D color legend (not needed since plotting Cook's D)
   if(title.opt == TRUE){
     plot +
       labs(title = "Cook's D versus Index Plot") +
       theme(plot.title = element_text(size = title.text.size, face = "bold"),
-                 axis.title = element_text(size = axis.text.size))
+                 axis.title = element_text(size = axis.text.size),
+                  legend.pos = "none")
   } else if (title.opt == FALSE){
-    plot + theme(axis.title = element_text(size = axis.text.size))
+    plot + theme(axis.title = element_text(size = axis.text.size),
+                 legend.pos = "none")
   }
 
 }

@@ -107,12 +107,12 @@ resid_interact <- function(model, plots = "default", type = NA, bins = 30,
                         alpha = alpha)
     if(title.opt == TRUE){
       title = helper_plotly_title(cookd)
-      cookd <- style(ggplotly(cookd, tooltip = c("CooksD", "Data")), hoverinfo = "skip", traces = 2) %>%
+      cookd <- style(ggplotly(cookd, tooltip = c("y", "Data")), hoverinfo = "skip", traces = 2) %>%
         layout(annotations = title, title = FALSE)
 
 
     } else{
-      cookd <- style(ggplotly(cookd, tooltip = c("CooksD", "Data")), hoverinfo = "skip", traces = 2)
+      cookd <- style(ggplotly(cookd, tooltip = c("y", "Data")), hoverinfo = "skip", traces = 2)
     }
   } else if("all" %in% plots & !(class(model)[1] %in% c("lme", "lmerMod", "lmerModLmerTest", "glmerMod"))){
     cookd <- plot_cookd(model = model,
@@ -123,10 +123,10 @@ resid_interact <- function(model, plots = "default", type = NA, bins = 30,
                         alpha = alpha)
     if(title.opt == TRUE){
       title = helper_plotly_title(cookd)
-      cookd <- ggplotly(cookd, tooltip = c("CooksD", "Data")) %>%
+      cookd <- ggplotly(cookd, tooltip = c("y", "Data")) %>%
         layout(annotations = title, title = FALSE)
     } else{
-      cookd <- ggplotly(cookd, tooltip = c("CooksD", "Data"))
+      cookd <- ggplotly(cookd, tooltip = c("y", "Data"))
     }
   } else{
     cookd <- NULL

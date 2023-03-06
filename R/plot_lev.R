@@ -6,6 +6,9 @@ plot_lev <- function(model, type, smoother, theme, axis.text.size, title.text.si
 
   ## Creation of Values to Plot -----------------------------------------------------
 
+  # Create the cutoff SAS uses with Cook's D
+  cutoff_cookd <- 4 / length(resid(model))
+  
   # Obtain the leverage values
   Leverage = hatvalues(model)
 
@@ -122,6 +125,14 @@ plot_lev <- function(model, type, smoother, theme, axis.text.size, title.text.si
                  mapping = aes_string(x = "Leverage", y = "Std_Res", color = "CooksD", group = "Data"),
                  na.rm = F,
                  alpha = alpha) +
+      scale_color_gradient2(low = "#56B4E9", 
+                            mid = "#F0E442", 
+                            high = "#D55E00", 
+                            na.value = "#D55E00", 
+                            limits = c(0, 1), 
+                            midpoint = cutoff_cookd, 
+                            breaks = sort(c(0, cutoff_cookd, 0.5, 1)), 
+                            labels = c(0, "4/n", 0.5, "1 or more")) + #Wrong label for rare case of n < 8 
       geom_hline(yintercept = 0, linetype = "dashed") +
       geom_vline(xintercept = 0, linetype = "dashed") +
       scale_x_continuous(limits = xlimits) +
