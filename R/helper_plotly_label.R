@@ -197,11 +197,11 @@ if(class(model)[1]%in%c("lm", "glm")){
   #Trim variables that are numeric and contain a decimal
   #down to 3 decimal places
   # for(i in 1:ncol(plotly_data)){
-  #   #First part checks for rows in teh column that contain a decimal
-  #   #if they do not contian a decimal, do nothing to them.
+  #   #First part checks for rows in the column that contain a decimal
+  #   #if they do not contain a decimal, do nothing to them.
   #
   #   #The second part checks to see if the row values are value numbers
-  #   #A cateogrical value could contain a period
+  #   #A categorical value could contain a period
   #   plotly_data[grepl("\\.", as.character(plotly_data[,i]))&!is.na(as.numeric(plotly_data[,i])),i] <- round(as.numeric(as.character(plotly_data[grepl("\\.", as.character(plotly_data[,i]))&!is.na(as.numeric(plotly_data[,i])),i])), 3)
   # }
 

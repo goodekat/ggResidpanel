@@ -75,7 +75,7 @@ plot_lev <- function(model, type, smoother, theme, axis.text.size, title.text.si
     # Create a sequence of hat values
     hat_seq <- seq.int(min(range_lev[1], range_lev[2]/100),
                        0.999,
-                       length.out = 100)
+                       length.out = max(100, model$df.residual))#Add more resolution for large n
 
     # Create the limits for the plot
     xlimits <- c(0, max(subset(model_values$Leverage, model_values$Leverage < cutoff), na.rm = TRUE))
