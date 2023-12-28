@@ -55,7 +55,7 @@ plot_resid <- function(model, type, smoother, theme, axis.text.size,
   # and return plot
   if(title.opt == TRUE){
     plot +
-      labs(title = "Residual Plot") +
+      labs(title = "Residual vs Fitted Plot") +
       theme(plot.title = element_text(size = title.text.size, face = "bold"),
             axis.title = element_text(size = axis.text.size))
   } else if (title.opt == FALSE){

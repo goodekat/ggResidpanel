@@ -42,9 +42,9 @@ plot_cookd <- function(model, theme, axis.text.size, title.text.size, title.opt,
     warning("Observation(s) with a leverage value of 1 are present. Point(s) have
             infinite Cook's D.")
     plot <- ggplot(model_values, aes_string(x = "Obs", y = "CooksD", color = "CooksD", label = "Data")) +
-      geom_point(alpha = alpha) +
-      scale_color_gradient2(low = "#56B4E9", 
-                            mid = "#F0E442", 
+      geom_point(alpha = min(alpha*2,1)) +
+      scale_color_gradient2(low = "#F0E442", 
+                            mid = "#56B4E9", 
                             high = "#D55E00", 
                             na.value = "#D55E00", 
                             limits = c(0, 1), 
@@ -58,9 +58,9 @@ plot_cookd <- function(model, theme, axis.text.size, title.text.size, title.opt,
       geom_vline(xintercept = IDs, colour = "#D55E00", linetype = 2) 
   } else{
   plot <- ggplot(model_values, aes_string(x = "Obs", y = "CooksD", color = "CooksD", label = "Data")) +
-    geom_point(alpha = alpha) +
-    scale_color_gradient2(low = "#56B4E9", 
-                          mid = "#F0E442", 
+    geom_point(alpha = min(alpha*2,1)) +
+    scale_color_gradient2(low = "#F0E442", 
+                          mid = "#56B4E9", 
                           high = "#D55E00", 
                           na.value = "#D55E00", 
                           limits = c(0, 1), 

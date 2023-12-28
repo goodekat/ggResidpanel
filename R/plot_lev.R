@@ -124,9 +124,9 @@ plot_lev <- function(model, type, smoother, theme, axis.text.size, title.text.si
       geom_point(data = model_values,
                  mapping = aes_string(x = "Leverage", y = "Std_Res", color = "CooksD", group = "Data"),
                  na.rm = F,
-                 alpha = alpha) +
-      scale_color_gradient2(low = "#56B4E9", 
-                            mid = "#F0E442", 
+                 alpha = min(alpha*2,1)) +
+      scale_color_gradient2(low = "#F0E442", 
+                            mid = "#56B4E9", 
                             high = "#D55E00", 
                             na.value = "#D55E00", 
                             limits = c(0, 1), 
