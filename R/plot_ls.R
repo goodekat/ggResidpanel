@@ -70,10 +70,10 @@ plot_ls <- function(model, type, smoother, theme, axis.text.size, title.text.siz
 
   }
 
-  # If smoother is set to true, add it to the plot
+  # If smoother is set to true, do not add it to the plot
   if (smoother == TRUE){
-    plot <- plot +
-      geom_smooth(method = "loess", se = FALSE, color = "red", size = 0.5)
+    plot <- plot #+
+    #  geom_smooth(method = "loess", se = FALSE, color = "red", size = 0.5)
   }
 
   # Add theme to plot

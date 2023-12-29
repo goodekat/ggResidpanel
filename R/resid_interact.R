@@ -14,9 +14,8 @@
 #'   for \code{resid_panel} for the options available.)
 #' @param bins Number of bins to use when creating a histogram of the residuals.
 #'   Default is set to 30.
-#' @param smoother Indicates whether or not to include a smoother on the index,
-#'   residual-leverage, location-scale, and residual plots. Specify TRUE or FALSE.
-#'   Default is set to FALSE.
+#' @param smoother Indicates whether or not to include a smoother on the residual 
+#'      vs fitted and index plots. Specify TRUE or FALSE. Default is set to TRUE.
 #' @param qqline Indicates whether to include a 1-1 line on the qq-plot. Specify
 #'   TRUE or FALSE. Default is set to TRUE. (The option of \code{qqbands} has not
 #'   been implemented in plotly, so it is not available as an option with
@@ -56,7 +55,7 @@
 #' resid_interact(penguin_model, plots = c("resid", "qq"), nrow = 2, theme = "classic")
 
 resid_interact <- function(model, plots = "default", type = NA, bins = 30,
-                           smoother = FALSE, qqline = TRUE, scale = 0.9,
+                           smoother = TRUE, qqline = TRUE, scale = 0.9,
                            theme = "bw", axis.text.size = 10, title.text.size = 12,
                            title.opt = TRUE, nrow = NULL, alpha = 0.6){
 

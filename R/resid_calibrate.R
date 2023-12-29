@@ -13,7 +13,8 @@
 #'   \code{lmerTest}, or \code{glmer}.
 #' @param nsim Number of simulated models, defaults to 1
 #' @param identify TRUE to label true residuals, FALSE to hide
-#' @param shuffle TRUE to shuffle the order of the residuals, FALSE to have real data last
+#' @param shuffle TRUE to shuffle the order of the residuals, FALSE to have real 
+#'    data last
 #' @param plots Plots chosen to include in the panel of plots. The default panel
 #'   includes a residual plot, a normal quantile plot, an index plot,
 #'   and a histogram of the residuals. (See details for the options available.)
@@ -22,9 +23,8 @@
 #'   options available.)
 #' @param bins Number of bins to use when creating a histogram of the residuals.
 #'   Default is set to 30.
-#' @param smoother Indicates whether or not to include a smoother on the index,
-#'   residual-leverage, location-scale, and residual plots. Specify TRUE or FALSE.
-#'   Default is set to FALSE.
+#' @param smoother Indicates whether or not to include a smoother on the residual 
+#'      vs fitted and index plots. Specify TRUE or FALSE. Default is set to TRUE.
 #' @param qqline Indicates whether to include a 1-1 line on the qq-plot. Specify
 #'   TRUE or FALSE. Default is set to TRUE.
 #' @param qqbands Indicates whether to include confidence bands on the qq-plot.
@@ -176,7 +176,7 @@ resid_calibrate <-
            shuffle = FALSE,
            type = NA,
            bins = 30,
-           smoother = FALSE,
+           smoother = TRUE,
            qqline = TRUE,
            qqbands = FALSE,
            scale = 1,

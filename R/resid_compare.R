@@ -13,9 +13,8 @@
 #'   options available.)
 #' @param bins Number of bins to use when creating a histogram of the residuals.
 #'   Default is set to 30.
-#' @param smoother Indicates whether or not to include a smoother on the index,
-#'   residual-leverage, location-scale, and residual plots. Specify TRUE or FALSE.
-#'   Default is set to FALSE.
+#' @param smoother Indicates whether or not to include a smoother on the residual 
+#'      vs fitted and index plots. Specify TRUE or FALSE. Default is set to TRUE.
 #' @param qqline Indicates whether to include a 1-1 line on the qq-plot. Specify
 #'   TRUE or FALSE. Default is set to TRUE.
 #' @param qqbands Indicates whether to include confidence bands on the qq-plot.
@@ -168,7 +167,7 @@ resid_compare <-
            plots = "default",
            type = NA,
            bins = 30,
-           smoother = FALSE,
+           smoother = TRUE,
            qqline = TRUE,
            qqbands = FALSE,
            scale = 1,

@@ -149,16 +149,16 @@ plot_lev <- function(model, type, smoother, theme, axis.text.size, title.text.si
                 xlim(0, 1.1))
     }
     
-    # If smoother is set to true, add it to the plot
+    # If smoother is set to true, do not add it to the plot as it makes no sense
     if (smoother == TRUE){
-      plot <- plot +
-        geom_smooth(data = model_values,
-                    aes_string(x = "Leverage", y = "Std_Res"),
-                    na.rm = TRUE,
-                    method = "loess",
-                    se = FALSE,
-                    color = "red",
-                    size = 0.5)
+      plot <- plot #+
+        #geom_smooth(data = model_values,
+        #            aes_string(x = "Leverage", y = "Std_Res"),
+        #            na.rm = TRUE,
+        #            method = "loess",
+        #            se = FALSE,
+        #            color = "red",
+        #            size = 0.5)
     }
 
     # Add Cook's D lines if they are inside the limits of the plot
