@@ -41,7 +41,6 @@
 #'   the panel. Specify TRUE or FALSE. Default is set to TRUE.
 #' @param nrow Sets the number of rows in the panel.
 #' @param alpha Sets the alpha level for displays with points. Default is set to 0.6.
-#' @param data This is the data set used in data = ... in the fitted model
 #'
 #' @export resid_calibrate
 #'
@@ -164,7 +163,7 @@
 #' # Fit a model to the penguins data
 #' penguin_model <- lm(heartrate ~ depth + duration, data = penguins)
 #' 
-#' resid_calibrate(penguin_model, nsim = 3, "qq", data = penguins, shuffle = T, identify = T)
+#' resid_calibrate(penguin_model, nsim = 3, "qq", shuffle = T, identify = T)
 #' 
 #'
 
@@ -185,8 +184,7 @@ resid_calibrate <-
            title.text.size = 12,
            title.opt = TRUE,
            nrow = NULL,
-           alpha = 0.6,
-           data = data) {
+           alpha = 0.6) {
     ## Set number of rows
     compare_rows <- length(plots)
     if (compare_rows == 1) {
@@ -202,7 +200,7 @@ resid_calibrate <-
     simres <- simulate(model, nsim = nsim)
     models <- vector(mode='list', length=nsim+1)
     responsename <- model$call[[2]][[2]]
-    data_WS <- data
+    data_WS <- model.frame(model)
     
     for (i in 1:nsim){
     

@@ -21,8 +21,7 @@ resid_calibrate(
   title.text.size = 12,
   title.opt = TRUE,
   nrow = NULL,
-  alpha = 0.6,
-  data = data
+  alpha = 0.6
 )
 }
 \arguments{
@@ -74,8 +73,6 @@ the panel. Specify TRUE or FALSE. Default is set to TRUE.}
 \item{nrow}{Sets the number of rows in the panel.}
 
 \item{alpha}{Sets the alpha level for displays with points. Default is set to 0.6.}
-
-\item{data}{This is the data set used in data = ... in the fitted model}
 }
 \value{
 A panel of residual diagnostic plots containing plots specified for each model.
@@ -207,7 +204,7 @@ variable and predicted values are plotted on the original scale for
 # Fit a model to the penguins data
 penguin_model <- lm(heartrate ~ depth + duration, data = penguins)
 
-resid_calibrate(penguin_model, nsim = 3, "qq", data = penguins, shuffle = T, identify = T)
+resid_calibrate(penguin_model, nsim = 3, "qq", shuffle = T, identify = T)
 
 
 }
