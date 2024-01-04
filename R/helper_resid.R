@@ -6,13 +6,13 @@ helper_resid <- function(type = NA, model){
   # lm residuals
   if(class(model)[1] == "lm"){
 
-    # Default: raw residuals
-    if(is.na(type) | type == "response"){
-      return(resid(model, type = "response"))
+    # Default: standardized residuals
+    if(is.na(type) | type == "standardized"){
+      return(stdres(model))
     }else if(type == "pearson"){
       return(resid(model, type = "response") / summary(model)$sigma)
-    }else if(type == "standardized"){
-      return(stdres(model))
+    }else if(type == "response"){
+      return(resid(model, "response"))
     }
 
   # glm residuals
