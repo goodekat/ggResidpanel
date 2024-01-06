@@ -46,7 +46,8 @@ plot_qq <- function(model, type, theme, axis.text.size, title.text.size, title.o
                    mapping = aes_string(sample = "Residual_Plot", label = "Data")) +
       stat_qq_band() +
       stat_qq_point(alpha = alpha) +
-      labs(x = "Theoretical Quantiles", y = "Sample Quantiles")
+      labs(x = "Theoretical Quantiles", y = "Sample Quantiles") +
+      coord_fixed()
 
   } else{
 
@@ -55,7 +56,8 @@ plot_qq <- function(model, type, theme, axis.text.size, title.text.size, title.o
                    mapping = aes_string(sample = "Residual_Plot", label = "Data")) +
       stat_qq_point(alpha = alpha)+
       geom_point(mapping = aes_string(x = "Theoretical", y = "Residual"), alpha = alpha)+
-      labs(x = "Theoretical Quantiles", y = "Sample Quantiles")
+      labs(x = "Theoretical Quantiles", y = "Sample Quantiles") +
+      coord_fixed()
 
   }
 

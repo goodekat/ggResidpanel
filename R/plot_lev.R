@@ -149,7 +149,7 @@ plot_lev <- function(model, type, smoother, theme, axis.text.size, title.text.si
                 xlim(0, 1.1))
     }
     
-    # If smoother is set to true, do not add it to the plot as it makes no sense
+    # Even if smoother is set to true, do not add it to the plot as it makes no sense
     if (smoother == TRUE){
       plot <- plot #+
         #geom_smooth(data = model_values,

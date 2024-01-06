@@ -47,9 +47,9 @@ plot_constlev <- function(model, type, theme, axis.text.size, title.text.size, t
     }
   }
 
-  # Compute the values for the lowess curve
-  model_values$Lowess.x <- lowess(x = model_values$Variables, y = model_values$Std_Res)$x
-  model_values$Lowess.y <- lowess(x = model_values$Variables, y = model_values$Std_Res)$y
+  # Compute the values for the lowess curve #Removed 
+  #model_values$Lowess.x <- lowess(x = model_values$Variables, y = model_values$Std_Res)$x
+  #model_values$Lowess.y <- lowess(x = model_values$Variables, y = model_values$Std_Res)$y
 
   ## Creation of Labels -------------------------------------------------------------
 
@@ -73,7 +73,7 @@ plot_constlev <- function(model, type, theme, axis.text.size, title.text.size, t
 
   plot <- ggplot(data = model_values, aes_string(x = "Variables", y = "Std_Res"), na.rm=TRUE) +
     geom_point(aes_string(group = "Data"), alpha = alpha) +
-    geom_line(aes_string(x = "Lowess.x", y = "Lowess.y"), color = "red", size = 0.5)+
+    #geom_line(aes_string(x = "Lowess.x", y = "Lowess.y"), color = "red", size = 0.5)+
     geom_abline(slope = 0, intercept = 0, color = "blue", size = 0.5)+
     xlab("Factor Level Combinations")+
     ylab("Standardized Residuals")
