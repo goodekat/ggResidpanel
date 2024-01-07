@@ -20,9 +20,13 @@ plot_lev <- function(model, type, smoother, theme, axis.text.size, title.text.si
   one_lev_num <- sum(Leverage >= cutoff)
 
   # Check if constant leverage
-  range_lev <- range(subset(Leverage, Leverage < cutoff), na.rm = TRUE)
-  const_lev <- all(range_lev == 0) || diff(range_lev) < 1e-10 * mean(subset(Leverage, Leverage < cutoff), na.rm = TRUE)
-
+  if (one_lev_num == length(Leverage)){ #Check all lev = 1
+    const_lev <- TRUE
+  } else {  
+    range_lev <- range(subset(Leverage, Leverage < cutoff), na.rm = TRUE)
+    const_lev <- all(range_lev == 0) || diff(range_lev) < 1e-10 * mean(subset(Leverage, Leverage < cutoff), na.rm = TRUE)
+  }
+    
   if(const_lev){
 
     # Create the constant leverage plot

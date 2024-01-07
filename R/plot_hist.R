@@ -29,8 +29,8 @@ plot_hist <- function(model, type, bins, theme, axis.text.size, title.text.size,
   #   max_x <- 4 * sd(model_values$Residual)
   # }
 
-  grid_r <- seq(-4 * sd(model_values$Residual),4 * sd(model_values$Residual), .01)
-  y <- dnorm(grid_r, mean = 0, sd = sd(model_values$Residual))
+  grid_r <- seq(-4 * max(sd(model_values$Residual), 0.00001),4 * max(sd(model_values$Residual), 0.00001), .01)
+  y <- dnorm(grid_r, mean = 0, sd = max(sd(model_values$Residual), 0.00001))
 
   d_data <- data.frame(grid_r, y)
 
