@@ -53,6 +53,7 @@ plot_yvp <- function(model, theme, axis.text.size, title.text.size, title.opt, a
                  mapping = aes_string(x = "Predicted", y = "Response", label = "Data")) +
     geom_point(alpha = alpha) +
     geom_abline(slope = 1, intercept = 0, color = "blue") +
+    coord_fixed() + 
     labs(x = "Predicted Values", y = y_label)
 
   # Add theme to plot

@@ -50,7 +50,7 @@ plot_cookd <- function(model, theme, axis.text.size, title.text.size, title.opt,
                             limits = c(0, 1), 
                             midpoint = cutoff_cookd, 
                             breaks = sort(c(0, cutoff_cookd, 0.5, 1)), 
-                            labels = c(0, "4/n", 0.5, "1 or more")) + #Wrong label for rare case of n < 8 
+                            labels = c(0, "4/n", 0.5, "\u2265 1")) + #Wrong label for rare case of n < 8 
       geom_segment(aes_string(xend = "Obs", yend = 0), color = "blue") +
       labs(x = "Observation Number", y = "Cook's D", colour = "Cook's D") +
       geom_hline(yintercept = cutoff_cookd, colour = "blue", linetype = 5) +
@@ -66,7 +66,7 @@ plot_cookd <- function(model, theme, axis.text.size, title.text.size, title.opt,
                           limits = c(0, 1), 
                           midpoint = cutoff_cookd, 
                           breaks = sort(c(0, cutoff_cookd, 0.5, 1)), 
-                          labels = c(0, "4/n", 0.5, "1 or more")) + #Wrong label for rare case of n < 8
+                          labels = c(0, "4/n", 0.5, "\u2265 1")) + #Wrong label for rare case of n < 8
     geom_segment(aes_string(xend = "Obs", yend = 0), color = "blue") +
     labs(x = "Observation Number", y = "Cook's D") +
     geom_hline(yintercept = cutoff_cookd, colour = "blue", linetype = 5) +
