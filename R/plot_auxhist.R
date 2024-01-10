@@ -32,7 +32,7 @@ plot_auxhist <- function(resid, bins, theme, axis.text.size, title.text.size, ti
 
     # Data is outside of 4*sd, so xlim is not used
     plot <- ggplot(model_values, aes_string(x = "Residual")) +
-      geom_histogram(aes_string(y = "..density..", fill = "..count.."),
+      geom_histogram(aes_string(y = "after_stat(density)", fill = "after_stat(count)"),
                      color = "black", fill = "grey82", bins = bins) +
       stat_function(fun = dnorm, color = "blue",
                     args = list(mean = 0, sd = sd(model_values$Residual))) +
@@ -42,7 +42,7 @@ plot_auxhist <- function(resid, bins, theme, axis.text.size, title.text.size, ti
 
     # Data is not outside of 4*sd, so xlim is used
     plot <- ggplot(model_values, aes_string(x = "Residual")) +
-      geom_histogram(aes_string(y = "..density..", fill = "..count.."),
+      geom_histogram(aes_string(y = "after_stat(density)", fill = "after_stat(count)"),
                      color = "black", fill = "grey82", bins = bins) +
       stat_function(fun = dnorm, color = "blue",
                     args = list(mean = 0, sd = sd(model_values$Residual))) +

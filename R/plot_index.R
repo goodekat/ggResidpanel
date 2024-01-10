@@ -1,7 +1,7 @@
 # Residual vs Index Plot.
 
 # Creates a residual vs index plot from a model
-plot_index <- function(model, type, smoother, theme, axis.text.size, title.text.size, title.opt){
+plot_index <- function(model, type, smoother, theme, axis.text.size, title.text.size, title.opt, alpha){
 
   ## Creation of Values to Plot -----------------------------------------------------
 
@@ -28,7 +28,7 @@ plot_index <- function(model, type, smoother, theme, axis.text.size, title.text.
   # Create the residual plot
   plot <- ggplot(data = model_values,
                  mapping = aes_string(x = "Observation", y = "Residual", label = "Data")) +
-    geom_point() +
+    geom_point(alpha = alpha) +
     geom_abline(slope = 0, intercept = 0, color = "blue") +
     labs(x = "Observation Number", y = r_label)
 

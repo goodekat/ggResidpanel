@@ -1,7 +1,8 @@
 # Residual vs Index Plot.
 
 # Creates a residual plot with the input residuals and predicted values
-plot_auxindex <- function(resid, smoother, theme, axis.text.size, title.text.size, title.opt){
+plot_auxindex <- function(resid, smoother, theme, axis.text.size, title.text.size, title.opt,
+                          alpha){
 
   ## Creation of Values to Plot -----------------------------------------------------
 
@@ -15,7 +16,7 @@ plot_auxindex <- function(resid, smoother, theme, axis.text.size, title.text.siz
 
   # Create the residual plot
   plot <- ggplot(data = model_values, aes_string(x = "Observation", y = "Residual")) +
-    geom_point() +
+    geom_point(alpha = alpha) +
     geom_abline(slope = 0, intercept = 0, color = "blue") +
     labs(x = "Observation Number", y = "Residuals")
 

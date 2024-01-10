@@ -26,7 +26,8 @@
 #'   the panel. Specify TRUE or FALSE. Default is set to TRUE.
 #' @param nrow Sets the number of rows in the panel.
 #' @param jitter.width Specifies the amount of jitter to add in the plots of categorical variables. (Default is 0.)
-#'
+#' @param alpha Sets the alpha level for displays with points. Default is set to 0.6.
+#' 
 #' @export resid_xpanel
 #'
 #' @importFrom grid textGrob gpar
@@ -61,7 +62,7 @@
 resid_xpanel <- function(model, yvar = "residual", type = NA,
                          smoother = FALSE, scale = 1, theme = "bw",
                          axis.text.size = 10, title.text.size = 12,
-                         title.opt = TRUE, nrow = NULL, jitter.width = 0){
+                         title.opt = TRUE, nrow = NULL, jitter.width = 0, alpha = 0.6){
 
   ## Errors and Warnings -------------------------------------------------------
 
@@ -128,7 +129,8 @@ resid_xpanel <- function(model, yvar = "residual", type = NA,
                             smoother = smoother,
                             theme = theme,
                             axis.text.size = axis.text.size, 
-                            jitter.width = jitter.width)
+                            jitter.width = jitter.width,
+                            alpha = alpha)
 
   # Create the panel of the predictor plots
   predictor_panel <- suppressWarnings(plot_grid(plotlist = predictor_plots, scale = scale, nrow = nrow))
@@ -159,7 +161,7 @@ resid_xpanel <- function(model, yvar = "residual", type = NA,
 # Function for creating a scatter plot of the chosen yvar vs a predictor variable
 create_predictor_plots <- function(x_column_number, y_column_number,
                                    data, type, model, smoother, theme,
-                                   axis.text.size, jitter.width){
+                                   axis.text.size, jitter.width, alpha){
 
   # Create axis labels
   xlab <- names(data)[x_column_number]
@@ -177,12 +179,12 @@ create_predictor_plots <- function(x_column_number, y_column_number,
   if (is.factor(data[,x_column_number]) | is.character(data[,x_column_number])) {
     plot <- ggplot(data_sub, aes(x = data_sub$x, y = data_sub$y)) +
       geom_violin() +
-      geom_jitter(width = jitter.width) +
+      geom_jitter(width = jitter.width, alpha = alpha) +
       theme_bw() +
       labs(x = xlab, y = ylab) 
   } else {
     plot <- ggplot(data_sub, aes(x = data_sub$x, y = data_sub$y)) +
-      geom_point() +
+      geom_point(alpha = alpha) +
       theme_bw() +
       labs(x = xlab, y = ylab)
   }

@@ -1,10 +1,20 @@
-#' Panel of Diagnostic Residual Plots Across Multiple Models.
+#' Panel of Diagnostic Residual Plots from a fitted model and simulated responses from the same model. 
+#' 
+#' Used to calibrate expectations for simulation variability when assumptions are true (see \code{simulate}),
+#' to compare to the actual observed residuals in any of a suite of diagnostic plots. 
+#' This function is based on the \code{resid_compare} function and requires the fitted model and the data set.
+#' 
 #'
-#' Creates a panel of residual diagnostic plots given a list of models. Currently accepts
-#' models of type "lm", "glm", "lmerMod", "lmerModLmerTest", and "glmerMod".
+#' Creates a panel of residual diagnostic plots the actual model and simulated responses from that model. 
+#' Currently accepts
+#' models of type "lm" (future versions will accept "glm", "lmerMod", "lmerModLmerTest", and "glmerMod").
 #'
-#' @param models List of models fit using either \code{lm}, \code{glm}, \code{lmer},
+#' @param model Model fit using either \code{lm}, \code{glm}, \code{lmer},
 #'   \code{lmerTest}, or \code{glmer}.
+#' @param nsim Number of simulated models, defaults to 1
+#' @param identify TRUE to label true residuals, FALSE to hide
+#' @param shuffle TRUE to shuffle the order of the residuals, FALSE to have real 
+#'    data last
 #' @param plots Plots chosen to include in the panel of plots. The default panel
 #'   includes a residual plot, a normal quantile plot, an index plot,
 #'   and a histogram of the residuals. (See details for the options available.)
@@ -32,7 +42,7 @@
 #' @param nrow Sets the number of rows in the panel.
 #' @param alpha Sets the alpha level for displays with points. Default is set to 0.6.
 #'
-#' @export resid_compare
+#' @export resid_calibrate
 #'
 #' @details
 #'
@@ -150,21 +160,19 @@
 #'
 #' @examples
 #'
-#' # Fit two models to the penguins data
-#' penguin_model <- lme4::lmer(heartrate ~ depth + duration + (1|bird), data = penguins)
-#' penguin_model_log2 <- lme4::lmer(log(heartrate) ~ depth + duration + I(duration^2) +
-#' (1|bird), data = penguins)
+#' # Fit a model to the penguins data
+#' penguin_model <- lm(heartrate ~ depth + duration, data = penguins)
+#' 
+#' resid_calibrate(penguin_model, nsim = 3, "qq", shuffle = T, identify = T)
+#' 
 #'
-#' # Compare the residuals from the model
-#' resid_compare(list(penguin_model, penguin_model_log2))
-#'
-#' # Adjust some options in the panel of plots
-#' resid_compare(list(penguin_model, penguin_model_log2), plots = c("resid", "yvp"),
-#' smoother = TRUE, theme = "grey")
 
-resid_compare <-
-  function(models,
+resid_calibrate <-
+  function(model,
            plots = "default",
+           nsim = 1,
+           identify = TRUE,
+           shuffle = FALSE,
            type = NA,
            bins = 30,
            smoother = TRUE,
@@ -187,7 +195,37 @@ resid_compare <-
       }
     }
     
+    ## Create list of models with simulated responses
+    
+    simres <- simulate(model, nsim = nsim)
+    models <- vector(mode='list', length=nsim+1)
+    responsename <- model$call[[2]][[2]]
+    data_WS <- model.frame(model)
+    
+    for (i in 1:nsim){
+    
+      if (class(model) == "lm") {
+        data_WS[,paste(responsename)[1]] <- simres[[i]]
+        modelSim <- lm(formula(model$call), data = data_WS)
+        models[[i]] <- modelSim
+    } else if (class(model) == "glm"){
+      print("Under development")
+    }
+    }
+
+    models[[nsim+1]] <- model
+    realresids <- nsim+1
+    
+    if (shuffle == TRUE) {
+      neworder <- sample(1:length(models))
+      models <- models[neworder]
+      realresids <- which(neworder==nsim+1)
+    }
+
+        if (identify == TRUE){print(paste0("Real residuals are in column ", realresids))}
+
     ## Errors and Warnings -------------------------------------------------------
+    
     
     # Checks that return an error
     for (i in 1:length(models)) {
@@ -575,6 +613,6 @@ resid_compare <-
       ))
       
     }
-    
+  
     
   }

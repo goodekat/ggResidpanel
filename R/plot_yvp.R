@@ -1,7 +1,7 @@
 # Response versus predicted plot.
 
 # Creates a plot of the response variable versus the predicted values
-plot_yvp <- function(model, theme, axis.text.size, title.text.size, title.opt){
+plot_yvp <- function(model, theme, axis.text.size, title.text.size, title.opt, alpha){
 
   ## Creation of Values to Plot -----------------------------------------------------
 
@@ -51,8 +51,9 @@ plot_yvp <- function(model, theme, axis.text.size, title.text.size, title.opt){
   # Create the plot of response variable versus predicted values
   plot <- ggplot(data = model_values,
                  mapping = aes_string(x = "Predicted", y = "Response", label = "Data")) +
-    geom_point() +
+    geom_point(alpha = alpha) +
     geom_abline(slope = 1, intercept = 0, color = "blue") +
+    coord_fixed() + 
     labs(x = "Predicted Values", y = y_label)
 
   # Add theme to plot
