@@ -8,6 +8,7 @@
 - Work in updates from posit course
 - Clean up old to do list
 - Ask Katie about changing her email address
+- Work through list of issues on GitLab
 
 ## Old List
 
