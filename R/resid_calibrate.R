@@ -44,6 +44,9 @@
 #'
 #' @export resid_calibrate
 #'
+#' @importFrom methods is
+#' @importFrom stats formula lm simulate 
+#' 
 #' @details
 #'
 #' The first two sections below contain information on the available input
@@ -163,9 +166,13 @@
 #' # Fit a model to the penguins data
 #' penguin_model <- lm(heartrate ~ depth + duration, data = penguins)
 #' 
-#' resid_calibrate(penguin_model, nsim = 3, "qq", shuffle = T, identify = T)
-#' 
-#'
+#' resid_calibrate(
+#'   model = penguin_model, 
+#'   plots = "qq", 
+#'   nsim = 3, 
+#'   shuffle = TRUE, 
+#'   identify = TRUE
+#'  )
 
 resid_calibrate <-
   function(model,
@@ -185,6 +192,7 @@ resid_calibrate <-
            title.opt = TRUE,
            nrow = NULL,
            alpha = 0.6) {
+    
     ## Set number of rows
     compare_rows <- length(plots)
     if (compare_rows == 1) {
@@ -203,14 +211,13 @@ resid_calibrate <-
     data_WS <- model.frame(model)
     
     for (i in 1:nsim){
-    
-      if (class(model) == "lm") {
+      if (is(model, "lm")) {
         data_WS[,paste(responsename)[1]] <- simres[[i]]
         modelSim <- lm(formula(model$call), data = data_WS)
         models[[i]] <- modelSim
-    } else if (class(model) == "glm"){
-      print("Under development")
-    }
+      } else if (is(model, "glm")) {
+        print("Under development")
+      }
     }
 
     models[[nsim+1]] <- model

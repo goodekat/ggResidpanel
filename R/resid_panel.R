@@ -35,11 +35,39 @@
 #' @export resid_panel
 #'
 #' @importFrom cowplot plot_grid ggdraw draw_label
-#' @importFrom ggplot2 ggplot aes aes_string geom_point geom_abline labs theme_bw theme
-#'   geom_histogram stat_function xlim geom_boxplot expand_limits geom_smooth
-#'   element_text ggplotGrob geom_vline theme_classic geom_hline geom_segment
-#'   geom_line scale_x_continuous scale_y_continuous theme_grey ggplot_build xlab ylab
-#'   geom_text element_blank
+#' @importFrom ggplot2 
+#'   aes
+#'   after_stat
+#'   aes_string
+#'   coord_fixed 
+#'   element_blank
+#'   element_text 
+#'   expand_limits
+#'   geom_abline 
+#'   geom_boxplot
+#'   geom_hline
+#'   geom_histogram
+#'   geom_line
+#'   geom_point
+#'   geom_segment
+#'   geom_smooth
+#'   geom_text
+#'   geom_vline
+#'   ggplot
+#'   ggplot_build
+#'   ggplotGrob
+#'   labs
+#'   scale_color_gradient2
+#'   scale_x_continuous
+#'   scale_y_continuous
+#'   stat_function
+#'   theme
+#'   theme_bw
+#'   theme_classic
+#'   theme_grey
+#'   xlab
+#'   xlim
+#'   ylab  
 #' @importFrom grDevices extendrange
 #' @importFrom MASS stdres
 #' @importFrom qqplotr stat_qq_point stat_qq_line stat_qq_band

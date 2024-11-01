@@ -18,14 +18,14 @@ ggResidpanel is an R package for creating panels of diagnostic plots for a model
 
 ## Installation
 
-This is a forked development version that Mark Greenwood is working on. An older version of the code below shows how ggResidpanel can be installed from CRAN. This development version of ggResidpanel can be installed from GitHub.
+This is the current development version of ggResidpanel. Install the development version from GitHub or an older version from CRAN.
 
 ```{r, eval = FALSE}
+# Installs the development version of ggResidpanel from GitHub
+remotes::install_github("goodekat/ggResidpanel")
+
 # Installs ggResidpanel from CRAN
 install.packages("ggResidpanel")
-
-# Installs the development version of ggResidpanel from GitHub
-devtools::install_github("greenwood-stat/ggResidpanel")
 ```
 
 Load the ggResidpanel package.

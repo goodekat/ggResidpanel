@@ -62,7 +62,8 @@
 resid_xpanel <- function(model, yvar = "residual", type = NA,
                          smoother = FALSE, scale = 1, theme = "bw",
                          axis.text.size = 10, title.text.size = 12,
-                         title.opt = TRUE, nrow = NULL, jitter.width = 0, alpha = 0.6){
+                         title.opt = TRUE, nrow = NULL, jitter.width = 0, 
+                         alpha = 0.6){
 
   ## Errors and Warnings -------------------------------------------------------
 

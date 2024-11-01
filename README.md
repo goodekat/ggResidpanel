@@ -7,16 +7,15 @@ plotly.
 
 ## Installation
 
-The code below shows how ggResidpanel can be installed from CRAN. If
-desired, the development version of ggResidpanel can be installed from
-GitHub.
+This is the current development version of ggResidpanel. Install the
+development version from GitHub or an older version from CRAN.
 
 ``` r
+# Installs the development version of ggResidpanel from GitHub
+remotes::install_github("goodekat/ggResidpanel")
+
 # Installs ggResidpanel from CRAN
 install.packages("ggResidpanel")
-
-# Installs the development version of ggResidpanel from GitHub
-devtools::install_github("goodekat/ggResidpanel")
 ```
 
 Load the ggResidpanel package.
@@ -30,26 +29,26 @@ library(ggResidpanel)
 
 Here are some resources for learning how to use ggResidpanel:
 
--   [Introduction
-    Vignette](https://goodekat.github.io/ggResidpanel/articles/introduction.html)
--   [Tutorial and User
-    Manual](https://goodekat.github.io/ggResidpanel-tutorial/tutorial.html)
+- [Introduction
+  Vignette](https://goodekat.github.io/ggResidpanel/articles/introduction.html)
+- [Tutorial and User
+  Manual](https://goodekat.github.io/ggResidpanel-tutorial/tutorial.html)
 
 ## Overview and Examples
 
 The package provides five functions that allow the user to assess
 diagnostic plots from a model. These functions are:
 
--   `resid_panel`: Creates a panel of diagnostic plots of the residuals
-    from a model
--   `resid_interact`: Creates an interactive panel of diagnostic plots
-    of the residuals form a model
--   `resid_xpanel`: Creates a panel of diagnostic plots of the predictor
-    variables
--   `resid_compare`: Creates a panel of diagnostic plots from multiple
-    models
--   `resid_auxpanel`: Creates a panel of diagnostic plots for model
-    types not included in the package
+- `resid_panel`: Creates a panel of diagnostic plots of the residuals
+  from a model
+- `resid_interact`: Creates an interactive panel of diagnostic plots of
+  the residuals form a model
+- `resid_xpanel`: Creates a panel of diagnostic plots of the predictor
+  variables
+- `resid_compare`: Creates a panel of diagnostic plots from multiple
+  models
+- `resid_auxpanel`: Creates a panel of diagnostic plots for model types
+  not included in the package
 
 Currently, ggResidpanel allows the first four functions listed above to
 work with models fit using the functions of `lm`, `glm`, `lme` (from

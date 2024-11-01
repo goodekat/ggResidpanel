@@ -204,7 +204,11 @@ variable and predicted values are plotted on the original scale for
 # Fit a model to the penguins data
 penguin_model <- lm(heartrate ~ depth + duration, data = penguins)
 
-resid_calibrate(penguin_model, nsim = 3, "qq", shuffle = T, identify = T)
-
-
+resid_calibrate(
+  model = penguin_model, 
+  plots = "qq", 
+  nsim = 3, 
+  shuffle = TRUE, 
+  identify = TRUE
+ )
 }

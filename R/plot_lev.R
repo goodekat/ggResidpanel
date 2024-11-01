@@ -16,7 +16,7 @@ plot_lev <- function(model, type, smoother, theme, axis.text.size, title.text.si
   cutoff = 0.999999999
   one_lev = sum(Leverage >= cutoff) > 0
   
-  #Count number over cutoff:
+  # Count number over cutoff
   one_lev_num <- sum(Leverage >= cutoff)
 
   # Check if constant leverage
