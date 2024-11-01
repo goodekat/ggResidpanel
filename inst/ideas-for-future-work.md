@@ -1,6 +1,15 @@
----------------
-Future Work
----------------
+# To Do List
+
+## Current
+
+- Write up list of questions
+- Work through Mark's examples
+- Check in with Mark
+- Work in updates from posit course
+- Clean up old to do list
+- Ask Katie about changing her email address
+
+## Old List
 
 Katie's Tasks:
 - Work on residual vignette (IN PROGRESS)
