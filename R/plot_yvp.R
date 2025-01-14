@@ -49,8 +49,11 @@ plot_yvp <- function(model, theme, axis.text.size, title.text.size, title.opt, a
 
 
   # Create the plot of response variable versus predicted values
-  plot <- ggplot(data = model_values,
-                 mapping = aes_string(x = "Predicted", y = "Response", label = "Data")) +
+  plot <- 
+    ggplot(
+      data = model_values,
+      mapping = aes(x = {Predicted}, y = {Response}, label = {Data})
+    ) +
     geom_point(alpha = alpha) +
     geom_abline(slope = 1, intercept = 0, color = "blue") +
     coord_fixed() + 
@@ -65,7 +68,7 @@ plot_yvp <- function(model, theme, axis.text.size, title.text.size, title.opt, a
     plot <- plot + theme_grey()
   }
 
-  # Set text size of title and axis lables, determine whether to include a title,
+  # Set text size of title and axis labels, determine whether to include a title,
   # and return plot
   if(title.opt == TRUE){
     plot +

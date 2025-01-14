@@ -209,7 +209,7 @@ create_predictor_plots <- function(x_column_number, y_column_number,
     plot <- plot + theme_grey()
   }
 
-  # Set text size of axis lables and return plot
+  # Set text size of axis labels and return plot
   plot + theme(axis.title = element_text(size = axis.text.size))
 
 }

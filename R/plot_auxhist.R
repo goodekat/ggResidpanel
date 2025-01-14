@@ -31,21 +31,49 @@ plot_auxhist <- function(resid, bins, theme, axis.text.size, title.text.size, ti
   if (is.na(min_x) & is.na(max_x)){
 
     # Data is outside of 4*sd, so xlim is not used
-    plot <- ggplot(model_values, aes_string(x = "Residual")) +
-      geom_histogram(aes_string(y = "after_stat(density)", fill = "after_stat(count)"),
-                     color = "black", fill = "grey82", bins = bins) +
-      stat_function(fun = dnorm, color = "blue",
-                    args = list(mean = 0, sd = sd(model_values$Residual))) +
+    plot <- 
+      ggplot(
+        data = model_values, 
+        mapping = aes(x = {Residual})
+      ) +
+      geom_histogram(
+        mapping = aes(
+          y = after_stat({density}), 
+          fill = after_stat({count})
+        ),
+        color = "black", 
+        fill = "grey82", 
+        bins = bins
+      ) +
+      stat_function(
+        fun = dnorm, 
+        color = "blue",
+        args = list(mean = 0, sd = sd(model_values$Residual))
+      ) +
       labs(x = "Residuals", y = "Density")
 
   } else{
 
     # Data is not outside of 4*sd, so xlim is used
-    plot <- ggplot(model_values, aes_string(x = "Residual")) +
-      geom_histogram(aes_string(y = "after_stat(density)", fill = "after_stat(count)"),
-                     color = "black", fill = "grey82", bins = bins) +
-      stat_function(fun = dnorm, color = "blue",
-                    args = list(mean = 0, sd = sd(model_values$Residual))) +
+    plot <- 
+      ggplot(
+        data = model_values, 
+        mapping = aes(x = {Residual})
+      ) +
+      geom_histogram(
+        mapping = aes(
+          y = after_stat({density}), 
+          fill = after_stat({count})
+        ),
+        color = "black", 
+        fill = "grey82", 
+        bins = bins
+      ) +
+      stat_function(
+        fun = dnorm, 
+        color = "blue",
+        args = list(mean = 0, sd = sd(model_values$Residual))
+      ) +
       labs(x = "Residuals", y = "Density") +
         xlim(c(min_x, max_x))
 
@@ -60,13 +88,15 @@ plot_auxhist <- function(resid, bins, theme, axis.text.size, title.text.size, ti
     plot <- plot + theme_grey()
   }
 
-  # Set text size of title and axis lables, determine whether to include a title,
+  # Set text size of title and axis labels, determine whether to include a title,
   # and return plot
   if(title.opt == TRUE){
     plot +
       labs(title =  "Histogram") +
-      theme(plot.title = element_text(size = title.text.size, face = "bold"),
-            axis.title = element_text(size = axis.text.size))
+      theme(
+        plot.title = element_text(size = title.text.size, face = "bold"),
+        axis.title = element_text(size = axis.text.size)
+      )
   } else if (title.opt == FALSE){
     plot + theme(axis.title = element_text(size = axis.text.size))
   }

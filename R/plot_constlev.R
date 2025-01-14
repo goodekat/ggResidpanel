@@ -71,11 +71,16 @@ plot_constlev <- function(model, type, theme, axis.text.size, title.text.size, t
   ## Creation of Plot ---------------------------------------------------------------
   # Create the constant leverage plot
 
-  plot <- ggplot(data = model_values, aes_string(x = "Variables", y = "Std_Res"), na.rm=TRUE) +
-    geom_point(aes_string(group = "Data"), alpha = alpha) +
-    #geom_line(aes_string(x = "Lowess.x", y = "Lowess.y"), color = "red", size = 0.5)+
-    geom_abline(slope = 0, intercept = 0, color = "blue", size = 0.5)+
-    xlab("Factor Level Combinations")+
+  plot <- 
+    ggplot(
+      data = model_values, 
+      mapping = aes(x = {Variables}, y = {Std_Res}), 
+      na.rm = TRUE
+    ) +
+    geom_point(aes(group = {Data}), alpha = alpha) +
+    #geom_line(aes(x = {Lowess.x}, y = {Lowess.y}), color = "red", size = 0.5) +
+    geom_abline(slope = 0, intercept = 0, color = "blue", size = 0.5) +
+    xlab("Factor Level Combinations") +
     ylab("Standardized Residuals")
 
   # Add theme to plot
@@ -87,7 +92,7 @@ plot_constlev <- function(model, type, theme, axis.text.size, title.text.size, t
     plot <- plot + theme_grey()
   }
 
-  # Set text size of title and axis lables, determine whether to include a title,
+  # Set text size of title and axis labels, determine whether to include a title,
   # and return plot
   if(title.opt == TRUE){
     plot +

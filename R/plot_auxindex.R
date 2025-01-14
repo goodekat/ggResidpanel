@@ -15,7 +15,11 @@ plot_auxindex <- function(resid, smoother, theme, axis.text.size, title.text.siz
   ## Creation of Plot ---------------------------------------------------------------
 
   # Create the residual plot
-  plot <- ggplot(data = model_values, aes_string(x = "Observation", y = "Residual")) +
+  plot <- 
+    ggplot(
+      data = model_values,
+      mapping = aes(x = {Observation}, y = {Residual})
+    ) +
     geom_point(alpha = alpha) +
     geom_abline(slope = 0, intercept = 0, color = "blue") +
     labs(x = "Observation Number", y = "Residuals")
@@ -35,7 +39,7 @@ plot_auxindex <- function(resid, smoother, theme, axis.text.size, title.text.siz
     plot <- plot + theme_grey()
   }
 
-  # Set text size of title and axis lables, determine whether to include a title,
+  # Set text size of title and axis labels, determine whether to include a title,
   # and return plot
   if(title.opt == TRUE){
     plot +

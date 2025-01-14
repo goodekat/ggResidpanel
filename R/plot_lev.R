@@ -125,39 +125,63 @@ plot_lev <- function(model, type, smoother, theme, axis.text.size, title.text.si
     plot <- ggplot() +
       labs(x = "Leverage", y = r_label) +
       expand_limits(x = 0) +
-      geom_point(data = model_values,
-                 mapping = aes_string(x = "Leverage", y = "Std_Res", color = "CooksD", group = "Data"),
-                 na.rm = F,
-                 alpha = min(alpha*2,1)) +
-      scale_color_gradient2(low = "#F0E442", 
-                            mid = "#56B4E9", 
-                            high = "#D55E00", 
-                            na.value = "#D55E00", 
-                            limits = c(0, 1), 
-                            midpoint = cutoff_cookd, 
-                            breaks = sort(c(0, cutoff_cookd, 0.5, 1)), 
-                            labels = c(0, "4/n", 0.5, "\u2265 1")) + #Wrong label for rare case of n < 8 
+      geom_point(
+        data = model_values,
+        mapping = aes(
+          x = {Leverage}, 
+          y = {Std_Res}, 
+          color = {CooksD}, 
+          group = {Data}
+        ),
+        na.rm = F,
+        alpha = min(alpha*2,1)
+      ) +
+      scale_color_gradient2(
+        low = "#F0E442", 
+        mid = "#56B4E9", 
+        high = "#D55E00", 
+        na.value = "#D55E00", 
+        limits = c(0, 1), 
+        midpoint = cutoff_cookd, 
+        breaks = sort(c(0, cutoff_cookd, 0.5, 1)), 
+        labels = c(0, "4/n", 0.5, "\u2265 1")
+      ) + #Wrong label for rare case of n < 8 
       geom_hline(yintercept = 0, linetype = "dashed") +
       geom_vline(xintercept = 0, linetype = "dashed") +
       scale_x_continuous(limits = xlimits) +
       scale_y_continuous(limits = ylimits) +
-      geom_text(aes(x = 2.25 * min(model_values$Leverage, na.rm = TRUE),
-                    y = 1.1 * min(model_values$Std_Res, na.rm = TRUE)),
-                label = "- - - Cook's distance contours", color = "red", size = 3)
+      geom_text(
+        mapping = aes(
+          x = 2.25 * min(model_values$Leverage, na.rm = TRUE),
+          y = 1.1 * min(model_values$Std_Res, na.rm = TRUE)
+        ),
+        label = "- - - Cook's distance contours", 
+        color = "red", 
+        size = 3
+      )
 
-    # If Leverage 1 encountered, add points at leverage 1, residual 0 (Std_Resid is actually +- Inf)
-    if(one_lev){
-      plot <- suppressMessages(plot + geom_text(aes(x = 0.95, y = 0), color = "red", 
-                                                label = paste0(one_lev_num, " high lev \n obs" ), 
-                                                alpha = alpha) +
-                xlim(0, 1.1))
+    # If Leverage 1 encountered, add points at leverage 1, residual 0
+    # (Std_Resid is actually +- Inf)
+    if(one_lev) {
+      plot <- 
+        suppressMessages(
+          plot + 
+            geom_text(
+              mapping = aes(x = 0.95, y = 0), 
+              color = "red", 
+              label = paste0(one_lev_num, " high lev \n obs" ), 
+              alpha = alpha
+            ) +
+            xlim(0, 1.1)
+        )
     }
     
-    # Even if smoother is set to true, do not add it to the plot as it makes no sense
+    # Even if smoother is set to true, do not add it to the plot as it makes
+    # no sense
     if (smoother == TRUE){
       plot <- plot #+
         #geom_smooth(data = model_values,
-        #            aes_string(x = "Leverage", y = "Std_Res"),
+        #            aes(x = {Leverage}, y = {Std_Res}),
         #            na.rm = TRUE,
         #            method = "loess",
         #            se = FALSE,
@@ -169,7 +193,7 @@ plot_lev <- function(model, type, smoother, theme, axis.text.size, title.text.si
     if (dim(cooksd_contours)[1] > 0) {
       plot <- plot +
         geom_line(data = cooksd_contours,
-                  mapping = aes_string(x = "hat_seq", y = "stdres", group = "case"),
+                  mapping = aes(x = {hat_seq}, y = {stdres}, group = {case}),
                   color = "red", linetype = "dashed", na.rm = TRUE)
     }
 
@@ -205,7 +229,7 @@ plot_lev <- function(model, type, smoother, theme, axis.text.size, title.text.si
       plot <- plot + theme_grey()
     }
 
-    # Set text size of title and axis lables, determine whether to include a title,
+    # Set text size of title and axis labels, determine whether to include a title,
     # and return plot
     if(title.opt == TRUE){
       plot +

@@ -57,14 +57,32 @@ plot_hist <- function(model, type, bins, theme, axis.text.size, title.text.size,
   # if (is.na(min_x) & is.na(max_x)){
   model_values$Residual_Density <- model_values$Residual
 
-  plot <- ggplot(model_values, aes_string(x = "Residual")) +
-    geom_point(aes_string(x = "Resid", y = "y", group = "Data"), alpha = 0)+
-    labs(x = r_label, y = "Density")+
-      geom_histogram(aes_string(y = "after_stat(density)", fill = "after_stat(count)"),
-                     color = "black", fill = "grey82", bins = bins) +
-      stat_function(fun = dnorm, color = "blue",
-                    args = list(mean = 0, sd = sd_resid)) +
-      geom_point(data = d_data, aes_string(x = "grid_r", y = "y"), alpha = 0)
+  plot <- 
+    ggplot(
+      data = model_values, 
+      mapping = aes(x = {Residual})
+    ) +
+    geom_point(
+      mapping = aes(x = {Resid}, y = {y}, group = {Data}), 
+      alpha = 0
+    ) +
+    geom_histogram(
+      mapping = aes(y = after_stat({density}), fill = after_stat({count})),
+      color = "black", 
+      fill = "grey82", 
+      bins = bins
+    ) +
+    stat_function(
+      fun = dnorm, 
+      color = "blue",
+      args = list(mean = 0, sd = sd_resid)
+    ) +
+    geom_point(
+      data = d_data, 
+      aes(x = {grid_r}, y = {y}), 
+      alpha = 0
+    ) + 
+    labs(x = r_label, y = "Density")
 
   # } else{
   #
@@ -94,7 +112,7 @@ plot_hist <- function(model, type, bins, theme, axis.text.size, title.text.size,
     plot <- plot + theme_grey()
   }
 
-  # Set text size of title and axis lables, determine whether to include a title,
+  # Set text size of title and axis labels, determine whether to include a title,
   # and return plot
   if(title.opt == TRUE){
     plot +

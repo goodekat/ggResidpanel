@@ -38,7 +38,6 @@
 #' @importFrom ggplot2 
 #'   aes
 #'   after_stat
-#'   aes_string
 #'   coord_fixed 
 #'   element_blank
 #'   element_text 

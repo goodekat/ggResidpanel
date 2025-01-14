@@ -28,9 +28,12 @@ plot_qq <- function(model, type, theme, axis.text.size, title.text.size, title.o
 
   ## Creation of Plot ---------------------------------------------------------------
   model_values <- model_values[order(model_values$Residual),]
-  plot <- ggplot(data = model_values,
-                 mapping = aes_string(sample = "Residual", label = "Data")) +
-    stat_qq_point(alpha = alpha)+
+  plot <- 
+    ggplot(
+      data = model_values,
+      mapping = aes(sample = {Residual}, label = {Data})
+    ) +
+    stat_qq_point(alpha = alpha ) +
     labs(x = "Theoretical Quantiles", y = "Sample Quantiles")
 
   plot_data <- ggplot_build(plot)
@@ -42,27 +45,36 @@ plot_qq <- function(model, type, theme, axis.text.size, title.text.size, title.o
   if(qqbands == TRUE){
 
     # Add bands if requested
-    plot <- ggplot(data = model_values,
-                   mapping = aes_string(sample = "Residual_Plot", label = "Data")) +
+    plot <- 
+      ggplot(
+        data = model_values,
+        mapping = aes(sample = {Residual_Plot}, label = {Data})
+      ) +
       stat_qq_band() +
       stat_qq_point(alpha = alpha) +
       labs(x = "Theoretical Quantiles", y = "Sample Quantiles") +
       coord_fixed()
 
-  } else{
+  } else {
 
     # Don't add bands
-    plot <- ggplot(data = model_values,
-                   mapping = aes_string(sample = "Residual_Plot", label = "Data")) +
+    plot <- 
+      ggplot(
+        data = model_values,
+        mapping = aes(sample = {Residual_Plot}, label = {Data})
+      ) +
       stat_qq_point(alpha = alpha)+
-      geom_point(mapping = aes_string(x = "Theoretical", y = "Residual"), alpha = alpha)+
+      geom_point(
+        mapping = aes(x = {Theoretical}, y = {Residual}), 
+        alpha = alpha
+      ) +
       labs(x = "Theoretical Quantiles", y = "Sample Quantiles") +
       coord_fixed()
 
   }
 
   # Add a line if requested
-  if(qqline == TRUE){
+  if (qqline == TRUE) {
     plot <- plot + stat_qq_line(color = "blue", size = .5)
   }
 
@@ -75,9 +87,9 @@ plot_qq <- function(model, type, theme, axis.text.size, title.text.size, title.o
     plot <- plot + theme_grey()
   }
 
-  # Set text size of title and axis lables, determine whether to include a title,
+  # Set text size of title and axis labels, determine whether to include a title,
   # and return plot
-  if(title.opt == TRUE){
+  if (title.opt == TRUE) {
     plot +
       labs(title = "Q-Q Plot") +
       theme(plot.title = element_text(size = title.text.size, face = "bold"),

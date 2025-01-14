@@ -40,32 +40,49 @@ plot_ls <- function(model, type, smoother, theme, axis.text.size, title.text.siz
   if (class(model)[1] == "lm"){
 
     # Location-scale plot for lm model
-    plot <- ggplot(data = model_values,
-                   mapping = aes_string(x = "Prediction", y = "Sqrt_Std_Res", label = "Data")) +
+    plot <- 
+      ggplot(
+        data = model_values,
+        mapping = aes(x = {Prediction}, y = {Sqrt_Std_Res}, label = {Data})
+      ) +
       geom_point(alpha = alpha) +
-      labs(x = "Predicted Values", y = expression(sqrt(abs(" Standardized Residuals ")))) +
+      labs(
+        x = "Predicted Values", 
+        y = expression(sqrt(abs(" Standardized Residuals ")))
+      ) +
       expand_limits(y = 0)
 
-  } else if (class(model)[1] == "glm"){
+  } else if (class(model)[1] == "glm") {
 
     # Location-scale plot for glm model with deviance residuals
-    if(is.na(type) | type == "response" | type == "deviance" | type == "stand.deviance"){
-      plot <- ggplot(data = model_values,
-                     mapping = aes_string(x = "Prediction", y = "Sqrt_Std_Res", label = "Data")) +
+    if (is.na(type) | type == "response" | type == "deviance" | type == "stand.deviance"){
+      plot <- 
+        ggplot(
+          data = model_values,
+          mapping = aes(x = {Prediction}, y = {Sqrt_Std_Res}, label = {Data})
+        ) +
         geom_point(alpha = alpha) +
-        labs(x = "Predicted Values",
-             y = expression(sqrt(abs(" Standardized Deviance Residuals ")))) +
+        labs(
+          x = "Predicted Values",
+          y = expression(sqrt(abs(" Standardized Deviance Residuals ")))
+        ) +
         expand_limits(y = 0)
 
     # Location-scale plot for glm model with Pearson residuals
-    } else if(type == "pearson" | type == "stand.pearson"){
-      plot <- ggplot(data = model_values,
-                     mapping = aes_string(x = "Prediction", y = "Sqrt_Std_Res", label = "Data")) +
+    } else if (type == "pearson" | type == "stand.pearson") {
+      
+      plot <- 
+        ggplot(
+          data = model_values,
+          mapping = aes(x = {Prediction}, y = {Sqrt_Std_Res}, label = {Data})
+        ) +
         geom_point(alpha = alpha) +
-        labs(x = "Predicted Values",
-             y = expression(sqrt(abs(" Standardized Pearson Residuals ")))) +
+        labs(
+          x = "Predicted Values",
+          y = expression(sqrt(abs(" Standardized Pearson Residuals ")))
+        ) +
         expand_limits(y = 0)
-
+      
     }
 
   }
@@ -85,7 +102,7 @@ plot_ls <- function(model, type, smoother, theme, axis.text.size, title.text.siz
     plot <- plot + theme_grey()
   }
 
-  # Set text size of title and axis lables, determine whether to include a title,
+  # Set text size of title and axis labels, determine whether to include a title,
   # and return plot
   if(title.opt == TRUE){
     plot +
