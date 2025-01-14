@@ -12,3 +12,4 @@
 ^README\.Rmd$
 ^residuals.Rmd$
 ^tests.R$
+^\.github$
