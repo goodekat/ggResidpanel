@@ -13,9 +13,8 @@
 #'   options available.)
 #' @param bins Number of bins to use when creating a histogram of the residuals.
 #'   Default is set to 30.
-#' @param smoother Indicates whether or not to include a smoother on the index,
-#'   residual-leverage, location-scale, and residual plots. Specify TRUE or FALSE.
-#'   Default is set to FALSE.
+#' @param smoother Indicates whether or not to include a smoother on the residual 
+#'      vs fitted and index plots. Specify TRUE or FALSE. Default is set to TRUE.
 #' @param qqline Indicates whether to include a 1-1 line on the qq-plot. Specify
 #'   TRUE or FALSE. Default is set to TRUE.
 #' @param qqbands Indicates whether to include confidence bands on the qq-plot.
@@ -31,6 +30,7 @@
 #' @param title.opt Indicates whether or not to include a title on the plots in
 #'   the panel. Specify TRUE or FALSE. Default is set to TRUE.
 #' @param nrow Sets the number of rows in the panel.
+#' @param alpha Sets the alpha level for displays with points. Default is set to 0.6.
 #'
 #' @export resid_compare
 #'
@@ -167,7 +167,7 @@ resid_compare <-
            plots = "default",
            type = NA,
            bins = 30,
-           smoother = FALSE,
+           smoother = TRUE,
            qqline = TRUE,
            qqbands = FALSE,
            scale = 1,
@@ -175,7 +175,8 @@ resid_compare <-
            axis.text.size = 10,
            title.text.size = 12,
            title.opt = TRUE,
-           nrow = NULL) {
+           nrow = NULL,
+           alpha = 0.6) {
     ## Set number of rows
     compare_rows <- length(plots)
     if (compare_rows == 1) {
@@ -211,7 +212,7 @@ resid_compare <-
       for (i in 1:length(models)) {
         boxplot_list[[i]] <- plot_boxplot(
           type = type,
-          model = models[[1]],
+          model = models[[i]],
           theme = theme,
           axis.text.size = axis.text.size,
           title.text.size = title.text.size,
@@ -233,7 +234,8 @@ resid_compare <-
           theme = theme,
           axis.text.size = axis.text.size,
           title.text.size = title.text.size,
-          title.opt = title.opt
+          title.opt = title.opt,
+          alpha = alpha
         )
       }
       
@@ -253,7 +255,8 @@ resid_compare <-
             theme = theme,
             axis.text.size = axis.text.size,
             title.text.size = title.text.size,
-            title.opt = title.opt
+            title.opt = title.opt,
+            alpha = alpha
           )
         }
       }
@@ -293,7 +296,8 @@ resid_compare <-
           smoother = smoother,
           axis.text.size = axis.text.size,
           title.text.size = title.text.size,
-          title.opt = title.opt
+          title.opt = title.opt,
+          alpha = alpha
         )
       }
       
@@ -312,7 +316,8 @@ resid_compare <-
           theme = theme,
           axis.text.size = axis.text.size,
           title.text.size = title.text.size,
-          title.opt = title.opt
+          title.opt = title.opt,
+          alpha = alpha
         )
       }
       
@@ -335,7 +340,8 @@ resid_compare <-
             theme = theme,
             axis.text.size = axis.text.size,
             title.text.size = title.text.size,
-            title.opt = title.opt
+            title.opt = title.opt,
+            alpha = alpha
           )
         }
       }
@@ -354,7 +360,8 @@ resid_compare <-
           theme = theme,
           axis.text.size = axis.text.size,
           title.text.size = title.text.size,
-          title.opt = title.opt
+          title.opt = title.opt,
+          alpha = alpha
         )
       }
       
@@ -376,7 +383,8 @@ resid_compare <-
             theme = theme,
             axis.text.size = axis.text.size,
             title.text.size = title.text.size,
-            title.opt = title.opt
+            title.opt = title.opt,
+            alpha = alpha
           )
         }
       }
@@ -398,7 +406,8 @@ resid_compare <-
           title.text.size = title.text.size,
           title.opt = title.opt,
           qqline = qqline,
-          qqbands = qqbands
+          qqbands = qqbands,
+          alpha = alpha
         )
       }
       
@@ -419,7 +428,8 @@ resid_compare <-
           theme = theme,
           axis.text.size = axis.text.size,
           title.text.size = title.text.size,
-          title.opt = title.opt
+          title.opt = title.opt,
+          alpha = alpha
         )
       }
       
@@ -437,7 +447,8 @@ resid_compare <-
           theme = theme,
           axis.text.size = axis.text.size,
           title.text.size = title.text.size,
-          title.opt = title.opt
+          title.opt = title.opt,
+          alpha = alpha
         )
       }
       

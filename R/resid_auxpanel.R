@@ -26,6 +26,7 @@
 #' @param title.opt Indicates whether or not to include a title on the plots.
 #'   Specify TRUE or FALSE. Default is set to TRUE.
 #' @param nrow Sets the number of rows in the panel.
+#' @param alpha Sets the alpha level for displays with points. Default is set to 0.6.
 #'
 #' @export resid_auxpanel
 #'
@@ -75,7 +76,8 @@
 resid_auxpanel <- function(residuals, predicted, plots = "default", bins = 30,
                            smoother = FALSE, qqline = TRUE, qqbands = FALSE,
                            scale = 1, theme = "bw", axis.text.size = 10,
-                           title.text.size = 12, title.opt = TRUE, nrow = NULL){
+                           title.text.size = 12, title.opt = TRUE, nrow = NULL, 
+                           alpha = 0.6){
 
   ## Errors and Warnings -------------------------------------------------------
 
@@ -122,7 +124,8 @@ resid_auxpanel <- function(residuals, predicted, plots = "default", bins = 30,
                            smoother = smoother,
                            axis.text.size = axis.text.size,
                            title.text.size = title.text.size,
-                           title.opt = title.opt)
+                           title.opt = title.opt, 
+                           alpha = alpha)
   } else{
     index <- NULL
   }
@@ -136,7 +139,8 @@ resid_auxpanel <- function(residuals, predicted, plots = "default", bins = 30,
                       title.text.size = title.text.size,
                       title.opt = title.opt,
                       qqline = qqline,
-                      qqbands = qqbands)
+                      qqbands = qqbands,
+                      alpha = alpha)
   } else{
     qq <- NULL
   }
@@ -149,7 +153,8 @@ resid_auxpanel <- function(residuals, predicted, plots = "default", bins = 30,
                            theme = theme,
                            axis.text.size = axis.text.size,
                            title.text.size = title.text.size,
-                           title.opt = title.opt)
+                           title.opt = title.opt,
+                           alpha = alpha)
   } else{
     resid <- NULL
   }

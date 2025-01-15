@@ -1,3 +1,32 @@
+# ggResidpanel 0.4.0
+
+## Major 
+
+- Added resid_calibrate
+- For lm model:
+  - Standardized residuals are now the default instead of raw residuals
+  - Fixed issue when leverage is equal to 1 when computing standardized residuals - report Pearson residuals instead
+- Added alpha value in all functions
+- Adjustments to Cook's D plots
+  - "Return a warning if any of the leverage values are equal to 1 and add lines to plot"
+  - Need to add more descriptions here
+- In plot_constlev, removed "Compute the values for the lowess curve"
+- In plot_lev, :
+  - "Create the cutoff SAS uses with Cook's D"
+  - "Count number over cutoff"
+  - Adjusted the way constant leverage is handled
+  - Added Cook's D values
+  - When creating hat values, "Add more resolution for large n"
+- In plot_ls, "If smoother is set to true, do not add it to the plot"
+- Adjustments to the smoother options across various plot types
+
+## Minor
+
+- Typo fixes in documentation
+- Small fixes to code for better practices
+- Small updates to plot_hist grid
+- Clean up of some plot labels
+
 # ggResidpanel 0.3.0
 
 ## Major:

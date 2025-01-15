@@ -1,7 +1,7 @@
 # Residual vs Index Plot.
 
 # Creates a residual vs index plot from a model
-plot_index <- function(model, type, smoother, theme, axis.text.size, title.text.size, title.opt){
+plot_index <- function(model, type, smoother, theme, axis.text.size, title.text.size, title.opt, alpha){
 
   ## Creation of Values to Plot -----------------------------------------------------
 
@@ -26,16 +26,25 @@ plot_index <- function(model, type, smoother, theme, axis.text.size, title.text.
   ## Creation of Plot ---------------------------------------------------------------
 
   # Create the residual plot
-  plot <- ggplot(data = model_values,
-                 mapping = aes_string(x = "Observation", y = "Residual", label = "Data")) +
-    geom_point() +
+  plot <- 
+    ggplot(
+      data = model_values,
+      mapping = aes(x = {Observation}, y = {Residual}, label = {Data})
+    ) +
+    geom_point(alpha = alpha) +
     geom_abline(slope = 0, intercept = 0, color = "blue") +
     labs(x = "Observation Number", y = r_label)
 
   # If smoother is set to true, add it to the plot
   if (smoother == TRUE){
     plot <- plot +
-      geom_smooth(method = "loess", se = FALSE, color = "red", size = 0.5)
+      geom_smooth(
+        method = "loess", 
+        se = FALSE, 
+        color = "red", 
+        linewidth = 0.5,
+        formula = 'y ~ x'
+      )
   }
 
   # Add theme to plot
@@ -47,7 +56,7 @@ plot_index <- function(model, type, smoother, theme, axis.text.size, title.text.
     plot <- plot + theme_grey()
   }
 
-  # Set text size of title and axis lables, determine whether to include a title,
+  # Set text size of title and axis labels, determine whether to include a title,
   # and return plot
   if(title.opt == TRUE){
     plot +

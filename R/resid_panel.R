@@ -13,9 +13,8 @@
 #'   options available.)
 #' @param bins Number of bins to use when creating a histogram of the residuals.
 #'   Default is set to 30.
-#' @param smoother Indicates whether or not to include a smoother on the index,
-#'   residual-leverage, location-scale, and residual plots. Specify TRUE or FALSE.
-#'   Default is set to FALSE.
+#' @param smoother Indicates whether or not to include a smoother on the residual 
+#'      vs fitted and index plots. Specify TRUE or FALSE. Default is set to TRUE.
 #' @param qqline Indicates whether to include a 1-1 line on the qq-plot. Specify
 #'   TRUE or FALSE. Default is set to TRUE.
 #' @param qqbands Indicates whether to include confidence bands on the qq-plot.
@@ -31,15 +30,43 @@
 #' @param title.opt Indicates whether or not to include a title on the plots in
 #'   the panel. Specify TRUE or FALSE. Default is set to TRUE.
 #' @param nrow Sets the number of rows in the panel.
+#' @param alpha Sets the alpha level for displays with points. Default is set to 0.6.
 #'
 #' @export resid_panel
 #'
 #' @importFrom cowplot plot_grid ggdraw draw_label
-#' @importFrom ggplot2 ggplot aes aes_string geom_point geom_abline labs theme_bw theme
-#'   geom_histogram stat_function xlim geom_boxplot expand_limits geom_smooth
-#'   element_text ggplotGrob geom_vline theme_classic geom_hline geom_segment
-#'   geom_line scale_x_continuous scale_y_continuous theme_grey ggplot_build xlab ylab
-#'   geom_text element_blank
+#' @importFrom ggplot2 
+#'   aes
+#'   after_stat
+#'   coord_fixed 
+#'   element_blank
+#'   element_text 
+#'   expand_limits
+#'   geom_abline 
+#'   geom_boxplot
+#'   geom_hline
+#'   geom_histogram
+#'   geom_line
+#'   geom_point
+#'   geom_segment
+#'   geom_smooth
+#'   geom_text
+#'   geom_vline
+#'   ggplot
+#'   ggplot_build
+#'   ggplotGrob
+#'   labs
+#'   scale_color_gradient2
+#'   scale_x_continuous
+#'   scale_y_continuous
+#'   stat_function
+#'   theme
+#'   theme_bw
+#'   theme_classic
+#'   theme_grey
+#'   xlab
+#'   xlim
+#'   ylab  
 #' @importFrom grDevices extendrange
 #' @importFrom MASS stdres
 #' @importFrom qqplotr stat_qq_point stat_qq_line stat_qq_band
@@ -181,9 +208,10 @@
 #' resid_panel(penguin_model, plots = "SAS", theme = "classic", title.opt = FALSE)
 
 resid_panel <- function(model, plots = "default", type = NA, bins = 30,
-                        smoother = FALSE, qqline = TRUE, qqbands = FALSE,
+                        smoother = TRUE, qqline = TRUE, qqbands = FALSE,
                         scale = 1, theme = "bw", axis.text.size = 10,
-                        title.text.size = 12, title.opt = TRUE, nrow = NULL){
+                        title.text.size = 12, title.opt = TRUE, nrow = NULL,
+                        alpha = 0.6){
 
   ## Errors and Warnings -------------------------------------------------------
 
@@ -219,14 +247,16 @@ resid_panel <- function(model, plots = "default", type = NA, bins = 30,
                         theme = theme,
                         axis.text.size = axis.text.size,
                         title.text.size = title.text.size,
-                        title.opt = title.opt)
+                        title.opt = title.opt,
+                        alpha = alpha)
   } else if("all" %in% plots &
             !(class(model)[1] %in% c("lme", "lmerMod", "lmerModLmerTest", "glmerMod"))){
     cookd <- plot_cookd(model = model,
                         theme = theme,
                         axis.text.size = axis.text.size,
                         title.text.size = title.text.size,
-                        title.opt = title.opt)
+                        title.opt = title.opt, 
+                        alpha = alpha)
   } else{
     cookd <- NULL
   }
@@ -252,7 +282,8 @@ resid_panel <- function(model, plots = "default", type = NA, bins = 30,
                         theme = theme,
                         axis.text.size = axis.text.size,
                         title.text.size = title.text.size,
-                        title.opt = title.opt)
+                        title.opt = title.opt,
+                        alpha = alpha)
   } else{
     index <- NULL
   }
@@ -265,7 +296,8 @@ resid_panel <- function(model, plots = "default", type = NA, bins = 30,
                     theme = theme,
                     axis.text.size = axis.text.size,
                     title.text.size = title.text.size,
-                    title.opt = title.opt)
+                    title.opt = title.opt,
+                    alpha = alpha)
   } else if("all" %in% plots &
             !(class(model)[1] %in% c("lme", "lmerMod", "lmerModLmerTest", "glmerMod"))){
     lev <- plot_lev(model = model,
@@ -274,7 +306,8 @@ resid_panel <- function(model, plots = "default", type = NA, bins = 30,
                     theme = theme,
                     axis.text.size = axis.text.size,
                     title.text.size = title.text.size,
-                    title.opt = title.opt)
+                    title.opt = title.opt,
+                    alpha = alpha)
   } else{
     lev <- NULL
   }
@@ -287,7 +320,8 @@ resid_panel <- function(model, plots = "default", type = NA, bins = 30,
                   theme = theme,
                   axis.text.size = axis.text.size,
                   title.text.size = title.text.size,
-                  title.opt = title.opt)
+                  title.opt = title.opt,
+                  alpha = alpha)
   } else if("all" %in% plots &
             !(class(model)[1] %in% c("lme", "lmerMod", "lmerModLmerTest", "glmerMod"))){
     ls <- plot_ls(model = model,
@@ -296,7 +330,8 @@ resid_panel <- function(model, plots = "default", type = NA, bins = 30,
                   theme = theme,
                   axis.text.size = axis.text.size,
                   title.text.size = title.text.size,
-                  title.opt = title.opt)
+                  title.opt = title.opt,
+                  alpha = alpha)
   } else{
     ls <- NULL
   }
@@ -310,7 +345,8 @@ resid_panel <- function(model, plots = "default", type = NA, bins = 30,
                   title.text.size = title.text.size,
                   title.opt = title.opt,
                   qqline = qqline,
-                  qqbands = qqbands)
+                  qqbands = qqbands,
+                  alpha = alpha)
   } else{
     qq <- NULL
   }
@@ -323,7 +359,8 @@ resid_panel <- function(model, plots = "default", type = NA, bins = 30,
                         theme = theme,
                         axis.text.size = axis.text.size,
                         title.text.size = title.text.size,
-                        title.opt = title.opt)
+                        title.opt = title.opt,
+                        alpha = alpha)
   } else{
     resid <- NULL
   }
@@ -335,7 +372,8 @@ resid_panel <- function(model, plots = "default", type = NA, bins = 30,
                     theme = theme,
                     axis.text.size = axis.text.size,
                     title.text.size = title.text.size,
-                    title.opt = title.opt)
+                    title.opt = title.opt,
+                    alpha = alpha)
   } else{
     yvp <- NULL
   }

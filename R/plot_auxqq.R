@@ -1,7 +1,7 @@
 # Q-Q Plot.
 
 # Creates a Q-Q plot from the input residuals
-plot_auxqq <- function(resid, theme, axis.text.size, title.text.size, title.opt, qqline, qqbands){
+plot_auxqq <- function(resid, theme, axis.text.size, title.text.size, title.opt, qqline, qqbands, alpha){
 
   ## Creation of Values to Plot -----------------------------------------------------
 
@@ -14,23 +14,31 @@ plot_auxqq <- function(resid, theme, axis.text.size, title.text.size, title.opt,
   if(qqbands == TRUE){
 
     # Add bands if requested
-    plot <- ggplot(data = model_values, mapping = aes_string(sample = "Residual")) +
+    plot <- 
+      ggplot(
+        data = model_values, 
+        mapping = aes(sample = {Residual})
+      ) +
       stat_qq_band() +
-      stat_qq_point() +
+      stat_qq_point(alpha = alpha) +
       labs(x = "Theoretical Quantiles", y = "Sample Quantiles")
 
   } else{
 
     # Don't add bands
-    plot <- ggplot(data = model_values, mapping = aes_string(sample = "Residual")) +
-      stat_qq_point() +
+    plot <- 
+      ggplot(
+        data = model_values, 
+        mapping = aes(sample = {Residual})
+      ) +
+      stat_qq_point(alpha = alpha) +
       labs(x = "Theoretical Quantiles", y = "Sample Quantiles")
 
   }
 
   # Add a line if requested
   if(qqline == TRUE){
-    plot <- plot + stat_qq_line(color = "blue", size = .5)
+    plot <- plot + stat_qq_line(color = "blue", linewidth = .5)
   }
 
   # Add theme to plot
@@ -42,7 +50,7 @@ plot_auxqq <- function(resid, theme, axis.text.size, title.text.size, title.opt,
     plot <- plot + theme_grey()
   }
 
-  # Set text size of title and axis lables, determine whether to include a title,
+  # Set text size of title and axis labels, determine whether to include a title,
   # and return plot
   if(title.opt == TRUE){
     plot +

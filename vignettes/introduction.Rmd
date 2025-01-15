@@ -43,7 +43,7 @@ library(ggResidpanel)
 
 Emperor penguins are able to dive under the water for long periods of time. The dataset `penguins` included in ggResidpanel contains information from a study done on the dives of emperor penguins. The scientists who conducted the study were interested in understanding how the heart rate of the penguins related to the depth and duration of the dives. A device was attached to penguins that recorded the heart rate of the bird during a dive.
 
-The structure of the data is shown below. It has four variables:
+The structure of the data are shown below. The data set has four variables:
   
 - heart rate of the penguin (beats per minute)
 - depth of the dive (meters)

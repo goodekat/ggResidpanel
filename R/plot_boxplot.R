@@ -7,11 +7,17 @@ plot_boxplot <- function(model, type, theme, axis.text.size, title.text.size, ti
 
   # Create a data frame with the residuals
   if(is.na(type)){
-    model_values <- data.frame(Residual = helper_resid(type = NA, model = model),
-                               Group = "")
+    model_values <- 
+      data.frame(
+        Residual = helper_resid(type = NA, model = model),
+        Group = ""
+      )
   } else{
-    model_values <- data.frame(Residual = helper_resid(type = type, model = model),
-                               Group = "")
+    model_values <- 
+      data.frame(
+        Residual = helper_resid(type = type, model = model),
+        Group = ""
+      )
   }
 
   # Add an observation variable
@@ -31,7 +37,11 @@ plot_boxplot <- function(model, type, theme, axis.text.size, title.text.size, ti
   ## Creation of Plot ---------------------------------------------------------------
 
   # Create the boxplot of residuals
-  plot <- ggplot(model_values, aes_string(x = "Group", y = "Residual", label = "Data")) +
+  plot <- 
+    ggplot(
+      data = model_values,
+      mapping = aes(x = {Group}, y = {Residual}, label = {Data})
+    ) +
     geom_boxplot(width = .5) +
     geom_point(alpha = 0) +
     labs(x = " ", y = r_label)
@@ -45,13 +55,15 @@ plot_boxplot <- function(model, type, theme, axis.text.size, title.text.size, ti
     plot <- plot + theme_grey()
   }
 
-  # Set text size of title and axis lables, determine whether to include a title,
-  # and return plot
+  # Set text size of title and axis labels, determine whether to include
+  # a title, and return plot
   if (title.opt == TRUE){
     plot +
       labs(title = "Boxplot") +
-      theme(plot.title = element_text(size = title.text.size, face = "bold"),
-                 axis.title = element_text(size = axis.text.size))
+      theme(
+        plot.title = element_text(size = title.text.size, face = "bold"),
+        axis.title = element_text(size = axis.text.size)
+      )
   } else if (title.opt == FALSE){
     plot + theme(axis.title = element_text(size = axis.text.size))
   }

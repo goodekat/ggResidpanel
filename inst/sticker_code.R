@@ -188,7 +188,7 @@ resid_splot <- function(resid, pred,smoother, theme, axis.text.size, title.text.
     plot <- plot + theme_grey()
   }
 
-  # Set text size of title and axis lables, determine whether to include a title, and return plot
+  # Set text size of title and axis labels, determine whether to include a title, and return plot
   if(title == TRUE){
     plot +
       labs(title = "Residuals Plot") +
@@ -218,7 +218,7 @@ resid_sqq <- function(resid, pred, theme, axis.text.size, title.text.size, title
 
 
   if(qqline==TRUE){
-    plot <- plot+stat_qq_line(color="blue",size=2)
+    plot <- plot+stat_qq_line(color="blue",linewidth=2)
   }
 
 
@@ -234,7 +234,7 @@ resid_sqq <- function(resid, pred, theme, axis.text.size, title.text.size, title
   }
 
 
-  # Set text size of title and axis lables, determine whether to include a title, and return plot
+  # Set text size of title and axis labels, determine whether to include a title, and return plot
   if(title == TRUE){
     plot +
       labs(title = "Q-Q Plot of Residuals") +
@@ -270,7 +270,7 @@ resid_sboxplot <- function(resid,pred, theme, axis.text.size, title.text.size, t
     plot <- plot + theme_grey()
   }
 
-  # Set text size of title and axis lables, determine whether to include a title, and return plot
+  # Set text size of title and axis labels, determine whether to include a title, and return plot
   if (title == TRUE){
     plot +
       labs(title = "Boxplot of Residuals") +
@@ -339,7 +339,7 @@ resid_shist <- function(resid, pred, bins, theme, axis.text.size, title.text.siz
     plot <- plot + theme_grey()
   }
 
-  # Set text size of title and axis lables, determine whether to include a title, and return plot
+  # Set text size of title and axis labels, determine whether to include a title, and return plot
   if(title == TRUE){
     plot +
       labs(title =  "Histogram of Residuals") +

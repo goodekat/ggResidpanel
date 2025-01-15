@@ -1,10 +1,12 @@
 ^.*\.Rproj$
 ^\.Rproj\.user$
+^codecov.yml$
 ^cran-comments.md$
 ^CRAN-RELEASE$
 ^doc$
 ^docs$
 ^figures$
+^\.github$
 ^Ideas for Future Work$
 ^Meta$
 ^pkgdown$

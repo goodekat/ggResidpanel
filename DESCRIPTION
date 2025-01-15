@@ -2,10 +2,23 @@ Package: ggResidpanel
 Type: Package
 Title: Panels and Interactive Versions of Diagnostic Plots using 'ggplot2'
 Version: 0.3.0.9000
-Authors@R: c(person("Katherine", "Goode", email = "kgoode@iastate.edu", role = c("aut", "cre")),
-    person("Kathleen", "Rey", email = "kprey@iastate.edu", role = c("aut")))
-Description: An R package for creating diagnostic plots for models. The package allows for the 
-    creation of panels of plots and interactive plots.
+Authors@R: c(
+  person(
+    "Katherine", "Goode", 
+    email = "katherine.j.goode@gmail.com", 
+    role = c("aut", "cre")
+  ),
+  person(
+    "Kathleen", "Rey", 
+    email = "kprey@iastate.edu", 
+    role = c("aut")),
+  person(
+    "Greenwood", "Mark", 
+    email = "greenwood@montana.edu", 
+    role = c("ctb"))
+  )
+Description: An R package for creating diagnostic plots for models. The package
+  allows for the creation of panels of plots and interactive plots.
 License: MIT + file LICENSE
 Encoding: UTF-8
 LazyData: true
@@ -16,11 +29,12 @@ Imports:
   grDevices,
   grid,
   MASS,
+  methods,
   plotly,
   qqplotr,
   stats,
   stringr
-RoxygenNote: 7.1.1
+RoxygenNote: 7.3.2
 Suggests: 
   dplyr,
   forcats,
@@ -31,8 +45,9 @@ Suggests:
   randomForest,
   rmarkdown,
   rpart,
-  testthat,
+  testthat (>= 3.0.0),
   vdiffr,
   wesanderson
 VignetteBuilder: knitr
 Depends: R (>= 3.0.0)
+Config/testthat/edition: 3

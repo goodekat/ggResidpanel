@@ -149,20 +149,3 @@ check_leverage <- function(model, plots){
   }
 
 }
-
-# Return a warning about choosing the number of bins if a histogram is included
-# and the number of bins has not been specified and return the default option if
-# not specified
-# check_bins <- function(plots, bins){
-#
-#   if("default" %in% plots | "SAS" %in% plots | "all" %in% plots | "hist" %in% plots){
-#     if(is.na(bins)){
-#       bins = 30
-#       warning("By default, bins = 30 in the histogram of residuals. If necessary,
-#             specify an appropriate number of bins.")
-#     }
-#   }
-#
-#   return(bins)
-#
-# }

@@ -2,7 +2,7 @@
 
 # Creates a residual plot with residuals versus predicted values from a model
 plot_resid <- function(model, type, smoother, theme, axis.text.size,
-                       title.text.size, title.opt){
+                       title.text.size, title.opt, alpha){
 
   ## Creation of Values to Plot -----------------------------------------------------
 
@@ -30,16 +30,25 @@ plot_resid <- function(model, type, smoother, theme, axis.text.size,
   ## Creation of Plot ---------------------------------------------------------------
 
   # Create the residual plot
-  plot <- ggplot(data = model_values,
-                 mapping = aes_string(x = "Prediction", y = "Residual", label = "Data")) +
-    geom_point() +
+  plot <- 
+    ggplot(
+      data = model_values,
+      mapping = aes(x = {Prediction}, y = {Residual}, label = {Data})
+    ) +
+    geom_point(alpha = alpha) +
     geom_abline(slope = 0, intercept = 0, color = "blue") +
     labs(x = "Predicted Values", y = r_label)
 
   # If smoother is set to true, add it to the plot
   if (smoother == TRUE){
    plot <- plot +
-     geom_smooth(method = "loess", se = FALSE, color = "red", size = 0.5)
+     geom_smooth(
+       method = "loess", 
+       se = FALSE, 
+       color = "red", 
+       linewidth = 0.5,
+       formula = 'y ~ x'
+      )
   }
 
   # Add theme to plot
@@ -51,11 +60,11 @@ plot_resid <- function(model, type, smoother, theme, axis.text.size,
     plot <- plot + theme_grey()
   }
 
-  # Set text size of title and axis lables, determine whether to include a title,
+  # Set text size of title and axis labels, determine whether to include a title,
   # and return plot
   if(title.opt == TRUE){
     plot +
-      labs(title = "Residual Plot") +
+      labs(title = "Residual vs Fitted Plot") +
       theme(plot.title = element_text(size = title.text.size, face = "bold"),
             axis.title = element_text(size = axis.text.size))
   } else if (title.opt == FALSE){

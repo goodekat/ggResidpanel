@@ -1,21 +1,32 @@
 # Residual-Leverage plot.
 
 # Creates a plot of the residuals versus leverage from a model
-plot_lev <- function(model, type, smoother, theme, axis.text.size, title.text.size, title.opt){
+plot_lev <- function(model, type, smoother, theme, axis.text.size, title.text.size, title.opt,
+                     alpha){
 
   ## Creation of Values to Plot -----------------------------------------------------
 
+  # Create the cutoff SAS uses with Cook's D
+  cutoff_cookd <- 4 / length(resid(model))
+  
   # Obtain the leverage values
   Leverage = hatvalues(model)
 
   # Determine if any of the leverage values are equal to 1
   cutoff = 0.999999999
   one_lev = sum(Leverage >= cutoff) > 0
+  
+  # Count number over cutoff
+  one_lev_num <- sum(Leverage >= cutoff)
 
   # Check if constant leverage
-  range_lev <- range(subset(Leverage, Leverage < cutoff), na.rm = TRUE)
-  const_lev <- all(range_lev == 0) || diff(range_lev) < 1e-10 * mean(subset(Leverage, Leverage < cutoff), na.rm = TRUE)
-
+  if (one_lev_num == length(Leverage)){ #Check all lev = 1
+    const_lev <- TRUE
+  } else {  
+    range_lev <- range(subset(Leverage, Leverage < cutoff), na.rm = TRUE)
+    const_lev <- all(range_lev == 0) || diff(range_lev) < 1e-10 * mean(subset(Leverage, Leverage < cutoff), na.rm = TRUE)
+  }
+    
   if(const_lev){
 
     # Create the constant leverage plot
@@ -24,7 +35,8 @@ plot_lev <- function(model, type, smoother, theme, axis.text.size, title.text.si
                   theme = theme,
                   axis.text.size = axis.text.size,
                   title.text.size = title.text.size,
-                  title.opt = title.opt)
+                  title.opt = title.opt,
+                  alpha = alpha)
 
   } else {
 
@@ -34,8 +46,8 @@ plot_lev <- function(model, type, smoother, theme, axis.text.size, title.text.si
               in the residuals versus leverage plot.")
     }
 
-    # Create a dataframe with the leverage values
-    model_values <- data.frame(Leverage = hatvalues(model))
+    # Create a dataframe with the leverage values and Cooks' D
+    model_values <- data.frame(Leverage = round(hatvalues(model),5), CooksD = round(cooks.distance(model),3))
 
     # Create a data frame with the leverage values and standardized residuals based
     # on the type of model
@@ -66,8 +78,8 @@ plot_lev <- function(model, type, smoother, theme, axis.text.size, title.text.si
 
     # Create a sequence of hat values
     hat_seq <- seq.int(min(range_lev[1], range_lev[2]/100),
-                       range_lev[2],
-                       length.out = 100)
+                       0.999,
+                       length.out = max(100, model$df.residual))#Add more resolution for large n
 
     # Create the limits for the plot
     xlimits <- c(0, max(subset(model_values$Leverage, model_values$Leverage < cutoff), na.rm = TRUE))
@@ -81,10 +93,10 @@ plot_lev <- function(model, type, smoother, theme, axis.text.size, title.text.si
                                              -sqrt(0.5 * p * (1 - hat_seq) / hat_seq),
                                              sqrt(1 * p * (1 - hat_seq) / hat_seq),
                                              -sqrt(1 * p * (1 - hat_seq) / hat_seq)))
-
-    cooksd_contours <- subset(cooksd_contours, cooksd_contours$hat_seq <= xlimits[2] &
-                                cooksd_contours$stdres <= ylimits[2] &
-                                cooksd_contours$stdres >= ylimits[1])
+    
+    #cooksd_contours <- subset(cooksd_contours, cooksd_contours$hat_seq <= xlimits[2] &
+    #                            cooksd_contours$stdres <= ylimits[2] &
+    #                            cooksd_contours$stdres >= ylimits[1])
 
     ## Creation of Labels -------------------------------------------------------------
 
@@ -108,38 +120,81 @@ plot_lev <- function(model, type, smoother, theme, axis.text.size, title.text.si
     # Remove data points with leverage values equal to 1
     model_values <- subset(model_values, model_values$Leverage < cutoff)
 
+
     # Create the residual-leverage plot
     plot <- ggplot() +
       labs(x = "Leverage", y = r_label) +
       expand_limits(x = 0) +
-      geom_point(data = model_values,
-                 mapping = aes_string(x = "Leverage", y = "Std_Res", group = "Data"),
-                 na.rm = TRUE) +
+      geom_point(
+        data = model_values,
+        mapping = aes(
+          x = {Leverage}, 
+          y = {Std_Res}, 
+          color = {CooksD}, 
+          group = {Data}
+        ),
+        na.rm = F,
+        alpha = min(alpha*2,1)
+      ) +
+      scale_color_gradient2(
+        low = "#F0E442", 
+        mid = "#56B4E9", 
+        high = "#D55E00", 
+        na.value = "#D55E00", 
+        limits = c(0, 1), 
+        midpoint = cutoff_cookd, 
+        breaks = sort(c(0, cutoff_cookd, 0.5, 1)), 
+        labels = c(0, "4/n", 0.5, "\u2265 1")
+      ) + #Wrong label for rare case of n < 8 
       geom_hline(yintercept = 0, linetype = "dashed") +
       geom_vline(xintercept = 0, linetype = "dashed") +
       scale_x_continuous(limits = xlimits) +
       scale_y_continuous(limits = ylimits) +
-      geom_text(aes(x = 2.25 * min(model_values$Leverage, na.rm = TRUE),
-                    y = 1.1 * min(model_values$Std_Res, na.rm = TRUE)),
-                label = "- - - Cook's distance contours", color = "red", size = 3)
+      geom_text(
+        mapping = aes(
+          x = 2.25 * min(model_values$Leverage, na.rm = TRUE),
+          y = 1.1 * min(model_values$Std_Res, na.rm = TRUE)
+        ),
+        label = "- - - Cook's distance contours", 
+        color = "red", 
+        size = 3
+      )
 
-    # If smoother is set to true, add it to the plot
+    # If Leverage 1 encountered, add points at leverage 1, residual 0
+    # (Std_Resid is actually +- Inf)
+    if(one_lev) {
+      plot <- 
+        suppressMessages(
+          plot + 
+            geom_text(
+              mapping = aes(x = 0.95, y = 0), 
+              color = "red", 
+              label = paste0(one_lev_num, " high lev \n obs" ), 
+              alpha = alpha
+            ) +
+            xlim(0, 1.1)
+        )
+    }
+    
+    # Even if smoother is set to true, do not add it to the plot as it makes
+    # no sense
     if (smoother == TRUE){
-      plot <- plot +
-        geom_smooth(data = model_values,
-                    aes_string(x = "Leverage", y = "Std_Res"),
-                    na.rm = TRUE,
-                    method = "loess",
-                    se = FALSE,
-                    color = "red",
-                    size = 0.5)
+      plot <- plot #+
+        # geom_smooth(data = model_values,
+        #            aes(x = {Leverage}, y = {Std_Res}),
+        #            na.rm = TRUE,
+        #            method = "loess",
+        #            se = FALSE,
+        #            color = "red",
+        #            size = 0.5,
+        #            formula = 'y ~ x')
     }
 
     # Add Cook's D lines if they are inside the limits of the plot
     if (dim(cooksd_contours)[1] > 0) {
       plot <- plot +
         geom_line(data = cooksd_contours,
-                  mapping = aes_string(x = "hat_seq", y = "stdres", group = "case"),
+                  mapping = aes(x = {hat_seq}, y = {stdres}, group = {case}),
                   color = "red", linetype = "dashed", na.rm = TRUE)
     }
 
@@ -175,7 +230,7 @@ plot_lev <- function(model, type, smoother, theme, axis.text.size, title.text.si
       plot <- plot + theme_grey()
     }
 
-    # Set text size of title and axis lables, determine whether to include a title,
+    # Set text size of title and axis labels, determine whether to include a title,
     # and return plot
     if(title.opt == TRUE){
       plot +
