@@ -11,7 +11,11 @@ Authors@R: c(
   person(
     "Kathleen", "Rey", 
     email = "kprey@iastate.edu", 
-    role = c("aut"))
+    role = c("aut")),
+  person(
+    "Greenwood", "Mark", 
+    email = "greenwood@montana.edu", 
+    role = c("ctb"))
   )
 Description: An R package for creating diagnostic plots for models. The package
   allows for the creation of panels of plots and interactive plots.
