@@ -197,7 +197,15 @@ create_predictor_plots <- function(x_column_number, y_column_number,
 
   # Add a smoother to the plots if requested
   if(smoother == TRUE){
-    plot <- plot + geom_smooth(method = "loess", se = FALSE, color = "red", size = 0.5)
+    plot <- 
+      plot + 
+      geom_smooth(
+        method = "loess", 
+        se = FALSE, 
+        color = "red", 
+        linewidth = 0.5,
+        formula = 'y ~ x'
+      )
   }
 
   # Add theme to plot

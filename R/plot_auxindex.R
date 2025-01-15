@@ -27,7 +27,13 @@ plot_auxindex <- function(resid, smoother, theme, axis.text.size, title.text.siz
   # If smoother is set to true, add it to the plot
   if (smoother == TRUE){
     plot <- plot +
-      geom_smooth(method = "loess", se = FALSE, color = "red", size = 0.5)
+      geom_smooth(
+        method = "loess", 
+        se = FALSE, 
+        color = "red", 
+        linewidth = 0.5,
+        formula = 'y ~ x'
+      )
   }
 
   # Add theme to plot

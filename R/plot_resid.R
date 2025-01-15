@@ -42,7 +42,13 @@ plot_resid <- function(model, type, smoother, theme, axis.text.size,
   # If smoother is set to true, add it to the plot
   if (smoother == TRUE){
    plot <- plot +
-     geom_smooth(method = "loess", se = FALSE, color = "red", size = 0.5)
+     geom_smooth(
+       method = "loess", 
+       se = FALSE, 
+       color = "red", 
+       linewidth = 0.5,
+       formula = 'y ~ x'
+      )
   }
 
   # Add theme to plot

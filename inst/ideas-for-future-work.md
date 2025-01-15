@@ -5,7 +5,6 @@
 - Write up list of questions
 - Work through Mark's examples
 - Check in with Mark
-- Work in updates from posit course
 - Clean up old to do list
 - Ask Katie about changing her email address
 - Work through list of issues on GitLab

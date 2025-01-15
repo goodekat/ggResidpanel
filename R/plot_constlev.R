@@ -78,8 +78,8 @@ plot_constlev <- function(model, type, theme, axis.text.size, title.text.size, t
       na.rm = TRUE
     ) +
     geom_point(aes(group = {Data}), alpha = alpha) +
-    #geom_line(aes(x = {Lowess.x}, y = {Lowess.y}), color = "red", size = 0.5) +
-    geom_abline(slope = 0, intercept = 0, color = "blue", size = 0.5) +
+    #geom_line(aes(x = {Lowess.x}, y = {Lowess.y}), color = "red", linewidth = 0.5) +
+    geom_abline(slope = 0, intercept = 0, color = "blue", linewidth = 0.5) +
     xlab("Factor Level Combinations") +
     ylab("Standardized Residuals")
 

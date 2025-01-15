@@ -180,13 +180,14 @@ plot_lev <- function(model, type, smoother, theme, axis.text.size, title.text.si
     # no sense
     if (smoother == TRUE){
       plot <- plot #+
-        #geom_smooth(data = model_values,
+        # geom_smooth(data = model_values,
         #            aes(x = {Leverage}, y = {Std_Res}),
         #            na.rm = TRUE,
         #            method = "loess",
         #            se = FALSE,
         #            color = "red",
-        #            size = 0.5)
+        #            size = 0.5,
+        #            formula = 'y ~ x')
     }
 
     # Add Cook's D lines if they are inside the limits of the plot

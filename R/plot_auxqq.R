@@ -38,7 +38,7 @@ plot_auxqq <- function(resid, theme, axis.text.size, title.text.size, title.opt,
 
   # Add a line if requested
   if(qqline == TRUE){
-    plot <- plot + stat_qq_line(color = "blue", size = .5)
+    plot <- plot + stat_qq_line(color = "blue", linewidth = .5)
   }
 
   # Add theme to plot

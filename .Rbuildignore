@@ -6,6 +6,7 @@
 ^doc$
 ^docs$
 ^figures$
+^\.github$
 ^Ideas for Future Work$
 ^Meta$
 ^pkgdown$
@@ -13,4 +14,3 @@
 ^README\.Rmd$
 ^residuals.Rmd$
 ^tests.R$
-^\.github$
