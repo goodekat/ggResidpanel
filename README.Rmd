@@ -8,11 +8,11 @@ knitr::opts_chunk$set(
   echo = TRUE,
   warning = FALSE,
   message = FALSE,
-  fig.path = "man/figures/readme-"
+  fig.path = "vignettes/figures/readme-"
 )
 ```
 
-# ggResidpanel <img align="right" width="120" height="135" src="man/figures/logo.png">
+# ggResidpanel <img align="right" width="120" height="135" src="vignettes/figures/logo.png">
 
 <!-- badges: start -->
 [![CRAN status](https://www.r-pkg.org/badges/version/ggResidpanel)](https://CRAN.R-project.org/package=ggResidpanel)
@@ -98,7 +98,7 @@ This function creates interactive versions of residual diagnostic plot panels gi
 resid_interact(penguin_model)
 ```
 
-![](man/figures/interact.gif)
+![](vignettes/figures/interact.gif)
 
 #### `resid_xpanel`
 
