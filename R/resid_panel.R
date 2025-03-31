@@ -70,6 +70,7 @@
 #' @importFrom grDevices extendrange
 #' @importFrom MASS stdres
 #' @importFrom qqplotr stat_qq_point stat_qq_line stat_qq_band
+#' @importFrom rlang .data
 #' @importFrom stats cooks.distance dnorm fitted hatvalues lowess model.frame resid sd
 #' @importFrom stringr str_sub
 #'

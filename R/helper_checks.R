@@ -69,13 +69,11 @@ check_standardized <- function(model, plots){
 
 # Return an error if Cook's D plot is requested for an 'lmer' or 'glmer' model
 check_cooksd <- function(model, plots){
-
   if(class(model)[1] %in% c("lme", "lmerMod", "lmerModLmerTest", "glmerMod")){
     if("cookd" %in% plots){
       stop("The Cook's D plot is unavailable for 'lme', 'lmer', 'lmerTest', and 'glmer' models.")
     }
   }
-
 }
 
 
@@ -84,29 +82,24 @@ check_cooksd <- function(model, plots){
 # Return a warning if the smoother option is not specified correctly and return
 # the default option if not specified
 check_smoother <- function(smoother){
-
   if(smoother == TRUE | smoother == FALSE){
   } else{
     smoother <- FALSE
     warning("The smoother option for residual plot not was specified correctly.
             The default option will be used. Accepted options are TRUE or FALSE.")
   }
-
   return(smoother)
-
 }
 
 # Return a warning if the theme is not specified correctly and return the default
 # option if not specified
 check_theme <- function(theme){
-
   if(theme == "bw" | theme == "classic" | theme == "grey" | theme == "gray"){
   } else{
     theme <- "bw"
     warning("The theme option was not specified correctly. The default theme
             will be used. Accepted themes are 'bw', 'classic', and 'grey' (or 'gray').")
   }
-
   return(theme)
 }
 

@@ -32,6 +32,7 @@ Imports:
   methods,
   plotly,
   qqplotr,
+  rlang,
   stats,
   stringr
 RoxygenNote: 7.3.2
