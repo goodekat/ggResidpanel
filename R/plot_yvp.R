@@ -7,7 +7,8 @@ plot_yvp <- function(
     axis.text.size,
     title.text.size,
     title.opt,
-    alpha
+    alpha,
+    coordfix
   ) {
   
   ## Creation of Values to Plot -----------------------------------------------------

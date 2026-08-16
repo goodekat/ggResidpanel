@@ -358,7 +358,6 @@ resid_compare <-
         ls_list[[i]] <- plot_ls(
           model = models[[i]],
           type = type,
-          smoother = smoother,
           theme = theme,
           axis.text.size = axis.text.size,
           title.text.size = title.text.size,
@@ -381,7 +380,6 @@ resid_compare <-
           ls_list[[i]] <- plot_ls(
             model = models[[i]],
             type = type,
-            smoother = smoother,
             theme = theme,
             axis.text.size = axis.text.size,
             title.text.size = title.text.size,

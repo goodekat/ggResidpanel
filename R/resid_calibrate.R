@@ -175,24 +175,26 @@
 #'   identify = TRUE
 #'  )
 
-resid_calibrate <-
-  function(model,
-           plots = "default",
-           nsim = 1,
-           identify = TRUE,
-           shuffle = FALSE,
-           type = NA,
-           bins = 30,
-           smoother = TRUE,
-           qqline = TRUE,
-           qqbands = FALSE,
-           scale = 1,
-           theme = "bw",
-           axis.text.size = 10,
-           title.text.size = 12,
-           title.opt = TRUE,
-           nrow = NULL,
-           alpha = 0.6) {
+resid_calibrate <- function(
+    model,
+    plots = "default",
+    nsim = 1,
+    identify = TRUE,
+    shuffle = FALSE,
+    type = NA,
+    bins = 30,
+    smoother = TRUE,
+    qqline = TRUE,
+    qqbands = FALSE,
+    scale = 1,
+    theme = "bw",
+    axis.text.size = 10,
+    title.text.size = 12,
+    title.opt = TRUE,
+    nrow = NULL,
+    alpha = 0.6,
+    coordfix = TRUE
+  ) {
     
     ## Set number of rows
     compare_rows <- length(plots)
@@ -402,7 +404,6 @@ resid_calibrate <-
         ls_list[[i]] <- plot_ls(
           model = models[[i]],
           type = type,
-          smoother = smoother,
           theme = theme,
           axis.text.size = axis.text.size,
           title.text.size = title.text.size,
@@ -425,7 +426,6 @@ resid_calibrate <-
           ls_list[[i]] <- plot_ls(
             model = models[[i]],
             type = type,
-            smoother = smoother,
             theme = theme,
             axis.text.size = axis.text.size,
             title.text.size = title.text.size,
