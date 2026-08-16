@@ -32,6 +32,7 @@
 #'   the panel. Specify TRUE or FALSE. Default is set to TRUE.
 #' @param nrow Sets the number of rows in the panel.
 #' @param alpha Sets the alpha level for displays with points. Default is set to 0.6.
+#' @param coordfix Uses fixed aspect ratio for QQ-plots and yvp. Default is FALSE.
 #'
 #' @export resid_interact
 #'
@@ -57,7 +58,7 @@
 resid_interact <- function(model, plots = "default", type = NA, bins = 30,
                            smoother = TRUE, qqline = TRUE, scale = 0.9,
                            theme = "bw", axis.text.size = 10, title.text.size = 12,
-                           title.opt = TRUE, nrow = NULL, alpha = 0.6){
+                           title.opt = TRUE, nrow = NULL, alpha = 0.6, coordfix = FALSE){
 
   ## Errors and Warnings -------------------------------------------------------
 
@@ -304,7 +305,8 @@ resid_interact <- function(model, plots = "default", type = NA, bins = 30,
                   title.opt = title.opt,
                   qqline = qqline,
                   qqbands = FALSE,
-                  alpha = alpha)
+                  alpha = alpha,
+                  coordfix = coordfix)
     if(title.opt == TRUE){
       title = helper_plotly_title(qq)
       qq <- ggplotly(qq, tooltip = c("Data", "Residual", "Theoretical")) %>%
@@ -344,7 +346,8 @@ resid_interact <- function(model, plots = "default", type = NA, bins = 30,
                     axis.text.size = axis.text.size,
                     title.text.size = title.text.size,
                     title.opt = title.opt,
-                    alpha = alpha)
+                    alpha = alpha,
+                    coordfix = coordfix)
     if(title.opt == TRUE){
       title = helper_plotly_title(yvp)
       yvp <- ggplotly(yvp) %>%

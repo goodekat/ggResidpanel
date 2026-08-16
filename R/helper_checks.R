@@ -67,7 +67,7 @@ check_standardized <- function(model, plots){
 
 }
 
-# Return an error if Cook's D plot is requested for an 'lmer' or 'glmer' model
+# Return an error if Cook's D plot is requested for an 'lme' model
 check_cooksd <- function(model, plots){
   if(class(model)[1] %in% c("lme", "lmerMod", "lmerModLmerTest", "glmerMod")){
     if("cookd" %in% plots){
