@@ -62,7 +62,8 @@
 resid_xpanel <- function(model, yvar = "residual", type = NA,
                          smoother = FALSE, scale = 1, theme = "bw",
                          axis.text.size = 10, title.text.size = 12,
-                         title.opt = TRUE, nrow = NULL, jitter.width = 0, alpha = 0.6){
+                         title.opt = TRUE, nrow = NULL, jitter.width = 0, 
+                         alpha = 0.6){
 
   ## Errors and Warnings -------------------------------------------------------
 
@@ -196,7 +197,15 @@ create_predictor_plots <- function(x_column_number, y_column_number,
 
   # Add a smoother to the plots if requested
   if(smoother == TRUE){
-    plot <- plot + geom_smooth(method = "loess", se = FALSE, color = "red", size = 0.5)
+    plot <- 
+      plot + 
+      geom_smooth(
+        method = "loess", 
+        se = FALSE, 
+        color = "red", 
+        linewidth = 0.5,
+        formula = 'y ~ x'
+      )
   }
 
   # Add theme to plot
@@ -208,7 +217,7 @@ create_predictor_plots <- function(x_column_number, y_column_number,
     plot <- plot + theme_grey()
   }
 
-  # Set text size of axis lables and return plot
+  # Set text size of axis labels and return plot
   plot + theme(axis.title = element_text(size = axis.text.size))
 
 }

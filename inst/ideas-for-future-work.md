@@ -1,6 +1,15 @@
----------------
-Future Work
----------------
+# To Do List
+
+## Current
+
+- Write up list of questions
+- Work through Mark's examples
+- Check in with Mark
+- Clean up old to do list
+- Ask Katie about changing her email address
+- Work through list of issues on GitLab
+
+## Old List
 
 Katie's Tasks:
 - Work on residual vignette (IN PROGRESS)

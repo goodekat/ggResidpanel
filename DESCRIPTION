@@ -17,8 +17,10 @@ Imports:
   grDevices,
   grid,
   MASS,
+  methods,
   plotly,
   qqplotr,
+  rlang,
   stats,
   stringr
 RoxygenNote: 7.3.3
@@ -32,8 +34,9 @@ Suggests:
   randomForest,
   rmarkdown,
   rpart,
-  testthat,
+  testthat (>= 3.0.0),
   vdiffr,
   wesanderson
 VignetteBuilder: knitr
 Depends: R (>= 3.0.0)
+Config/testthat/edition: 3

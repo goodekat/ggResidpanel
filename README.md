@@ -1,5 +1,17 @@
 
-# ggResidpanel <img align="right" width="120" height="135" src="man/figures/logo.png">
+# ggResidpanel <img align="right" width="120" height="135" src="inst/figures/logo.png">
+
+<!-- badges: start -->
+
+[![CRAN
+status](https://www.r-pkg.org/badges/version/ggResidpanel)](https://CRAN.R-project.org/package=ggResidpanel)
+[![Lifecycle:
+stable](https://img.shields.io/badge/lifecycle-stable-brightgreen.svg)](https://lifecycle.r-lib.org/articles/stages.html#stable)
+[![R-CMD-check](https://github.com/goodekat/ggResidpanel/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/goodekat/ggResidpanel/actions/workflows/R-CMD-check.yaml)
+[![downloads](https://cranlogs.r-pkg.org/badges/ggResidpanel)](https://cran.rstudio.com/web/packages/ggResidpanel/index.html)
+[![Codecov test
+coverage](https://codecov.io/gh/goodekat/ggResidpanel/graph/badge.svg)](https://app.codecov.io/gh/goodekat/ggResidpanel)
+<!-- badges: end -->
 
 ggResidpanel is an R package for creating panels of diagnostic plots for
 a model using ggplot2 and interactive versions of the plots using
@@ -7,16 +19,15 @@ plotly.
 
 ## Installation
 
-The code below shows how ggResidpanel can be installed from CRAN. If
-desired, the development version of ggResidpanel can be installed from
-GitHub.
+This is the current development version of ggResidpanel. Install the
+development version from GitHub or an older version from CRAN.
 
 ``` r
+# Installs the development version of ggResidpanel from GitHub
+remotes::install_github("goodekat/ggResidpanel")
+
 # Installs ggResidpanel from CRAN
 install.packages("ggResidpanel")
-
-# Installs the development version of ggResidpanel from GitHub
-devtools::install_github("goodekat/ggResidpanel")
 ```
 
 Load the ggResidpanel package.
@@ -30,26 +41,26 @@ library(ggResidpanel)
 
 Here are some resources for learning how to use ggResidpanel:
 
--   [Introduction
-    Vignette](https://goodekat.github.io/ggResidpanel/articles/introduction.html)
--   [Tutorial and User
-    Manual](https://goodekat.github.io/ggResidpanel-tutorial/tutorial.html)
+- [Introduction
+  Vignette](https://goodekat.github.io/ggResidpanel/articles/introduction.html)
+- [Tutorial and User
+  Manual](https://goodekat.github.io/ggResidpanel-tutorial/tutorial.html)
 
 ## Overview and Examples
 
 The package provides five functions that allow the user to assess
 diagnostic plots from a model. These functions are:
 
--   `resid_panel`: Creates a panel of diagnostic plots of the residuals
-    from a model
--   `resid_interact`: Creates an interactive panel of diagnostic plots
-    of the residuals form a model
--   `resid_xpanel`: Creates a panel of diagnostic plots of the predictor
-    variables
--   `resid_compare`: Creates a panel of diagnostic plots from multiple
-    models
--   `resid_auxpanel`: Creates a panel of diagnostic plots for model
-    types not included in the package
+- `resid_panel`: Creates a panel of diagnostic plots of the residuals
+  from a model
+- `resid_interact`: Creates an interactive panel of diagnostic plots of
+  the residuals form a model
+- `resid_xpanel`: Creates a panel of diagnostic plots of the predictor
+  variables
+- `resid_compare`: Creates a panel of diagnostic plots from multiple
+  models
+- `resid_auxpanel`: Creates a panel of diagnostic plots for model types
+  not included in the package
 
 Currently, ggResidpanel allows the first four functions listed above to
 work with models fit using the functions of `lm`, `glm`, `lme` (from
@@ -87,7 +98,7 @@ penguin_model <- lme4::lmer(heartrate ~ depth + duration + (1|bird), data = peng
 resid_panel(penguin_model)
 ```
 
-![](man/figures/readme-unnamed-chunk-4-1.png)<!-- -->
+![](inst/figures/readme-unnamed-chunk-4-1.png)<!-- -->
 
 ``` r
 # Create a pancel with residual, qq, and yvp plots, add 95% confidence interval 
@@ -96,14 +107,14 @@ resid_panel(penguin_model, plots = c("resid", "qq", "yvp"),
             qqbands = TRUE, theme = "classic")
 ```
 
-![](man/figures/readme-unnamed-chunk-4-2.png)<!-- -->
+![](inst/figures/readme-unnamed-chunk-4-2.png)<!-- -->
 
 ``` r
 # Create a panel with all plots available for a model fit using lmer
 resid_panel(penguin_model, plots = "all")
 ```
 
-![](man/figures/readme-unnamed-chunk-4-3.png)<!-- -->
+![](inst/figures/readme-unnamed-chunk-4-3.png)<!-- -->
 
 #### `resid_interact`
 
@@ -117,7 +128,7 @@ their own panel by selecting from the plots available for this function.
 resid_interact(penguin_model)
 ```
 
-![](man/figures/interact.gif)
+![](inst/figures/interact.gif)
 
 #### `resid_xpanel`
 
@@ -129,14 +140,14 @@ variable versus the predictor (x) variables in the model.
 resid_xpanel(penguin_model, jitter.width = 0.1)
 ```
 
-![](man/figures/readme-unnamed-chunk-6-1.png)<!-- -->
+![](inst/figures/readme-unnamed-chunk-6-1.png)<!-- -->
 
 ``` r
 # Create a panel of plots of the response variable versus the predictor variables
 resid_xpanel(penguin_model, yvar = "response", jitter.width = 0.1)
 ```
 
-![](man/figures/readme-unnamed-chunk-6-2.png)<!-- -->
+![](inst/figures/readme-unnamed-chunk-6-2.png)<!-- -->
 
 #### `resid_compare`
 
@@ -154,7 +165,7 @@ penguin_model_log2 <- lme4::lmer(log(heartrate) ~ depth + duration + I(duration^
 resid_compare(list(penguin_model, penguin_model_log2), plots = c("resid", "qq"))
 ```
 
-![](man/figures/readme-unnamed-chunk-7-1.png)<!-- -->
+![](inst/figures/readme-unnamed-chunk-7-1.png)<!-- -->
 
 #### `resid_auxpanel`
 
@@ -179,4 +190,4 @@ resid_auxpanel(residuals = penguin_tree_resid,
                plots = c("resid", "index"))
 ```
 
-![](man/figures/readme-unnamed-chunk-8-1.png)<!-- -->
+![](inst/figures/readme-unnamed-chunk-8-1.png)<!-- -->
