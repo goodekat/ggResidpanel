@@ -19,7 +19,8 @@ resid_panel(
   title.opt = TRUE,
   nrow = NULL,
   alpha = 0.6,
-  coordfix = TRUE
+  coordfix = TRUE,
+  return_plot_list = FALSE
 )
 }
 \arguments{
@@ -66,6 +67,9 @@ the panel. Specify TRUE or FALSE. Default is set to TRUE.}
 \item{alpha}{Sets the alpha level for displays with points. Default is set to 0.6.}
 
 \item{coordfix}{Uses fixed aspect ratio for QQ-plots and yvp. Default is TRUE.}
+
+\item{return_plot_list}{Indicates whether or not to return a list of individual plots.
+Specify TRUE or FALSE. Default is set to FALSE.}
 }
 \value{
 A panel of residual diagnostic plots containing plots specified.

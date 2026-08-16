@@ -31,9 +31,9 @@
 #'   the panel. Specify TRUE or FALSE. Default is set to TRUE.
 #' @param nrow Sets the number of rows in the panel.
 #' @param alpha Sets the alpha level for displays with points. Default is set to 0.6.
+#' @param coordfix Uses fixed aspect ratio for QQ-plots and yvp. Default is TRUE.
 #' @param return_plot_list Indicates whether or not to return a list of individual plots.
 #'   Specify TRUE or FALSE. Default is set to FALSE.
-#' @param coordfix Uses fixed aspect ratio for QQ-plots and yvp. Default is TRUE.
 #'
 #' @export resid_panel
 #'
@@ -215,8 +215,7 @@ resid_panel <- function(model, plots = "default", type = NA, bins = 30,
                         smoother = TRUE, qqline = TRUE, qqbands = FALSE,
                         scale = 1, theme = "bw", axis.text.size = 10,
                         title.text.size = 12, title.opt = TRUE, nrow = NULL,
-                        alpha = 0.6, return_plot_list = FALSE){
-                        alpha = 0.6, coordfix = TRUE){
+                        alpha = 0.6, coordfix = TRUE, return_plot_list = FALSE){
 
   ## Errors and Warnings -------------------------------------------------------
 
