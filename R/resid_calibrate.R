@@ -41,6 +41,7 @@
 #'   the panel. Specify TRUE or FALSE. Default is set to TRUE.
 #' @param nrow Sets the number of rows in the panel.
 #' @param alpha Sets the alpha level for displays with points. Default is set to 0.6.
+#' @param coordfix Uses fixed aspect ratio for QQ-plots and yvp. Default is TRUE.
 #'
 #' @export resid_calibrate
 #'
@@ -174,24 +175,26 @@
 #'   identify = TRUE
 #'  )
 
-resid_calibrate <-
-  function(model,
-           plots = "default",
-           nsim = 1,
-           identify = TRUE,
-           shuffle = FALSE,
-           type = NA,
-           bins = 30,
-           smoother = TRUE,
-           qqline = TRUE,
-           qqbands = FALSE,
-           scale = 1,
-           theme = "bw",
-           axis.text.size = 10,
-           title.text.size = 12,
-           title.opt = TRUE,
-           nrow = NULL,
-           alpha = 0.6) {
+resid_calibrate <- function(
+    model,
+    plots = "default",
+    nsim = 1,
+    identify = TRUE,
+    shuffle = FALSE,
+    type = NA,
+    bins = 30,
+    smoother = TRUE,
+    qqline = TRUE,
+    qqbands = FALSE,
+    scale = 1,
+    theme = "bw",
+    axis.text.size = 10,
+    title.text.size = 12,
+    title.opt = TRUE,
+    nrow = NULL,
+    alpha = 0.6,
+    coordfix = TRUE
+  ) {
     
     ## Set number of rows
     compare_rows <- length(plots)
@@ -401,7 +404,6 @@ resid_calibrate <-
         ls_list[[i]] <- plot_ls(
           model = models[[i]],
           type = type,
-          smoother = smoother,
           theme = theme,
           axis.text.size = axis.text.size,
           title.text.size = title.text.size,
@@ -424,7 +426,6 @@ resid_calibrate <-
           ls_list[[i]] <- plot_ls(
             model = models[[i]],
             type = type,
-            smoother = smoother,
             theme = theme,
             axis.text.size = axis.text.size,
             title.text.size = title.text.size,
@@ -452,7 +453,8 @@ resid_calibrate <-
           title.opt = title.opt,
           qqline = qqline,
           qqbands = qqbands,
-          alpha = alpha
+          alpha = alpha,
+          coordfix = coordfix
         )
       }
       
@@ -493,7 +495,8 @@ resid_calibrate <-
           axis.text.size = axis.text.size,
           title.text.size = title.text.size,
           title.opt = title.opt,
-          alpha = alpha
+          alpha = alpha,
+          coordfix = coordfix
         )
       }
       

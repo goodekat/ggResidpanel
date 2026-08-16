@@ -17,7 +17,8 @@ resid_interact(
   title.text.size = 12,
   title.opt = TRUE,
   nrow = NULL,
-  alpha = 0.6
+  alpha = 0.6,
+  coordfix = FALSE
 )
 }
 \arguments{
@@ -62,6 +63,8 @@ the panel. Specify TRUE or FALSE. Default is set to TRUE.}
 \item{nrow}{Sets the number of rows in the panel.}
 
 \item{alpha}{Sets the alpha level for displays with points. Default is set to 0.6.}
+
+\item{coordfix}{Uses fixed aspect ratio for QQ-plots and yvp. Default is FALSE.}
 }
 \value{
 A panel of interactive residual diagnostic plots containing plots specified.

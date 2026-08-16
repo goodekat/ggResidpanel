@@ -10,7 +10,8 @@ plot_qq <- function(
     title.opt,
     qqline,
     qqbands,
-    alpha
+    alpha,
+    coordfix
   ) {
   
   ## Creation of Values to Plot -----------------------------------------------------

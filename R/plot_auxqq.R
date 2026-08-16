@@ -9,7 +9,8 @@ plot_auxqq <- function(
     title.opt, 
     qqline, 
     qqbands, 
-    alpha
+    alpha,
+  coordfix
   ) {
 
   ## Creation of Values to Plot -----------------------------------------------------
@@ -52,6 +53,12 @@ plot_auxqq <- function(
     plot <- plot + stat_qq_line(color = "blue", linewidth = .5)
   }
   
+  # Fix the coordinate axes (default for non-interactive)
+  
+  if(coordfix == TRUE){
+    plot <- plot + coord_fixed()
+  }
+
   # Add theme to plot
   if (theme == "bw") {
     plot <- plot + theme_bw()

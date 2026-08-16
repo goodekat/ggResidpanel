@@ -18,6 +18,9 @@ if(class(model)[1]%in%c("lm", "glm")){
   names_data <- names(model$model)
   #Get data used in model from model
   #plotly_data <- data.frame(as.matrix(model$model))
+  
+  model$model <- do.call(cbind.data.frame, model$model) # fixes issues with poly() and bs() models
+  
 
   plotly_data <- model$model
 

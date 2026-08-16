@@ -31,6 +31,7 @@
 #'   the panel. Specify TRUE or FALSE. Default is set to TRUE.
 #' @param nrow Sets the number of rows in the panel.
 #' @param alpha Sets the alpha level for displays with points. Default is set to 0.6.
+#' @param coordfix Uses fixed aspect ratio for QQ-plots and yvp. Default is TRUE.
 #'
 #' @export resid_compare
 #'
@@ -176,7 +177,8 @@ resid_compare <-
            title.text.size = 12,
            title.opt = TRUE,
            nrow = NULL,
-           alpha = 0.6) {
+           alpha = 0.6,
+           coordfix = TRUE) {
     ## Set number of rows
     compare_rows <- length(plots)
     if (compare_rows == 1) {
@@ -356,7 +358,6 @@ resid_compare <-
         ls_list[[i]] <- plot_ls(
           model = models[[i]],
           type = type,
-          smoother = smoother,
           theme = theme,
           axis.text.size = axis.text.size,
           title.text.size = title.text.size,
@@ -379,7 +380,6 @@ resid_compare <-
           ls_list[[i]] <- plot_ls(
             model = models[[i]],
             type = type,
-            smoother = smoother,
             theme = theme,
             axis.text.size = axis.text.size,
             title.text.size = title.text.size,
@@ -407,7 +407,8 @@ resid_compare <-
           title.opt = title.opt,
           qqline = qqline,
           qqbands = qqbands,
-          alpha = alpha
+          alpha = alpha,
+          coordfix = coordfix
         )
       }
       
@@ -448,7 +449,8 @@ resid_compare <-
           axis.text.size = axis.text.size,
           title.text.size = title.text.size,
           title.opt = title.opt,
-          alpha = alpha
+          alpha = alpha,
+          coordfix = coordfix
         )
       }
       
