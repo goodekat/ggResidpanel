@@ -2,6 +2,13 @@
 
 ## ggResidpanel (development version)
 
+## ggResidpanel 0.4.1
+
+### Minor
+
+- Fixed broken links for figures on website
+- Added example in readme of how to customize ggResidpanel plots
+
 ## ggResidpanel 0.4.0
 
 ### Major

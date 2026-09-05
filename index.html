@@ -50,6 +50,7 @@
 <li class="nav-item"><form class="form-inline" role="search">
  <input class="form-control" type="search" name="search-input" id="search-input" autocomplete="off" aria-label="Search site" placeholder="Search for" data-search-index="search.json">
 </form></li>
+<li class="nav-item"><a class="external-link nav-link" href="https://github.com/goodekat/ggResidpanel/" aria-label="GitHub"><span class="fa fab fa-github fa-lg"></span></a></li>
       </ul>
 </div>
 
@@ -93,7 +94,7 @@
 <div class="section level2">
 <h2 id="overview-and-examples">Overview and Examples<a class="anchor" aria-label="anchor" href="#overview-and-examples"></a>
 </h2>
-<p>The package provides five functions that allow the user to assess diagnostic plots from a model. These functions are:</p>
+<p>The package provides functions that allow the user to assess diagnostic plots from a model. These functions are:</p>
 <ul>
 <li>
 <code>resid_panel</code>: Creates a panel of diagnostic plots of the residuals from a model</li>
@@ -106,7 +107,7 @@
 <li>
 <code>resid_auxpanel</code>: Creates a panel of diagnostic plots for model types not included in the package</li>
 <li>
-<code>resid_calibrate</code>: Creates a panel of diagnostic residual plots from a fitted model and simulated responses from the same model.</li>
+<strong>NEW</strong> <code>resid_calibrate</code>: Creates a panel of diagnostic residual plots from a fitted model and simulated responses from the same model.</li>
 </ul>
 <p>Currently, ggResidpanel allows the first four functions listed above to work with models fit using the functions of <code>lm</code>, <code>glm</code>, <code>lme</code> (from nlme), and <code>lmer</code> or <code>glmer</code> (from lme4 or fit using lmerTest). Each of these functions is applied below to show the panel that is output from the function. The functions have multiple input options such as the formatting options of <code>scale</code>, <code>theme</code>, <code>axis.text.size</code>, <code>title.text.size</code>, and <code>title.opt</code>.</p>
 <p>The <code>penguins</code> data used in the examples below is included in ggResidpanel.</p>
@@ -124,7 +125,11 @@
 <p>This function creates a panel of residual diagnostic plots given a model. It allows the user to select a panel of plots from the options in the package or create their own panel by selecting from the plots available for this function.</p>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Fit a model</span></span>
-<span><span class="va">penguin_model</span> <span class="op">&lt;-</span> <span class="fu">lme4</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/lme4/man/lmer.html" class="external-link">lmer</a></span><span class="op">(</span><span class="va">heartrate</span> <span class="op">~</span> <span class="va">depth</span> <span class="op">+</span> <span class="va">duration</span> <span class="op">+</span> <span class="op">(</span><span class="fl">1</span><span class="op">|</span><span class="va">bird</span><span class="op">)</span>, data <span class="op">=</span> <span class="va">penguins</span><span class="op">)</span></span>
+<span><span class="va">penguin_model</span> <span class="op">&lt;-</span> </span>
+<span>  <span class="fu">lme4</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/lme4/man/lmer.html" class="external-link">lmer</a></span><span class="op">(</span></span>
+<span>    <span class="va">heartrate</span> <span class="op">~</span> <span class="va">depth</span> <span class="op">+</span> <span class="va">duration</span> <span class="op">+</span> <span class="op">(</span><span class="fl">1</span><span class="op">|</span><span class="va">bird</span><span class="op">)</span>, </span>
+<span>    data <span class="op">=</span> <span class="va">penguins</span></span>
+<span>  <span class="op">)</span></span>
 <span></span>
 <span><span class="co"># Create the default panel of plots</span></span>
 <span><span class="fu"><a href="reference/resid_panel.html">resid_panel</a></span><span class="op">(</span><span class="va">penguin_model</span><span class="op">)</span></span></code></pre></div>
@@ -132,8 +137,12 @@
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Create a pancel with residual, qq, and yvp plots, add 95% confidence interval </span></span>
 <span><span class="co"># bands to the qq-plot, and change the theme to classic</span></span>
-<span><span class="fu"><a href="reference/resid_panel.html">resid_panel</a></span><span class="op">(</span><span class="va">penguin_model</span>, plots <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"resid"</span>, <span class="st">"qq"</span>, <span class="st">"yvp"</span><span class="op">)</span>, </span>
-<span>            qqbands <span class="op">=</span> <span class="cn">TRUE</span>, theme <span class="op">=</span> <span class="st">"classic"</span><span class="op">)</span></span></code></pre></div>
+<span><span class="fu"><a href="reference/resid_panel.html">resid_panel</a></span><span class="op">(</span></span>
+<span>  <span class="va">penguin_model</span>, </span>
+<span>  plots <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"resid"</span>, <span class="st">"qq"</span>, <span class="st">"yvp"</span><span class="op">)</span>, </span>
+<span>  qqbands <span class="op">=</span> <span class="cn">TRUE</span>, </span>
+<span>  theme <span class="op">=</span> <span class="st">"classic"</span></span>
+<span><span class="op">)</span></span></code></pre></div>
 <p><img src="reference/figures/README-unnamed-chunk-4-2.png"><!-- --></p>
 <div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Create a panel with all plots available for a model fit using lmer</span></span>
@@ -179,7 +188,10 @@
 <span>  <span class="op">)</span></span>
 <span></span>
 <span><span class="co"># Plot the residual and normal quantile plots for the two models</span></span>
-<span><span class="fu"><a href="reference/resid_compare.html">resid_compare</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="va">penguin_model</span>, <span class="va">penguin_model_log2</span><span class="op">)</span>, plots <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"resid"</span>, <span class="st">"qq"</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
+<span><span class="fu"><a href="reference/resid_compare.html">resid_compare</a></span><span class="op">(</span></span>
+<span>  <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="va">penguin_model</span>, <span class="va">penguin_model_log2</span><span class="op">)</span>,</span>
+<span>  plots <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"resid"</span>, <span class="st">"qq"</span><span class="op">)</span></span>
+<span><span class="op">)</span></span></code></pre></div>
 <p><img src="reference/figures/README-unnamed-chunk-7-1.png"><!-- --></p>
 </div>
 <div class="section level4">
@@ -189,18 +201,20 @@
 <p>This function creates a panel of residual diagnostic plots given inputs of residuals and fitted values to use for models not accepted by <code>resid_panel</code>. Users can select from panel options in the package or create their own panel from the plots available for this function.</p>
 <div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Fit a regression tree to the penguins data</span></span>
-<span><span class="va">penguin_tree</span> <span class="op">&lt;-</span> <span class="fu">rpart</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/rpart/man/rpart.html" class="external-link">rpart</a></span><span class="op">(</span><span class="va">heartrate</span> <span class="op">~</span> <span class="va">depth</span> <span class="op">+</span> <span class="va">duration</span>, data <span class="op">=</span> <span class="va">penguins</span><span class="op">)</span></span>
+<span><span class="va">penguin_tree</span> <span class="op">=</span> <span class="fu">rpart</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/rpart/man/rpart.html" class="external-link">rpart</a></span><span class="op">(</span><span class="va">heartrate</span> <span class="op">~</span> <span class="va">depth</span> <span class="op">+</span> <span class="va">duration</span>, data <span class="op">=</span> <span class="va">penguins</span><span class="op">)</span></span>
 <span></span>
 <span><span class="co"># Obtain the predictions from the model on the observed data</span></span>
-<span><span class="va">penguin_tree_pred</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/predict.html" class="external-link">predict</a></span><span class="op">(</span><span class="va">penguin_tree</span><span class="op">)</span></span>
+<span><span class="va">penguin_tree_pred</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/predict.html" class="external-link">predict</a></span><span class="op">(</span><span class="va">penguin_tree</span><span class="op">)</span></span>
 <span></span>
 <span><span class="co"># Obtain the residuals from the model</span></span>
-<span><span class="va">penguin_tree_resid</span> <span class="op">&lt;-</span> <span class="va">penguins</span><span class="op">$</span><span class="va">heartrate</span> <span class="op">-</span> <span class="va">penguin_tree_pred</span></span>
+<span><span class="va">penguin_tree_resid</span> <span class="op">=</span> <span class="va">penguins</span><span class="op">$</span><span class="va">heartrate</span> <span class="op">-</span> <span class="va">penguin_tree_pred</span></span>
 <span></span>
 <span><span class="co"># Create a panel with the residual and index plot</span></span>
-<span><span class="fu"><a href="reference/resid_auxpanel.html">resid_auxpanel</a></span><span class="op">(</span>residuals <span class="op">=</span> <span class="va">penguin_tree_resid</span>, </span>
-<span>               predicted <span class="op">=</span> <span class="va">penguin_tree_pred</span>, </span>
-<span>               plots <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"resid"</span>, <span class="st">"index"</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
+<span><span class="fu"><a href="reference/resid_auxpanel.html">resid_auxpanel</a></span><span class="op">(</span></span>
+<span>  residuals <span class="op">=</span> <span class="va">penguin_tree_resid</span>, </span>
+<span>  predicted <span class="op">=</span> <span class="va">penguin_tree_pred</span>, </span>
+<span>  plots <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"resid"</span>, <span class="st">"index"</span><span class="op">)</span></span>
+<span><span class="op">)</span></span></code></pre></div>
 <p><img src="reference/figures/README-unnamed-chunk-8-1.png"><!-- --></p>
 </div>
 <div class="section level4">
@@ -225,12 +239,62 @@
 <div class="sourceCode" id="cb14"><pre class="sourceCode R"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" tabindex="-1"></a><span class="do">## [1] "Real residuals are in column 4"</span></span></code></pre></div>
 <p><img src="reference/figures/README-unnamed-chunk-9-1.png"><!-- --></p>
 </div>
+<div class="section level4">
+<h4 id="new-feature-customization-of-figures">New Feature: Customization of Figures<a class="anchor" aria-label="anchor" href="#new-feature-customization-of-figures"></a>
+</h4>
+<p>The manner in which the plot panels are created by <code>ggResidpanel</code> is such that it is not possible to directly modify the figures using <code>ggplot2</code> functions. However, the <code>return_plot_list = TRUE</code> option in <code>ggResidpanel</code> allows for the output of a list of figures. This option requires that specific plots are specified in the <code>plots</code> option, and it only works with the <code>resid_panel</code>, <code>resid_xpanel</code>, <code>resid_auxpanel</code>, and <code>resid_calibrate</code> functions. Here is an example…</p>
+<p>This code does lead to the desired results:</p>
+<div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="reference/resid_panel.html">resid_panel</a></span><span class="op">(</span><span class="va">penguin_model</span>, plots <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"resid"</span>, <span class="st">"index"</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu">ggplot2</span><span class="fu">::</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggtheme.html" class="external-link">theme_dark</a></span><span class="op">(</span>header_family <span class="op">=</span> <span class="st">"Times"</span><span class="op">)</span></span></code></pre></div>
+<p><img src="reference/figures/README-unnamed-chunk-10-1.png"><!-- --></p>
+<p>Instead, use the return_plot_list = TRUE option:</p>
+<div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">list_of_plots</span> <span class="op">&lt;-</span></span>
+<span>  <span class="fu"><a href="reference/resid_panel.html">resid_panel</a></span><span class="op">(</span></span>
+<span>    <span class="va">penguin_model</span>, </span>
+<span>    plots <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"resid"</span>, <span class="st">"index"</span><span class="op">)</span>, </span>
+<span>    return_plot_list <span class="op">=</span> <span class="cn">TRUE</span></span>
+<span>  <span class="op">)</span></span></code></pre></div>
+<p>Details of created object:</p>
+<div class="sourceCode" id="cb17"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/typeof.html" class="external-link">typeof</a></span><span class="op">(</span><span class="va">list_of_plots</span><span class="op">)</span></span>
+<span><span class="co">## [1] "list"</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/names.html" class="external-link">names</a></span><span class="op">(</span><span class="va">list_of_plots</span><span class="op">)</span></span>
+<span><span class="co">## [1] "resid" "index"</span></span></code></pre></div>
+<p>Customize output plots:</p>
+<div class="sourceCode" id="cb18"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">list_of_plots</span><span class="op">$</span><span class="va">resid</span> <span class="op">+</span> <span class="fu">ggplot2</span><span class="fu">::</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggtheme.html" class="external-link">theme_dark</a></span><span class="op">(</span>header_family <span class="op">=</span> <span class="st">"Times"</span><span class="op">)</span></span></code></pre></div>
+<p><img src="reference/figures/README-unnamed-chunk-13-1.png"><!-- --></p>
+<div class="sourceCode" id="cb19"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">list_of_plots</span><span class="op">$</span><span class="va">index</span> <span class="op">+</span> <span class="fu">ggplot2</span><span class="fu">::</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggtheme.html" class="external-link">theme_dark</a></span><span class="op">(</span>header_family <span class="op">=</span> <span class="st">"Times"</span><span class="op">)</span></span></code></pre></div>
+<p><img src="reference/figures/README-unnamed-chunk-13-2.png"><!-- --></p>
+<p>Streamlined code for customizing all plots in the list using the <code>purrr</code> package:</p>
+<div class="sourceCode" id="cb20"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">list_of_custom_plots</span> <span class="op">&lt;-</span></span>
+<span>  <span class="fu">purrr</span><span class="fu">::</span><span class="fu"><a href="https://purrr.tidyverse.org/reference/map.html" class="external-link">map</a></span><span class="op">(</span></span>
+<span>    .x <span class="op">=</span> <span class="va">list_of_plots</span>, </span>
+<span>    .f <span class="op">=</span> <span class="kw">function</span><span class="op">(</span><span class="va">x</span><span class="op">)</span> <span class="va">x</span> <span class="op">+</span> <span class="fu">ggplot2</span><span class="fu">::</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggtheme.html" class="external-link">theme_dark</a></span><span class="op">(</span>header_family <span class="op">=</span> <span class="st">"Times"</span><span class="op">)</span></span>
+<span>  <span class="op">)</span></span>
+<span><span class="va">list_of_custom_plots</span></span></code></pre></div>
+<div class="sourceCode" id="cb21"><pre class="sourceCode R"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" tabindex="-1"></a><span class="do">## $resid</span></span></code></pre></div>
+<p><img src="reference/figures/README-unnamed-chunk-14-1.png"><!-- --></p>
+<div class="sourceCode" id="cb22"><pre class="sourceCode R"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" tabindex="-1"></a><span class="do">## </span></span>
+<span id="cb22-2"><a href="#cb22-2" tabindex="-1"></a><span class="do">## $index</span></span></code></pre></div>
+<p><img src="reference/figures/README-unnamed-chunk-14-2.png"><!-- --></p>
+<p>This output list of customized plots can also be placed in a panel again:</p>
+<div class="sourceCode" id="cb23"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu">cowplot</span><span class="fu">::</span><span class="fu"><a href="https://wilkelab.org/cowplot/reference/plot_grid.html" class="external-link">plot_grid</a></span><span class="op">(</span>plotlist <span class="op">=</span> <span class="va">list_of_custom_plots</span><span class="op">)</span></span></code></pre></div>
+<p><img src="reference/figures/README-unnamed-chunk-15-1.png"><!-- --></p>
+</div>
 </div>
 </div>
   </main><aside class="col-md-3"><div class="links">
 <h2 data-toc-skip>Links</h2>
 <ul class="list-unstyled">
 <li><a href="https://cloud.r-project.org/package=ggResidpanel" class="external-link">View on CRAN</a></li>
+<li><a href="https://github.com/goodekat/ggResidpanel/" class="external-link">Browse source code</a></li>
+<li><a href="https://github.com/goodekat/ggResidpanel/issues" class="external-link">Report a bug</a></li>
 </ul>
 </div>
 
