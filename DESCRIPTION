@@ -21,7 +21,7 @@ Description: An R package for creating diagnostic plots for models. The package 
 License: MIT + file LICENSE
 Encoding: UTF-8
 LazyData: true
-URL: https://goodekat.github.io/ggResidpanel/
+URL: https://goodekat.github.io/ggResidpanel/, https://github.com/goodekat/ggResidpanel
 Imports:
   cowplot,
   ggplot2,
@@ -35,19 +35,21 @@ Imports:
   stats,
   stringr
 Suggests: 
-  dplyr,
-  forcats,
-  knitr,
-  lme4,
-  lmerTest,
-  nlme,
-  randomForest,
-  rmarkdown,
-  rpart,
-  testthat (>= 3.0.0),
-  vdiffr,
-  wesanderson
+    dplyr,
+    forcats,
+    knitr,
+    lme4,
+    lmerTest,
+    nlme,
+    purrr,
+    randomForest,
+    rmarkdown,
+    rpart,
+    testthat (>= 3.0.0),
+    vdiffr,
+    wesanderson
 VignetteBuilder: knitr
 Depends: R (>= 4.1.0)
 Config/testthat/edition: 3
 Config/roxygen2/version: 8.1.0
+BugReports: https://github.com/goodekat/ggResidpanel/issues
