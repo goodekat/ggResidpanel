@@ -1,14 +1,14 @@
 
-# ggResidpanel <img align="right" width="120" height="135" src="inst/figures/logo.png">
+# ggResidpanel <a href="https://goodekat.github.io/ggResidpanel/"><img src="man/figures/logo.png" align="right" height="139" alt="ggResidpanel website" /></a>
 
 <!-- badges: start -->
 
-[![CRAN
-status](https://www.r-pkg.org/badges/version/ggResidpanel)](https://CRAN.R-project.org/package=ggResidpanel)
+[![](https://www.r-pkg.org/badges/version/ggResidpanel?color=green)](https://cran.r-project.org/package=ggResidpanel)
 [![Lifecycle:
 stable](https://img.shields.io/badge/lifecycle-stable-brightgreen.svg)](https://lifecycle.r-lib.org/articles/stages.html#stable)
 [![R-CMD-check](https://github.com/goodekat/ggResidpanel/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/goodekat/ggResidpanel/actions/workflows/R-CMD-check.yaml)
-<!-- [![downloads](https://cranlogs.r-pkg.org/badges/ggResidpanel)](https://cran.rstudio.com/web/packages/ggResidpanel/index.html) -->
+[![monthly-downloads](http://cranlogs.r-pkg.org/badges/grand-total/ggResidpanel?color=blue)](https://cran.r-project.org/package=ggResidpanel)
+[![total-downloads](http://cranlogs.r-pkg.org/badges/last-month/ggResidpanel?color=blue)](https://cran.r-project.org/package=ggResidpanel)
 [![Codecov test
 coverage](https://codecov.io/gh/goodekat/ggResidpanel/graph/badge.svg)](https://app.codecov.io/gh/goodekat/ggResidpanel)
 <!-- badges: end -->
@@ -223,6 +223,6 @@ resid_calibrate(
 )
 ```
 
-    ## [1] "Real residuals are in column 2"
+    ## [1] "Real residuals are in column 1"
 
 ![](inst/figures/readme-unnamed-chunk-9-1.png)<!-- -->

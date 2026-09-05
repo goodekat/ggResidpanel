@@ -16,3 +16,4 @@
 ^tests.R$
 ^revdep$
 ^CRAN-SUBMISSION$
+^_pkgdown\.yml$

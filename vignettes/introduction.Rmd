@@ -23,13 +23,14 @@ ggResidpanel was developed with the intention of providing an easier way to both
 
 ## Functions
 
-ggResidpanel has five functions:
+ggResidpanel functions:
 
 - `resid_panel`: Creates a panel of diagnostic plots of the residuals from a model
 - `resid_interact`: Creates an interactive panel of diagnostic plots of the residuals from a model
 - `resid_xpanel`: Creates a panel of diagnostic plots of the predictor variables 
 - `resid_compare`: Creates a panel of diagnostic plots from multiple models
 - `resid_auxpanel`: Creates a panel of diagnostic plots based on the predicted values and residuals from models not included in the package
+- `resid_calibrate`: Creates a panel of diagnostic residual plots from a fitted model and simulated responses from the same model. 
 
 Currently, ggResidpanel allows the first four functions listed above to work with models fit using the functions of `lm` and `glm` from base R, `lme` from nlme, and `lmer` or `glmer` from lme4 (or fit using lmerTest).
 
@@ -272,15 +273,17 @@ resid_auxpanel(
 The function `resid_calibrate` creates a panel of diagnostic residual plots from a fitted model and simulated responses from the same model. This is used to calibrate expectations for simulation variability when assumptions are true (see \code{simulate}), to compare to the actual observed residuals in any of a suite of diagnostic plots. This function requires the fitted model and the data set. However, for now, it only works with `lm` models.
 
 ```{r}
+# Fit an example model with one of the penguins
 penguin1_model <- 
   lm(
     heartrate ~ depth + duration,
     data = penguins |> dplyr::filter(bird == 1)
   )
 
+# Create panel of simulated and real plots
 resid_calibrate(
   model = penguin1_model, 
-  plots = "qq", 
+  plots = c("resid", "qq"), 
   nsim = 3, 
   shuffle = TRUE, 
   identify = TRUE
