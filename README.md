@@ -100,7 +100,7 @@ penguin_model <- lme4::lmer(heartrate ~ depth + duration + (1|bird), data = peng
 resid_panel(penguin_model)
 ```
 
-![](inst/figures/readme-unnamed-chunk-4-1.png)<!-- -->
+![](man/figures/README-unnamed-chunk-4-1.png)<!-- -->
 
 ``` r
 # Create a pancel with residual, qq, and yvp plots, add 95% confidence interval 
@@ -109,14 +109,14 @@ resid_panel(penguin_model, plots = c("resid", "qq", "yvp"),
             qqbands = TRUE, theme = "classic")
 ```
 
-![](inst/figures/readme-unnamed-chunk-4-2.png)<!-- -->
+![](man/figures/README-unnamed-chunk-4-2.png)<!-- -->
 
 ``` r
 # Create a panel with all plots available for a model fit using lmer
 resid_panel(penguin_model, plots = "all")
 ```
 
-![](inst/figures/readme-unnamed-chunk-4-3.png)<!-- -->
+![](man/figures/README-unnamed-chunk-4-3.png)<!-- -->
 
 #### `resid_interact`
 
@@ -142,14 +142,14 @@ variable versus the predictor (x) variables in the model.
 resid_xpanel(penguin_model, jitter.width = 0.1)
 ```
 
-![](inst/figures/readme-unnamed-chunk-6-1.png)<!-- -->
+![](man/figures/README-unnamed-chunk-6-1.png)<!-- -->
 
 ``` r
 # Create a panel of plots of the response variable versus the predictor variables
 resid_xpanel(penguin_model, yvar = "response", jitter.width = 0.1)
 ```
 
-![](inst/figures/readme-unnamed-chunk-6-2.png)<!-- -->
+![](man/figures/README-unnamed-chunk-6-2.png)<!-- -->
 
 #### `resid_compare`
 
@@ -170,7 +170,7 @@ penguin_model_log2 <-
 resid_compare(list(penguin_model, penguin_model_log2), plots = c("resid", "qq"))
 ```
 
-![](inst/figures/readme-unnamed-chunk-7-1.png)<!-- -->
+![](man/figures/README-unnamed-chunk-7-1.png)<!-- -->
 
 #### `resid_auxpanel`
 
@@ -195,7 +195,7 @@ resid_auxpanel(residuals = penguin_tree_resid,
                plots = c("resid", "index"))
 ```
 
-![](inst/figures/readme-unnamed-chunk-8-1.png)<!-- -->
+![](man/figures/README-unnamed-chunk-8-1.png)<!-- -->
 
 #### `resid_calibrate`
 
@@ -223,6 +223,6 @@ resid_calibrate(
 )
 ```
 
-    ## [1] "Real residuals are in column 1"
+    ## [1] "Real residuals are in column 4"
 
-![](inst/figures/readme-unnamed-chunk-9-1.png)<!-- -->
+![](man/figures/README-unnamed-chunk-9-1.png)<!-- -->
