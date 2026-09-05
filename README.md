@@ -223,6 +223,6 @@ resid_calibrate(
 )
 ```
 
-    ## [1] "Real residuals are in column 4"
+    ## [1] "Real residuals are in column 2"
 
 ![](inst/figures/readme-unnamed-chunk-9-1.png)<!-- -->
