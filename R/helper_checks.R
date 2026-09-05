@@ -142,3 +142,4 @@ check_leverage <- function(model, plots){
   }
 
 }
+

@@ -28,6 +28,9 @@
 #' @param nrow Sets the number of rows in the panel.
 #' @param alpha Sets the alpha level for displays with points. Default is set to 0.6.
 #' @param coordfix Uses fixed aspect ratio for QQ-plots. Default is TRUE.
+#' @param return_plot_list If specific plot types are supplied to the `plots` options, 
+#'   this option indicates whether to return a list of individual plots. Specify TRUE 
+#'   or FALSE. Default is set to FALSE.
 #'
 #' @export resid_auxpanel
 #'
@@ -72,13 +75,26 @@
 #'# Create a panel with the residual and index plot
 #'resid_auxpanel(residuals = penguin_tree_resid,
 #'              predicted = penguin_tree_pred,
-#'              plots = c("resid", "index", "yvp"))
+#'              plots = c("resid", "index", "qq"))
 
-resid_auxpanel <- function(residuals, predicted, plots = "default", bins = 30,
-                           smoother = FALSE, qqline = TRUE, qqbands = FALSE,
-                           scale = 1, theme = "bw", axis.text.size = 10,
-                           title.text.size = 12, title.opt = TRUE, nrow = NULL, 
-                           alpha = 0.6, coordfix = TRUE){
+resid_auxpanel <- function(
+    residuals, 
+    predicted, 
+    plots = "default",
+    bins = 30,
+    smoother = FALSE, 
+    qqline = TRUE, 
+    qqbands = FALSE,
+    scale = 1, 
+    theme = "bw", 
+    axis.text.size = 10,
+    title.text.size = 12, 
+    title.opt = TRUE, 
+    nrow = NULL, 
+    alpha = 0.6, 
+    coordfix = TRUE, 
+    return_plot_list = FALSE
+  ) {
 
   ## Errors and Warnings -------------------------------------------------------
 
@@ -89,125 +105,169 @@ resid_auxpanel <- function(residuals, predicted, plots = "default", bins = 30,
   }
 
   # Checks that return a warning
-  smoother <- check_smoother(smoother = smoother)
-  theme <- check_theme(theme = theme)
-  title.opt <- check_title(title.opt = title.opt)
+  smoother = check_smoother(smoother = smoother)
+  theme = check_theme(theme = theme)
+  title.opt = check_title(title.opt = title.opt)
 
   ## Creation of plots ---------------------------------------------------------
 
   # Create a boxplot of the residuals if selected in plots otherwise set as NULL
-  if("boxplot" %in% plots | "SAS" %in% plots | "all" %in% plots){
-    boxplot <- plot_auxboxplot(residuals,
-                               theme = theme,
-                               axis.text.size = axis.text.size,
-                               title.text.size = title.text.size,
-                               title.opt = title.opt)
+  if ("boxplot" %in% plots | "SAS" %in% plots | "all" %in% plots) {
+    boxplot <- 
+      plot_auxboxplot(
+        residuals,
+        theme = theme,
+        axis.text.size = axis.text.size,
+        title.text.size = title.text.size,
+        title.opt = title.opt
+      )
   } else{
-    boxplot <- NULL
+    boxplot = NULL
   }
 
   # Create a histogram of the residuals if selected in plots otherwise set as NULL
-  if("hist" %in% plots | "default" %in% plots | "SAS" %in% plots | "all" %in% plots){
-    hist <- plot_auxhist(residuals,
-                         bins = bins,
-                         theme = theme,
-                         axis.text.size = axis.text.size,
-                         title.text.size = title.text.size,
-                         title.opt = title.opt)
-  } else{
-    hist <- NULL
+  if ("hist" %in% plots | "default" %in% plots | "SAS" %in% plots | "all" %in% plots) {
+    hist <- 
+      plot_auxhist(
+        residuals,
+        bins = bins,
+        theme = theme,
+        axis.text.size = axis.text.size,
+        title.text.size = title.text.size,
+        title.opt = title.opt
+      )
+  } else {
+    hist = NULL
   }
 
   # Create an index plot of the residuals if selected in plots otherwise set as NULL
-  if("index" %in% plots | "default" %in% plots | "all" %in% plots){
-    index <- plot_auxindex(residuals,
-                           theme = theme,
-                           smoother = smoother,
-                           axis.text.size = axis.text.size,
-                           title.text.size = title.text.size,
-                           title.opt = title.opt, 
-                           alpha = alpha)
-  } else{
-    index <- NULL
+  if ("index" %in% plots | "default" %in% plots | "all" %in% plots) {
+    index <- 
+      plot_auxindex(
+        residuals,
+        theme = theme,
+        smoother = smoother,
+        axis.text.size = axis.text.size,
+        title.text.size = title.text.size,
+        title.opt = title.opt, 
+        alpha = alpha
+      )
+  } else {
+    index = NULL
   }
 
-
   # Create a q-q plot of the residuals if selected in plots otherwise set as NULL
-  if("qq" %in% plots | "default" %in% plots | "SAS" %in% plots | "all" %in% plots){
-    qq <- plot_auxqq(residuals,
-                      theme = theme,
-                      axis.text.size = axis.text.size,
-                      title.text.size = title.text.size,
-                      title.opt = title.opt,
-                      qqline = qqline,
-                      qqbands = qqbands,
-                      alpha = alpha,
-                      coordfix = coordfix)
-  } else{
-    qq <- NULL
+  if ("qq" %in% plots | "default" %in% plots | "SAS" %in% plots | "all" %in% plots) {
+    qq <- 
+      plot_auxqq(
+        residuals,
+        theme = theme,
+        axis.text.size = axis.text.size,
+        title.text.size = title.text.size,
+        title.opt = title.opt,
+        qqline = qqline,
+        qqbands = qqbands,
+        alpha = alpha,
+        coordfix = coordfix
+      )
+  } else {
+    qq = NULL
   }
 
   # Create a residual plot if selected in plots otherwise set as NULL
-  if("resid" %in% plots | "default" %in% plots | "SAS" %in% plots | "all" %in% plots){
-    resid <- plot_auxresid(residuals,
-                           predicted,
-                           smoother = smoother,
-                           theme = theme,
-                           axis.text.size = axis.text.size,
-                           title.text.size = title.text.size,
-                           title.opt = title.opt,
-                           alpha = alpha)
-  } else{
-    resid <- NULL
+  if ("resid" %in% plots | "default" %in% plots | "SAS" %in% plots | "all" %in% plots) {
+    resid <-
+      plot_auxresid(
+        residuals,
+        predicted,
+        smoother = smoother,
+        theme = theme,
+        axis.text.size = axis.text.size,
+        title.text.size = title.text.size,
+        title.opt = title.opt,
+        alpha = alpha
+      )
+  } else {
+    resid = NULL
   }
 
   ## Creation of grid of plots -------------------------------------------------
 
   # If individual plots have been specified, set plots equal to "individual"
   # Return an error if none of the correct plot options have been specified
-  if("default" %in% plots | "SAS" %in% plots | "all" %in% plots){
-    plots <- plots
-  } else if("boxplot" %in% plots | "hist" %in% plots | "index" %in% plots |
-            "qq" %in% plots | "resid" %in% plots){
-    chosen <- plots
-    plots <- "individual"
-  } else{
+  if ("default" %in% plots | "SAS" %in% plots | "all" %in% plots) {
+    plots = plots
+  } else if (
+    "boxplot" %in% plots | 
+    "hist" %in% plots | 
+    "index" %in% plots |
+    "qq" %in% plots | 
+    "resid" %in% plots) {
+    chosen = plots
+    plots = "individual"
+  } else {
     stop("Invalid plots option entered")
   }
 
   # Create a grid of plots based on the plots specified
-  if (plots == "default"){
+  if (plots == "default") {
 
     # Create grid of default plots
-    plot_grid(resid, qq, index, hist,
-              scale = scale, nrow = nrow)
+    plot_grid(
+      resid, 
+      qq, 
+      index,
+      hist,
+      scale = scale, 
+      nrow = nrow
+    )
 
-  } else if (plots == "SAS"){
+  } else if (plots == "SAS") {
 
     # Create grid of SAS plots
-    plot_grid(resid, hist, qq, boxplot,
-              scale = scale, nrow = nrow)
+    plot_grid(
+      resid,
+      hist,
+      qq, 
+      boxplot,
+      scale = scale, 
+      nrow = nrow
+    )
 
-  } else if (plots == "all"){
+  } else if (plots == "all") {
 
     # Create grid of all plots
-    plot_grid(resid, qq, hist, index, boxplot,
-              scale = scale, nrow = nrow)
+    plot_grid(
+      resid, 
+      qq, 
+      hist, 
+      index, 
+      boxplot,
+      scale = scale, 
+      nrow = nrow
+    )
 
   } else if (plots == "individual") {
 
     # Turn the specified plots into a list
-    individual_plots <- list(resid = resid,
-                             hist = hist,
-                             index = index,
-                             qq = qq,
-                             boxplot = boxplot)
+    individual_plots <-
+      list(
+        resid = resid,
+        hist = hist,
+        index = index,
+        qq = qq,
+        boxplot = boxplot
+      )
 
     # Select the chosen plots
-    individual_plots <- individual_plots[chosen]
+    individual_plots = individual_plots[chosen]
 
-    # Create grid of individual plots specified
-    plot_grid(plotlist = individual_plots, scale = scale, nrow = nrow)
+    # Create grid of specified plots (or list of plots)
+    if (return_plot_list == TRUE) {
+      return(individual_plots)
+    } else {
+      plot_grid(plotlist = individual_plots, scale = scale, nrow = nrow)
+    }
 
   }
 

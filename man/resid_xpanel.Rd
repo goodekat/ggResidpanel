@@ -16,7 +16,8 @@ resid_xpanel(
   title.opt = TRUE,
   nrow = NULL,
   jitter.width = 0,
-  alpha = 0.6
+  alpha = 0.6,
+  return_plot_list = FALSE
 )
 }
 \arguments{
@@ -50,9 +51,13 @@ the panel. Specify TRUE or FALSE. Default is set to TRUE.}
 
 \item{nrow}{Sets the number of rows in the panel.}
 
-\item{jitter.width}{Specifies the amount of jitter to add in the plots of categorical variables. (Default is 0.)}
+\item{jitter.width}{Specifies the amount of jitter to add in the plots of 
+categorical variables. (Default is 0.)}
 
 \item{alpha}{Sets the alpha level for displays with points. Default is set to 0.6.}
+
+\item{return_plot_list}{Indicates whether or not to return a list of individual plots.
+Specify TRUE or FALSE. Default is set to FALSE.}
 }
 \value{
 A panel of plots of the residuals or response variable versus the

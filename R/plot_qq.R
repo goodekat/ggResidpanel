@@ -34,9 +34,9 @@ plot_qq <- function(
   #title <- paste("Q-Q Plot of", r_label)
   
   # Create labels for plotly
-  data_add <- helper_plotly_label(model)
-  model_values <- cbind(model_values, data_add)
-  names(model_values)[which(names(model_values) == "data_add")] <- "Data"
+  data_add = helper_plotly_label(model)
+  model_values = cbind(model_values, data_add)
+  names(model_values)[which(names(model_values) == "data_add")] = "Data"
   
   ## Creation of Plot ---------------------------------------------------------------
   model_values <- model_values[order(model_values$Residual), ]
@@ -48,7 +48,7 @@ plot_qq <- function(
         label = .data$Data
       )
     ) +
-    stat_qq_point(alpha = alpha) +
+    qqplotr::stat_qq_point(alpha = alpha) +
     labs(
       x = "Theoretical Quantiles", 
       y = "Sample Quantiles"
@@ -70,8 +70,8 @@ plot_qq <- function(
           label = .data$Data
         )
       ) +
-      stat_qq_band() +
-      stat_qq_point(alpha = alpha) +
+      qqplotr::stat_qq_band() +
+      qqplotr::stat_qq_point(alpha = alpha) +
       labs(
         x = "Theoretical Quantiles", 
         y = "Sample Quantiles"
@@ -88,7 +88,7 @@ plot_qq <- function(
           label = .data$Data
         )
       ) +
-      stat_qq_point(alpha = alpha) +
+      qqplotr::stat_qq_point(alpha = alpha) +
       geom_point(
         mapping = aes(
           x = .data$Theoretical, 
@@ -106,7 +106,7 @@ plot_qq <- function(
   
   # Add a line if requested
   if (qqline == TRUE) {
-    plot <- plot + stat_qq_line(color = "blue", linewidth = .5)
+    plot <- plot + qqplotr::stat_qq_line(color = "blue", linewidth = .5)
   }
   
   # Add theme to plot

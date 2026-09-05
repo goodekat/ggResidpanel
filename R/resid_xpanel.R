@@ -25,8 +25,11 @@
 #' @param title.opt Indicates whether or not to include a title on the plots in
 #'   the panel. Specify TRUE or FALSE. Default is set to TRUE.
 #' @param nrow Sets the number of rows in the panel.
-#' @param jitter.width Specifies the amount of jitter to add in the plots of categorical variables. (Default is 0.)
+#' @param jitter.width Specifies the amount of jitter to add in the plots of 
+#'   categorical variables. (Default is 0.)
 #' @param alpha Sets the alpha level for displays with points. Default is set to 0.6.
+#' @param return_plot_list Indicates whether or not to return a list of individual plots.
+#'   Specify TRUE or FALSE. Default is set to FALSE.
 #' 
 #' @export resid_xpanel
 #'
@@ -59,11 +62,21 @@
 #' )
 #' 
 
-resid_xpanel <- function(model, yvar = "residual", type = NA,
-                         smoother = FALSE, scale = 1, theme = "bw",
-                         axis.text.size = 10, title.text.size = 12,
-                         title.opt = TRUE, nrow = NULL, jitter.width = 0, 
-                         alpha = 0.6){
+resid_xpanel <- function(
+    model, 
+    yvar = "residual",
+    type = NA,
+    smoother = FALSE, 
+    scale = 1,
+    theme = "bw",
+    axis.text.size = 10, 
+    title.text.size = 12,
+    title.opt = TRUE, 
+    nrow = NULL, 
+    jitter.width = 0, 
+    alpha = 0.6, 
+    return_plot_list = FALSE
+  ) {
 
   ## Errors and Warnings -------------------------------------------------------
 
@@ -72,48 +85,55 @@ resid_xpanel <- function(model, yvar = "residual", type = NA,
   check_residualtype(model = model, type = type)
 
   # Checks that return a warning
-  smoother <- check_smoother(smoother = smoother)
-  theme <- check_theme(theme = theme)
-  title.opt <- check_title(title.opt = title.opt)
+  smoother = check_smoother(smoother = smoother)
+  theme = check_theme(theme = theme)
+  title.opt = check_title(title.opt = title.opt)
 
   ## Creation of Plots and Grid ------------------------------------------------
 
   # Create a data frame with the residuals
-  if(is.na(type)){
-    residuals <- helper_resid(type = NA, model = model)
-  } else{
-    residuals <- helper_resid(type = type, model = model)
+  if (is.na(type)) {
+    residuals = helper_resid(type = NA, model = model)
+  } else {
+    residuals = helper_resid(type = type, model = model)
   }
 
   # Create model data based on the type of model
-  if (class(model)[1] %in% c("lm")){
-    model_data <- data.frame(Residual = residuals, model$model)
-  } else if (class(model)[1] == "glm"){
-    if (model$family[[1]] == "binomial"){
-      model_data <- data.frame(Residual = residuals,
-                               proportion = helper_glm_actual(model),
-                               model$model[-1])
+  if (class(model)[1] %in% c("lm")) {
+    model_data = data.frame(Residual = residuals, model$model)
+  } else if (class(model)[1] == "glm") {
+    if (model$family[[1]] == "binomial") {
+      model_data <- 
+        data.frame(
+          Residual = residuals,
+          proportion = helper_glm_actual(model),
+          model$model[-1]
+        )
     } else {
-      model_data <- data.frame(Residual = residuals, model$model)
+      model_data <- 
+        data.frame(Residual = residuals, model$model)
     }
-  } else if (class(model)[1] %in% c("lmerMod", "lmerModLmerTest")){
-    model_data <- cbind(Residual = residuals, model@frame)
-  } else if (class(model)[1] == "lme"){
-    model_data <- cbind(Residual = residuals, model$data)
-  } else if (class(model)[1] == "glmerMod"){
+  } else if (class(model)[1] %in% c("lmerMod", "lmerModLmerTest")) {
+    model_data = cbind(Residual = residuals, model@frame)
+  } else if (class(model)[1] == "lme") {
+    model_data = cbind(Residual = residuals, model$data)
+  } else if (class(model)[1] == "glmerMod") {
     if (model@resp$family[[1]] == "binomial") {
-      model_data <- data.frame(Residual = residuals,
-                               proportion = helper_glm_actual(model),
-                               model@frame[-1])
+      model_data <- 
+        data.frame(
+          Residual = residuals,
+          proportion = helper_glm_actual(model),
+          model@frame[-1]
+        )
     } else {
-      model_data <- cbind(Residual = residuals, model@frame)
+      model_data = cbind(Residual = residuals, model@frame)
     }
   }
 
   # Determine the column number of the data to use based on yvar chosen
-  if (yvar == "residual"){
+  if (yvar == "residual") {
     y_column_number = 1
-  } else if (yvar == "response"){
+  } else if (yvar == "response") {
     y_column_number = 2
   } else {
     stop("The value specified for yvar is not a valid option. The options are either
@@ -121,82 +141,117 @@ resid_xpanel <- function(model, yvar = "residual", type = NA,
   }
 
   # Create the predictor plots
-  predictor_plots <- lapply(3:dim(model_data)[2],
-                            FUN = create_predictor_plots,
-                            y_column_number = y_column_number,
-                            data = model_data,
-                            type = type,
-                            model = model,
-                            smoother = smoother,
-                            theme = theme,
-                            axis.text.size = axis.text.size, 
-                            jitter.width = jitter.width,
-                            alpha = alpha)
+  predictor_plots <- 
+    lapply(
+      3:dim(model_data)[2],
+      FUN = create_predictor_plots,
+      y_column_number = y_column_number,
+      data = model_data,
+      type = type,
+      model = model,
+      smoother = smoother,
+      theme = theme,
+      axis.text.size = axis.text.size, 
+      jitter.width = jitter.width,
+      alpha = alpha
+    )
 
-  # Create the panel of the predictor plots
-  predictor_panel <- suppressWarnings(plot_grid(plotlist = predictor_plots, scale = scale, nrow = nrow))
-
-  # Add a title if requested and return the panel
-  if(title.opt == TRUE){
-
-    # Create the title
-    yname <- ifelse(yvar == "residual", "Residuals", "Response Variable")
-    title <- ggdraw() +
-      draw_label(paste("Plots of", yname, "vs Predictor Variables"),
-                 fontface = 'bold',
-                 size = title.text.size)
-
-    # Create and return a panel with the title and the plots
-    plot_grid(title, predictor_panel, nrow = 2, rel_heights = c(0.1, 1))
-
-
-  } else {
-
-    # Create and return a panel with only the plots
-    predictor_panel
-
+  # Create and return a panel with only the plots (or list of plots if specified)
+  if (return_plot_list) {
+    
+    # Return list of plots    
+    return( predictor_plots)
+  
+  } else { 
+    
+    # Create the panel of the predictor plots
+    predictor_panel <- 
+      suppressWarnings(plot_grid(
+        plotlist = predictor_plots, 
+        scale = scale,
+        nrow = nrow
+      ))
+    
+    # Add a title if requested and return the panel
+    if (title.opt == TRUE) {
+      
+      # Create the title
+      yname <- ifelse(yvar == "residual", "Residuals", "Response Variable")
+      title <- 
+        ggdraw() +
+        draw_label(
+          paste("Plots of", yname, "vs Predictor Variables"),
+          fontface = 'bold',
+          size = title.text.size
+        )
+      
+      # Create and return a panel with the title and the plots
+      plot_grid(title, predictor_panel, nrow = 2, rel_heights = c(0.1, 1))
+      
+    }
+    
   }
-
+  
 }
 
 # Function for creating a scatter plot of the chosen yvar vs a predictor variable
-create_predictor_plots <- function(x_column_number, y_column_number,
-                                   data, type, model, smoother, theme,
-                                   axis.text.size, jitter.width, alpha){
+create_predictor_plots <- function(
+    x_column_number, 
+    y_column_number,
+    data, 
+    type,
+    model,
+    smoother,
+    theme,
+    axis.text.size, 
+    jitter.width, 
+    alpha
+  ) {
 
   # Create axis labels
-  xlab <- names(data)[x_column_number]
-  if(y_column_number == 1){
-    ylab <- helper_label(type = type, model = model)
-  } else if (y_column_number == 2){
-    ylab <- names(data)[y_column_number]
+  xlab = names(data)[x_column_number]
+  if (y_column_number == 1) {
+    ylab = helper_label(type = type, model = model)
+  } else if (y_column_number == 2) {
+    ylab = names(data)[y_column_number]
   }
 
   # Subset the data to contain the residuals or response and one predictor
-  data_sub <- data.frame(y = data[,y_column_number],
-                         x = data[,x_column_number])
+  data_sub <- 
+    data.frame(
+      y = data[,y_column_number],
+      x = data[,x_column_number]
+    )
 
   # Create the plot (use violin plot if variable is a factor/character)
   if (is.factor(data[,x_column_number]) | is.character(data[,x_column_number])) {
-    plot <- ggplot(data_sub, aes(x = data_sub$x, y = data_sub$y)) +
+    plot <- 
+      ggplot(
+        data_sub, 
+        aes(x = data_sub$x, y = data_sub$y)
+      ) +
       geom_violin() +
       geom_jitter(width = jitter.width, alpha = alpha) +
       theme_bw() +
       labs(x = xlab, y = ylab) 
   } else {
-    plot <- ggplot(data_sub, aes(x = data_sub$x, y = data_sub$y)) +
+    plot <- 
+      ggplot(
+        data_sub, 
+        aes(x = data_sub$x, y = data_sub$y)
+      ) +
       geom_point(alpha = alpha) +
       theme_bw() +
       labs(x = xlab, y = ylab)
   }
   
   # Add a horizontal line if plotting residuals
-  if (y_column_number == 1){
-    plot <- plot + geom_hline(yintercept = 0, color = "blue")
+  if (y_column_number == 1) {
+    plot = plot + geom_hline(yintercept = 0, color = "blue")
   }
 
   # Add a smoother to the plots if requested
-  if(smoother == TRUE){
+  if (smoother == TRUE) {
     plot <- 
       plot + 
       geom_smooth(
@@ -210,11 +265,11 @@ create_predictor_plots <- function(x_column_number, y_column_number,
 
   # Add theme to plot
   if (theme == "bw"){
-    plot <- plot + theme_bw()
+    plot = plot + theme_bw()
   } else if (theme == "classic"){
-    plot <- plot + theme_classic()
+    plot = plot + theme_classic()
   } else if (theme == "gray" | theme == "grey"){
-    plot <- plot + theme_grey()
+    plot = plot + theme_grey()
   }
 
   # Set text size of axis labels and return plot

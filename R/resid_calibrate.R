@@ -1,13 +1,13 @@
 #' Panel of Diagnostic Residual Plots from a fitted model and simulated responses from the same model. 
 #' 
-#' Used to calibrate expectations for simulation variability when assumptions are true (see \code{simulate}),
-#' to compare to the actual observed residuals in any of a suite of diagnostic plots. 
-#' This function is based on the \code{resid_compare} function and requires the fitted model and the data set.
-#' 
+#' Used to calibrate expectations for simulation variability when assumptions are
+#' true (see \code{simulate}), to compare to the actual observed residuals in any 
+#' of a suite of diagnostic plots. This function is based on the \code{resid_compare}
+#' function and requires the fitted model and the data set.
 #'
-#' Creates a panel of residual diagnostic plots the actual model and simulated responses from that model. 
-#' Currently accepts
-#' models of type "lm" (future versions will accept "glm", "lmerMod", "lmerModLmerTest", and "glmerMod").
+#' Creates a panel of residual diagnostic plots the actual model and simulated 
+#' responses from that model. Currently accepts models of type "lm" (future 
+#' versions will accept "glm", "lmerMod", "lmerModLmerTest", and "glmerMod").
 #'
 #' @param model Model fit using either \code{lm}, \code{glm}, \code{lmer},
 #'   \code{lmerTest}, or \code{glmer}.
@@ -42,7 +42,10 @@
 #' @param nrow Sets the number of rows in the panel.
 #' @param alpha Sets the alpha level for displays with points. Default is set to 0.6.
 #' @param coordfix Uses fixed aspect ratio for QQ-plots and yvp. Default is TRUE.
-#'
+#' @param return_plot_list If specific plot types are supplied to the `plots` options, 
+#'   this option indicates whether to return a list of individual plots. Specify TRUE 
+#'   or FALSE. Default is set to FALSE.
+#'   
 #' @export resid_calibrate
 #'
 #' @importFrom methods is
@@ -193,11 +196,12 @@ resid_calibrate <- function(
     title.opt = TRUE,
     nrow = NULL,
     alpha = 0.6,
-    coordfix = TRUE
+    coordfix = TRUE,
+    return_plot_list = FALSE
   ) {
     
     ## Set number of rows
-    compare_rows <- length(plots)
+    compare_rows = length(plots)
     if (compare_rows == 1) {
       if (plots == "all") {
         compare_rows <- 9
@@ -207,35 +211,33 @@ resid_calibrate <- function(
     }
     
     ## Create list of models with simulated responses
-    
-    simres <- simulate(model, nsim = nsim)
-    models <- vector(mode='list', length=nsim+1)
-    responsename <- model$call[[2]][[2]]
-    data_WS <- model.frame(model)
+    simres = simulate(model, nsim = nsim)
+    models = vector(mode='list', length=nsim+1)
+    responsename = model$call[[2]][[2]]
+    data_WS = model.frame(model)
     
     for (i in 1:nsim){
       if (is(model, "lm")) {
-        data_WS[,paste(responsename)[1]] <- simres[[i]]
-        modelSim <- lm(formula(model$call), data = data_WS)
-        models[[i]] <- modelSim
+        data_WS[,paste(responsename)[1]] = simres[[i]]
+        modelSim = lm(formula(model$call), data = data_WS)
+        models[[i]] = modelSim
       } else if (is(model, "glm")) {
         print("Under development")
       }
     }
 
-    models[[nsim+1]] <- model
-    realresids <- nsim+1
+    models[[nsim+1]] = model
+    realresids = nsim+1
     
     if (shuffle == TRUE) {
-      neworder <- sample(1:length(models))
-      models <- models[neworder]
-      realresids <- which(neworder==nsim+1)
+      neworder = sample(1:length(models))
+      models = models[neworder]
+      realresids = which(neworder == nsim+1)
     }
 
-        if (identify == TRUE){print(paste0("Real residuals are in column ", realresids))}
+    if (identify == TRUE){print(paste0("Real residuals are in column ", realresids))}
 
     ## Errors and Warnings -------------------------------------------------------
-    
     
     # Checks that return an error
     for (i in 1:length(models)) {
@@ -244,13 +246,12 @@ resid_calibrate <- function(
       check_standardized(model = models[[i]], plots = plots)
       check_cooksd(model = models[[i]], plots = plots)
       check_leverage(model = models[[i]], plots = plots)
-      
     }
     
     # Checks that return a warning
-    smoother <- check_smoother(smoother = smoother)
-    theme <- check_theme(theme = theme)
-    title.opt <- check_title(title.opt = title.opt)
+    smoother = check_smoother(smoother = smoother)
+    theme = check_theme(theme = theme)
+    title.opt = check_title(title.opt = title.opt)
     
     ## Creation of plots ---------------------------------------------------------
     
@@ -258,47 +259,26 @@ resid_calibrate <- function(
     if ("boxplot" %in% plots | "SAS" %in% plots | "all" %in% plots) {
       boxplot_list <- list()
       for (i in 1:length(models)) {
-        boxplot_list[[i]] <- plot_boxplot(
-          type = type,
-          model = models[[i]],
-          theme = theme,
-          axis.text.size = axis.text.size,
-          title.text.size = title.text.size,
-          title.opt = title.opt
-        )
-        
+        boxplot_list[[i]] <- 
+          plot_boxplot(
+            type = type,
+            model = models[[i]],
+            theme = theme,
+            axis.text.size = axis.text.size,
+            title.text.size = title.text.size,
+            title.opt = title.opt
+          )
       }
-      
     } else{
-      boxplot_list <- NULL
+      boxplot_list = NULL
     }
     
     # Create a Cook's D plot if selected in plots otherwise set as NULL
     if ("cookd" %in% plots) {
       cookd_list <- list()
       for (i in 1:length(models)) {
-        cookd_list[[i]] <- plot_cookd(
-          model = models[[i]],
-          theme = theme,
-          axis.text.size = axis.text.size,
-          title.text.size = title.text.size,
-          title.opt = title.opt,
-          alpha = alpha
-        )
-      }
-      
-    } else if ("all" %in% plots) {
-      check_count <- 0
-      for (i in 1:length(models)) {
-        if (!(class(models[[i]])[1] %in% c("lme", "lmerMod", "lmerModLmerTest", "glmerMod"))) {
-          check_count <- check_count + 1
-        }
-      }
-      if (check_count == length(models)) {
-        cookd_list <- list()
-        
-        for (i in 1:length(models)) {
-          cookd_list[[i]] <- plot_cookd(
+        cookd_list[[i]] <- 
+          plot_cookd(
             model = models[[i]],
             theme = theme,
             axis.text.size = axis.text.size,
@@ -306,70 +286,7 @@ resid_calibrate <- function(
             title.opt = title.opt,
             alpha = alpha
           )
-        }
       }
-    } else{
-      cookd_list <- NULL
-    }
-    
-    # Create a histogram of the residuals if selected in plots otherwise set as NULL
-    if ("hist" %in% plots |
-        "default" %in% plots | "SAS" %in% plots | "all" %in% plots) {
-      hist_list <- list()
-      for (i in 1:length(models)) {
-        hist_list[[i]] <- plot_hist(
-          model = models[[i]],
-          type = type,
-          bins = bins,
-          theme = theme,
-          axis.text.size = axis.text.size,
-          title.text.size = title.text.size,
-          title.opt = title.opt
-        )
-      }
-      
-      
-    } else{
-      hist_list <- NULL
-    }
-    
-    # Create an index plot of the residuals if selected in plots otherwise set as NULL
-    if ("index" %in% plots | "default" %in% plots | "all" %in% plots) {
-      index_list <- list()
-      for (i in 1:length(models)) {
-        index_list[[i]] <- plot_index(
-          model = models[[i]],
-          type = type,
-          theme = theme,
-          smoother = smoother,
-          axis.text.size = axis.text.size,
-          title.text.size = title.text.size,
-          title.opt = title.opt,
-          alpha = alpha
-        )
-      }
-      
-    } else{
-      index_list <- NULL
-    }
-    
-    # Create a residual-leverage plot if selected in plots otherwise set as NULL
-    if ("lev" %in% plots | "R" %in% plots) {
-      lev_list <- list()
-      for (i in 1:length(models)) {
-        lev_list[[i]] <- plot_lev(
-          model = models[[i]],
-          type = type,
-          smoother = smoother,
-          theme = theme,
-          axis.text.size = axis.text.size,
-          title.text.size = title.text.size,
-          title.opt = title.opt,
-          alpha = alpha
-        )
-      }
-      
-      
     } else if ("all" %in% plots) {
       check_count <- 0
       for (i in 1:length(models)) {
@@ -377,11 +294,111 @@ resid_calibrate <- function(
           check_count <- check_count + 1
         }
       }
+      if (check_count == length(models)) {
+        cookd_list = list()
+        for (i in 1:length(models)) {
+          cookd_list[[i]] <-
+            plot_cookd(
+              model = models[[i]],
+              theme = theme,
+              axis.text.size = axis.text.size,
+              title.text.size = title.text.size,
+              title.opt = title.opt,
+              alpha = alpha
+            )
+        }
+      }
+    } else {
+      cookd_list = NULL
+    }
+    
+    # Create a histogram of the residuals if selected in plots otherwise set as NULL
+    if ("hist" %in% plots | "default" %in% plots | "SAS" %in% plots | "all" %in% plots) {
+      hist_list = list()
+      for (i in 1:length(models)) {
+        hist_list[[i]] <- 
+          plot_hist(
+            model = models[[i]],
+            type = type,
+            bins = bins,
+            theme = theme,
+            axis.text.size = axis.text.size,
+            title.text.size = title.text.size,
+            title.opt = title.opt
+          )
+      }
+    } else {
+      hist_list = NULL
+    }
+    
+    # Create an index plot of the residuals if selected in plots otherwise set as NULL
+    if ("index" %in% plots | "default" %in% plots | "all" %in% plots) {
+      index_list = list()
+      for (i in 1:length(models)) {
+        index_list[[i]] <- 
+          plot_index(
+            model = models[[i]],
+            type = type,
+            theme = theme,
+            smoother = smoother,
+            axis.text.size = axis.text.size,
+            title.text.size = title.text.size,
+            title.opt = title.opt,
+            alpha = alpha
+          )
+      }
+    } else {
+      index_list = NULL
+    }
+    
+    # Create a residual-leverage plot if selected in plots otherwise set as NULL
+    if ("lev" %in% plots | "R" %in% plots) {
+      lev_list = list()
+      for (i in 1:length(models)) {
+        lev_list[[i]] <- 
+          plot_lev(
+            model = models[[i]],
+            type = type,
+            theme = theme,
+            axis.text.size = axis.text.size,
+            title.text.size = title.text.size,
+            title.opt = title.opt,
+            alpha = alpha
+          )
+      }
+    } else if ("all" %in% plots) {
+      check_count = 0
+      for (i in 1:length(models)) {
+        if (!(class(models[[i]])[1] %in% c("lme", "lmerMod", "lmerModLmerTest", "glmerMod"))) {
+          check_count = check_count + 1
+        }
+      }
       
       if (check_count == length(models)) {
-        lev_list <- list()
+        lev_list = list()
         for (i in 1:length(models)) {
-          lev_list[[i]] <- plot_lev(
+          lev_list[[i]] <- 
+            plot_lev(
+              model = models[[i]],
+              type = type,
+              theme = theme,
+              axis.text.size = axis.text.size,
+              title.text.size = title.text.size,
+              title.opt = title.opt,
+              alpha = alpha
+            )
+        }
+      }
+    } else {
+      lev_list = NULL
+    }
+    
+    # Create a location-scale plot if selected in plots otherwise set as NULL
+    if ("ls" %in% plots | "R" %in% plots) {
+      ls_list = list()
+      for (i in 1:length(models)) {
+        ls_list[[i]] <- 
+          plot_ls(
             model = models[[i]],
             type = type,
             smoother = smoother,
@@ -391,134 +408,122 @@ resid_calibrate <- function(
             title.opt = title.opt,
             alpha = alpha
           )
-        }
       }
-    } else{
-      lev_list <- NULL
-    }
-    
-    # Create a location-scale plot if selected in plots otherwise set as NULL
-    if ("ls" %in% plots | "R" %in% plots) {
-      ls_list <- list()
-      for (i in 1:length(models)) {
-        ls_list[[i]] <- plot_ls(
-          model = models[[i]],
-          type = type,
-          theme = theme,
-          axis.text.size = axis.text.size,
-          title.text.size = title.text.size,
-          title.opt = title.opt,
-          alpha = alpha
-        )
-      }
-      
     } else if ("all" %in% plots) {
-      check_count <- 0
+      check_count = 0
       for (i in 1:length(models)) {
         if (!(class(models[[i]])[1] %in% c("lme", "lmerMod", "lmerModLmerTest", "glmerMod"))) {
-          check_count <- check_count + 1
+          check_count = check_count + 1
         }
       }
-      
       if (check_count == length(models)) {
-        ls_list <- list()
+        ls_list = list()
         for (i in 1:length(models)) {
-          ls_list[[i]] <- plot_ls(
+          ls_list[[i]] <- 
+            plot_ls(
+              model = models[[i]],
+              type = type,
+              smoother = smoother,
+              theme = theme,
+              axis.text.size = axis.text.size,
+              title.text.size = title.text.size,
+              title.opt = title.opt,
+              alpha = alpha
+            )
+        }
+      }
+    } else {
+      ls_list = NULL
+    }
+    
+    # Create a q-q plot of the residuals if selected in plots otherwise set as NULL
+    if ("qq" %in% plots |
+        "default" %in% plots |
+        "SAS" %in% plots |
+        "R" %in% plots |
+        "all" %in% plots
+      ) {
+      qq_list = list()
+      for (i in 1:length(models)) {
+        qq_list[[i]] <- 
+          plot_qq(
             model = models[[i]],
             type = type,
             theme = theme,
             axis.text.size = axis.text.size,
             title.text.size = title.text.size,
             title.opt = title.opt,
-            alpha = alpha
+            qqline = qqline,
+            qqbands = qqbands,
+            alpha = alpha,
+            coordfix = coordfix
           )
-        }
       }
-    } else{
-      ls_list <- NULL
-    }
-    
-    # Create a q-q plot of the residuals if selected in plots otherwise set as NULL
-    if ("qq" %in% plots |
-        "default" %in% plots |
-        "SAS" %in% plots | "R" %in% plots | "all" %in% plots) {
-      qq_list <- list()
-      for (i in 1:length(models)) {
-        qq_list[[i]] <- plot_qq(
-          model = models[[i]],
-          type = type,
-          theme = theme,
-          axis.text.size = axis.text.size,
-          title.text.size = title.text.size,
-          title.opt = title.opt,
-          qqline = qqline,
-          qqbands = qqbands,
-          alpha = alpha,
-          coordfix = coordfix
-        )
-      }
-      
-    } else{
-      qq_list <- NULL
+    } else {
+      qq_list = NULL
     }
     
     # Create a residual plot if selected in plots otherwise set as NULL
     if ("resid" %in% plots |
         "default" %in% plots |
-        "SAS" %in% plots | "R" %in% plots | "all" %in% plots) {
-      resid_list <- list()
+        "SAS" %in% plots | 
+        "R" %in% plots |
+        "all" %in% plots) {
+      resid_list = list()
       for (i in 1:length(models)) {
-        resid_list[[i]] <- plot_resid(
-          model = models[[i]],
-          type = type,
-          smoother = smoother,
-          theme = theme,
-          axis.text.size = axis.text.size,
-          title.text.size = title.text.size,
-          title.opt = title.opt,
-          alpha = alpha
-        )
+        resid_list[[i]] <-
+          plot_resid(
+            model = models[[i]],
+            type = type,
+            smoother = smoother,
+            theme = theme,
+            axis.text.size = axis.text.size,
+            title.text.size = title.text.size,
+            title.opt = title.opt,
+            alpha = alpha
+          )
       }
-      
-    } else{
-      resid_list <- NULL
+    } else {
+      resid_list = NULL
     }
     
     # Create a plot of the response variable vs the predicted values if selected
     # in plots otherwise set as NULL
     if ("yvp" %in% plots | "all" %in% plots) {
-      yvp_list <- list()
+      yvp_list = list()
       for (i in 1:length(models)) {
-        yvp_list[[i]] <- plot_yvp(
-          model = models[[i]],
-          theme = theme,
-          axis.text.size = axis.text.size,
-          title.text.size = title.text.size,
-          title.opt = title.opt,
-          alpha = alpha,
-          coordfix = coordfix
-        )
+        yvp_list[[i]] <- 
+          plot_yvp(
+            model = models[[i]],
+            theme = theme,
+            axis.text.size = axis.text.size,
+            title.text.size = title.text.size,
+            title.opt = title.opt,
+            alpha = alpha,
+            coordfix = coordfix
+          )
       }
-      
-      
-    } else{
-      yvp_list <- NULL
+    } else {
+      yvp_list = NULL
     }
     
     ## Creation of grid of plots -------------------------------------------------
     
     # If individual plots have been specified, set plots equal to "individual"
     # Return an error if none of the correct plot options have been specified
-    if ("default" %in% plots |
-        "SAS" %in% plots | "R" %in% plots | "all" %in% plots) {
-      plots <- plots
+    if ("default" %in% plots | "SAS" %in% plots | "R" %in% plots | "all" %in% plots) {
+      plots = plots
     } else if ("boxplot" %in% plots |
-               "cookd" %in% plots | "index" %in% plots |
-               "hist" %in% plots | "ls" %in% plots | "qq" %in% plots |
+               "cookd" %in% plots | 
+               "index" %in% plots |
+               "hist" %in% plots | 
+               "ls" %in% plots |
+               "qq" %in% plots |
                "lev" %in% plots |
-               "resid" %in% plots | "yvp" %in% plots) {
-      chosen <- plots
-      plots <- "individual"
+               "resid" %in% plots |
+               "yvp" %in% plots) {
+      chosen = plots
+      plots = "individual"
     } else{
       stop("Invalid plots option entered. See the resid_panel help file for
          available options.")
@@ -526,35 +531,25 @@ resid_calibrate <- function(
     
     # Create a grid of plots based on the plots specified
     if (plots == "default") {
-      # Create grid of the default plots
       suppressWarnings(plot_grid(
         plotlist = c(resid_list, qq_list, index_list, hist_list),
         scale = scale,
         nrow = compare_rows
       ))
-      
-      
     } else if (plots == "SAS") {
-      # Create grid of the default plots
       suppressWarnings(plot_grid(
         plotlist = c(resid_list, hist_list, qq_list, boxplot_list),
         scale = scale,
         nrow = compare_rows
       ))
-      
-      
     } else if (plots == "R") {
-      # Create grid of the default plots
       suppressWarnings(plot_grid(
         plotlist = c(resid_list, qq_list, ls_list, lev_list),
         scale = scale,
         nrow = compare_rows
       ))
-      
     } else if (plots == "all") {
-      # Create grid of all plots
       if (class(models)[1] == "lm" | class(models)[1] == "glm") {
-        # Create grid of the default plots
         suppressWarnings(plot_grid(
           plotlist = c(
             resid_list,
@@ -570,9 +565,7 @@ resid_calibrate <- function(
           scale = scale,
           nrow = compare_rows
         ))
-        
-      } else{
-        # Create grid of the default plots
+      } else {
         suppressWarnings(plot_grid(
           plotlist = c(
             resid_list,
@@ -585,10 +578,9 @@ resid_calibrate <- function(
           scale = scale,
           nrow = compare_rows
         ))
-        
       }
-      
     } else if (plots == "individual") {
+      
       # Turn the specified plots into a list
       individual_plots <- list(
         boxplot = boxplot_list,
@@ -603,26 +595,29 @@ resid_calibrate <- function(
       )
       
       # Select the chosen plots
-      individual_plots <- individual_plots[chosen]
+      individual_plots = individual_plots[chosen]
       
       # Creates a sublevel list so need to turn into a list with only one level
-      individual_plots_final <- list()
-      index <- 1
+      individual_plots_final = list()
+      index = 1
       for (i in 1:length(chosen)) {
         for (j in 1:length(models)) {
-          individual_plots_final[[index]] <- individual_plots[[i]][[j]]
-          index <- index + 1
+          individual_plots_final[[index]] = individual_plots[[i]][[j]]
+          index = index + 1
         }
       }
       
-      # Create grid of the default plots
-      suppressWarnings(plot_grid(
-        plotlist = individual_plots_final,
-        scale = scale,
-        nrow = compare_rows
-      ))
-      
+      # Create grid of specified plots (or list of plots)
+      if (return_plot_list) {
+        return(individual_plots_final)
+      } else {
+        suppressWarnings(plot_grid(
+          plotlist = individual_plots_final,
+          scale = scale,
+          nrow = compare_rows
+        ))
+      }
+    
     }
-  
     
   }

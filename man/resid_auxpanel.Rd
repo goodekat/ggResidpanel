@@ -19,7 +19,8 @@ resid_auxpanel(
   title.opt = TRUE,
   nrow = NULL,
   alpha = 0.6,
-  coordfix = TRUE
+  coordfix = TRUE,
+  return_plot_list = FALSE
 )
 }
 \arguments{
@@ -62,6 +63,10 @@ Specify TRUE or FALSE. Default is set to TRUE.}
 \item{alpha}{Sets the alpha level for displays with points. Default is set to 0.6.}
 
 \item{coordfix}{Uses fixed aspect ratio for QQ-plots. Default is TRUE.}
+
+\item{return_plot_list}{If specific plot types are supplied to the `plots` options, 
+this option indicates whether to return a list of individual plots. Specify TRUE 
+or FALSE. Default is set to FALSE.}
 }
 \value{
 A panel of residual diagnostic plots containing plots specified.
@@ -110,5 +115,5 @@ penguin_tree_resid <- penguins$heartrate - penguin_tree_pred
 # Create a panel with the residual and index plot
 resid_auxpanel(residuals = penguin_tree_resid,
              predicted = penguin_tree_pred,
-             plots = c("resid", "index", "yvp"))
+             plots = c("resid", "index", "qq"))
 }

@@ -68,8 +68,9 @@ the panel. Specify TRUE or FALSE. Default is set to TRUE.}
 
 \item{coordfix}{Uses fixed aspect ratio for QQ-plots and yvp. Default is TRUE.}
 
-\item{return_plot_list}{Indicates whether or not to return a list of individual plots.
-Specify TRUE or FALSE. Default is set to FALSE.}
+\item{return_plot_list}{If specific plot types are supplied to the `plots` options, 
+this option indicates whether to return a list of individual plots. Specify TRUE 
+or FALSE. Default is set to FALSE.}
 }
 \value{
 A panel of residual diagnostic plots containing plots specified.

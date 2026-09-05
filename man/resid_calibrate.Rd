@@ -22,7 +22,8 @@ resid_calibrate(
   title.opt = TRUE,
   nrow = NULL,
   alpha = 0.6,
-  coordfix = TRUE
+  coordfix = TRUE,
+  return_plot_list = FALSE
 )
 }
 \arguments{
@@ -76,19 +77,24 @@ the panel. Specify TRUE or FALSE. Default is set to TRUE.}
 \item{alpha}{Sets the alpha level for displays with points. Default is set to 0.6.}
 
 \item{coordfix}{Uses fixed aspect ratio for QQ-plots and yvp. Default is TRUE.}
+
+\item{return_plot_list}{If specific plot types are supplied to the `plots` options, 
+this option indicates whether to return a list of individual plots. Specify TRUE 
+or FALSE. Default is set to FALSE.}
 }
 \value{
 A panel of residual diagnostic plots containing plots specified for each model.
 }
 \description{
-Used to calibrate expectations for simulation variability when assumptions are true (see \code{simulate}),
-to compare to the actual observed residuals in any of a suite of diagnostic plots. 
-This function is based on the \code{resid_compare} function and requires the fitted model and the data set.
+Used to calibrate expectations for simulation variability when assumptions are
+true (see \code{simulate}), to compare to the actual observed residuals in any 
+of a suite of diagnostic plots. This function is based on the \code{resid_compare}
+function and requires the fitted model and the data set.
 }
 \details{
-Creates a panel of residual diagnostic plots the actual model and simulated responses from that model. 
-Currently accepts
-models of type "lm" (future versions will accept "glm", "lmerMod", "lmerModLmerTest", and "glmerMod").
+Creates a panel of residual diagnostic plots the actual model and simulated 
+responses from that model. Currently accepts models of type "lm" (future 
+versions will accept "glm", "lmerMod", "lmerModLmerTest", and "glmerMod").
 
 
 

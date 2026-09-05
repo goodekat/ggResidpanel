@@ -3,6 +3,9 @@
 ## Major 
 
 - Added resid_calibrate
+- Added option to return a list of plots for resid_panel, resid_xpanel, resid_auxpanel,
+  and resid_calibrate so it is possible to make direct adjustments to the ggplot2 
+  objects (before being place in a panel)
 - For lm model:
   - Standardized residuals are now the default instead of raw residuals
   - Fixed issue when leverage is equal to 1 when computing standardized residuals - report Pearson residuals instead
@@ -17,8 +20,6 @@
   - Adjusted the way constant leverage is handled
   - Added Cook's D values
   - When creating hat values, "Add more resolution for large n"
-- In plot_ls, "If smoother is set to true, do not add it to the plot"
-- Adjustments to the smoother options across various plot types
 
 ## Minor
 

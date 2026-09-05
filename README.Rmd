@@ -18,7 +18,7 @@ knitr::opts_chunk$set(
 [![CRAN status](https://www.r-pkg.org/badges/version/ggResidpanel)](https://CRAN.R-project.org/package=ggResidpanel)
 [![Lifecycle: stable](https://img.shields.io/badge/lifecycle-stable-brightgreen.svg)](https://lifecycle.r-lib.org/articles/stages.html#stable)
 [![R-CMD-check](https://github.com/goodekat/ggResidpanel/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/goodekat/ggResidpanel/actions/workflows/R-CMD-check.yaml)
-[![downloads](https://cranlogs.r-pkg.org/badges/ggResidpanel)](https://cran.rstudio.com/web/packages/ggResidpanel/index.html)
+<!-- [![downloads](https://cranlogs.r-pkg.org/badges/ggResidpanel)](https://cran.rstudio.com/web/packages/ggResidpanel/index.html) -->
 [![Codecov test coverage](https://codecov.io/gh/goodekat/ggResidpanel/graph/badge.svg)](https://app.codecov.io/gh/goodekat/ggResidpanel)
 <!-- badges: end -->
 
@@ -59,6 +59,7 @@ The package provides five functions that allow the user to assess diagnostic plo
 - `resid_xpanel`: Creates a panel of diagnostic plots of the predictor variables 
 - `resid_compare`: Creates a panel of diagnostic plots from multiple models
 - `resid_auxpanel`: Creates a panel of diagnostic plots for model types not included in the package
+- `resid_calibrate`: Creates a panel of diagnostic residual plots from a fitted model and simulated responses from the same model. 
 
 Currently, ggResidpanel allows the first four functions listed above to work with models fit using the functions of `lm`, `glm`, `lme` (from nlme), and `lmer` or `glmer` (from lme4 or fit using lmerTest). Each of these functions is applied below to show the panel that is output from the function. The functions have multiple input options such as the formatting options of `scale`, `theme`, `axis.text.size`, `title.text.size`, and `title.opt`. 
 
@@ -119,8 +120,11 @@ This function creates a panel of residual diagnostic plots given a list of model
 ```{r}
 # Fit the model with a log transformation of the response variable and a 
 # quadratic term for duration
-penguin_model_log2 <- lme4::lmer(log(heartrate) ~ depth + duration + I(duration^2) + (1|bird), 
-                                 data = penguins)
+penguin_model_log2 <- 
+  lme4::lmer(
+    log(heartrate) ~ depth + duration + I(duration^2) + (1|bird), 
+    data = penguins
+  )
 
 # Plot the residual and normal quantile plots for the two models
 resid_compare(list(penguin_model, penguin_model_log2), plots = c("resid", "qq"))
@@ -144,6 +148,26 @@ penguin_tree_resid <- penguins$heartrate - penguin_tree_pred
 resid_auxpanel(residuals = penguin_tree_resid, 
                predicted = penguin_tree_pred, 
                plots = c("resid", "index"))
+```
+
+#### `resid_calibrate`
+
+This function creates a panel of diagnostic residual plots from a fitted model and simulated responses from the same model. This isu sed to calibrate expectations for simulation variability when assumptions are true (see \code{simulate}), to compare to the actual observed residuals in any of a suite of diagnostic plots. This function is based on the \code{resid_compare} function and requires the fitted model and the data set. However, for now, it only works with `lm` models.
+
+```{r}
+penguin1_model <- 
+  lm(
+    heartrate ~ depth + duration,
+    data = penguins |> dplyr::filter(bird == 1)
+  )
+
+resid_calibrate(
+  model = penguin1_model, 
+  plots = "qq", 
+  nsim = 3, 
+  shuffle = TRUE, 
+  identify = TRUE
+)
 ```
 
 ```{r echo = FALSE, results = FALSE}

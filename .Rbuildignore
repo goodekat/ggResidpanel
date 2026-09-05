@@ -14,3 +14,5 @@
 ^README\.Rmd$
 ^residuals.Rmd$
 ^tests.R$
+^revdep$
+^CRAN-SUBMISSION$

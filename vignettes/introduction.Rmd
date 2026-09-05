@@ -65,40 +65,54 @@ table(penguins$bird)
 The figure below shows scatter plots of heart rate versus depth of a dive for each penguin. The points are colored by bird number. This data shows a decrease in heart rate as the depth of the dive increases, but the manner in which the heart rate decreases varies between penguins.
 
 ```{r echo = FALSE}
-penguins %>%
-  mutate(bird = forcats::fct_recode(bird, 
-                                    "Penguin 1" = "1", "Penguin 2" = "2",
-                                    "Penguin 3" = "3", "Penguin 4" = "4", 
-                                    "Penguin 5" = "5", "Penguin 6" = "6", 
-                                    "Penguin 7" = "7", "Penguin 8" = "8", 
-                                    "Penguin 9" = "9")) %>%
+penguins |>
+  mutate(bird = forcats::fct_recode(
+    bird, 
+    "Penguin 1" = "1", "Penguin 2" = "2",
+    "Penguin 3" = "3", "Penguin 4" = "4", 
+    "Penguin 5" = "5", "Penguin 6" = "6", 
+    "Penguin 7" = "7", "Penguin 8" = "8", 
+    "Penguin 9" = "9")
+  ) |>
 ggplot(aes(x = depth, y = heartrate, color = bird)) + 
   geom_point() + 
   facet_wrap( ~ bird) + 
   theme_bw() + 
-  scale_color_manual(values = wesanderson::wes_palette("Zissou1", 9, 
-                                                       type = "continuous")[1:9]) +
-  labs(x = "Depth (m)", y = "Heart Rate (beats per minute)", color = "Penguin") + 
+  scale_color_manual(
+    values = wesanderson::wes_palette("Zissou1", 9, type = "continuous")[1:9]
+  ) +
+  labs(
+    x = "Depth (m)", 
+    y = "Heart Rate (beats per minute)", 
+    color = "Penguin"
+  ) + 
   theme(legend.position = "none")
 ```
 
 The next figure shows the heart rate versus duration of the dive for each penguin. Again, there is a clear decrease in heart rate as the duration of the dive increases. The trends are very similar between penguins.
 
 ```{r echo = FALSE}
-penguins %>%
-  mutate(bird = forcats::fct_recode(bird, 
-                                    "Penguin 1" = "1", "Penguin 2" = "2",
-                                    "Penguin 3" = "3", "Penguin 4" = "4", 
-                                    "Penguin 5" = "5", "Penguin 6" = "6", 
-                                    "Penguin 7" = "7", "Penguin 8" = "8", 
-                                    "Penguin 9" = "9")) %>%
-ggplot(aes(x = duration, y = heartrate, color = bird)) + 
+penguins |>
+    mutate(bird = forcats::fct_recode(
+    bird, 
+    "Penguin 1" = "1", "Penguin 2" = "2",
+    "Penguin 3" = "3", "Penguin 4" = "4", 
+    "Penguin 5" = "5", "Penguin 6" = "6", 
+    "Penguin 7" = "7", "Penguin 8" = "8", 
+    "Penguin 9" = "9")
+  ) |>
+  ggplot(aes(x = duration, y = heartrate, color = bird)) + 
   geom_point() + 
   facet_wrap( ~ bird) + 
   theme_bw() + 
-  scale_color_manual(values = wesanderson::wes_palette("Zissou1", 9, 
-                                                       type = "continuous")[1:9]) +
-  labs(x = "Duration (min)", y = "Heart Rate (beats per minute)", color = "Penguin") + 
+  scale_color_manual(
+    values = wesanderson::wes_palette("Zissou1", 9, type = "continuous")[1:9]
+  ) +
+  labs(
+    x = "Duration (min)",
+    y = "Heart Rate (beats per minute)", 
+    color = "Penguin"
+  ) + 
   theme(legend.position = "none")
 ```
 
@@ -198,10 +212,16 @@ resid_xpanel(penguin_model, yvar = "response", jitter.width = 0.1)
 To deal with the violations of the model assumptions in the `penguin_model`, two new models are fit. The first (`penguin_model_log`) uses a log transformation of the heart rate as the response, and the second model `penguin_model_log2` uses both a log transformation of the response and a quadratic term for duration.
 
 ```{r}
-penguin_model_log <- lmer(log(heartrate) ~ depth + duration + (1|bird), 
-                       data = penguins)
-penguin_model_log2 <- lmer(log(heartrate) ~ depth + duration + I(duration^2) + (1|bird), 
-                       data = penguins)
+penguin_model_log <- 
+  lmer(
+    log(heartrate) ~ depth + duration + (1|bird), 
+    data = penguins
+  )
+penguin_model_log2 <- 
+  lmer(
+    log(heartrate) ~ depth + duration + I(duration^2) + (1|bird), 
+    data = penguins
+  )
 ```
 
 The function `resid_compare` allows the residual plots from multiple models to be compared side by side. The first argument in `resid_compare` is a list of the models to compare. In the code below, the models fit to the `penguin` data are included in the list, and the `resid`, and `qq` plots are selected to be included in the panel to assess the linearity, constant variance, and normality assumptions. Some additional options have also been specified, which are available in other functions of the package as well. The option of `smoother = TRUE` adds a smoother to the residual plots, and `qqbands = TRUE` adds a 95% confidence interval to the qq-plot. The option of `title.opt = FALSE` removes the titles from the plots. The resulting panel includes plots where each column contains the plots associated with one of the models. The plots are ordered from left to right following the order the models were specified in the list. 
@@ -209,13 +229,13 @@ The function `resid_compare` allows the residual plots from multiple models to b
 The log transformed model still shows some curvature in the residual plot and skewness in the normal quantile plot. However, the model with both the log transformation and a quadratic term for duration appears to meet all of the assumptions.
 
 ```{r fig.width = 5, fig.height = 3}
-resid_compare(models = list(penguin_model, 
-                            penguin_model_log, 
-                            penguin_model_log2),
-              plots = c("resid", "qq"),
-              smoother = TRUE,
-              qqbands = TRUE,
-              title.opt = FALSE)
+resid_compare(
+  models = list(penguin_model, penguin_model_log, penguin_model_log2),
+  plots = c("resid", "qq"),
+  smoother = TRUE,
+  qqbands = TRUE,
+  title.opt = FALSE
+)
 ```
 
 ### Additional Model Types with `resid_auxpanel`
@@ -240,7 +260,29 @@ The function `resid_auxpanel` accepts the residuals and predicted values as inpu
 The code below takes the residuals and predicted values from `penguin_tree` and creates a panel with a `resid` and `index` plot. The residual plot shows an increase in variance, and it may be of interest to adjust for this in some way with the model. The index plot does not show any concerns.
 
 ```{r fig.height = 2, fig.width = 4.5}
-resid_auxpanel(residuals = penguin_tree_resid, 
-               predicted = penguin_tree_pred, 
-               plots = c("resid", "index"))
+resid_auxpanel(
+  residuals = penguin_tree_resid, 
+  predicted = penguin_tree_pred, 
+  plots = c("resid", "index")
+)
+```
+
+### Visual Check for Trends with `resid_calibrate`
+
+The function `resid_calibrate` creates a panel of diagnostic residual plots from a fitted model and simulated responses from the same model. This is used to calibrate expectations for simulation variability when assumptions are true (see \code{simulate}), to compare to the actual observed residuals in any of a suite of diagnostic plots. This function requires the fitted model and the data set. However, for now, it only works with `lm` models.
+
+```{r}
+penguin1_model <- 
+  lm(
+    heartrate ~ depth + duration,
+    data = penguins |> dplyr::filter(bird == 1)
+  )
+
+resid_calibrate(
+  model = penguin1_model, 
+  plots = "qq", 
+  nsim = 3, 
+  shuffle = TRUE, 
+  identify = TRUE
+)
 ```

@@ -1,23 +1,21 @@
-## Test environments
-* local OS X (x86_64-apple-darwin15.6.0 (64-bit)), R 3.6.0
-* Fedora Linux, R-devel, clang, gfortran (R-hub)
-* win-builder (devel)
-
 ## R CMD check results
-There were no ERRORs or WARNINGs. 
 
-There was 1 NOTE (from Fedora Linux and win-builder):
+There was 1 NOTE:
 
-* checking CRAN incoming feasibility ... NOTE
-Maintainer: ‘Katherine Goode <kgoode@iastate.edu>’
+0 errors | 0 warnings | 1 note
 
-New submission
-
-Possibly mis-spelled words in DESCRIPTION:
-  ggplot (9:11)
-  plotly (9:23)
-
-I am not concerned about this since the words that it believes are mis-spelled are referring to R packages.
+❯ checking CRAN incoming feasibility ... [4s/11s] NOTE
+  Maintainer: ‘Katherine Goode <katherine.j.goode@gmail.com>’
+  
+  New submission
+  
+  Package was archived on CRAN
+  
+  CRAN repository db overrides:
+    X-CRAN-Comment: Archived on 2026-05-08 as email to the maintainer is
+      undeliverable.
+      
+I am not worried about this note, since I have updated my email in the description file to one that is current. 
 
 ## Downstream dependencies
 There are currently no downstream dependencies for this package

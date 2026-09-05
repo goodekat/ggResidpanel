@@ -8,7 +8,7 @@ status](https://www.r-pkg.org/badges/version/ggResidpanel)](https://CRAN.R-proje
 [![Lifecycle:
 stable](https://img.shields.io/badge/lifecycle-stable-brightgreen.svg)](https://lifecycle.r-lib.org/articles/stages.html#stable)
 [![R-CMD-check](https://github.com/goodekat/ggResidpanel/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/goodekat/ggResidpanel/actions/workflows/R-CMD-check.yaml)
-[![downloads](https://cranlogs.r-pkg.org/badges/ggResidpanel)](https://cran.rstudio.com/web/packages/ggResidpanel/index.html)
+<!-- [![downloads](https://cranlogs.r-pkg.org/badges/ggResidpanel)](https://cran.rstudio.com/web/packages/ggResidpanel/index.html) -->
 [![Codecov test
 coverage](https://codecov.io/gh/goodekat/ggResidpanel/graph/badge.svg)](https://app.codecov.io/gh/goodekat/ggResidpanel)
 <!-- badges: end -->
@@ -61,6 +61,8 @@ diagnostic plots from a model. These functions are:
   models
 - `resid_auxpanel`: Creates a panel of diagnostic plots for model types
   not included in the package
+- `resid_calibrate`: Creates a panel of diagnostic residual plots from a
+  fitted model and simulated responses from the same model.
 
 Currently, ggResidpanel allows the first four functions listed above to
 work with models fit using the functions of `lm`, `glm`, `lme` (from
@@ -158,8 +160,11 @@ multiple models.
 ``` r
 # Fit the model with a log transformation of the response variable and a 
 # quadratic term for duration
-penguin_model_log2 <- lme4::lmer(log(heartrate) ~ depth + duration + I(duration^2) + (1|bird), 
-                                 data = penguins)
+penguin_model_log2 <- 
+  lme4::lmer(
+    log(heartrate) ~ depth + duration + I(duration^2) + (1|bird), 
+    data = penguins
+  )
 
 # Plot the residual and normal quantile plots for the two models
 resid_compare(list(penguin_model, penguin_model_log2), plots = c("resid", "qq"))
@@ -191,3 +196,33 @@ resid_auxpanel(residuals = penguin_tree_resid,
 ```
 
 ![](inst/figures/readme-unnamed-chunk-8-1.png)<!-- -->
+
+#### `resid_calibrate`
+
+This function creates a panel of diagnostic residual plots from a fitted
+model and simulated responses from the same model. This isu sed to
+calibrate expectations for simulation variability when assumptions are
+true (see ), to compare to the actual observed residuals in any of a
+suite of diagnostic plots. This function is based on the function and
+requires the fitted model and the data set. However, for now, it only
+works with `lm` models.
+
+``` r
+penguin1_model <- 
+  lm(
+    heartrate ~ depth + duration,
+    data = penguins |> dplyr::filter(bird == 1)
+  )
+
+resid_calibrate(
+  model = penguin1_model, 
+  plots = "qq", 
+  nsim = 3, 
+  shuffle = TRUE, 
+  identify = TRUE
+)
+```
+
+    ## [1] "Real residuals are in column 4"
+
+![](inst/figures/readme-unnamed-chunk-9-1.png)<!-- -->
