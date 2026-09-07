@@ -4,8 +4,8 @@
 
 ## Minor
 
-- Fixed broken links for figures on website
 - Added example in readme of how to customize ggResidpanel plots
+- Fixed broken links for figures on website
 
 # ggResidpanel 0.4.0
 
