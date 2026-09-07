@@ -183,7 +183,7 @@ resid_calibrate(
 )
 ```
 
-#### New Feature: Customization of Figures
+## New Feature: Customization of Figures
 
 The manner in which the plot panels are created by `ggResidpanel` is such that it is not possible to directly modify the figures using `ggplot2` functions. However, the `return_plot_list = TRUE` option in `ggResidpanel` allows for the output of a list of figures. This option requires that specific plots are specified in the `plots` option, and it only works with the `resid_panel`, `resid_xpanel`, `resid_auxpanel`, and `resid_calibrate` functions. Here is an example...
 
