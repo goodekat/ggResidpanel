@@ -11,7 +11,7 @@
 ## Citation
 
 Source:
-[`DESCRIPTION`](https://github.com/goodekat/ggResidpanel/blob/master/DESCRIPTION)
+[`DESCRIPTION`](https://github.com/goodekat/ggResidpanel/blob/v0.4.1/DESCRIPTION)
 
 Goode K, Rey K, Greenwood M (2026). *ggResidpanel: Panels and
 Interactive Versions of Diagnostic Plots using 'ggplot2'*. R package
