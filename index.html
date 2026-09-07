@@ -28,7 +28,7 @@
 
     <a class="navbar-brand me-2" href="index.html">ggResidpanel</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.4.0.9000</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.4.1.9000</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -236,12 +236,13 @@
 <span>  shuffle <span class="op">=</span> <span class="cn">TRUE</span>, </span>
 <span>  identify <span class="op">=</span> <span class="cn">TRUE</span></span>
 <span><span class="op">)</span></span></code></pre></div>
-<div class="sourceCode" id="cb14"><pre class="sourceCode R"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" tabindex="-1"></a><span class="do">## [1] "Real residuals are in column 4"</span></span></code></pre></div>
+<div class="sourceCode" id="cb14"><pre class="sourceCode R"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" tabindex="-1"></a><span class="do">## [1] "Real residuals are in column 3"</span></span></code></pre></div>
 <p><img src="reference/figures/README-unnamed-chunk-9-1.png"><!-- --></p>
 </div>
-<div class="section level4">
-<h4 id="new-feature-customization-of-figures">New Feature: Customization of Figures<a class="anchor" aria-label="anchor" href="#new-feature-customization-of-figures"></a>
-</h4>
+</div>
+<div class="section level2">
+<h2 id="new-feature-customization-of-figures">New Feature: Customization of Figures<a class="anchor" aria-label="anchor" href="#new-feature-customization-of-figures"></a>
+</h2>
 <p>The manner in which the plot panels are created by <code>ggResidpanel</code> is such that it is not possible to directly modify the figures using <code>ggplot2</code> functions. However, the <code>return_plot_list = TRUE</code> option in <code>ggResidpanel</code> allows for the output of a list of figures. This option requires that specific plots are specified in the <code>plots</code> option, and it only works with the <code>resid_panel</code>, <code>resid_xpanel</code>, <code>resid_auxpanel</code>, and <code>resid_calibrate</code> functions. Here is an example…</p>
 <p>This code does lead to the desired results:</p>
 <div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
@@ -286,7 +287,6 @@
 <div class="sourceCode" id="cb23"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu">cowplot</span><span class="fu">::</span><span class="fu"><a href="https://wilkelab.org/cowplot/reference/plot_grid.html" class="external-link">plot_grid</a></span><span class="op">(</span>plotlist <span class="op">=</span> <span class="va">list_of_custom_plots</span><span class="op">)</span></span></code></pre></div>
 <p><img src="reference/figures/README-unnamed-chunk-15-1.png"><!-- --></p>
-</div>
 </div>
 </div>
   </main><aside class="col-md-3"><div class="links">

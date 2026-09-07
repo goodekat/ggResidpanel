@@ -11,16 +11,16 @@
 ## Citation
 
 Source:
-[`DESCRIPTION`](https://github.com/goodekat/ggResidpanel/blob/v0.4.1/DESCRIPTION)
+[`DESCRIPTION`](https://github.com/goodekat/ggResidpanel/blob/master/DESCRIPTION)
 
 Goode K, Rey K, Greenwood M (2026). *ggResidpanel: Panels and
 Interactive Versions of Diagnostic Plots using 'ggplot2'*. R package
-version 0.4.0.9000, <https://goodekat.github.io/ggResidpanel/>.
+version 0.4.1.9000, <https://goodekat.github.io/ggResidpanel/>.
 
     @Manual{,
       title = {ggResidpanel: Panels and Interactive Versions of Diagnostic Plots using 'ggplot2'},
       author = {Katherine Goode and Kathleen Rey and Mark Greenwood},
       year = {2026},
-      note = {R package version 0.4.0.9000},
+      note = {R package version 0.4.1.9000},
       url = {https://goodekat.github.io/ggResidpanel/},
     }

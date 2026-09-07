@@ -439,3 +439,122 @@ resid_calibrate(
 ```
 
 ![](introduction_files/figure-html/unnamed-chunk-18-1.png)
+
+## New Feature: Customization of Figures
+
+The manner in which the plot panels are created by `ggResidpanel` is
+such that it is not possible to directly modify the figures using
+`ggplot2` functions. However, the `return_plot_list = TRUE` option in
+`ggResidpanel` allows for the output of a list of figures. This option
+requires that specific plots are specified in the `plots` option, and it
+only works with the `resid_panel`, `resid_xpanel`, `resid_auxpanel`, and
+`resid_calibrate` functions. Here is an example…
+
+This code does lead to the desired results:
+
+``` r
+
+resid_panel(penguin_model, plots = c("resid", "index")) +
+  ggplot2::theme_dark(header_family = "Times")
+```
+
+![](introduction_files/figure-html/unnamed-chunk-19-1.png)
+
+Instead, use the return_plot_list = TRUE option:
+
+``` r
+
+list_of_plots <-
+  resid_panel(
+    penguin_model, 
+    plots = c("resid", "index"), 
+    return_plot_list = TRUE
+  )
+```
+
+Details of created object:
+
+``` r
+
+typeof(list_of_plots)
+#> [1] "list"
+names(list_of_plots)
+#> [1] "resid" "index"
+```
+
+Customize output plots:
+
+``` r
+
+list_of_plots$resid + ggplot2::theme_dark(header_family = "Times")
+#> Warning: The following aesthetics were dropped during statistical transformation: label.
+#> ℹ This can happen when ggplot fails to infer the correct grouping structure in
+#>   the data.
+#> ℹ Did you forget to specify a `group` aesthetic or to convert a numerical
+#>   variable into a factor?
+```
+
+![](introduction_files/figure-html/unnamed-chunk-22-1.png)
+
+``` r
+
+list_of_plots$index + ggplot2::theme_dark(header_family = "Times")
+#> Warning: The following aesthetics were dropped during statistical transformation: label.
+#> ℹ This can happen when ggplot fails to infer the correct grouping structure in
+#>   the data.
+#> ℹ Did you forget to specify a `group` aesthetic or to convert a numerical
+#>   variable into a factor?
+```
+
+![](introduction_files/figure-html/unnamed-chunk-22-2.png)
+
+Streamlined code for customizing all plots in the list using the `purrr`
+package:
+
+``` r
+
+list_of_custom_plots <-
+  purrr::map(
+    .x = list_of_plots, 
+    .f = function(x) x + ggplot2::theme_dark(header_family = "Times")
+  )
+list_of_custom_plots
+#> $resid
+#> Warning: The following aesthetics were dropped during statistical transformation: label.
+#> ℹ This can happen when ggplot fails to infer the correct grouping structure in
+#>   the data.
+#> ℹ Did you forget to specify a `group` aesthetic or to convert a numerical
+#>   variable into a factor?
+```
+
+![](introduction_files/figure-html/unnamed-chunk-23-1.png)
+
+    #> 
+    #> $index
+    #> Warning: The following aesthetics were dropped during statistical transformation: label.
+    #> ℹ This can happen when ggplot fails to infer the correct grouping structure in
+    #>   the data.
+    #> ℹ Did you forget to specify a `group` aesthetic or to convert a numerical
+    #>   variable into a factor?
+
+![](introduction_files/figure-html/unnamed-chunk-23-2.png)
+
+This output list of customized plots can also be placed in a panel
+again:
+
+``` r
+
+cowplot::plot_grid(plotlist = list_of_custom_plots)
+#> Warning: The following aesthetics were dropped during statistical transformation: label.
+#> ℹ This can happen when ggplot fails to infer the correct grouping structure in
+#>   the data.
+#> ℹ Did you forget to specify a `group` aesthetic or to convert a numerical
+#>   variable into a factor?
+#> The following aesthetics were dropped during statistical transformation: label.
+#> ℹ This can happen when ggplot fails to infer the correct grouping structure in
+#>   the data.
+#> ℹ Did you forget to specify a `group` aesthetic or to convert a numerical
+#>   variable into a factor?
+```
+
+![](introduction_files/figure-html/unnamed-chunk-24-1.png)

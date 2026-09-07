@@ -238,12 +238,12 @@ resid_calibrate(
 ```
 
 ``` R
-## [1] "Real residuals are in column 4"
+## [1] "Real residuals are in column 3"
 ```
 
 ![](reference/figures/README-unnamed-chunk-9-1.png)
 
-#### New Feature: Customization of Figures
+## New Feature: Customization of Figures
 
 The manner in which the plot panels are created by `ggResidpanel` is
 such that it is not possible to directly modify the figures using
